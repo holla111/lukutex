@@ -14,17 +14,17 @@ export const SaleListScreen: React.FC = () => {
                         style={{ backgroundColor: '#457b9d' }}
                         type="primary" 
                         size={'large'}
-                        href="link can dien"
+                        href="https://form.jotform.com/203166968415058"
                         target="_blank">
-                       Download
+                       Apply to Launch
                     </Button>
                     <Button
-                        href="link can dien"
+                        href="https://form.jotform.com/203166968415058"
                         target="_blank"
                         style={{ backgroundColor: '#2a9d8f' }}
                         type="primary"
                         size={'large'}>
-                        Download
+                        Open Trade Token
                     </Button>
                 </div>
             </div>
