@@ -8,9 +8,9 @@ export const LKTMore = () => {
                 <p style={{ fontSize: '1.6rem' }}>
                     <strong style={{ color: '#fff' }}>Smart Contract: </strong>0x243c56e8e740025ac6b112d7b9af59be8eef6e33
                     <br/><br/>
-                    <strong style={{ color: '#fff' }}></strong>Max Total Supply: </strong> 100,000,000 LKT
+                    <strong style={{ color: '#fff' }}>Max Total Supply: </strong> 100,000,000 LKT
                     <br/><br/>
-                    <strong style={{ color: '#fff' }}></strong>Decimals </strong> 6
+                    <strong style={{ color: '#fff' }}>Decimals </strong> 6
                 </p>
             </div>
         </div>
