@@ -28,7 +28,7 @@ export const LKTInfo = () => {
         },
         {
             title: 'RESTRICTED COUNTRIES',
-            subTitle: '-'
+            subTitle: 'NO'
         },
         {
             title: 'TOKEN TYPE',
@@ -56,7 +56,7 @@ export const LKTInfo = () => {
                     <h2 className="mb-4" style={{ fontWeight: 'bold', fontSize: '2rem' }}>Tokensale Information:</h2>
                     <p style={{ fontSize: '1.6rem' }}>Lukutex Token<strong style={{ color: '#fff' }}> (LKT)</strong> IEO sale starts on 10th of January!</p>
                     <p style={{ fontSize: '1.6rem' }}>
-                        Pre-Launch: 10/01/2021, 9:00am, UTC - 25/01/2021 9:00am, UTC | $0.025 USD | <strong style={{ color: '#fff' }}> Pre-Launch!</strong>
+                        Pre-Launch: 10/01/2021, 9:00am, UTC - 25/01/2021, 9:00am, UTC | $0.025 USD | <strong style={{ color: '#fff' }}> Pre-Launch!</strong>
                     </p>
                 </div>
             </div>

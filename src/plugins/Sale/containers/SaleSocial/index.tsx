@@ -51,7 +51,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 
                 }
                 {
-                    props.telegram ? <div> <a href={props.linkedin} target="_blank"><img src={TelegramIcon} alt="telegram" /></a> </div> : ''
+                    props.telegram ? <div> <a href={props.telegram} target="_blank"><img src={TelegramIcon} alt="telegram" /></a> </div> : ''
 
                 }
             </div>

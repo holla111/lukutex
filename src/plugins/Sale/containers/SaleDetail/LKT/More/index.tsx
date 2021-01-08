@@ -10,7 +10,7 @@ export const LKTMore = () => {
                     <br/><br/>
                     <strong style={{ color: '#fff' }}>Max Total Supply: </strong> 100,000,000 LKT
                     <br/><br/>
-                    <strong style={{ color: '#fff' }}>Decimals </strong> 6
+                    <strong style={{ color: '#fff' }}>Decimals: </strong> 6
                 </p>
             </div>
         </div>
