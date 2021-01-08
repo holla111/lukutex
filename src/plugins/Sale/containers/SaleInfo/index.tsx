@@ -69,7 +69,7 @@ export const SaleInfo: React.FC<SaleInfoProps> = (props: SaleInfoProps) => {
                             <Statistic valueStyle={{ color: '#e9c46a' }} title="Start Price" value={`$${props.sale.price} USD`} />
                         </Col>
                         <Col span={8}>
-                            <Statistic valueStyle={{ color: '#e76f51' }} title="Min Buy" value={`${props.sale.min_buy} ${props.sale.currency_id}`} />
+                            <Statistic valueStyle={{ color: '#e76f51' }} title="Min Buy" value={`${props.sale.min_buy} ${props.sale.currency_id.toUpperCase()}`} />
                         </Col>
                         <Col span={8}>
                             <Statistic valueStyle={{ color: '#f4a261' }} title="Available Currencies" value={props.sale.currency_available.map(currency => currency.toUpperCase()).join(', ')} />
