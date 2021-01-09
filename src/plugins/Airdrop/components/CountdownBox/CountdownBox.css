@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700|Montserrat:900');
-.container-countdown {
+#container-countdown {
     position: relative;
     margin: auto;
     overflow: hidden;
@@ -7,7 +7,7 @@
     height: 50%;
 }
 
-h1 {
+#container-countdown h1 {
     text-align: center;
     margin-top: 2em;
     font-size: 1em;
@@ -16,7 +16,7 @@ h1 {
     color: #f6f4f3;
 }
 
-#timer {
+#countdown-timer {
     color: #f6f4f3;
     text-align: center;
     text-transform: uppercase;
@@ -26,10 +26,10 @@ h1 {
     margin-top: 25%;
 }
 
-.days,
-.hours,
-.minutes,
-.seconds {
+#countdown-timer .days,
+#countdown-timer .hours,
+#countdown-timer .minutes,
+#countdown-timer .seconds {
     display: inline-block;
     padding: 20px;
     margin: 0 0.2rem;
@@ -37,20 +37,20 @@ h1 {
     border-radius: 5px;
 }
 
-.days {
+#countdown-timer .days {
     background: #ef2f3c;
 }
 
-.hours {
+#countdown-timer .hours {
     background: #f6f4f3;
     color: #183059;
 }
 
-.minutes {
+#countdown-timer .minutes {
     background: #276fbf;
 }
 
-.seconds {
+#countdown-timer .seconds {
     background: #f0a202;
 }
 
