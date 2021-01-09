@@ -367,7 +367,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
                     </div>
                 </div>
             </div>
-           {/*  {showCloseView()} */}
+            {showCloseView()}
             {showBuyConfirmModalView()}
         </React.Fragment>
     );
