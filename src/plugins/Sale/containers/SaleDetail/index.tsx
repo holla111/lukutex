@@ -12,6 +12,9 @@ export const SaleDetail: React.FC<SaleDetailProps> = (props: SaleDetailProps) =>
         case 1:
             saleDetail = <LKT />
             break;
+        case 2:
+            saleDetail = <LKT />
+            break;
     
         default:
             break;
