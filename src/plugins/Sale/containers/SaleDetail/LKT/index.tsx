@@ -18,7 +18,7 @@ export const LKT = () => {
                     <Menu mode="horizontal" defaultSelectedKeys={['1']} onClick={handleSelectMenuItem}>
                         <Menu.Item key="1"><div style={{ fontSize: '20px' }}>Tokensale Information</div></Menu.Item>
                         {/* <Menu.Item key="2"><span style={{ fontSize: '20px' }}>About Lukutex</span></Menu.Item> */}
-                        <Menu.Item key="2"><span style={{ fontSize: '20px' }}>LKT Token</span></Menu.Item>
+                        <Menu.Item key="2"><span style={{ fontSize: '20px' }}>More Information</span></Menu.Item>
                     </Menu>
                 </div>
             </div>
