@@ -19,7 +19,7 @@ export const LKTMore = () => {
                     <br/><br/>
                     <strong style={{ color: '#fff' }}>Buy 8.001-20.000 LKT: </strong>Got 10% Bonus
                     <br/><br/>
-                    <<strong style={{ color: '#fff' }}>Buy 20.001-1.000.000 LKT: </strong>Got 15% Bonus
+                    <strong style={{ color: '#fff' }}>Buy 20.001-1.000.000 LKT: </strong>Got 15% Bonus
                 </p>
             </div>
         </div>
