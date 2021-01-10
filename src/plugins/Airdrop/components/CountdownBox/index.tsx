@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import './CountdownBox.css';
 
 interface CountdownBoxProps {
@@ -10,52 +10,53 @@ interface CountdownBoxProps {
 }
 
 export class CountdownBox extends React.Component<CountdownBoxProps> {
-    render() {
+    public render() {
         let title;
         switch (this.props.status) {
             case 0:
-                title="READY FOR STARTING";
+                title = 'READY FOR STARTING';
                 break;
             case 1:
-                title="LET'S DO TASK AND CLAIM";
+                title = 'LET\'S DO TASK AND CLAIM';
                 break;
             case 2:
-                title="DELIVER";
+                title = 'DELIVER';
                 break;
             default:
-                title=""
+                title = '';
                 break;
         }
+
         return (
-            <div className="container-countdown">
+            <div id="container-countdown">
                 <div className="balloon white">
-                    <div className="star-red"></div>
+                    <div className="star-red"/>
                     <div className="face">
-                        <div className="eye"></div>
-                        <div className="mouth happy"></div>
+                        <div className="eye"/>
+                        <div className="mouth happy"/>
                     </div>
-                    <div className="triangle"></div>
-                    <div className="string"></div>
+                    <div className="triangle"/>
+                    <div className="string"/>
                 </div>
                 <div className="balloon red">
-                    <div className="star"></div>
+                    <div className="star"/>
                     <div className="face">
-                        <div className="eye"></div>
-                        <div className="mouth happy"></div>
+                        <div className="eye"/>
+                        <div className="mouth happy"/>
                     </div>
-                    <div className="triangle"></div>
-                    <div className="string"></div>
+                    <div className="triangle"/>
+                    <div className="string"/>
                 </div>
                 <div className="balloon blue">
-                    <div className="star"></div>
+                    <div className="star"/>
                     <div className="face">
-                        <div className="eye"></div>
-                        <div className="mouth happy"></div>
+                        <div className="eye"/>
+                        <div className="mouth happy"/>
                     </div>
-                    <div className="triangle"></div>
-                    <div className="string"></div>
+                    <div className="triangle"/>
+                    <div className="string"/>
                 </div>
-                <div id="timer">
+                <div id="countdown-timer">
                     <div className="days">
                         <div className="numbers">{this.props.days}</div>days</div>
                     <div className="hours">
@@ -67,6 +68,6 @@ export class CountdownBox extends React.Component<CountdownBoxProps> {
                 </div>
                 <h1>{title}</h1>
             </div >
-        )
+        );
     }
 }
