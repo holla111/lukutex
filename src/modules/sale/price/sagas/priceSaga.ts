@@ -35,6 +35,13 @@ export function* getPrice(action: GetPrice) {
                 'ESC': Number(escPrice.data.ticker.last)
             }
         }
+        if(tsyms.includes('SWP')) {
+            const escPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/escusdt/tickers');
+            newPrice = {
+                ...newPrice,
+                'SWP': Number(escPrice.data.ticker.last)
+            }
+        }
         yield put(priceData({
             payload: {
                 ...newPrice,

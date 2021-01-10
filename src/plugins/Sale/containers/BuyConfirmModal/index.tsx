@@ -1,7 +1,10 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { Alert, Card, Col, Modal, Row, Statistic } from 'antd';
+import { useSelector } from 'react-redux';
+import {selectCurrencies} from '../../../../modules';
 import * as React from 'react';
 import NP from 'number-precision';
+
 
 interface BuyConfirmModalProps {
     visible: boolean;
@@ -18,11 +21,14 @@ interface BuyConfirmModalProps {
 }
 
 export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfirmModalProps) => {
+    const currencies = useSelector(selectCurrencies);
     const { quantity, quoteBalance, quoteCurrency, baseBalance, baseCurrency, quoteTotal, bonus } = props;
     const findIcon = (code: string): string => {
+        const currency = currencies.find((currency: any) => currency.id === code);
         try {
             return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
         } catch (err) {
+            if (currency) return currency.icon_url;
             return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
         }
     };
