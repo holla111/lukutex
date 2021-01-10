@@ -55,7 +55,7 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
         data: [],
         pagination: {
             current: 1,
-            pageSize: 5,
+            pageSize: 10,
             total: 0,
         },
         loading: false,
