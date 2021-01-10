@@ -13,6 +13,8 @@ import { ModalWithdrawConfirmation } from '../../containers/ModalWithdrawConfirm
 import { ModalWithdrawSubmit } from '../../containers/ModalWithdrawSubmit';
 import { EstimatedValue } from '../../containers/Wallets/EstimatedValue';
 import { WalletHistory } from '../../containers/Wallets/History';
+import { DepositWalletHistory } from '../../containers/Wallets/DepositHistory'
+import { WithdrawWalletHistory } from '../../containers/Wallets/WithdrawHistory'
 import { formatCCYAddress, setDocumentTitle } from '../../helpers';
 import { IntlProps } from '../../index';
 import {
@@ -427,7 +429,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
             buttonLabel={buttonLabel}
             isAccountActivated={isAccountActivated}
           />
-          {currency && <WalletHistory label="deposit" type='deposits' currency={currency} />}
+          {currency && <DepositWalletHistory type='deposits' currency={currency} />}
         </React.Fragment>
       );
     } else {
@@ -464,7 +466,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
           />
         ) : null}
         {this.renderWithdrawContent()}
-        {user.otp && currency && <WalletHistory label="withdraw" type="withdraws" currency={currency} />}
+        {user.otp && currency && <WithdrawWalletHistory type="withdraws" currency={currency} />}
       </React.Fragment>
     );
   };

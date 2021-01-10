@@ -81,7 +81,7 @@ const CurrentMarketInfoComponent: React.FC = () => {
                 </div>
                 <div className="pg-mobile-current-market-info__left__price-change">
                     <span className={currentMarketChangeClass}>
-                        {Decimal.format(currentMarketTicker.last, 4, ',')}
+                        {Decimal.format(currentMarketTicker.last, currentMarketPricePrecision, ',')}
                     </span>
                     <span className={currentMarketChangeClass}>{currentMarketTicker.price_change_percent}</span>
                 </div>
@@ -94,7 +94,7 @@ const CurrentMarketInfoComponent: React.FC = () => {
                 </div>
                 <div className="pg-mobile-current-market-info__right__col">
                     <span className={currentMarketChangeClass}>
-                        {Decimal.format(currentMarketTicker.volume, 4, ',')}
+                        {Decimal.format(currentMarketTicker.volume, 6, ',')}
                     </span>
                     <span className={currentMarketChangeClass}>
                         {Decimal.format(currentMarketTicker.high, 4, ',')}
