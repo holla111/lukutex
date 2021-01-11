@@ -71,7 +71,7 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
                         <Statistic
                             title={quoteTitle}
                             value={NP.minus(quoteBalance, Number(quoteTotal))}
-                            precision={2}
+                            precision={4}
                             valueStyle={{ color: '#e9c46a' }}
                             prefix={<ArrowDownOutlined />}
                         />
