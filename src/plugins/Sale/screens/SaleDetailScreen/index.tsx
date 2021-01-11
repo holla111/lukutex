@@ -28,10 +28,10 @@ export const SaleDetailScreen: React.FC = () => {
         if (user.uid) {
             buyHistoryView =
                 <>
-                    <div className="col-6">
+                    <div className="col-md-12 col-xl-6 mt-3">
                         <BuyHistory uid={user.uid} ieoID={Number(saleItem.payload.id)} />
                     </div>
-                    <div className="col-6">
+                    <div className="col-md-12 col-xl-6 mt-3">
                         <BuyersHistory ieoID={Number(saleItem.payload.id)} />
                     </div>
                 </>

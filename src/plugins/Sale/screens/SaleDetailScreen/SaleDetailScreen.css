@@ -31,14 +31,26 @@
     vertical-align: middle;
 }
 
-#sale-history div div div div div div div div div table thead tr th {
+#sale-history div div div div div div div div table thead tr th {
     background-color: #152436;
     text-align: center;
     font-weight: bold;
     color: #BAC6CF;
 }
 
-#sale-history div div div div div div div div div table tbody tr {
+#sale-history div div div div div div div div table tbody tr {
     background-color: #1c3049;
     text-align: center;
+}
+
+.ant-modal-header {
+    background-color: #1c3049;
+}
+
+.ant-modal-body {
+    background-color: #1A2D45;
+}
+
+.ant-modal-footer {
+    background-color: #1A2D45;
 }

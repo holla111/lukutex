@@ -30,6 +30,16 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
     const bonusQuantity = NP.times(quantity, bonus);
     const totalQuanity = NP.plus(baseBalance, quantity, bonusQuantity);
 
+    const baseTitle =
+        <>
+            <img style={{ width: '3rem', height: '3rem'}} src={findIcon(baseCurrency)} alt="" />
+            <span style={{ fontSize: '1.6rem', marginLeft: '5px' }}>{baseCurrency}</span>
+        </>
+    const quoteTitle =
+        <>
+            <img style={{ width: '3rem', height: '3rem' }} src={findIcon(quoteCurrency)} alt="" />
+            <span style={{ fontSize: '1.6rem', marginLeft: '5px' }}>{quoteCurrency}</span>
+        </>
     return (
         <Modal
             title="Confirm to Buy"
@@ -42,24 +52,22 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
                 <Col span={12}>
                     <Card>
                         <Statistic
-                            title={<img style={{ width: '3rem', height: '3rem', marginLeft: '1rem' }} src={findIcon(baseCurrency)} alt="" />}
+                            title={baseTitle}
                             value={totalQuanity}
                             precision={2}
-                            valueStyle={{ color: '#3f8600' }}
+                            valueStyle={{ color: '#2a9d8f' }}
                             prefix={<ArrowUpOutlined />}
-                            suffix={baseCurrency}
                         />
                     </Card>
                 </Col>
                 <Col span={12}>
                     <Card>
                         <Statistic
-                            title={<img style={{ width: '3rem', height: '3rem', marginLeft: '1rem' }} src={findIcon(quoteCurrency)} alt="" />}
+                            title={quoteTitle}
                             value={NP.minus(quoteBalance, Number(quoteTotal))}
                             precision={2}
-                            valueStyle={{ color: '#cf1322' }}
+                            valueStyle={{ color: '#e9c46a' }}
                             prefix={<ArrowDownOutlined />}
-                            suffix={quoteCurrency}
                         />
                     </Card>
                 </Col>
