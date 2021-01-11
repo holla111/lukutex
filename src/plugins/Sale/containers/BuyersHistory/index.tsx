@@ -72,6 +72,8 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
                         key: buyer.id,
                         base_currency: buyer.base_currency.toUpperCase(),
                         quote_currency: buyer.quote_currency.toUpperCase(),
+                        quantity: Number(buyer.quantity).toFixed(4),
+                        total: Number(buyer.total).toFixed(4),
                         created_at: format(new Date(buyer.created_at), 'HH:mm:ss dd/MM/yyyy'),
                     };
 
