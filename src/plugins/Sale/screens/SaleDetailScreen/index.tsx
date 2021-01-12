@@ -4,7 +4,7 @@ import { SaleInfo, SaleBuy, SaleSocial, SaleDetail, BuyersHistory, BuyHistory } 
 import './SaleDetailScreen.css';
 import { findSalebyId, selectSaleItem, selectUserInfo } from '../../../../modules';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Col, Result, Row, Spin } from 'antd';
+import { Button, Col, message, Result, Row } from 'antd';
 
 export const SaleDetailScreen: React.FC = () => {
     const history = useHistory();
@@ -17,6 +17,17 @@ export const SaleDetailScreen: React.FC = () => {
     }));
 
     React.useEffect(() => {
+        if (saleItem.loading) {
+            message.loading('Waiting a seconds...', 0);
+        } else {
+            message.destroy();
+        }
+        return function cleanup() {
+            message.destroy();
+        }
+    }, [saleItem.loading]);
+
+    React.useEffect(() => {
         dispatchFetchSaleItemByID(ieoID);
     }, []);
 
@@ -24,27 +35,25 @@ export const SaleDetailScreen: React.FC = () => {
     if (saleItem && user) {
         saleInfoView = <SaleInfo ieoID={ieoID} sale={saleItem.payload} />;
         saleBuyView = <SaleBuy uid={user.uid} sale={saleItem.payload} />;
-        saleDetailView = <SaleDetail ieoID={Number(saleItem.payload.id)} />;
+        saleDetailView = <SaleDetail ieoID={Number(ieoID)} />;
         if (user.uid) {
             buyHistoryView =
                 <>
                     <div className="col-md-12 col-xl-6 mt-3">
-                        <BuyHistory uid={user.uid} ieoID={Number(saleItem.payload.id)} />
+                        <BuyHistory uid={user.uid} ieoID={Number(ieoID)} />
                     </div>
                     <div className="col-md-12 col-xl-6 mt-3">
-                        <BuyersHistory ieoID={Number(saleItem.payload.id)} />
+                        <BuyersHistory ieoID={Number(ieoID)} />
                     </div>
                 </>
         } else {
             buyHistoryView =
                 <>
                     <div className="col-12">
-                        <BuyersHistory ieoID={Number(saleItem.payload.id)} />
+                        <BuyersHistory ieoID={Number(ieoID)} />
                     </div>
                 </>
         }
-
-
 
         const saleSocial = saleItem.payload.social;
         saleSocialView =
@@ -74,11 +83,7 @@ export const SaleDetailScreen: React.FC = () => {
     }
 
     const renderDetailScreenView = () => {
-        if (saleItem.loading) {
-            return (
-                <div className="spin-center"><Spin size="large" /></div>
-            );
-        } else if (!saleItem.payload.id) {
+        if (!saleItem.payload.id) {
             return (
                 <Result
                     status="500"
@@ -95,9 +100,9 @@ export const SaleDetailScreen: React.FC = () => {
                         <span className="sale-detail__badge" style={{ backgroundColor: getBadgeColor(saleItem.payload.type) }}>{saleItem.payload ? saleItem.payload.type : ''}</span>
                         <Row gutter={[16, 16]}>
                             <Col span={16}>{saleInfoView}</Col>
-                            <Col  span={8}>{saleBuyView}</Col>
+                            <Col span={8}>{saleBuyView}</Col>
                         </Row>
-                       
+
                     </div>
 
                     <div id="sale-history" className="container-fluid">

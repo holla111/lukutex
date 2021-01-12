@@ -1,8 +1,7 @@
-import { Col, Empty, Menu, Row, Spin } from 'antd';
+import { Col, Empty, Menu, message, Row } from 'antd';
 import * as React from 'react';
 import { IEOItem } from '../../components';
 import './SaleListTables.css'
-// import { Sale } from '../../../../modules/sale/sale-list/types';
 import { activeSaleListFetch, upComingSaleListFetch, endedSaleListFetch, onGoingSaleListFetch, selectSaleList } from '../../../../modules';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -23,8 +22,6 @@ export const SaleListTables: React.FC = () => {
     // Dispatch Active Sale List Fetch in one time
     dispatchActiveSaleListFetch();
   }, []);
-
-
 
   const handleSelectMenuItem = ({ key, domEvent }) => {
     switch (key) {
@@ -68,6 +65,19 @@ export const SaleListTables: React.FC = () => {
       );
     }))
   }
+
+  React.useEffect(() => {
+    if (saleList.loading) {
+      message.loading('', 0);
+    } else {
+      message.destroy();
+    }
+
+    return function cleanup() {
+      message.destroy();
+    }
+  }, [saleList.loading]);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -82,7 +92,7 @@ export const SaleListTables: React.FC = () => {
       </div>
       <div className="row mt-4">
         <div className="col-12">
-          {!saleList.loading ? <Row gutter={[16, 16]}>{saleItems}</Row> : <div className="spin-center"><Spin size="large"/></div>}
+          {<Row gutter={[16, 16]}>{saleItems}</Row>}
         </div>
       </div>
     </div>
