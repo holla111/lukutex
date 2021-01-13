@@ -81,6 +81,7 @@ import {
 import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { TradingCompetionListScreen } from '../../plugins/TradingCompetion';
 
 interface ReduxProps {
     colorTheme: string;
@@ -294,6 +295,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/airdrop/detail/:airdropID" component={AirdropDetail} />
                     <Route path="/ieo" exact component={SaleListScreen} />
                     <Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
+                    <Route path="/trading-competition" exact component={TradingCompetionListScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
                 </Switch>
                 {isLoggedIn && <WalletsFetch />}
