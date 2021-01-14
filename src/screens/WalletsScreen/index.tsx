@@ -144,7 +144,6 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
   public componentDidMount() {
     setDocumentTitle('Wallets');
     const { wallets, fetchAddress } = this.props;
-    console.log(wallets);
     
     const { selectedWalletIndex } = this.state;
     if (this.props.wallets.length === 0) {
