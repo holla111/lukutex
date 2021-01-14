@@ -56,16 +56,15 @@ input[type=number] {
 
 #sale-buy__closed {
     position: absolute;
-    inset: 0px;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     font-size: 24px;
     background-color: #14263bc9;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    margin: 0 1rem;
-    justify-content: center;
+    text-align: center;
+    padding-top: 50%;
     z-index: 997;
     color: rgb(255, 255, 255);
 }
