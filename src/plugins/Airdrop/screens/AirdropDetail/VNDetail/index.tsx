@@ -30,12 +30,12 @@ const guideContent =
 const importantContent =
     <p>
         <strong style={{ textDecoration: 'underline' }}>Lukutex Airdrop Information:</strong> <br /><br />
-        1. Total Reward: 1.000.000 LKT <br />
-        2. Start in: 15th November 2020 <br />
+        1. Total Reward: 150.000 LKT <br />
+        2. Start in: 15th January 2021 <br />
         3. Task List: Telegram, Twitter, Facebook <br />
         <br />
         Participants must remain subscribed to social media channels until the end of the airdrop to be eligible for social task rewards.<br /><br />
-        A total reward of <strong> 100 LKT</strong> will be given to eligible participants.
+        A total reward of <strong> 150 LKT</strong> will be given to eligible participants.
         <br /><br />
         <strong style={{ textDecoration: 'underline' }}>Note:</strong> Lukutex Team will lock all account cheat Airdrop, if our system detect it. <strong>PLEASE DONT CHEAT US !!!</strong>
 
