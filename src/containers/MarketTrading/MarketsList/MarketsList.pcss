@@ -35,13 +35,20 @@
       }
     }
   }
-   
+
+  .cr-table thead tr th:last-child {
+    text-align: right;
+  }
 
   .cr-table tbody td {
     background-color: var(--market-selector-table-background-color);
     color: var(--market-selector-table-text-color);
     width: calc(100% / 4);
     text-align: left;
+  }
+
+  .cr-table tbody td:last-child {
+    text-align: right;
   }
 
   .cr-table tbody .cr-table__row--selected td {
