@@ -16,6 +16,7 @@ export const TradingCompetionListScreen: React.FC = () => {
                 </div>
             </div>
             <br/>
+            <br/>
             <div className="row">
                 <div className="col-12">
                     <RankingTable />

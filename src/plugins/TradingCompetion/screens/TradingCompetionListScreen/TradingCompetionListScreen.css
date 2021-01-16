@@ -1,4 +1,8 @@
 #trading-competition-list {
     background-color: #192b41;
+    background-image: url('../../assets/banner-bg-v4.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 5% 5%;
 }

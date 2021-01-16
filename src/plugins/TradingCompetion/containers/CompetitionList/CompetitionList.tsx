@@ -45,15 +45,41 @@ export const CompetitionList: React.FC = () => {
     ];
 
     const carouselSettings = {
+        className: 'slider',
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 4,
+        slidesToShow: 3,
         slidesToScroll: 2,
+        adaptiveHeight: true,
+        centerMode: true,
+        responsive: [
+            {
+              breakpoint: 1350,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
     };
 
-    const competitonListView = competions.map(competition => (
-        <CompetitionItem competition={competition} />
+    const competitonListView = competions.map((competition, index) => (
+        <CompetitionItem index={index} competition={competition} />
 
     ));
 
