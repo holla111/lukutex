@@ -10,6 +10,7 @@ import * as actions from '../../../../modules/index';
 
 import { LKTDetail } from './LKTDetail';
 import { HNYDetail } from './HNYDetail';
+import { VNDetail } from './VNDetail';
 
 export interface FacebookTabConfig {
     facebookAppId: string;
@@ -226,6 +227,31 @@ const detailData: AirdropDetailConfig[] = [
         }
     },
 
+    {
+        id: '9',
+        tasks: {
+            telegram: {
+                telegramGroup: 'https://t.me/lukutex_office',
+                telegramChannel: 'https://t.me/Lukutex_News',
+                disable: false
+            },
+            twitter: {
+                twitterName: 'Lukutex',
+                twitterUserName: 'Lukutex',
+                twitterPage: 'https://twitter.com/Lukutex',
+                twitterPost: 'https://twitter.com/Lukutex/status/1349680646390575105',
+                twitterPostId: '1349680646390575105',
+                disable: false
+            },
+            facebook: {
+                facebookAppId: '1243206966058196',
+                facebookPage: 'https://www.facebook.com/lukutex',
+                facebookPost: 'https://www.facebook.com/lukutex/posts/191553499333316',
+                disable: false
+            },
+        }
+    },
+
 ]
 
 const Detail: React.FC<Props> = (props: Props) => {
@@ -269,6 +295,9 @@ const Detail: React.FC<Props> = (props: Props) => {
                 break;
             case '8':
                 detailScreen = <HNYDetail detailConfig={detail} />;
+                break;
+            case '9':
+                detailScreen = <VNDetail detailConfig={detail} />;
                 break;
             default:
                 detailScreen = <Result
