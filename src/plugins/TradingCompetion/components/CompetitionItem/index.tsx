@@ -4,7 +4,9 @@ import './CompetitionItem.css';
 
 import CaptainImage from '../../assets/captain.png';
 import PlayerImage from '../../assets/player.png';
+import { useHistory } from 'react-router';
 interface CompetitionItem {
+    competition_id: number;
     competition_name: string;
     total_prize: number;
     total_participants: number;
@@ -20,13 +22,22 @@ interface CompetitionItemProps {
 
 export const CompetitionItem: React.FC<CompetitionItemProps> = (props: CompetitionItemProps) => {
     // const {competition_name,total_prize, total_participants, start_date, end_date} = props.competition;
-    const { competition_name } = props.competition;
+    const { competition_name, competition_id } = props.competition;
     const { index } = props;
     const selectedImage = index % 2 == 0 ? CaptainImage : PlayerImage;
 
+    const history = useHistory();
+
+    const handleDetailClick = () => {
+        const location = {
+            pathname: '/trading-competition/' + competition_id
+        }
+        history.push(location);
+    }
+
     return (
 
-        <div id="competition-item" style={{ backgroundImage: `url(${selectedImage})` }}>
+        <div id="competition-item" style={{ backgroundImage: `url(${selectedImage})` }} onClick={handleDetailClick}>
             <div className="competition-item-top">
                 <div className="competition-item-top__date">
                     Dec 5 - Jan 1

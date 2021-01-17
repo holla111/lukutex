@@ -1,7 +1,8 @@
 #competition-item {
     text-align: center;
     background-color: transparent;
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
     background-repeat: no-repeat;
     padding: 2rem 2rem 1.4rem 2rem;
     color: #fff;
@@ -9,12 +10,8 @@
     cursor: pointer;
 }
 
-#competition-item .competition-item-top {
-    padding-bottom: 1rem;
-}
-
 #competition-item .competition-item-bottom {
-    padding-bottom: 1rem;
+    padding: 1rem 3rem 1rem 3rem;
 }
 
 #competition-item .competition-item-top .competition-item-top__title {

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { RankingTable } from '../../containers';
-import { CompetitionList } from '../../containers/CompetitionList/CompetitionList';
+import { RankingTable, CompetitionList } from '../../containers';
+
 import './TradingCompetionListScreen.css'
 export const TradingCompetionListScreen: React.FC = () => {
     return (
