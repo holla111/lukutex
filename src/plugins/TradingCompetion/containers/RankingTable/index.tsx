@@ -64,36 +64,8 @@ export const RankingTable: React.FC = () => {
             trades: 9453,
             volumn: 114.371
         },
-        {
-            ranking: 3,
-            uid: 'Crypto9999',
-            trades: 9453,
-            volumn: 114.371
-        },
-        {
-            ranking: 4,
-            uid: 'Crypto9999',
-            trades: 9453,
-            volumn: 114.371
-        },
-        {
-            ranking: 5,
-            uid: 'Crypto9999',
-            trades: 9453,
-            volumn: 114.371
-        },
-        {
-            ranking: 6,
-            uid: 'Crypto9999',
-            trades: 9453,
-            volumn: 114.371
-        },
-        {
-            ranking: 7,
-            uid: 'Crypto9999',
-            trades: 9453,
-            volumn: 114.371
-        }
+      
+       
     ];
 
     return (

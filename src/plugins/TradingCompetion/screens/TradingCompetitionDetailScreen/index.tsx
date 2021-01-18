@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CompetitionSummary, RankingTable } from '../../containers';
+import { CompetitionSummary, RankingTable, CompetitionAwards } from '../../containers';
 
 import './TradingCompetitionDetailScreen.css';
 
@@ -13,10 +13,15 @@ export const TradingCompetitionDetailScreen = () => {
            </div>
            <div className="row">
                <div className="col-6">
-                <RankingTable />
+                    <RankingTable />
                </div>
                <div className="col-6">
-                <RankingTable />
+                    <RankingTable />
+               </div>
+           </div>
+           <div className="row">
+               <div className="col-12">
+                   <CompetitionAwards />
                </div>
            </div>
         </div>

@@ -1,0 +1,7 @@
+.competition-award-item {
+    padding: 45px;
+    background-image: url('../../assets/individual-award-bg-v2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
