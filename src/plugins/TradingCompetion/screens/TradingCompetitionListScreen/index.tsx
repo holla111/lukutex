@@ -15,9 +15,7 @@ export const TradingCompetionListScreen: React.FC = () => {
                     <CompetitionList />
                 </div>
             </div>
-            <br/>
-            <br/>
-            <div className="row">
+            <div className="row" style={{marginTop: '50px'}}>
                 <div className="col-12">
                     <RankingTable />
                 </div>

@@ -64,13 +64,17 @@ export const RankingTable: React.FC = () => {
             trades: 9453,
             volumn: 114.371
         },
-      
-       
+
+
     ];
 
     return (
-        <div id="trading-competion-ranking">
-            <Table size="large" pagination={false} dataSource={data} columns={columns} />
+        <div id="trading-competion-ranking" className="container-fluid">
+            <div className="row">
+                <div className="col-12">
+                    <Table size="large" pagination={false} dataSource={data} columns={columns} />
+                </div>
+            </div>
         </div>
     )
 }

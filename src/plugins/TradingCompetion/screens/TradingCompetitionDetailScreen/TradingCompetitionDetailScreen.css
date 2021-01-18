@@ -1,8 +1,13 @@
 #trading-competition-detail {
-    background-color: #192b41;
-    background-image: url('../../assets/individual-bg-v4.jpg');
+    background-color: #111C2A;
+    /* background-image: url('../../assets/individual-bg-v4.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    padding: 1% 5%;
+}
+
+#trading-competition-detail__awards {
+    background-color: #111C2A;
     padding: 1% 5%;
 }

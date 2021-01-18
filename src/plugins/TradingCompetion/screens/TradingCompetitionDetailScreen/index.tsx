@@ -5,25 +5,30 @@ import './TradingCompetitionDetailScreen.css';
 
 export const TradingCompetitionDetailScreen = () => {
     return (
-        <div id="trading-competition-detail" className="container-fluid">
-           <div className="row">
-               <div className="col-12">
-               <CompetitionSummary />
-               </div>
-           </div>
-           <div className="row">
-               <div className="col-6">
-                    <RankingTable />
-               </div>
-               <div className="col-6">
-                    <RankingTable />
-               </div>
-           </div>
-           <div className="row">
-               <div className="col-12">
-                   <CompetitionAwards />
-               </div>
-           </div>
-        </div>
+        <React.Fragment>
+            <div id="trading-competition-detail" className="container-fluid">
+                <div className="row">
+                    <div className="col-12">
+                        <CompetitionSummary />
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-6">
+                        <RankingTable />
+                    </div>
+                    <div className="col-6">
+                        <RankingTable />
+                    </div>
+                </div>
+
+            </div>
+            <div id="trading-competition-detail__awards" className="container-fluid">
+                <div className="row mt-3">
+                    <div className="col-12">
+                        <CompetitionAwards />
+                    </div>
+                </div>
+            </div>
+        </React.Fragment>
     )
 }
