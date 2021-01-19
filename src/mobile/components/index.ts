@@ -20,3 +20,6 @@ export * from './WalletsButtons';
 export * from './WalletWithdrawBody';
 export * from './DepositCrypto';
 export * from './OrderBook';
+export * from './MarketsTop';
+export * from './Slide';
+export * from './Directionals';
