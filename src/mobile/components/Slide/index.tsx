@@ -1,38 +1,39 @@
 import * as React from 'react';
-import Slider from 'react-slick';
+import Slider,{Settings} from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-const settings = {
+const settings:Settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay : true,
+    autoplaySpeed : 2500,
 };
 
 const SlideComponent: React.FC = ({}) => {
         return (
-            <div style={{height : "300px"}}>
-            <h2> Single Item</h2>
+            <div className="cr-mobile-slide">
             <Slider {...settings}>
                 <div>
-                    <h3>1</h3>
+                    <img src="https://via.placeholder.com/360x150.png?text=Slide+1" alt=""/>
                 </div>
                 <div>
-                    <h3>2</h3>
+                    <img src="https://via.placeholder.com/360x150.png?text=Slide+2" alt=""/>
                 </div>
                 <div>
-                    <h3>3</h3>
+                    <img src="https://via.placeholder.com/360x150.png?text=Slide+3" alt=""/>
                 </div>
                 <div>
-                    <h3>4</h3>
+                    <img src="https://via.placeholder.com/360x150.png?text=Slide+4" alt=""/>
                 </div>
                 <div>
-                    <h3>5</h3>
+                    <img src="https://via.placeholder.com/360x150.png?text=Slide+5" alt=""/>
                 </div>
                 <div>
-                    <h3>6</h3>
+                    <img src="https://via.placeholder.com/360x150.png?text=Slide+6" alt=""/>
                 </div>
             </Slider>
         </div>

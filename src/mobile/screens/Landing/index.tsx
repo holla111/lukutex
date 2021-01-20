@@ -1,15 +1,18 @@
 import * as React from 'react';
-// import { MarketsTable } from '../../../containers';
-import {MarketsTop,Directionals} from '../../components'
 import {useMarketsFetch} from '../../../hooks';
+// import { MarketsTable } from '../../../containers';
+import {Directionals,Markets,MarketsTop,Slide} from '../../components';
 
 const LandingComponent: React.FC = () => {
     useMarketsFetch();
+
     return (
         <div className="pg-landing-screen-mobile">
             {/*<MarketsTable />*/}
+            <Slide/>
             <MarketsTop/>
             <Directionals/>
+            <Markets/>
         </div>
     );
 };
