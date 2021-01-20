@@ -386,7 +386,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
 
     const textConfirmation = this.props.intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currencyItem.min_confirmations });
 
-    const textMinDeposit = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} > ${Number(currencyItem.min_deposit_amount)} ${currency.toUpperCase()}`;
+    const textMinDeposit = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount)} ${currency.toUpperCase()}`;
 
     const textNote = `Only Deposit ${currency.toUpperCase()} to this wallet.`
 
