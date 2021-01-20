@@ -1,12 +1,11 @@
 import classnames from 'classnames';
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {Decimal} from '../../../components';
 import {
     Market,
-    // marketsTickersFetch,
-    // selectCurrentMarket,
-    // selectMarketsLoading,
-    // setCurrentMarket,
+    setCurrentMarket,
     Ticker,
 } from '../../../modules/public/markets';
 
@@ -16,6 +15,14 @@ interface MarketsTopItemProps{
 }
 
 const MarketsTopItemComponent: React.FC<MarketsTopItemProps> = ({market,ticker}) => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const redirectToTrading = (paramMarket : Market) => {
+        dispatch(setCurrentMarket(paramMarket));
+        history.push(`/trading/${paramMarket.id}`);
+    };
+
     const marketTickerChange = +(+ticker.last - +ticker.open).toFixed(market.price_precision);
     const marketChangeClass = classnames('', {
         'change-positive': (+marketTickerChange || 0) >= 0,
@@ -23,7 +30,7 @@ const MarketsTopItemComponent: React.FC<MarketsTopItemProps> = ({market,ticker})
     });
 
     return (
-        <div className="cr-mobile-market-top-info">
+        <div className="cr-mobile-market-top-info" onClick={() => redirectToTrading(market)}>
             <div className="cr-mobile-market-top-info-head">
                 <div className="cr-mobile-market-top-info-head__title">
                     <h6>{market.name.split('/')[0]}</h6> <span>/ {market.name.split('/')[1]}</span></div>
@@ -36,7 +43,7 @@ const MarketsTopItemComponent: React.FC<MarketsTopItemProps> = ({market,ticker})
             </div>
             <div className="cr-mobile-market-top-info-foot">
                 <div className="cr-mobile-market-top-info-foot__about-eq-price">
-                    <span>&asymp;{Decimal.format(ticker.last,2,',')}</span>
+                    <span>&asymp;{Decimal.format(ticker.last,4,',')}</span>
                 </div>
             </div>
         </div>

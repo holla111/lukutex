@@ -1,16 +1,53 @@
-// import classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
-// import {CellData} from '../../../components';
-// import {CellData} from '../../../components';
+import { useIntl } from 'react-intl';
+import {useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import {Decimal} from '../../../components';
+import {
+    Market,
+    selectMarketTickers,
+    setCurrentMarket,
+    Ticker,
+} from '../../../modules/public/markets';
 
 export interface TableProps {
+    /**
+     * Data which is used to render Table. The first element
+     * of array is used to render table head unless `noHead`
+     * is true. the rest is used to render Table body.
+     *
+     * All the elements of an array should have the same length.
+     */
+    markets: Market[];
     /**
      * List of headers for table
      */
     headers?: string[];
 }
 
-const TableComponent : React.FC<TableProps> = ({headers}) => {
+const defaultTicker:Ticker =  {
+    amount: '0.0',
+    last: '0.0',
+    high: '0.0',
+    open: '0.0',
+    low: '0.0',
+    price_change_percent: '+0.00%',
+    volume: '0.0',
+    avg_price: '0',
+};
+
+const TableComponent : React.FC<TableProps> = ({headers,markets}) => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const intl = useIntl();
+    const tickers = useSelector(selectMarketTickers);
+
+
+    const redirectToTrading = (paramMarket : Market) => {
+        dispatch(setCurrentMarket(paramMarket));
+        history.push(`/trading/${paramMarket.id}`);
+    };
 
     const renderHead = (row: string[]) => {
         const cells = row.map((c, index) => <th key={index}>{c}</th>);
@@ -23,87 +60,40 @@ const TableComponent : React.FC<TableProps> = ({headers}) => {
     };
 
     const renderBody = () => {
-        const rowElements = (
-            <>
-                <tr className="cr-mobile-table-info">
-                    <td className="cr-mobile-table-info__name">
-                        <div>
-                            <h6>BTC</h6> <span>/ USDT</span>
-                        </div>
-                        <span>
-                            Vol 1.25M
-                        </span>
-                    </td>
-                    <td className="cr-mobile-table-info__current">
-                        <h6>0.69300</h6>
-                        <span>$.0.69</span>
-                    </td>
-                    <td className="cr-mobile-table-info__change">
-                        <button className="btn btn-success">
-                            +21.55%
-                        </button>
-                    </td>
-                </tr>
-                <tr className="cr-mobile-table-info">
-                    <td className="cr-mobile-table-info__name">
-                        <div>
-                            <h6>BTC</h6> <span>/ USDT</span>
-                        </div>
-                        <span>
-                            Vol 1.25M
-                        </span>
-                    </td>
-                    <td className="cr-mobile-table-info__current">
-                        <h6>0.69300</h6>
-                        <span>$.0.69</span>
-                    </td>
-                    <td className="cr-mobile-table-info__change">
-                        <button className="btn btn-success">
-                            +21.55%
-                        </button>
-                    </td>
-                </tr>
-                <tr className="cr-mobile-table-info">
-                    <td className="cr-mobile-table-info__name">
-                        <div>
-                            <h6>BTC</h6> <span>/ USDT</span>
-                        </div>
-                        <span>
-                            Vol 1.25M
-                        </span>
-                    </td>
-                    <td className="cr-mobile-table-info__current">
-                        <h6>0.69300</h6>
-                        <span>$.0.69</span>
-                    </td>
-                    <td className="cr-mobile-table-info__change">
-                        <button className="btn btn-success">
-                            +21.55%
-                        </button>
-                    </td>
-                </tr>
-                <tr className="cr-mobile-table-info">
-                    <td className="cr-mobile-table-info__name">
-                        <div>
-                            <h6>BTC</h6> <span>/ USDT</span>
-                        </div>
-                        <span>
-                            Vol 1.25M
-                        </span>
-                    </td>
-                    <td className="cr-mobile-table-info__current">
-                        <h6>0.69300</h6>
-                        <span>$.0.69</span>
-                    </td>
-                    <td className="cr-mobile-table-info__change">
-                        <button className="btn btn-success">
-                            +21.55%
-                        </button>
-                    </td>
-                </tr>
-            </>
+        const rowElements = markets.map((market, i) => {
+            const ticker = tickers[market.id] || defaultTicker;
+            const marketTickerChange = +(+ticker.last - +ticker.open).toFixed(market.price_precision);
+            const marketChangeClass = classNames('', {
+                'change-positive': (+marketTickerChange || 0) >= 0,
+                'change-negative': (+marketTickerChange || 0) < 0,
+            });
+            const marketChangeBtnClass = classNames('btn', {
+                'btn-success': (+marketTickerChange || 0) >= 0,
+                'btn-danger': (+marketTickerChange || 0) < 0,
+            });
 
+            return (
+                    <tr className="cr-mobile-table-info" key={i} onClick={() => redirectToTrading(market)}>
+                        <td className="cr-mobile-table-info__name">
+                            <div>
+                                <h6>{market.name.split('/')[0]}</h6> <span>/ {market.name.split('/')[1]}</span>
+                            </div>
+                            <span>
+                                {intl.formatMessage({id: 'page.mobile.currentMarketInfo.volume'})} {Decimal.format(ticker.volume, 6, ',')}
+                            </span>
+                        </td>
+                        <td className="cr-mobile-table-info__current">
+                            <h6 className={marketChangeClass}>{Decimal.format(ticker.last, market.price_precision, ',')}</h6>
+                            <span>&asymp;{Decimal.format(ticker.last,4,',')}</span>
+                        </td>
+                        <td className="cr-mobile-table-info__change">
+                            <button className={marketChangeBtnClass}>
+                                {ticker.price_change_percent}
+                            </button>
+                        </td>
+                    </tr>
             );
+        });
 
         return (
             <tbody className={'cr-mobile-table__body'}>

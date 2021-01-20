@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import {Table} from '../';
 import {TabPanel} from '../../../components';
+import { selectMarkets } from '../../../modules/public/markets';
 
 export interface MarketsProps {
     /**
@@ -9,7 +11,8 @@ export interface MarketsProps {
     headers?: string[];
 }
 
-const MarketsComponent : React.FC<MarketsProps> =props => {
+const MarketsComponent : React.FC<MarketsProps> = ({headers}) => {
+    const markets = useSelector(selectMarkets);
 
     const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
     const defaultHeader = ['Name','Current', 'Chg'];
@@ -31,7 +34,7 @@ const MarketsComponent : React.FC<MarketsProps> =props => {
 
     const renderTab = () => {
         return (
-            <Table headers={props.headers ? props.headers : defaultHeader}/>
+            <Table headers={headers ? headers : defaultHeader} markets={markets}/>
         );
     };
 
