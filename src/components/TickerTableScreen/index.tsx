@@ -3,6 +3,8 @@ import { useIntl } from 'react-intl';
 import { Decimal } from '../../components';
 import { Market } from '../../modules';
 // import Trend from 'react-trend';
+import './ticker.css'
+import { Button} from 'antd';
 
 interface Props {
   currentBidUnit: string;
@@ -12,9 +14,11 @@ interface Props {
   setCurrentBidUnit: (key: string) => void;
 }
 
-export const TickerTable = (props: Props) => {
+export const TickerTableScreen = (props: Props) => {
   const { currentBidUnit, markets } = props;
   const intl = useIntl();
+  
+  const [searchCoin, setSearchCoin] = React.useState("")
 
   const renderHeader = () => (
     <ul className="navigation" role="tablist">
@@ -29,18 +33,22 @@ export const TickerTable = (props: Props) => {
           </span>
         </li>
       ))}
+      <div className="home-page__markets-top-block" style={{marginLeft : 724,}}>
+        <input 
+          type="text" value={searchCoin} 
+          placeholder="Search coin name..." 
+          onChange={handldeSearch}
+          />
+      </div>
     </ul>
   );
-
-  const renderPagination = () => {
-    return(
-      <div className="pagination__nav">
-        <button>prevPage</button>
-    
-        <button>nextPage</button>
-      </div>
-    );
+  const handldeSearch = (e: any) => {
+    const result = e.target.value;
+    //console.log(result)
+    props.setCurrentBidUnit(result);
+    setSearchCoin(result)
   }
+
   const renderItem = (market, index: number) => {
     const marketChangeColor = +(market.change || 0) < 0 ? 'negative' : 'positive';
     const decima = 4;
@@ -84,30 +92,13 @@ export const TickerTable = (props: Props) => {
           </span>
         </td>
         <td>
-          <span className={marketChangeColor}>
-            <Decimal fixed={decima} thousSep=",">
-              {market.volume}
-            </Decimal>
-          </span>
+          <Button type="primary" size="small" 
+            style={{marginRight: 0, fontSize: 14}}
+            onClick={() => props.redirectToTrading(market.id)}
+          >
+            Trade
+          </Button>
         </td>
-        {/* <td>
-          <span className={marketChangeColor}>
-              <Trend
-                smooth
-                autoDraw
-                autoDrawDuration={3000}
-                autoDrawEasing="ease-out"
-                data={[market.last, market.high, market.low, market.volume]}
-                gradient={['#00c6ff', '#F0F', '#FF0']}
-                radius={10}
-                strokeWidth={2}
-                strokeLinecap={'butt'}
-                width={90} height={40}
-                padding={8}
-              />
-          </span>
-        </td> */}
-        
       </tr>
     );
   };
@@ -127,6 +118,7 @@ export const TickerTable = (props: Props) => {
               <th scope="col">{intl.formatMessage({ id: 'page.body.marketsTable.header.high' })}</th>
               <th scope="col">{intl.formatMessage({ id: 'page.body.marketsTable.header.low' })}</th>
               <th scope="col">{intl.formatMessage({ id: 'page.body.marketsTable.header.volume' })}</th>
+              <th scope="col">Markets</th>
             </tr>
           </thead>
           <tbody>
@@ -138,9 +130,6 @@ export const TickerTable = (props: Props) => {
           </tbody>
         </table>
       </div>
-     <div className="pg-ticker-table__pagination">
-        {renderPagination()}
-     </div>
     </div>
   );
 };

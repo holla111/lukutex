@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Decimal, TickerTable } from '../../components';
+import { Decimal } from '../../components';
+import {TickerTableScreen} from '../../components';
 import {
     useMarketsFetch,
     useMarketsTickersFetch,
@@ -84,7 +85,7 @@ const MarketsTableComponent = props => {
     ) : [];
 
     return (
-        <TickerTable
+        <TickerTableScreen
             currentBidUnit={currentBidUnit}
             currentBidUnitsList={currentBidUnitsList}
             markets={formattedMarkets}

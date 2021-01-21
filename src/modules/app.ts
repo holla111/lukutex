@@ -49,6 +49,7 @@ import { saleListReducer } from './sale/sale-list';
 import { saleItemReducer } from './sale/sale-item';
 import { buyReducer, totalBuyersReducer } from './sale/buy';
 import { priceReducer } from './sale/price';
+import { eventReducer } from './info/events';
 
 export const airdropsReducer = combineReducers({
     airdrops: airdropReducer,
@@ -66,6 +67,10 @@ export const saleReducer = combineReducers({
     buy: buyReducer,
     price: priceReducer,
     totalBuyers: totalBuyersReducer,
+});
+
+export const infoReducer = combineReducers({
+    events: eventReducer
 })
 
 export const publicReducer = combineReducers({

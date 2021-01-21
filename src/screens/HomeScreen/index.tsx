@@ -47,6 +47,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   }, []);
 
   const events = useSelector(selectEvents);
+  console.log(events)
 
   const renderBanner = ()  => {
     return (
@@ -61,7 +62,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
                   <div className="pc-otc-box">
                     <div className="pc-otc-buy-box">
                       <div className="pc-otc-input-box">
-                        <input className="pc-otc-input" type="text" placeholder="Email Address/Mobile Number"  value="" />
+                        <input className="pc-otc-input" type="text" placeholder="Email Address/Mobile Number"/>
                       </div>
                       <Link className="pc-otc-buy-btn" to="/signup">Register now</Link>
                     </div>
@@ -91,18 +92,6 @@ export const HomeScreen: React.FC<any> = (props: any) => {
       return (
         <div className="home-page__markets">
           <div className="container">
-            <div className="home-page__markets-top">
-              <div className="home-page__markets-top-row">
-                <div className="home-page__markets-top-title">
-                  <div className="markets-choose-col"></div>
-                  <div className="markets-choose-col"></div>
-                  <div className="markets-choose-col"></div>
-                </div>
-                <div className="home-page__markets-top-block">
-                  <input type="text" name="" placeholder="Search coin name..."></input>
-                </div>
-              </div>
-            </div>
             <div className="home-page__markets-main">
               <div className="home-page__markets-main-title">
                <MarketsTableScreen />

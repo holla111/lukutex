@@ -288,6 +288,7 @@ class Landing extends React.Component<Props> {
         {this.renderMarketTable()}
         {this.renderRoadmap()}
         {this.renderFeature()}
+        {this.renderParterList()}
       </div>
     );
   }
