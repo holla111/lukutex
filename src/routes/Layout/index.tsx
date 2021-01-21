@@ -34,6 +34,12 @@ import {
     WalletsMobileScreen,
     WalletWithdraw,
 } from '../../mobile/screens';
+
+import {
+    TradingCompetionListMobileScreen,
+    TradingCompetitionDetailMobileScreen
+} from '../../mobile/plugins/TradingCompetion';
+
 import {
     configsFetch,
     logoutFetch,
@@ -194,7 +200,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
     public componentDidUpdate(prevProps: LayoutProps) {
 
-        const { customization, isLoggedIn,history, userLoading } = this.props;
+        const { customization, isLoggedIn, history, userLoading } = this.props;
 
         if (!isLoggedIn && prevProps.isLoggedIn && !userLoading) {
             this.props.walletsReset();
@@ -262,6 +268,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileMobileScreen} />
                         <Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
                         {showLanding() && <Route exact={true} path="/" component={LandingScreenMobile} />}
+                        <Route path="/trading-competition" exact component={TradingCompetionListMobileScreen} />
+                        <Route path="/trading-competition/1" exact component={TradingCompetitionDetailMobileScreen} />
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>
                     {isLoggedIn && <WalletsFetch />}

@@ -1,0 +1,39 @@
+#competition-mobile-item {
+    text-align: center;
+    background-color: transparent;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 2rem 2rem 1.4rem 2rem;
+    color: #fff;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+#competition-mobile-item .competition-mobile-item-bottom {
+    /* padding: 1rem 3rem 1rem 3rem; */
+}
+
+#competition-mobile-item .competition-mobile-item-top .competition-mobile-item-top__title {
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #e9c46a;
+}
+
+#competition-mobile-item .competition-mobile-item-winner {
+    position: relative;
+}
+
+#competition-mobile-item .competition-mobile-item-winner::before {
+    position: absolute;
+    content: '';
+    width: 20px;
+    height: 20px;
+    margin-left: -30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../assets/winner.svg');
+}
