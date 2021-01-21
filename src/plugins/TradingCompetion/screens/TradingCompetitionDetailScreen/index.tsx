@@ -13,10 +13,8 @@ export const TradingCompetitionDetailScreen = () => {
                     </div>
                 </div>
                 <div className="row mt-3">
-                    <div className="col-6">
-                        <RankingTable />
-                    </div>
-                    <div className="col-6">
+                    <div className="col-12">
+                        <h3 className="ml-4" style={{fontSize: '2rem'}}>TOP 10 Rankings</h3>
                         <RankingTable />
                     </div>
                 </div>
