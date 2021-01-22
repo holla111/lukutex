@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
     useDepthFetch,
+    useEventsFetch,
     useMarketsFetch,
     useMarketsTickersFetch,
     useRangerConnectFetch,
@@ -13,6 +14,7 @@ const LandingComponent: React.FC = () => {
     useMarketsTickersFetch();
     useRangerConnectFetch();
     useDepthFetch();
+    useEventsFetch();
 
     return (
         <div className="pg-landing-screen-mobile">

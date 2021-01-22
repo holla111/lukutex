@@ -1,7 +1,9 @@
 import * as React from 'react';
+import {useSelector} from 'react-redux';
 import Slider,{Settings} from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import {EventItem, selectEvents} from '../../../modules';
 
 const settings:Settings = {
     dots: true,
@@ -14,27 +16,18 @@ const settings:Settings = {
 };
 
 const SlideComponent: React.FC = ({}) => {
+        const eventsData = useSelector(selectEvents).payload;
+
+        const renderElms = (paramsEventsDat: EventItem[]) => paramsEventsDat.map((event, i) => (
+            <div key={i}>
+                <img src={event.image_link} alt={event.description}/>
+            </div>
+        ));
+
         return (
             <div className="cr-mobile-slide">
             <Slider {...settings}>
-                <div>
-                    <img src="https://via.placeholder.com/360x150.png?text=Slide+1" alt=""/>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/360x150.png?text=Slide+2" alt=""/>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/360x150.png?text=Slide+3" alt=""/>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/360x150.png?text=Slide+4" alt=""/>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/360x150.png?text=Slide+5" alt=""/>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/360x150.png?text=Slide+6" alt=""/>
-                </div>
+                {renderElms(eventsData)}
             </Slider>
         </div>
         );

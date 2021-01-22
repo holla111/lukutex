@@ -2,9 +2,10 @@ import { combineReducers } from 'redux';
 import { all, call } from 'redux-saga/effects';
 import { AirdropState, rootAirdropSaga } from './airdrops/airdrop';
 import { ClaimState, rootClaimSaga } from './airdrops/claim';
-import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
-import { airdropsReducer, ethFeesReducer, publicReducer, saleReducer, userReducer } from './app';
+import { airdropsReducer, ethFeesReducer,infoReducer , publicReducer, saleReducer, userReducer } from './app';
 import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
+import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
+import { EventsState, rootEventSaga } from './info/events';
 import { AlertState, rootHandleAlertSaga } from './public/alert';
 import { BlocklistAccessState, rootBlocklistAccessSaga } from './public/blocklistAccess';
 import { ConfigsState, rootConfigsSaga } from './public/configs';
@@ -24,6 +25,10 @@ import {
 } from './public/orderBook';
 import { RangerState } from './public/ranger/reducer';
 import { RecentTradesState, rootRecentTradesSaga } from './public/recentTrades';
+import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
+import { PriceState, rootPriceSaga } from './sale/price';
+import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
+import { rootSaleListSaga, SaleListState } from './sale/sale-list';
 import { ApiKeysState } from './user/apiKeys';
 import { rootApiKeysSaga } from './user/apiKeys/sagas';
 import { AuthState, rootAuthSaga } from './user/auth';
@@ -46,10 +51,6 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
-import { SaleListState, rootSaleListSaga } from './sale/sale-list';
-import { SaleItemState, rootSaleItemSaga } from './sale/sale-item';
-import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
-import { PriceState, rootPriceSaga } from './sale/price';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -87,6 +88,7 @@ export * from './sale/sale-list';
 export * from './sale/sale-item';
 export * from './sale/buy';
 export * from './sale/price';
+export * from './info/events';
 
 export interface RootState {
     airdrops: {
@@ -98,12 +100,16 @@ export interface RootState {
         saleItem: SaleItemState,
         buy: BuyState,
         price: PriceState,
-        totalBuyers: TotalBuyersState
-    }
+        totalBuyers: TotalBuyersState,
+    };
     ethFee: {
         ethFee: ETHFeeState;
         withdraw: ETHFeeWithdrawState;
     };
+    info: {
+        events: EventsState;
+    };
+
     public: {
         alerts: AlertState;
         blocklistAccess: BlocklistAccessState;
@@ -154,6 +160,7 @@ export const rootReducer = combineReducers({
     airdrops: airdropsReducer,
     ethFee: ethFeesReducer,
     sale: saleReducer,
+    info: infoReducer,
 });
 
 export function* rootSaga() {
@@ -196,6 +203,7 @@ export function* rootSaga() {
         call(rootSaleListSaga),
         call(rootSaleItemSaga),
         call(rootBuySaga),
-        call(rootPriceSaga)
+        call(rootPriceSaga),
+        call(rootEventSaga),
     ]);
 }
