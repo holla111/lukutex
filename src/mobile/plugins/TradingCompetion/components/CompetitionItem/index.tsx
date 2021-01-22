@@ -46,13 +46,14 @@ export const CompetitionItem: React.FC<CompetitionItemProps> = (props: Competiti
                     {competition_name}
                 </div>
             </div>
-            <br/>
             <div className="competition-mobile-item-bottom row">
                 <div className="competition-mobile-item-bottom__prize col-6">
-                    <p>Round prize: $7000</p>
+                    <span>Round prize</span> <br/>
+                    <span>$7000</span>
                 </div>
                 <div className="competition-mobile-item-bottom__participant col-6">
-                    <p>Participant: 267</p>
+                    <span>Participant</span> <br/>
+                    <span>267</span>
                 </div>
             </div>
 

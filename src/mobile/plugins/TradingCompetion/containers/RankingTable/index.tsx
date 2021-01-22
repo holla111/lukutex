@@ -18,17 +18,17 @@ export const RankingTable: React.FC = () => {
             render: rank => {
                 if (rank === 1) {
                     return (
-                        <img className="trading-rank__icon" src={RankOne} alt="rank 1" />
+                        <img className="trading-rank-mobile__icon" src={RankOne} alt="rank 1" />
                     )
                 }
                 if (rank === 2) {
                     return (
-                        <img className="trading-rank__icon" src={RankTwo} alt="rank 2" />
+                        <img className="trading-rank-mobile__icon" src={RankTwo} alt="rank 2" />
                     )
                 }
                 if (rank === 3) {
                     return (
-                        <img className="trading-rank__icon" src={RankThird} alt="rank 3" />
+                        <img className="trading-rank-mobile__icon" src={RankThird} alt="rank 3" />
                     )
                 }
                 return rank;
@@ -69,7 +69,7 @@ export const RankingTable: React.FC = () => {
     ];
 
     return (
-        <div id="trading-competion-ranking" className="container-fluid">
+        <div id="trading-competion-mobile-ranking" className="container-fluid">
             <div className="row">
                 <div className="col-12">
                     <Table size="large" pagination={false} dataSource={data} columns={columns} />

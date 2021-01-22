@@ -1,9 +1,10 @@
-#competition-awards {
+#competition-award-mobiles {
     margin-top: 50px;
 }
 
-.competition-award-item {
-    padding: 45px;
+.competition-award-mobile-item {
+    margin-bottom: 3rem;
+    padding: 40px 50px;
     background-image: url('../../assets/individual-award-bg-v2.png');
     background-repeat: no-repeat;
     background-position: center;

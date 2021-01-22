@@ -1,16 +1,18 @@
-.trading-rank__icon {
-    width: 3rem;
-    height: 3rem;
+.trading-rank-mobile__icon {
+    width: 2rem;
+    height: 2rem;
 }
 
-#trading-competion-ranking div div div div div div table thead tr th {
+#trading-competion-mobile-ranking div div div div div div table thead tr th {
     background-color: rgba(8, 19, 43, 0.8);
     text-align: center;
     font-weight: bold;
     color: #ffffff;
+    font-size: 0.6rem;
 }
 
-#trading-competion-ranking div div div div div div table tbody tr {
+#trading-competion-mobile-ranking div div div div div div table tbody tr {
     background-color: rgba(3, 10, 25, 0.8);
     text-align: center;
+    font-size: 0.6rem;
 }

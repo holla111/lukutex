@@ -1,60 +1,45 @@
-#competition-summary {
-    width: 1200px;
-    height: 242px;
-    padding: 50px 20px;
-    background-image: url('../../assets/summary-bg-v2.png');
+#competition-summary-mobile {
+    width: 100%;
+    height: 416px;
+    background-image: url('../../assets/bg.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
-#competition-summary .competition-summary-box {
+#competition-summary-mobile .competition-summary-mobile-box {
     margin-top: 20px;
     padding: 0 72px;
 }
 
-#competition-summary .competition-summary-box .competition-summary-participants {
-    margin-top: 1rem;
+#competition-summary-mobile .competition-summary-mobile-box .competition-summary-mobile-participants {
+    margin-top: 90px;
 }
 
-#competition-summary .competition-summary-box .competition-summary-participants__title {
-    font-size: 1.6rem;
+#competition-summary-mobile .competition-summary-mobile-box .competition-summary-mobile-participants__title {
+    font-size: 1rem;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
-#competition-summary .competition-summary-box .competition-summary-participants__number {
-    font-size: 3rem;
+#competition-summary-mobile .competition-summary-mobile-box .competition-summary-mobile-participants__number {
+    font-size: 36px;
 }
 
-#competition-summary .competition-summary-box .competition-summary-prize {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
+#competition-summary-mobile .competition-summary-mobile-box .competition-summary-mobile-prize {
+    padding-top: 1rem;
 }
 
-#competition-summary .competition-summary-box .competition-summary-prize .competition-summary-prize-pool {
-  padding-top: 1rem;
-}
-
-
-#competition-summary .competition-summary-box .competition-summary-prize-image {
+#competition-summary-mobile .competition-summary-mobile-box .competition-summary-mobile-prize-image {
     width: 96px;
     height: 96px;
 }
 
-#competition-summary .competition-summary-box .competition-summary-prize-pool .competition-summary-prize-pool__title {
-    font-size: 1.6rem;
+#competition-summary-mobile .competition-summary-mobile-box .competition-summary-mobile-prize-pool__title {
+    font-size: 1rem;
 }
 
-#competition-summary .competition-summary-box .competition-summary-prize-pool .competition-summary-prize-pool__number {
-    font-size: 3rem;
-}
-
-#competition-summary .competition-summary-box .competition-summary-state {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#competition-summary-mobile .competition-summary-mobile-box .competition-summary-mobile-prize-pool__number {
+    font-size: 36px;
 }

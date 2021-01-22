@@ -37,30 +37,30 @@ export const CompetitionAwards = () => {
     const awardImages = [TopOneImage, TopTwoImage, TopThreeImage, TopFourImage];
 
     const awardList = awards.map((award, index) => (
-        <div className="col-3 text-center competition-award-item">
-            <img style={{ width: '120px', height: '120px' }} src={awardImages[index]} alt="award-item" />
-            <h2 className="text-center" style={{ marginTop: '1rem', paddingBottom: '2rem', fontWeight: 'bold' }}>{award.rank}</h2>
+        <div className="col-12 text-center competition-award-mobile-item">
+            <img style={{ width: '100px', height: '100px' }} src={awardImages[index]} alt="award-item" />
+            <h2 className="text-center" style={{ marginTop: '1rem', paddingBottom: '1rem', fontWeight: 'bold', fontSize: '1rem' }}>{award.rank}</h2>
             <div className="text-center">
-                <h3 style={{ color: '#333' }}>{award.percent}</h3>
-                <h4 style={{ color: '#333' }}>{award.prize}</h4>
+                <h3 style={{ color: '#333', fontSize: '1rem' }}>{award.percent}</h3>
+                <h4 style={{ color: '#333', fontSize: '1rem' }}>{award.prize}</h4>
             </div>
         </div>
     ))
     return (
-        <div id="competition-awards" className="container-fluid">
+        <div id="competition-award-mobiles" className="container-fluid">
             <div className="row">
                 <div className="col-12 text-center">
-                    <img style={{ width: '150px' }} src={TopFourImage} alt="award_image" />
+                    <img style={{ width: '100px' }} src={TopFourImage} alt="award_image" />
                 </div>
             </div>
             <div className="row" style={{marginTop: '20px'}}>
-                <div className="col-4 d-flex align-items-center justify-content-end">
+                <div className="col-12 d-flex align-items-center justify-content-end">
                     <img style={{width: '200px', height: '8px'}} src={IndividualLeftImage} alt="left-line" />
                 </div>
-                <div className="col-4 d-flex align-items-center justify-content-center">
+                <div className="col-12 d-flex align-items-center justify-content-center">
                     <h3 style={{fontSize: '3rem'}}>Awards</h3>
                 </div>
-                <div className="col-4 d-flex align-items-center justify-content-start">
+                <div className="col-12 d-flex align-items-center justify-content-start">
                     <img style={{width: '222px', height: '8px'}} src={IndividualRightImage} alt="right-line" />
                 </div>
             </div>
