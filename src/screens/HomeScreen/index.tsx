@@ -11,16 +11,16 @@ import { useDispatch, useSelector } from "react-redux";
 import './style.css';
 
 
-const settings = {
-  dots: false,
-  infinite: true,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  autoplay: true,
-  speed: 4000,
-  autoplaySpeed: 3000,
-  cssEase: "linear"
-};
+// const settings = {
+//   dots: false,
+//   infinite: true,
+//   slidesToShow: 4,
+//   slidesToScroll: 1,
+//   autoplay: true,
+//   speed: 4000,
+//   autoplaySpeed: 3000,
+//   cssEase: "linear"
+// };
 const settingsEvents = {
   dots: true,
   infinite: true,
@@ -92,9 +92,9 @@ export const HomeScreen: React.FC<any> = (props: any) => {
       return (
         <div className="home-page__markets">
           <div className="container">
-            <div className="home-page__markets-main">
-              <div className="home-page__markets-main-title">
-               <MarketsTableScreen />
+            <div className="row">
+              <div className="col-12">
+              <MarketsTableScreen />
               </div>
             </div>
           </div>
@@ -195,40 +195,40 @@ export const HomeScreen: React.FC<any> = (props: any) => {
      
     }
 
-    const renderPartner = () => {
+    // const renderPartner = () => {
 
-      const Lmy = require("./Home/Partner/lmy.png");
-      const Cmc = require("./Home/Partner/cmc.jpg");
-      return (
-        <div className="home-page__partner">
-           <div className="container">
-             <div className="partner-title">Partners</div>
-            <Slider {...settings}>
-            <div className="partner-wrap">
-              <img src={Lmy}></img>
-            </div>
+    //   const Lmy = require("./Home/Partner/lmy.png");
+    //   const Cmc = require("./Home/Partner/cmc.jpg");
+    //   return (
+    //     <div className="home-page__partner">
+    //        <div className="container">
+    //          <div className="partner-title">Partners</div>
+    //         <Slider {...settings}>
+    //         <div className="partner-wrap">
+    //           <img src={Lmy}></img>
+    //         </div>
          
-            <div className="partner-wrap">
-              <img src={Cmc}></img>
-            </div>
+    //         <div className="partner-wrap">
+    //           <img src={Cmc}></img>
+    //         </div>
         
-            <div className="partner-wrap">
-              <img src={Lmy}></img>
-            </div>
-            <div className="partner-wrap">
-              <img src={Cmc}></img>
-            </div>
-            <div className="partner-wrap">
-              <img src={Lmy}></img>
-            </div >
-            <div className="partner-wrap">
-              <img src={Cmc}></img>
-            </div>
-            </Slider>
-          </div>     
-        </div>     
-      );   
-    }
+    //         <div className="partner-wrap">
+    //           <img src={Lmy}></img>
+    //         </div>
+    //         <div className="partner-wrap">
+    //           <img src={Cmc}></img>
+    //         </div>
+    //         <div className="partner-wrap">
+    //           <img src={Lmy}></img>
+    //         </div >
+    //         <div className="partner-wrap">
+    //           <img src={Cmc}></img>
+    //         </div>
+    //         </Slider>
+    //       </div>     
+    //     </div>     
+    //   );   
+    // }
 
     const actionButton = () => {
       if (props.isLoggedIn) {
@@ -253,7 +253,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
            {renderMarket()}
            {renderAboutUs()}
            {renderFeature()}
-           {renderPartner()}
+           {/* {renderPartner()} */}
         </div>
     );
 }

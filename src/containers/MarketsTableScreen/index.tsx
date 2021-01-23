@@ -34,7 +34,6 @@ const MarketsTableComponent = props => {
     const markets = useSelector(selectMarkets);
     const marketTickers = useSelector(selectMarketTickers);
     const [currentBidUnit, setCurrentBidUnit] = React.useState('');
-    console.log(markets)
 
     const handleRedirectToTrading = (id: string) => {
         const currentMarket: Market | undefined = markets.find(item => item.id === id);

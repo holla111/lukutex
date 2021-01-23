@@ -4,7 +4,7 @@ import { Decimal } from '../../components';
 import { Market } from '../../modules';
 // import Trend from 'react-trend';
 import './ticker.css'
-import { Button} from 'antd';
+import { Button, Input } from 'antd';
 
 interface Props {
   currentBidUnit: string;
@@ -17,8 +17,7 @@ interface Props {
 export const TickerTableScreen = (props: Props) => {
   const { currentBidUnit, markets } = props;
   const intl = useIntl();
-  
-  const [searchCoin, setSearchCoin] = React.useState("")
+  const [searchMarketInput, setSearchMarketInput] = React.useState('');
 
   const renderHeader = () => (
     <ul className="navigation" role="tablist">
@@ -33,20 +32,15 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </li>
       ))}
-      <div className="home-page__markets-top-block" style={{marginLeft : 724,}}>
-        <input 
-          type="text" value={searchCoin} 
-          placeholder="Search coin name..." 
-          onChange={handldeSearch}
-          />
+      <div className="home-page__markets-top-block" style={{ marginLeft: 724, }}>
+          <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
       </div>
     </ul>
   );
-  const handldeSearch = (e: any) => {
-    const result = e.target.value;
-    //console.log(result)
-    props.setCurrentBidUnit(result);
-    setSearchCoin(result)
+
+  const handldeSearchInputChange = (e: any) => {
+    props.setCurrentBidUnit('');
+    setSearchMarketInput(e.target.value);
   }
 
   const renderItem = (market, index: number) => {
@@ -83,7 +77,7 @@ export const TickerTableScreen = (props: Props) => {
             </Decimal>
           </span>
         </td>
-        
+
         <td>
           <span className={marketChangeColor}>
             <Decimal fixed={decima} thousSep=",">
@@ -92,8 +86,8 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </td>
         <td>
-          <Button type="primary" size="small" 
-            style={{marginRight: 0, fontSize: 14}}
+          <Button type="primary" size="small"
+            style={{ marginRight: 0, fontSize: 14 }}
             onClick={() => props.redirectToTrading(market.id)}
           >
             Trade
@@ -123,7 +117,7 @@ export const TickerTableScreen = (props: Props) => {
           </thead>
           <tbody>
             {markets[0] ? (
-              markets.map(renderItem)
+              markets.filter(market => market.base_unit.includes(searchMarketInput) || market.quote_unit.includes(searchMarketInput)).map(renderItem)
             ) : (
                 <tr><td><span className="no-data">{intl.formatMessage({ id: 'page.noDataToShow' })}</span></td></tr>
               )}
