@@ -25,3 +25,4 @@ export * from './MarketsTop';
 export * from './Slide';
 export * from './Directionals';
 export * from './Table';
+export * from './Pagination';
