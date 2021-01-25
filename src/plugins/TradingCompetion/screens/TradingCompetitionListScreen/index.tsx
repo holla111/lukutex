@@ -1,25 +1,21 @@
 import * as React from 'react';
-import { RankingTable, CompetitionList } from '../../containers';
-
-import './TradingCompetionListScreen.css'
+import { CompetitionList } from '../../containers';
+import './TradingCompetionListScreen.css';
 export const TradingCompetionListScreen: React.FC = () => {
     return (
-        <div id="trading-competition-list" className="container-fluid">
-            <div className="row">
-                <div className="col-12">
-                    <h1>Welcome to Trading Competition</h1>
+        <React.Fragment>
+            <div id="trading-competition-list" className="container-fluid">
+                <div className="row">
+                    <div className="col-12 text-center">
+                        <h1 className="trading-competition-list__title">Welcome to Lukutex Trading Competition!</h1>
+                        <h2 className="trading-competition-list__subtitle">The starting point for the most promising projects the cryptocurrency space has to offer.</h2>
+                    </div>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-12">
+                <div className="mt-3">
                     <CompetitionList />
                 </div>
             </div>
-            <div className="row" style={{marginTop: '50px'}}>
-                <div className="col-12">
-                    <RankingTable />
-                </div>
-            </div>
-        </div>
+        </React.Fragment>
     )
 }
+

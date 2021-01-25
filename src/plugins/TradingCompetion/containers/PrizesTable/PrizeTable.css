@@ -1,0 +1,16 @@
+.rank-icon {
+    width: 3rem;
+    height: 3rem;
+}
+
+#prize-table div div div div div div table thead tr th {
+    background-color: #1c3049;
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+#prize-table div div div div div div table tbody tr {
+    background-color: #1c3049;
+    text-align: center;
+}

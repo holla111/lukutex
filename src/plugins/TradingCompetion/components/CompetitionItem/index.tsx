@@ -1,65 +1,75 @@
-import * as React from 'react'
-
-import './CompetitionItem.css';
-
-import CaptainImage from '../../assets/captain.png';
-import PlayerImage from '../../assets/player.png';
+import * as React from 'react';
 import { useHistory } from 'react-router';
-interface CompetitionItem {
-    competition_id: number;
-    competition_name: string;
-    total_prize: number;
-    total_participants: number;
-    start_date: string;
-    end_date;
-}
+import './CompetitionItem.css';
+// import Countdown from 'react-countdown';
+import { currenciesFetch } from '../../../../modules';
+import { useDispatch } from 'react-redux';
 
-interface CompetitionItemProps {
-    competition: CompetitionItem;
-    index: number;
-}
+import GiftBoxImage from '../../assets/4th-v2.png';
+import { Button } from 'antd';
 
+// const renderer = ({ days, hours, minutes, seconds, completed }) => {
+//     if (completed) {
+//         // Render a completed state
+//         // window.location.reload(false);
+//         return <div id="sale_item__timer">
+//             <div id="days">00 <span>Days</span></div>
+//             <div id="hours">00 <span>Hours</span></div>
+//             <div id="minutes">00 <span>Mininutes</span></div>
+//             <div id="seconds">00 <span>Seconds</span></div>
+//         </div>;
+//     } else {
+//         // Render a countdown
+//         return <div id="sale_item__timer">
+//             <div id="days">{days} <span>Days</span></div>
+//             <div id="hours">{hours} <span>Hours</span></div>
+//             <div id="minutes">{minutes} <span>Mininutes</span></div>
+//             <div id="seconds">{seconds} <span>Seconds</span></div>
+//         </div>
+//     }
+// };
 
-export const CompetitionItem: React.FC<CompetitionItemProps> = (props: CompetitionItemProps) => {
-    // const {competition_name,total_prize, total_participants, start_date, end_date} = props.competition;
-    const { competition_name, competition_id } = props.competition;
-    const { index } = props;
-    const selectedImage = index % 2 == 0 ? CaptainImage : PlayerImage;
-
+export const CompetitionItem: React.FC = () => {
     const history = useHistory();
+
+    const dispatch = useDispatch();
+    const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
+
+    React.useEffect(() => {
+        dispatchcFetchCurrencies();
+    }, []);
 
     const handleDetailClick = () => {
         const location = {
-            pathname: '/trading-competition/' + competition_id
+            pathname: '/trading-competition/1'
         }
         history.push(location);
     }
-
     return (
-
-        <div id="competition-item" style={{ backgroundImage: `url(${selectedImage})` }} onClick={handleDetailClick}>
-            <div className="competition-item-top">
-                <div className="competition-item-top__date">
-                    Dec 5 - Jan 1
-                    </div>
-                <div className="competition-item-top__title">
-                    {competition_name}
+        <div className="competition-item container" onClick={handleDetailClick}>
+            <div className="row competition-item__top">
+                <div className="col-6">
+                    <img style={{ width: '26px', height: '26px' }} src="https://coinsbit.io/storage/currency/sVmRDPgDdWX6P6NVqjzIswtr3w4XQdahRwVTrvbr.png" alt="currency"/>
+                    <span style={{padding: '0.5rem 1rem', color: '#fff', fontSize: '1rem'}}>TPD</span>
+                </div>
+                <div className="col-6" style={{textAlign: 'end'}}>
+                    <span style={{backgroundColor: 'rgb(12, 157, 88)'}} className="competition-item__badge">Active</span>
                 </div>
             </div>
-            <div className="competition-item-bottom row">
-                <div className="competition-item-bottom__prize col-6">
-                    <p>Round prize</p>
-                    <p>$7000</p>
-                </div>
-                <div className="competition-item-bottom__participant col-6">
-                    <p>Participant</p>
-                    <p>267</p>
+            <div className="row competition-item__middle mt-3">
+                <div className="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <img style={{ width: '60px', height: '60px', textAlign: 'center' }} src={GiftBoxImage} alt="gift-box" />
+                    <br/>
+                    <h3>3.000 BTNYX</h3>
+                    <h4>Best prize</h4>
                 </div>
             </div>
-
-            <div className="competition-item-winner">
-                Phuochuynh
+            <div className="row competition-item__bottom mt-3">
+                <div className="col-12 text-center">
+                    <Button type="primary">Start</Button>
+                    <Button>Trade</Button>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};

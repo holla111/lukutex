@@ -1,39 +1,80 @@
-#competition-item {
-    text-align: center;
-    background-color: transparent;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem 2rem 1.4rem 2rem;
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-}
-
-#competition-item .competition-item-bottom {
-    padding: 1rem 3rem 1rem 3rem;
-}
-
-#competition-item .competition-item-top .competition-item-top__title {
-    font-size: 1.6rem;
-    font-weight: bold;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    color: #e9c46a;
-}
-
-#competition-item .competition-item-winner {
+.competition-item {
     position: relative;
+    height: 100%;
+    border: 2px solid #4B5D6C;
+    padding: 1rem 3rem;
+    background: #1A2B41;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 20px 5% 0 5%;
+    transition: all 0.3s;
 }
 
-#competition-item .competition-item-winner::before {
-    position: absolute;
-    content: '';
-    width: 25px;
-    height: 25px;
-    margin-left: -35px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('../../assets/winner.svg');
+.competition-item__badge {
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+}
+
+.competition-item:hover {
+    background: #233957;
+}
+
+.competition-item__title {
+    color: #ffff;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 24px;
+    text-transform: uppercase;
+}
+
+.competition-item__subtitle {
+    color: #a4acb6;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+#sale_item__timer #days {
+    font-size: 3rem;
+    color: #db4844;
+}
+
+#sale_item__timer #hours {
+    font-size: 3rem;
+    color: #f07c22;
+}
+
+#sale_item__timer #minutes {
+    font-size: 3rem;
+    color: #f6da74;
+}
+
+#sale_item__timer #seconds {
+    font-size: 3rem;
+    color: #abcd58;
+}
+
+#sale_item__timer {
+    display: inline-block;
+    line-height: 1;
+    padding: 20px 0;
+    font-size: 40px;
+    margin-top: 0;
+    text-align: center;
+}
+
+#sale_item__timer div {
+    display: inline-block;
+    line-height: 1;
+    padding: 0 20px;
+    font-size: 40px;
+}
+
+#sale_item__timer div span {
+    display: block;
+    font-size: 1rem;
+    color: white;
 }

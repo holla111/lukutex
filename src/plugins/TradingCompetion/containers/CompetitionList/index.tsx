@@ -1,73 +1,75 @@
-import * as React from 'react'
+import { Col, Row } from 'antd';
+import * as React from 'react';
 import { CompetitionItem } from '../../components';
-import Slider from "react-slick";
-
-import './CompetitionList.css';
-
-interface Competition {
-  competition_id: number;
-  competition_name: string;
-  total_prize: number;
-  total_participants: number;
-  start_date: string;
-  end_date;
-}
+import './CompetitionList.css'
 
 export const CompetitionList: React.FC = () => {
-  const competions: Competition[] = [
+
+
+  // // Dispatch Fetch Wallets Of User Action
+  // const dispatch = useDispatch();
+  // const dispatchActiveSaleListFetch = () => dispatch(activeSaleListFetch());
+
+  // let saleList = useSelector(selectSaleList);
+
+  // React.useEffect(() => {
+  //   // Dispatch Active Sale List Fetch in one time
+  //   dispatchActiveSaleListFetch();
+  // }, []);
+
+
+  // let saleItems;
+  // if (saleList.payload.length === 0) {
+  //   saleItems =
+  //     <div className="col-12 d-flex justify-content-center">
+  //       <Empty
+  //         image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+  //         imageStyle={{ marginTop: '3rem' }}
+  //         description={
+  //           <span>
+  //             No available competion
+  //         </span>
+  //         }
+  //       />
+  //     </div>
+  // } else {
+  //   saleItems = [...saleList.payload].map((sale => {
+  //     return (
+  //       <Col span={12} key={sale.id}>
+  //         <CompetitionItem key={sale.id} sale={sale} type={sale.type} />
+  //       </Col>
+  //     );
+  //   }))
+  // }
+
+  // React.useEffect(() => {
+  //   if (saleList.loading) {
+  //     message.loading('', 0);
+  //   } else {
+  //     message.destroy();
+  //   }
+
+  //   return function cleanup() {
+  //     message.destroy();
+  //   }
+  // }, [saleList.loading]);
+  const competitions = [
     {
-      competition_id: 1,
-      competition_name: '$10,000 in VCA Trading Competition',
-      total_prize: 200000,
-      total_participants: 552,
-      start_date: 'Dec 12',
-      end_date: 'Jan 1'
+      currency_id: 'BTC'
     }
   ];
-
-  const carouselSettings = {
-    className: 'slider',
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    adaptiveHeight: true,
-    responsive: [
-      {
-        breakpoint: 1700,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  };
-
-  const competitonListView = competions.map((competition, index) => (
-    <CompetitionItem index={index} competition={competition} />
-
-  ));
-
   return (
-    <div id="competition-list">
-      <Slider {...carouselSettings}>
-        {competitonListView}
-      </Slider>
+    <div className="container-fluid">
+      <div className="row mt-4">
+        <div className="col-12">
+          <Row gutter={[16, 16]}>{competitions.map(competition => (
+            <Col span={8}>
+              <CompetitionItem />
+            </Col>
+          ))}
+          </Row>
+        </div>
+      </div>
     </div>
   )
 }
