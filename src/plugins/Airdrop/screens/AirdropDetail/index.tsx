@@ -62,7 +62,7 @@ const detailData: AirdropDetailConfig[] = [
         id: '10',
         tasks: {
             telegram: {
-                telegramGroup: 'https://t.me/lukutex_office"',
+                telegramGroup: 'https://t.me/Lukutex_Indonesia"',
                 telegramChannel: 'https://t.me/Lukutex_News',
                 disable: false
             },
