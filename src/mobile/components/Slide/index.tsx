@@ -24,6 +24,18 @@ const SlideComponent: React.FC = ({}) => {
             </div>
         ));
 
+        if (!eventsData.length){
+            return (
+                <div className="cr-mobile-slide">
+                    <div className="cr-mobile-slide__placeholder">
+                        <div className="spinner-border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="cr-mobile-slide">
             <Slider {...settings}>
