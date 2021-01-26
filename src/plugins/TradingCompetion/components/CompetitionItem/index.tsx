@@ -6,7 +6,7 @@ import { currenciesFetch } from '../../../../modules';
 import { useDispatch } from 'react-redux';
 
 import GiftBoxImage from '../../assets/4th-v2.png';
-import { Button } from 'antd';
+import { Button, Cascader } from 'antd';
 
 // const renderer = ({ days, hours, minutes, seconds, completed }) => {
 //     if (completed) {
@@ -29,6 +29,22 @@ import { Button } from 'antd';
 //     }
 // };
 
+const options = [
+    {
+      value: 'btcusdt',
+      label: 'BTC/USDT',
+      
+    },
+    {
+      value: 'btcesc',
+      label: 'BTC/ESC',
+    },
+  ];
+  
+  function onChange(value) {
+    console.log(value);
+  }
+
 export const CompetitionItem: React.FC = () => {
     const history = useHistory();
 
@@ -46,28 +62,31 @@ export const CompetitionItem: React.FC = () => {
         history.push(location);
     }
     return (
-        <div className="competition-item container" onClick={handleDetailClick}>
-            <div className="row competition-item__top">
+        <div className="competition-item container">
+            <div className="row competition-item__top" onClick={handleDetailClick}>
                 <div className="col-6">
-                    <img style={{ width: '26px', height: '26px' }} src="https://coinsbit.io/storage/currency/sVmRDPgDdWX6P6NVqjzIswtr3w4XQdahRwVTrvbr.png" alt="currency"/>
-                    <span style={{padding: '0.5rem 1rem', color: '#fff', fontSize: '1rem'}}>TPD</span>
+                    <img style={{ width: '26px', height: '26px' }} src="https://coinsbit.io/storage/currency/sVmRDPgDdWX6P6NVqjzIswtr3w4XQdahRwVTrvbr.png" alt="currency" />
+                    <span style={{ padding: '0.5rem 1rem', color: '#fff', fontSize: '1rem' }}>TPD</span>
                 </div>
-                <div className="col-6" style={{textAlign: 'end'}}>
-                    <span style={{backgroundColor: 'rgb(12, 157, 88)'}} className="competition-item__badge">Active</span>
+                <div className="col-6" style={{ textAlign: 'end' }}>
+                    <span style={{ backgroundColor: 'rgb(12, 157, 88)' }} className="competition-item__badge">Active</span>
                 </div>
             </div>
-            <div className="row competition-item__middle mt-3">
+            <div className="row competition-item__middle mt-3" onClick={handleDetailClick}>
                 <div className="col-12 d-flex flex-column justify-content-center align-items-center">
                     <img style={{ width: '60px', height: '60px', textAlign: 'center' }} src={GiftBoxImage} alt="gift-box" />
-                    <br/>
+                    <br />
                     <h3>3.000 BTNYX</h3>
                     <h4>Best prize</h4>
                 </div>
             </div>
             <div className="row competition-item__bottom mt-3">
-                <div className="col-12 text-center">
-                    <Button type="primary">Start</Button>
-                    <Button>Trade</Button>
+               
+                <div className="col-8 text-center">
+                    <Cascader className="competition-item__bottom-select" allowClear={false} options={options} onChange={onChange} placeholder="Trade" />
+                </div>
+                <div className="col-4 text-center">
+                    <Button type="primary"  >Start</Button>
                 </div>
             </div>
         </div>

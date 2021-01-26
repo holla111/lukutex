@@ -1,4 +1,3 @@
-import { Col, Row } from 'antd';
 import * as React from 'react';
 import { CompetitionItem } from '../../components';
 import './CompetitionList.css'
@@ -56,19 +55,31 @@ export const CompetitionList: React.FC = () => {
   const competitions = [
     {
       currency_id: 'BTC'
+    },
+    {
+      currency_id: 'BTC'
+    },
+    {
+      currency_id: 'BTC'
+    },
+    {
+      currency_id: 'BTC'
+    },
+    {
+      currency_id: 'BTC'
+    },
+    {
+      currency_id: 'BTC'
     }
   ];
   return (
     <div className="container-fluid">
       <div className="row mt-4">
-        <div className="col-12">
-          <Row gutter={[16, 16]}>{competitions.map(competition => (
-            <Col span={8}>
-              <CompetitionItem />
-            </Col>
-          ))}
-          </Row>
-        </div>
+        {competitions.map(competition => (
+          <div className="col-md-4 col-xl-3 col-sm-6">
+            <CompetitionItem />
+          </div>
+        ))}
       </div>
     </div>
   )

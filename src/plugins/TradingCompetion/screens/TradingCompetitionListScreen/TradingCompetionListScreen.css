@@ -4,7 +4,6 @@
     padding-top: 2rem;
     margin-bottom: 50px;
     min-height: 100vh;
-    /* padding: 5vh 15vw 5vh 15vw; */
 }
 
 .trading-competition-list__title,
@@ -16,7 +15,7 @@
 
 .trading-competition-list__title {
     color: #ffffff;
-    line-height: 31px;
+    line-height: 50px;
     font-weight: 700;
     font-size: 3rem;
     text-align: center;
