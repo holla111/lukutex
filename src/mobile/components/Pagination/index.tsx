@@ -65,49 +65,6 @@ const PaginationComponent:React.FC<PaginationComponentComponent> = props => {
         props.onClickNextPage();
     };
 
-    const onClickToPage = (value : number | string) => {
-        if (typeof value !== 'string'){
-            props.onClickToPage(value);
-        }
-    };
-
-    const paginationList = (c : number, m : number) => {
-        const current = c;
-        const  last = m;
-        const  delta = 1;
-        const  left = current - delta;
-        const  right = current + delta + 1;
-        const  range : number[] = [];
-        const  rangeWithDots = [] as unknown as [string, number];
-        let  l = 0;
-        let temp: number;
-
-        for (let i = 1; i <= last; i++) {
-            if (i === 1 || i === last || i >= left && i < right) {
-                range.push(i);
-            }
-        }
-
-        for (const i of range) {
-            if (l) {
-                if (i - l === 2) {
-                    temp = l + 1;
-                    rangeWithDots.push(temp);
-                } else if (i - l !== 1) {
-                    rangeWithDots.push('...');
-                }
-            }
-            rangeWithDots.push(i);
-            l = i;
-        }
-
-        return rangeWithDots;
-    };
-
-    const renderElmsPg = () => paginationList(page,lastElemIndex).map((value,i) => (
-        <li className={classnames('page-item',{disabled : value === '...',active : page === value})} key={i}><a className="page-link" onClick={() => onClickToPage(value)}>{value}</a></li>
-    ));
-
     return (
         <nav className="cr-mobile-table__pagination" aria-label="Page navigation example">
             <ul className="pagination">
@@ -117,7 +74,7 @@ const PaginationComponent:React.FC<PaginationComponentComponent> = props => {
                     <span className="sr-only">Previous</span>
                     </a>
                 </li>
-                {renderElmsPg()}
+                <li className="page-item active"><a className="page-link">{page}</a></li>
                 <li className={classnames('page-item',{disabled : nextDisabled})} onClick={onClickNextPage}>
                     <a className="page-link" aria-label="Next">
                     <span aria-hidden="true">»</span>
