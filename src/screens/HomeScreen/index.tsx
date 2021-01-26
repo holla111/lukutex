@@ -4,8 +4,7 @@ import {MarketsTableScreen} from '../../containers/MarketsTableScreen';
 
 import {Row, Col } from 'react-bootstrap';
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
 import { eventFetch, selectEvents } from "../../modules";
 import { useDispatch, useSelector } from "react-redux";
 import './style.css';
@@ -21,12 +20,38 @@ import './style.css';
 //   autoplaySpeed: 3000,
 //   cssEase: "linear"
 // };
-const settingsEvents = {
-  dots: true,
+const carouselSettings = {
+  className: 'slider',
+  dots: false,
   infinite: true,
   speed: 500,
   slidesToShow: 3,
-  slidesToScroll: 3
+  slidesToScroll: 2,
+  adaptiveHeight: true,
+  centerMode: true,
+  responsive: [
+      {
+        breakpoint: 1350,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
 };
 
 export const HomeScreen: React.FC<any> = (props: any) => {
@@ -47,7 +72,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   }, []);
 
   const events = useSelector(selectEvents);
-  console.log(events)
+  console.log(events.payload)
 
   const renderBanner = ()  => {
     return (
@@ -71,13 +96,11 @@ export const HomeScreen: React.FC<any> = (props: any) => {
               </Col>
             </Row>
             <div className="landing-page__banner__bottom">
-               <Slider {...settingsEvents}>
+               <Slider {...carouselSettings}>
                 { 
-                  events.payload.map(event => {
+                [...events.payload, ...events.payload,  ...events.payload, ...events.payload, ...events.payload].map(event => {
                     return (
-                      <div key={event.event_id}>
-                        <img src={event.image_link}></img>
-                      </div>
+                        <img src={event.image_link} style={{padding: '0 50px',}} ></img>
                     )
                 })}
                </Slider>

@@ -4,8 +4,7 @@ import { Decimal } from '../../components';
 import { Market } from '../../modules';
 // import Trend from 'react-trend';
 import './ticker.css'
-import { Button, Input } from 'antd';
-
+import { Button, Input} from 'antd';
 interface Props {
   currentBidUnit: string;
   currentBidUnitsList: string[];
@@ -17,6 +16,7 @@ interface Props {
 export const TickerTableScreen = (props: Props) => {
   const { currentBidUnit, markets } = props;
   const intl = useIntl();
+  
   const [searchMarketInput, setSearchMarketInput] = React.useState('');
 
   const renderHeader = () => (
@@ -32,16 +32,16 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </li>
       ))}
-      <div className="home-page__markets-top-block" style={{ marginLeft: 724, }}>
+      <div className="home-page__markets-top-block" style={{marginLeft : 724,}}>
           <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
       </div>
     </ul>
   );
-
   const handldeSearchInputChange = (e: any) => {
     props.setCurrentBidUnit('');
     setSearchMarketInput(e.target.value);
   }
+
 
   const renderItem = (market, index: number) => {
     const marketChangeColor = +(market.change || 0) < 0 ? 'negative' : 'positive';
@@ -77,7 +77,7 @@ export const TickerTableScreen = (props: Props) => {
             </Decimal>
           </span>
         </td>
-
+        
         <td>
           <span className={marketChangeColor}>
             <Decimal fixed={decima} thousSep=",">
@@ -86,8 +86,8 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </td>
         <td>
-          <Button type="primary" size="small"
-            style={{ marginRight: 0, fontSize: 14 }}
+          <Button type="primary" size="small" 
+            style={{marginRight: 0, fontSize: 14}}
             onClick={() => props.redirectToTrading(market.id)}
           >
             Trade
