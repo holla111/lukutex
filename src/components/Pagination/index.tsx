@@ -98,21 +98,23 @@ export const Pagination: React.FC<PaginationProps> =props => {
         }
     };
     const renderElmsPg = () => paginationList(page,lastElemIndex).map((value,i) => (
-        <li className={classnames('page-item',{disabled : value === '...',active : page === value})} key={i}><a className="page-link" onClick={() => onClickToPage(value)}>{value}</a></li>
+        <li className={classnames('page-item',{disabled : value === '...',active : page === value})} key={i} style={{width: '30px', margin: '0 10px',}}>
+            <a className="page-link" onClick={() => onClickToPage(value)}>{value}</a>
+        </li>
     ));
 
 
     return(
         <nav className="cr-mobile-table__pagination" aria-label="Page navigation example">
             <ul className="pagination">
-                <li className="pagination-item" onClick={onClickPrevPage}>
+                <li className="pagination-item" onClick={onClickPrevPage} style={{width: '30px'}}>
                     <a className="page-link"  aria-label="Previous">
                     <span aria-hidden="true">«</span>
                     <span className="sr-only">Previous</span>
                     </a>
                 </li>
                 {renderElmsPg()}
-                <li className="pagination-item" onClick={onClickNextPage}>
+                <li className="pagination-item" onClick={onClickNextPage} style={{width: '30px'}}>
                     <a className="page-link" aria-label="Next">
                     <span aria-hidden="true">»</span>
                     <span className="sr-only">Next</span>
