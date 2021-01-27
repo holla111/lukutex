@@ -1,5 +1,5 @@
-import * as React from 'react';
 import classnames from 'classnames';
+import * as React from 'react';
 interface PaginationProps {
     page: number;
     /**
@@ -18,9 +18,9 @@ interface PaginationProps {
      * Next page click handler
      */
     onClickNextPage: () => void;
-    // /**
-    //  * Number shows current page index
-    //  */
+    /**
+    * Number shows current page index
+    */
     onClickToPage?: (value : number) => void;
     /**
      * Value for defining if next page exist or not
@@ -39,7 +39,7 @@ interface PaginationProps {
      */
     totalText?: string;
 }
-export const Pagination: React.FC<PaginationProps> = (props) => {
+export const Pagination: React.FC<PaginationProps> =props => {
 
     const { page, lastElemIndex,firstElemIndex } = props;
 
@@ -94,7 +94,7 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
     };
     const onClickToPage = (value : number | string) => {
         if (typeof value !== 'string'){
-            props.onClickToPage(value);
+            props.onClickToPage && props.onClickToPage(value);
         }
     };
     const renderElmsPg = () => paginationList(page,lastElemIndex).map((value,i) => (
@@ -121,5 +121,5 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
             </ul>
         </nav>
     );
-  
+
 };

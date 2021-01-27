@@ -1,10 +1,10 @@
+import { Button, Input} from 'antd';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import {Pagination} from '../';
 import { Decimal } from '../../components';
 import { Market } from '../../modules';
-import {Pagination} from '../';
-import './ticker.css'
-import { Button, Input} from 'antd';
+import './ticker.css';
 
 interface Props {
   currentBidUnit: string;
@@ -14,18 +14,20 @@ interface Props {
   setCurrentBidUnit: (key: string) => void;
 }
 
+
 export const TickerTableScreen = (props: Props) => {
-  const { currentBidUnit, markets } = props;
+  const { currentBidUnit } = props;
+  const markets = [...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets];
   const intl = useIntl();
-  
+
   const [searchMarketInput, setSearchMarketInput] = React.useState('');
   const [pagination, setPagination] = React.useState({
     current: 1,
     pageSize: 10,
     total: 0,
-  })
+  });
   const [tableFilterPagination,setTableFilterPagination] = React.useState<Market[]>([]);
-  console.log(tableFilterPagination)
+  console.log(tableFilterPagination);
   const renderHeader = () => (
     <ul className="navigation" role="tablist">
       {props.currentBidUnitsList.map((item, i) => (
@@ -39,7 +41,7 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </li>
       ))}
-      <div className="home-page__markets-top-block" style={{marginLeft : 764,}}>
+      <div className="home-page__markets-top-block" style={{marginLeft : 764}}>
           <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
       </div>
     </ul>
@@ -47,17 +49,16 @@ export const TickerTableScreen = (props: Props) => {
   const handldeSearchInputChange = (e: any) => {
     props.setCurrentBidUnit('');
     setSearchMarketInput(e.target.value);
-  }
+  };
 
   React.useEffect(() => {
     if (markets){
-        actionFilterPage();
         setPagination(prev => ({
                 ...prev,
                 total : markets.length,
         }));
     }
-  },[markets]);
+  },[markets.length]);
 
   React.useEffect(() => {
       actionFilterPage();
@@ -70,16 +71,18 @@ export const TickerTableScreen = (props: Props) => {
 
   const renderPagination = () => {
     const {current,pageSize,total} = pagination;
+
     return(
-      <Pagination onClickToPage={onClickToPage}  
-        page={current} 
-        onClickNextPage={onClickNextPage} 
-        onClickPrevPage={onClickPrevPage} 
-        firstElemIndex={1} 
-        lastElemIndex={Math.ceil(total / pageSize)} 
+      <Pagination onClickToPage={onClickToPage}
+        page={current}
+        onClickNextPage={onClickNextPage}
+        onClickPrevPage={onClickPrevPage}
+        firstElemIndex={1}
+        lastElemIndex={Math.ceil(total / pageSize)}
       />
     );
-  }
+
+  };
   const onClickPrevPage = () => {
     setPagination(prev => ({
         ...prev,
@@ -102,6 +105,7 @@ const onClickToPage = (value : number) => {
   const renderItem = (market, index: number) => {
     const marketChangeColor = +(market.change || 0) < 0 ? 'negative' : 'positive';
     const decima = 4;
+
     return (
       <tr key={index} onClick={() => props.redirectToTrading(market.id)}>
         <td>
@@ -133,7 +137,6 @@ const onClickToPage = (value : number) => {
             </Decimal>
           </span>
         </td>
-        
         <td>
           <span className={marketChangeColor}>
             <Decimal fixed={decima} thousSep=",">
@@ -142,7 +145,7 @@ const onClickToPage = (value : number) => {
           </span>
         </td>
         <td>
-          <Button type="primary" size="small" 
+          <Button type="primary" size="small"
             style={{marginRight: 0, fontSize: 14}}
             onClick={() => props.redirectToTrading(market.id)}
           >
@@ -172,8 +175,8 @@ const onClickToPage = (value : number) => {
             </tr>
           </thead>
           <tbody>
-            {markets[0] ? (
-              markets.filter(market => market.base_unit.includes(searchMarketInput) || market.quote_unit.includes(searchMarketInput)).map(renderItem)
+            {tableFilterPagination ? (
+              tableFilterPagination.filter(market => market.base_unit.includes(searchMarketInput) || market.quote_unit.includes(searchMarketInput)).map(renderItem)
             ) : (
                 <tr><td><span className="no-data">{intl.formatMessage({ id: 'page.noDataToShow' })}</span></td></tr>
               )}
