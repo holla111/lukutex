@@ -19,9 +19,9 @@ const SlideComponent: React.FC = ({}) => {
         const eventsData = useSelector(selectEvents).payload;
 
         const renderElms = (paramsEventsDat: EventItem[]) => paramsEventsDat.map((event, i) => (
-            <div key={i}>
+            <a href={event.ref_link} key={i}>
                 <img src={event.image_link} alt={event.description}/>
-            </div>
+            </a>
         ));
 
         if (!eventsData.length){
