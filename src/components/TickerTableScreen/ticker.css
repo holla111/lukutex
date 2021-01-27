@@ -1,10 +1,20 @@
-/* .home-page__markets-top-block input {
-    width: 230px;
-    border: 1px solid #295e9f;
-    padding: 6px 16px;
-    font-size: 14px;
-    color: #fff;
-    outline: none;
-    background: #1d3863;
-    border-radius: 4px;
-} */
+.positive {
+    color: var(--system-green);
+  }
+
+.negative {
+    color: var(--system-red);
+}
+
+.pg-ticker-table__pagination {
+    border-top: 1px solid;
+    text-align: center;
+    margin: 12px 0;
+    padding: 12px 0 0;
+}
+.cr-mobile-table__pagination {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

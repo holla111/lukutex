@@ -1,6 +1,7 @@
 import * as React from 'react';
-
+import classnames from 'classnames';
 interface PaginationProps {
+    page: number;
     /**
      * Number shows first element index in pagination
      */
@@ -17,14 +18,14 @@ interface PaginationProps {
      * Next page click handler
      */
     onClickNextPage: () => void;
-    /**
-     * Number shows current page index
-     */
-    page: number;
+    // /**
+    //  * Number shows current page index
+    //  */
+    onClickToPage?: (value : number) => void;
     /**
      * Value for defining if next page exist or not
      */
-    nextPageExists: boolean;
+    nextPageExists?: boolean;
     /**
      * Number shows total amount of elements
      */
@@ -38,129 +39,87 @@ interface PaginationProps {
      */
     totalText?: string;
 }
+export const Pagination: React.FC<PaginationProps> = (props) => {
 
+    const { page, lastElemIndex,firstElemIndex } = props;
 
-interface PreviousIconProps {
-    /**
-     * Value for defining if previous page disabled
-     */
-    disabled: boolean;
-}
-/**
- * PreviousIcon functional component
- */
-const PreviousIcon: React.FunctionComponent<PreviousIconProps> = ({ disabled }) => {
-    return (
-        <svg width="22" height="24" viewBox="0 0 22 24" fill="#878D9A" xmlns="http://www.w3.org/2000/svg">
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M14.0545 7.4L12.7782 6L7.30853 12L12.7782 18L14.0545 16.6L9.86105 12L14.0545 7.4Z"
-                fill={`${disabled ? 'var(--pagination-disabled)' : 'var(--pagination-active)'}`}
-                fillOpacity={`${disabled ? '0.5' : ''}`}
-            />
-        </svg>
-    );
-};
+    const prevDisabled = page === firstElemIndex;
+    const nextDisabled = page === lastElemIndex;
 
-interface NextPageIconProps {
-    /**
-     * Value for defining if previous page disabled
-     */
-    disabled: boolean;
-}
-/**
- * NextPageIcon functional component
- */
-const NextPageIcon: React.FunctionComponent<NextPageIconProps> = ({ disabled }) => {
-    return (
-        <svg width="23" height="24" viewBox="0 0 23 24" fill="#878D9A" xmlns="http://www.w3.org/2000/svg">
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M8.61279 7.4L9.88905 6L15.3587 12L9.88905 18L8.61279 16.6L12.8062 12L8.61279 7.4Z"
-                fill={`${disabled ? 'var(--pagination-disabled)' : 'var(--pagination-active)'}`}
-                fillOpacity={`${disabled ? '0.5' : ''}`}
-            />
-        </svg>
-    );
-};
-
-/**
- * Pagination component helper for tables
- */
-class Pagination extends React.Component<PaginationProps> {
-    public renderInfoElement = () => {
-        const {
-            firstElemIndex,
-            lastElemIndex,
-            separator,
-            total,
-            totalText,
-        } = this.props;
-
-        if (total) {
-            return (
-                <p>
-                    <span>{firstElemIndex}</span>
-                    <span>{separator || ' - '}</span>
-                    <span>{lastElemIndex}</span>
-                    <span>{totalText || ' of '}</span>
-                    <span>{total}</span>
-                </p>
-            );
-        }
-
-        return (
-            <p>
-                <span>{firstElemIndex}</span>
-                <span>{separator || ' - '}</span>
-                <span>{lastElemIndex}</span>
-            </p>
-        );
-    };
-
-    public render() {
-        const {page, nextPageExists } = this.props;
-        const prevDisabled = page === 0;
-        const nextDisabled = !nextPageExists;
-
-        return (
-            <div className="pg-history-elem__pagination">
-                {this.renderInfoElement()}
-                <button
-                    className="pg-history__pagination-prev"
-                    onClick={this.onClickPrevPage}
-                    disabled={prevDisabled}
-                >
-                    <PreviousIcon disabled={prevDisabled}/>
-                </button>
-                <button
-                    className="pg-history__pagination-next"
-                    onClick={this.onClickNextPage}
-                    disabled={nextDisabled}
-                >
-                    <NextPageIcon disabled={nextDisabled}/>
-                </button>
-            </div>
-        );
-    }
-
-    private onClickPrevPage = () => {
-        if (this.props.page === 0) {
+     const onClickPrevPage = () => {
+        if (prevDisabled) {
             return;
         }
-        this.props.onClickPrevPage();
+        props.onClickPrevPage();
     };
 
-    private onClickNextPage = () => {
-        if (!this.props.nextPageExists) {
+    const onClickNextPage = () => {
+        if (nextDisabled) {
             return;
         }
-        this.props.onClickNextPage();
+        props.onClickNextPage();
     };
-}
 
-export {
-    Pagination,
+    const paginationList = (c : number, m : number) => {
+        const current = c;
+        const  last = m;
+        const  delta = 1;
+        const  left = current - delta;
+        const  right = current + delta + 1;
+        const  range : number[] = [];
+        const  rangeWithDots = [] as unknown as [string, number];
+        let  l = 0;
+        let temp: number;
+
+        for (let i = 1; i <= last; i++) {
+            if (i === 1 || i === last || i >= left && i < right) {
+                range.push(i);
+            }
+        }
+
+        for (const i of range) {
+            if (l) {
+                if (i - l === 2) {
+                    temp = l + 1;
+                    rangeWithDots.push(temp);
+                } else if (i - l !== 1) {
+                    rangeWithDots.push('...');
+                }
+            }
+            rangeWithDots.push(i);
+            l = i;
+        }
+
+        return rangeWithDots;
+    };
+    const onClickToPage = (value : number | string) => {
+        if (typeof value !== 'string'){
+            props.onClickToPage(value);
+        }
+    };
+    const renderElmsPg = () => paginationList(page,lastElemIndex).map((value,i) => (
+        <li className={classnames('page-item',{disabled : value === '...',active : page === value})} key={i}><a className="page-link" onClick={() => onClickToPage(value)}>{value}</a></li>
+    ));
+
+
+    return(
+        <nav className="cr-mobile-table__pagination" aria-label="Page navigation example">
+            <ul className="pagination">
+                <li className="pagination-item" onClick={onClickPrevPage}>
+                    <a className="page-link"  aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                    <span className="sr-only">Previous</span>
+                    </a>
+                </li>
+                {renderElmsPg()}
+                <li className="pagination-item" onClick={onClickNextPage}>
+                    <a className="page-link" aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                    <span className="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    );
+  
 };

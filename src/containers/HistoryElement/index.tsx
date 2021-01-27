@@ -88,7 +88,7 @@ class HistoryComponent extends React.Component<Props> {
     }
 
     public renderContent = () => {
-        const { type, firstElemIndex, lastElemIndex, page, nextPageExists } = this.props;
+        const { type, firstElemIndex, lastElemIndex, page,  nextPageExists } = this.props;
 
         return (
             <React.Fragment>
@@ -97,7 +97,7 @@ class HistoryComponent extends React.Component<Props> {
                     firstElemIndex={firstElemIndex}
                     lastElemIndex={lastElemIndex}
                     page={page}
-                    nextPageExists={nextPageExists}
+                    nextPageExists={nextPageExists}                    
                     onClickPrevPage={this.onClickPrevPage}
                     onClickNextPage={this.onClickNextPage}
                 />

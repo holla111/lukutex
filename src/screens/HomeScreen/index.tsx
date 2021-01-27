@@ -7,61 +7,24 @@ import Slider from "react-slick";
 
 import { eventFetch, selectEvents } from "../../modules";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  AppleFilled,
+  AndroidFilled
+} from '@ant-design/icons';
+
 import './style.css';
 
-
-// const settings = {
-//   dots: false,
-//   infinite: true,
-//   slidesToShow: 4,
-//   slidesToScroll: 1,
-//   autoplay: true,
-//   speed: 4000,
-//   autoplaySpeed: 3000,
-//   cssEase: "linear"
-// };
-const carouselSettings = {
-  className: 'slider',
-  dots: false,
+const settingEvents = {
+  dots: true,
   infinite: true,
   speed: 500,
   slidesToShow: 3,
-  slidesToScroll: 2,
+  slidesToScroll: 3,
   adaptiveHeight: true,
-  centerMode: true,
-  responsive: [
-      {
-        breakpoint: 1350,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+  // centerMode: true,
 };
 
 export const HomeScreen: React.FC<any> = (props: any) => {
-
-  const FeaturesExchangeIcon = require('../../assets/images/landing/features/Exchange.svg');
-  const FeaturesCustomizeIcon = require('../../assets/images/landing/features/Customize.svg');
-  const FeaturesCommunityIcon = require('../../assets/images/landing/features/Community.svg');
-  const FeaturesAPIIcon = require('../../assets/images/landing/features/API.svg');
-  //state
-  // const [listEvents, setListEvents] = React.useState<any>([]);
 
   const dispatch = useDispatch();
   const dispatchFetchEvents = () => dispatch(eventFetch());
@@ -96,12 +59,16 @@ export const HomeScreen: React.FC<any> = (props: any) => {
               </Col>
             </Row>
             <div className="landing-page__banner__bottom">
-               <Slider {...carouselSettings}>
+               <Slider {...settingEvents}>
                 { 
                 [...events.payload, ...events.payload,  ...events.payload, ...events.payload, ...events.payload].map(event => {
-                    return (
-                        <img src={event.image_link} style={{padding: '0 50px',}} ></img>
-                    )
+                  return (
+                    <div key={event.event_id} style={{width: "374px", height: "130px"}}>
+                      <Link to="#">
+                        <img src={event.image_link}></img>
+                      </Link>
+                    </div>
+                  )
                 })}
                </Slider>
             </div>
@@ -158,125 +125,65 @@ export const HomeScreen: React.FC<any> = (props: any) => {
     }
     // 
     const renderFeature = () => {
-      const ios = require("./Home/IOS.png");
-      const android = require("./Home/GooglePlay.png");
-      return (
-
-        <div className="pg-landing-screen__market-feature">
+      const Image = require("./Home/feature.png");
+     return (
+        <div className="homepage__feature" style={{paddingBottom: '72px'}}>
           <div className="container">
-          <div className="pg-landing-screen__market-feature__wrap">
-            <div className="pg-landing-screen__market-feature__wrap__left">
-              <div className="item-feature">
-                <div><img src={FeaturesCustomizeIcon} alt="Screen" /></div>
-                <div>
-                  <h4>User-friendly</h4>
-                  <span>Tutorial, Process Guidance, We know how you feel on the first time investment.</span>
-                </div>
-              </div>
-              <div className="item-feature">
-                <div><img src={FeaturesExchangeIcon} alt="Exchange" /></div>
-                <div>
-                  <h4>Flexible Order</h4>
-                  <span>Fast Redeem,Instant Buy; Market/Limit/Profit&Loss, Multi-Trading Types</span>
-                </div>
-              </div>
-              <div className="item-feature">
-                <div><img src={FeaturesAPIIcon} alt="Bank" /></div>
-                <div>
-                  <h4>LuKuTex Bank</h4>
-                  <span>LuKuTex Bank investment service,highest profit of 15% with daily interest.</span>
-                </div>
-              </div>
-              <div className="item-feature">
-                <div><img src={FeaturesCommunityIcon} alt="Device" /></div>
-                <div>
-                  <h4>Devices Covered</h4>
-                  <span>Whenever there is a network, you can manage your crypto assets with Web/iOS/Android everywhere</span>
-                </div>
+            <div className="pc-index-downlod-title">
+              <h3 className="pc-index-download-tit">Trade anytime, anywhere.</h3>
+              <div className="pc-index-download-con">
+                <p>Download the LukuTex App, start your trading journey today.</p>
               </div>
             </div>
-  
-            <div className="pg-landing-screen__market-feature__wrap__right">
-              <div className="item-mobile__title">LuKuTex Exchange is live now</div>
-              {actionButton()}
-  
-              <div className="item-mobile__mobile">
-                <div className="item-mobile__title version-mobile">
-                  Mobile Version comming soon !!!
+            <div className="pc-index-download">
+              <div className="pc-index-download-pic" style={{backgroundImage: 'url(' + Image + ')', backgroundRepeat: 'no-repeat'}}></div>
+              <div className="download-box">
+                <div className="title title-active">iOS</div>
+                <div className="download-ios">
+                  <div className="download-btn-ios download-appstore-active">
+                    <AppleFilled />
+                    <div className="download-ios-title">
+                      <p>Download on the</p>
+                      <p>Apple Store</p>
+                    </div>
+                  </div>
+                  <div className="download-btn-ios download-btn-right download-active">
+                    <AppleFilled />
+                    <div className="download-ios-title">
+                      <p>Download for</p>
+                      <p>iOS</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="item-mobile__mobile-logo">
-                  <img src={ios} alt="" />
-                  <img src={android} alt="" />
-                </div>
+                <div className="title">Android</div>
+                  <div className="download-Android">
+                    <div className="download-btn-android download-btn-googlePlay">
+                      <AndroidFilled />
+                      <div className="download-ios-title">
+                        <p>GET IT ON</p>
+                        <p>Google play</p>
+                      </div>
+                    </div>
+                    <div className="download-btn-android download-btn-right download-active">
+                      <AndroidFilled />
+                      <div className="download-ios-title">
+                        <p>Download for</p>
+                        <p>Android</p>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>
-          </div>
-         
         </div>
-      );
-     
+     );
     }
-
-    // const renderPartner = () => {
-
-    //   const Lmy = require("./Home/Partner/lmy.png");
-    //   const Cmc = require("./Home/Partner/cmc.jpg");
-    //   return (
-    //     <div className="home-page__partner">
-    //        <div className="container">
-    //          <div className="partner-title">Partners</div>
-    //         <Slider {...settings}>
-    //         <div className="partner-wrap">
-    //           <img src={Lmy}></img>
-    //         </div>
-         
-    //         <div className="partner-wrap">
-    //           <img src={Cmc}></img>
-    //         </div>
-        
-    //         <div className="partner-wrap">
-    //           <img src={Lmy}></img>
-    //         </div>
-    //         <div className="partner-wrap">
-    //           <img src={Cmc}></img>
-    //         </div>
-    //         <div className="partner-wrap">
-    //           <img src={Lmy}></img>
-    //         </div >
-    //         <div className="partner-wrap">
-    //           <img src={Cmc}></img>
-    //         </div>
-    //         </Slider>
-    //       </div>     
-    //     </div>     
-    //   );   
-    // }
-
-    const actionButton = () => {
-      if (props.isLoggedIn) {
-        return (
-          <Link to="/trade" className="register-button">
-            Trade Now
-          </Link>
-        );
-      }
-      else {
-        return (
-          <Link to="/signup" className="register-button button-rigister">
-            Register Account
-          </Link>
-        );
-      }
-    }
-
     return (
         <div className="home-page">
            {renderBanner()}
            {renderMarket()}
            {renderAboutUs()}
            {renderFeature()}
-           {/* {renderPartner()} */}
         </div>
     );
 }

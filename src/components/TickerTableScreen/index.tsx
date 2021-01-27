@@ -2,9 +2,10 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Decimal } from '../../components';
 import { Market } from '../../modules';
-// import Trend from 'react-trend';
+import {Pagination} from '../';
 import './ticker.css'
 import { Button, Input} from 'antd';
+
 interface Props {
   currentBidUnit: string;
   currentBidUnitsList: string[];
@@ -18,7 +19,13 @@ export const TickerTableScreen = (props: Props) => {
   const intl = useIntl();
   
   const [searchMarketInput, setSearchMarketInput] = React.useState('');
-
+  const [pagination, setPagination] = React.useState({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+  })
+  const [tableFilterPagination,setTableFilterPagination] = React.useState<Market[]>([]);
+  console.log(tableFilterPagination)
   const renderHeader = () => (
     <ul className="navigation" role="tablist">
       {props.currentBidUnitsList.map((item, i) => (
@@ -32,7 +39,7 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </li>
       ))}
-      <div className="home-page__markets-top-block" style={{marginLeft : 724,}}>
+      <div className="home-page__markets-top-block" style={{marginLeft : 764,}}>
           <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
       </div>
     </ul>
@@ -42,6 +49,55 @@ export const TickerTableScreen = (props: Props) => {
     setSearchMarketInput(e.target.value);
   }
 
+  React.useEffect(() => {
+    if (markets){
+        actionFilterPage();
+        setPagination(prev => ({
+                ...prev,
+                total : markets.length,
+        }));
+    }
+  },[markets]);
+
+  React.useEffect(() => {
+      actionFilterPage();
+  },[pagination]);
+
+  const actionFilterPage = () => {
+      const start = (pagination.pageSize * pagination.current) - pagination.pageSize;
+      setTableFilterPagination(markets.slice(start , start + pagination.pageSize));
+  };
+
+  const renderPagination = () => {
+    const {current,pageSize,total} = pagination;
+    return(
+      <Pagination onClickToPage={onClickToPage}  
+        page={current} 
+        onClickNextPage={onClickNextPage} 
+        onClickPrevPage={onClickPrevPage} 
+        firstElemIndex={1} 
+        lastElemIndex={Math.ceil(total / pageSize)} 
+      />
+    );
+  }
+  const onClickPrevPage = () => {
+    setPagination(prev => ({
+        ...prev,
+        current : prev.current - 1,
+    }));
+};
+const onClickNextPage = () => {
+    setPagination(prev => ({
+        ...prev,
+        current : prev.current + 1,
+    }));
+};
+const onClickToPage = (value : number) => {
+    setPagination(prev => ({
+        ...prev,
+        current : value,
+    }));
+};
 
   const renderItem = (market, index: number) => {
     const marketChangeColor = +(market.change || 0) < 0 ? 'negative' : 'positive';
@@ -123,6 +179,9 @@ export const TickerTableScreen = (props: Props) => {
               )}
           </tbody>
         </table>
+        <div className="pg-ticker-table__pagination">
+          {renderPagination()}
+        </div>
       </div>
     </div>
   );
