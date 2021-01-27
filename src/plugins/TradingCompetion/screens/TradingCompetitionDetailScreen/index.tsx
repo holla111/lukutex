@@ -35,16 +35,23 @@ import * as React from 'react';
 import { CompetitionInfo, PrizeTable } from '../../containers';
 import './TradingCompetitionDetailScreen.css';
 import { Col, Row } from 'antd';
+import { RankingTable } from '../../containers';
 
 export const TradingCompetitionDetailScreen: React.FC = () => {
     return (
         <div id="trading-competition-detail-screen">
             <div id="trading-competition-detail__info" className="container-fluid">
-                <Row gutter={[16, 16]}>
-                    <Col span={12}><CompetitionInfo /></Col>
-                    <Col span={12}><PrizeTable /></Col>
-                </Row>
-
+                <div className="col-12">
+                    <Row gutter={[16, 16]}>
+                        <Col span={12}><CompetitionInfo /></Col>
+                        <Col span={12}><PrizeTable /></Col>
+                    </Row>
+                </div>
+            </div>
+            <div id="trading-competition-detail__ranks" className="container-fluid">
+                <div className="col-12">
+                    <RankingTable />
+                </div>
             </div>
         </div>
     );

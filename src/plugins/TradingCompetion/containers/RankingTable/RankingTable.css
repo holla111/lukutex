@@ -3,14 +3,14 @@
     height: 3rem;
 }
 
-#trading-competion-ranking div div div div div div table thead tr th {
-    background-color: rgba(8, 19, 43, 0.8);
+#trading-competition-ranking div div div div table thead tr th {
+    background-color: #1f3652;
     text-align: center;
     font-weight: bold;
     color: #ffffff;
 }
 
-#trading-competion-ranking div div div div div div table tbody tr {
-    background-color: rgba(3, 10, 25, 0.8);
+#trading-competition-ranking div div div div table tbody tr {
+    background-color: #1c3049;
     text-align: center;
 }

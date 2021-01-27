@@ -40,11 +40,6 @@ export const RankingTable: React.FC = () => {
             key: 'uid',
         },
         {
-            title: 'Trades',
-            dataIndex: 'trades',
-            key: 'trades',
-        },
-        {
             title: 'Volume',
             dataIndex: 'volumn',
             key: 'volumn',
@@ -55,13 +50,11 @@ export const RankingTable: React.FC = () => {
         {
             ranking: 1,
             uid: 'Crypto9999',
-            trades: 9453,
             volumn: 114.371
         },
         {
             ranking: 2,
             uid: 'Crypto9999',
-            trades: 9453,
             volumn: 114.371
         },
 
@@ -69,12 +62,8 @@ export const RankingTable: React.FC = () => {
     ];
 
     return (
-        <div id="trading-competion-ranking" className="container-fluid">
-            <div className="row">
-                <div className="col-12">
+        <div id="trading-competition-ranking">
                     <Table size="large" pagination={false} dataSource={data} columns={columns} />
-                </div>
-            </div>
         </div>
     )
 }

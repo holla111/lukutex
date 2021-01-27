@@ -1,4 +1,5 @@
-#trading-competition-detail__info {
+#trading-competition-detail__info,
+#trading-competition-detail__ranks {
     position: relative;
     background-color: #192b41;
     margin-bottom: 50px;
