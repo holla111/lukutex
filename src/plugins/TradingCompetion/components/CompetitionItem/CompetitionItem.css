@@ -4,7 +4,7 @@
     background: #1A2B41;
     border-radius: 10px;
     cursor: pointer;
-    margin: 20px 5% 0 5%;
+    margin: 5px 5% 0 5%;
     transition: all 0.3s;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .competition-item:hover {
-    background: #233957;
+    background: #263d5e;
 }
 
 .competition-item__title {

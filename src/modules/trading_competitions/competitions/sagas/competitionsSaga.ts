@@ -1,29 +1,19 @@
 import { put } from 'redux-saga/effects';
-import { CompetitionItem } from '../types';
+import { Competition } from '../types';
 // import { API, RequestOptions } from '../../../../../api';
 import pluginsAPI from '../../../../plugins/api/index';
 
 import {
-    competitionsListData,
-    competitionsListError,
-    ActiveCompetionsListFetch,
-    EndedCompetionsListFetch,
+    CompetionListFetch,
+    competitionListData,
+    competitionListError,
 } from '../actions';
 
-export function* activeCompetionsListSaga(action: ActiveCompetionsListFetch) {
+export function* competionsListFetchSaga(action: CompetionListFetch) {
     try {
-        const competitionsList = yield pluginsAPI.get<CompetitionItem[]>('trading-competition/fetch/active');
-        yield put(competitionsListData(competitionsList.data));
+        const competitionsList = yield pluginsAPI.get<Competition[]>('competitions/fetch/all');
+        yield put(competitionListData(competitionsList.data));
     } catch (error) {
-        yield put(competitionsListError(error));
-    }
-}
-
-export function* endedCompetionsListSaga(action: EndedCompetionsListFetch) {
-    try {
-        const competitionsList = yield pluginsAPI.get<CompetitionItem[]>('trading-competition/fetch/ended');
-        yield put(competitionsListData(competitionsList.data));
-    } catch (error) {
-        yield put(competitionsListError(error));
+        yield put(competitionListError(error));
     }
 }

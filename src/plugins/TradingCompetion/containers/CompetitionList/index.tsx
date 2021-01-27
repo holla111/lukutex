@@ -1,4 +1,7 @@
+import { message } from 'antd';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { competionListFetch, selectCompetionsList } from '../../../../modules';
 import { CompetitionItem } from '../../components';
 import './CompetitionList.css'
 
@@ -6,78 +9,49 @@ export const CompetitionList: React.FC = () => {
 
 
   // // Dispatch Fetch Wallets Of User Action
-  // const dispatch = useDispatch();
-  // const dispatchActiveSaleListFetch = () => dispatch(activeSaleListFetch());
+  const dispatch = useDispatch();
+  const dispatchCompetitionListFetch = () => dispatch(competionListFetch());
 
-  // let saleList = useSelector(selectSaleList);
+  const competitions = useSelector(selectCompetionsList);
+  console.log(competitions);
 
-  // React.useEffect(() => {
-  //   // Dispatch Active Sale List Fetch in one time
-  //   dispatchActiveSaleListFetch();
-  // }, []);
+  React.useEffect(() => {
+    // Dispatch Active Competition List Fetch in one time
+    dispatchCompetitionListFetch();
+  }, []);
 
-
-  // let saleItems;
-  // if (saleList.payload.length === 0) {
-  //   saleItems =
-  //     <div className="col-12 d-flex justify-content-center">
-  //       <Empty
-  //         image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-  //         imageStyle={{ marginTop: '3rem' }}
-  //         description={
-  //           <span>
-  //             No available competion
-  //         </span>
-  //         }
-  //       />
-  //     </div>
-  // } else {
-  //   saleItems = [...saleList.payload].map((sale => {
-  //     return (
-  //       <Col span={12} key={sale.id}>
-  //         <CompetitionItem key={sale.id} sale={sale} type={sale.type} />
-  //       </Col>
-  //     );
-  //   }))
-  // }
-
-  // React.useEffect(() => {
-  //   if (saleList.loading) {
-  //     message.loading('', 0);
-  //   } else {
-  //     message.destroy();
-  //   }
-
-  //   return function cleanup() {
-  //     message.destroy();
-  //   }
-  // }, [saleList.loading]);
-  const competitions = [
-    {
-      currency_id: 'BTC'
-    },
-    {
-      currency_id: 'BTC'
-    },
-    {
-      currency_id: 'BTC'
-    },
-    {
-      currency_id: 'BTC'
-    },
-    {
-      currency_id: 'BTC'
-    },
-    {
-      currency_id: 'BTC'
+  React.useEffect(() => {
+    if (competitions.loading) {
+      message.loading('', 0);
+    } else {
+      message.destroy();
     }
-  ];
+
+    return function cleanup() {
+      message.destroy();
+    }
+  }, [competitions.loading]);
+
   return (
     <div className="container-fluid">
       <div className="row mt-4 d-flex justify-content-center">
-        {competitions.map(competition => (
+        {competitions.payload.ongoing.map(competition => (
           <div className="col-md-4 col-xl-3 col-sm-6">
-            <CompetitionItem />
+            <CompetitionItem competition={competition} type="ongoing" />
+          </div>
+        ))}
+      </div>
+      <div className="row mt-4 d-flex justify-content-center">
+        {competitions.payload.upcoming.map(competition => (
+          <div className="col-md-4 col-xl-3 col-sm-6">
+            <CompetitionItem competition={competition} type="upcoming" />
+          </div>
+        ))}
+      </div>
+      <div className="row mt-4 d-flex justify-content-center">
+        {competitions.payload.ended.map(competition => (
+          <div className="col-md-4 col-xl-3 col-sm-6">
+            <CompetitionItem competition={competition} type="ended" />
           </div>
         ))}
       </div>

@@ -63,7 +63,19 @@ export const RankingTable: React.FC = () => {
 
     return (
         <div id="trading-competition-ranking">
-                    <Table size="large" pagination={false} dataSource={data} columns={columns} />
+            <div className="row">
+                <div className="col-6">
+                    <h3 style={{textAlign: 'start'}}>Top 10 Rankings</h3>
+                </div>
+                <div className="col-6">
+                    <h3 style={{textAlign: 'end'}}>Your rank: 26</h3>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-12">
+                    <Table size="small" pagination={false} dataSource={data} columns={columns} />
+                </div>
+            </div>
         </div>
     )
 }
