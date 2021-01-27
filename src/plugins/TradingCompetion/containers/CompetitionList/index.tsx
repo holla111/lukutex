@@ -74,7 +74,7 @@ export const CompetitionList: React.FC = () => {
   ];
   return (
     <div className="container-fluid">
-      <div className="row mt-4">
+      <div className="row mt-4 d-flex justify-content-center">
         {competitions.map(competition => (
           <div className="col-md-4 col-xl-3 col-sm-6">
             <CompetitionItem />
