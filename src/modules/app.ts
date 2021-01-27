@@ -50,6 +50,7 @@ import { saleItemReducer } from './sale/sale-item';
 import { buyReducer, totalBuyersReducer } from './sale/buy';
 import { priceReducer } from './sale/price';
 import { rankingsReducer } from './trading_competitions/rankings';
+import { competitionsListReducer } from './trading_competitions/competitions';
 
 export const airdropsReducer = combineReducers({
     airdrops: airdropReducer,
@@ -70,6 +71,7 @@ export const saleReducer = combineReducers({
 });
 
 export const tradingCompetitionsReducer = combineReducers({
+    competitions: competitionsListReducer,
     rankings: rankingsReducer
 })
 
