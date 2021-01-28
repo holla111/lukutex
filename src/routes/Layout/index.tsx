@@ -64,7 +64,7 @@ import {
     EmailVerificationScreen,
     ForgotPasswordScreen,
     HistoryScreen,
-    LandingScreen,
+    /* LandingScreen, */
     MagicLink,
     MaintenanceScreen,
     OrdersTabScreen,
@@ -283,8 +283,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route path="/404" component={RestrictedScreen} />
                     <Route path="/500" component={MaintenanceScreen} />
                     <Route exact={false} path="/trading/:market?" component={TradingScreen} />
-                    <Route exact={true} path="/" component={LandingScreen} />
-                    <Route exact={true} path="/home" component={HomeScreen} />
+                    <Route exact={true} path="/" component={HomeScreen} />
+                    {/* <Route exact={true} path="/home" component={HomeScreen} /> */}
                     <Route exact={false} path="/fee" component={FeeScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />

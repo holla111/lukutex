@@ -23,7 +23,7 @@ export const TickerTableScreen = (props: Props) => {
   const [searchMarketInput, setSearchMarketInput] = React.useState('');
   const [pagination, setPagination] = React.useState({
     current: 1,
-    pageSize: 10,
+    pageSize: 15,
     total: 0,
   });
   const [tableFilterPagination,setTableFilterPagination] = React.useState<Market[]>([]);
