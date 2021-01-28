@@ -16,12 +16,38 @@ import './style.css';
 
 const settingEvents = {
   dots: true,
-  infinite: true,
+  infinite: false,
   speed: 500,
   slidesToShow: 3,
   slidesToScroll: 3,
   adaptiveHeight: true,
-  // centerMode: true,
+  initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 1000,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            infinite: true,
+            dots: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            initialSlide: 2
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
 };
 
 export const HomeScreen: React.FC<any> = (props: any) => {
@@ -35,7 +61,6 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   }, []);
 
   const events = useSelector(selectEvents);
-  console.log(events.payload)
 
   const renderBanner = ()  => {
     return (
@@ -58,16 +83,14 @@ export const HomeScreen: React.FC<any> = (props: any) => {
                 </div>
               </Col>
             </Row>
-            <div className="landing-page__banner__bottom">
+            <div >
                <Slider {...settingEvents}>
                 { 
-                [...events.payload, ...events.payload,  ...events.payload, ...events.payload].map(event => {
+                [...events.payload].map(event => {
                   return (
-                    <div key={event.event_id} style={{width: "350px", height: "150px"}}>
-                      <a href={event.ref_link} target="_blank">
-                        <img src={event.image_link}></img>
+                      <a key={event.event_id} href={event.ref_link} target="_blank">
+                        <img src={event.image_link} style={{width: '100%', height: '100%'}}></img>
                       </a>
-                    </div>
                   )
                 })}
                </Slider>

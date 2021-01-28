@@ -17,7 +17,6 @@ interface Props {
 
 export const TickerTableScreen = (props: Props) => {
   const { currentBidUnit, markets } = props;
-  /* const markets = [...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets]; */
   const intl = useIntl();
 
   const [searchMarketInput, setSearchMarketInput] = React.useState('');
@@ -27,7 +26,6 @@ export const TickerTableScreen = (props: Props) => {
     total: 0,
   });
   const [tableFilterPagination,setTableFilterPagination] = React.useState<Market[]>([]);
-  console.log(tableFilterPagination);
   const renderHeader = () => (
     <ul className="navigation" role="tablist">
       {props.currentBidUnitsList.map((item, i) => (

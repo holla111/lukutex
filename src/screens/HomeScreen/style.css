@@ -1,7 +1,7 @@
 .container {
-    max-width: 1200px;
+    /* max-width: 1200px;
     width: 100%;
-    margin: 0 auto;
+    margin: 0 auto; */
 }
 
 .landing-page__banner-wrapper {
@@ -17,7 +17,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    /* background: linear-gradient(112.72deg, rgb(33, 49, 61) 0%, rgb(20, 33, 44) 100%); */
 }
 
 .landing-page__banner__top-title {
@@ -128,11 +127,17 @@
 .pc-otc-box .pc-otc-buy-btn:hover {
     background: rgba(48, 103, 240, .8);
 }
+
+.slick-slide img {
+    transition: all .2s;
+}
+
 .slick-slide img:hover {
     display: block;
-    border: 2.5px solid #161DE3;
+    border: 3px solid #fff;
     cursor: pointer;
 }
+
 
 /* --------Markets---------------------------- */
 
@@ -326,53 +331,64 @@
 
 
 /* --------Feature---------- */
+
 .pc-index-downlod-title {
     color: #fff;
     text-align: center;
     padding-top: 73px;
 }
-.pc-index-download-tit{
+
+.pc-index-download-tit {
     font-size: 36px;
     color: #fff;
 }
+
 .pc-index-download-con {
     margin-top: 20px;
 }
+
 .pc-index-download-con p {
     font-size: 16px;
     opacity: .8;
 }
+
 .pc-index-download {
     display: flex;
     flex-direction: row;
 }
+
 .pc-index-download-pic {
     background-image: url('./Home/feature.png') 0 no-repeat;
     min-width: 540px;
     height: 360px;
     margin-top: 76px;
 }
+
 .download-box .title {
     font-size: 18px;
     color: #fff;
 }
+
 .title-active {
     margin: 0 0 20px;
 }
+
 .download-box {
     padding-top: 142px;
     margin-left: 90px;
 }
+
 .download-btn-ios {
     display: flex;
     justify-content: space-evenly;
     min-width: 180px;
     height: 50px;
-    border: 1px solid hsla(0,0%,100%,.6);
+    border: 1px solid hsla(0, 0%, 100%, .6);
     border-radius: 4px;
     box-sizing: border-box;
     cursor: pointer;
 }
+
 .anticon {
     font-size: 26px;
     align-items: center;
@@ -387,66 +403,77 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.download-ios-title{
+
+.download-ios-title {
     display: flex;
     flex-direction: column;
     justify-content: center;
-
 }
- .download-ios {
+
+.download-ios {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: start;
     justify-content: flex-start;
 }
+
 .download-ios p:first-of-type {
     margin: 0;
     font-size: 12px;
     color: #fff;
     opacity: .6;
 }
+
 .download-ios p:nth-of-type(2) {
     margin: 0;
     font-size: 14px;
     color: #fff;
     opacity: .6;
 }
+
 .download-active {
     margin-left: 30px;
 }
+
 .title {
     margin: 35px 0 20px;
     font-size: 18px;
     color: #fff;
 }
+
 .download-btn-android {
     display: flex;
     justify-content: space-evenly;
     min-width: 180px;
     height: 50px;
-    border: 1px solid hsla(0,0%,100%,.6);
+    border: 1px solid hsla(0, 0%, 100%, .6);
     border-radius: 4px;
     box-sizing: border-box;
     cursor: pointer;
 }
+
 .download-Android {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: start;
     justify-content: flex-start;
 }
+
 .download-Android p:first-of-type {
     margin: 0;
     font-size: 12px;
     color: #fff;
     opacity: .6;
 }
+
 .download-Android p:nth-of-type(2) {
     margin: 0;
     font-size: 14px;
     color: #fff;
     opacity: .6;
 }
+
+
 /*--------- partner----------- */
 
 .home-page__partner {
@@ -476,11 +503,13 @@
 .slick-list .slick-track .slick-slide {
     padding: 0 1rem;
 }
+
 .slick-prev:before {
     content: '←';
     font-size: 26px;
     margin-left: -30px;
 }
+
 .slick-next:before {
     content: '→';
     font-size: 26px;
