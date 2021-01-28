@@ -16,8 +16,8 @@ interface Props {
 
 
 export const TickerTableScreen = (props: Props) => {
-  const { currentBidUnit } = props;
-  const markets = [...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets];
+  const { currentBidUnit, markets } = props;
+  /* const markets = [...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets,...props.markets]; */
   const intl = useIntl();
 
   const [searchMarketInput, setSearchMarketInput] = React.useState('');
