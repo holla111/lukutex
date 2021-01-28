@@ -15,7 +15,7 @@ interface CompetitionItemProps {
 
 export const CompetitionItem: React.FC<CompetitionItemProps> = (props: CompetitionItemProps) => {
 
-    const { currency_id, total_prize } = props.competition;
+    const { id, currency_id, total_prize } = props.competition;
     const { type } = props;
 
     const history = useHistory();
@@ -29,7 +29,7 @@ export const CompetitionItem: React.FC<CompetitionItemProps> = (props: Competiti
 
     const handleDetailClick = () => {
         const location = {
-            pathname: '/trading-competition/1'
+            pathname: '/trading-competition/' + id
         }
         history.push(location);
     }

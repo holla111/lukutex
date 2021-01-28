@@ -52,6 +52,7 @@ import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
 import { PriceState, rootPriceSaga } from './sale/price';
 import { TradingRankingsState, rootRankingsSaga } from './trading_competitions/rankings';
 import { CompetionListState, rootCompetionsListSaga } from './trading_competitions/competitions';
+import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -90,6 +91,7 @@ export * from './sale/sale-item';
 export * from './sale/buy';
 export * from './sale/price';
 export * from './trading_competitions/competitions';
+export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
 
 export interface RootState {
@@ -105,8 +107,9 @@ export interface RootState {
         totalBuyers: TotalBuyersState
     };
     trading_competitions: {
-        competitions: CompetionListState
-      rankings: TradingRankingsState  
+        competitions: CompetionListState,
+        competition_item: CompetitionItemState,
+        rankings: TradingRankingsState
     };
     ethFee: {
         ethFee: ETHFeeState;
@@ -206,6 +209,7 @@ export function* rootSaga() {
         call(rootBuySaga),
         call(rootPriceSaga),
         call(rootCompetionsListSaga),
+        call(rootcompetitionItemSaga),
         call(rootRankingsSaga)
     ]);
 }

@@ -11,7 +11,7 @@ import {
 export interface TradingRankingsFetch {
     type: typeof TRADING_RANKINGS_FETCH;
     payload: {
-        competition_id: string;
+        competition_id: number | string;
     }
 }
 

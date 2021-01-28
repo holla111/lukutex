@@ -35,7 +35,7 @@ export const CompetitionList: React.FC = () => {
   return (
     <div className="container-fluid">
       <div className="row mt-4 d-flex justify-content-center">
-        {competitions.payload.ongoing.map(competition => (
+        {[...competitions.payload.ongoing, ...competitions.payload.ongoing, ...competitions.payload.ongoing, ...competitions.payload.ongoing, ...competitions.payload.ongoing,...competitions.payload.ongoing,...competitions.payload.ongoing,...competitions.payload.ongoing,...competitions.payload.ongoing ].map(competition => (
           <div className="col-md-4 col-xl-3 col-sm-6">
             <CompetitionItem competition={competition} type="ongoing" />
           </div>

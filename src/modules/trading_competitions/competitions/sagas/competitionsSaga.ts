@@ -1,7 +1,7 @@
 import { put } from 'redux-saga/effects';
-import { Competition } from '../types';
 // import { API, RequestOptions } from '../../../../../api';
 import pluginsAPI from '../../../../plugins/api/index';
+import { Competition } from '../../competition_item';
 
 import {
     CompetionListFetch,

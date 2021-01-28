@@ -304,7 +304,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route path="/ieo" exact component={SaleListScreen} />
                     <Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
                     <Route path="/trading-competition" exact component={TradingCompetionListScreen} />
-                    <Route path="/trading-competition/1" exact component={TradingCompetitionDetailScreen} />
+                    <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
                 </Switch>
                 {isLoggedIn && <WalletsFetch />}

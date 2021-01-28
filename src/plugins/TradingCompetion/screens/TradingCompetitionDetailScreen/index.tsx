@@ -34,10 +34,37 @@
 import * as React from 'react';
 import { CompetitionInfo, PrizeTable } from '../../containers';
 import './TradingCompetitionDetailScreen.css';
-import { Col, Row } from 'antd';
+import { Col, message, Row } from 'antd';
 import { RankingTable } from '../../containers';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { findCompetitionbyId, selectCompetitionItem } from '../../../../modules';
 
 export const TradingCompetitionDetailScreen: React.FC = () => {
+    const { competition_id } = useParams<{ competition_id: string }>();
+    const competition = useSelector(selectCompetitionItem);
+    
+    // const user = useSelector(selectUserInfo);
+    const dispatch = useDispatch();
+    const dispatchFetchCompetitionItemByID = (ieoID) => dispatch(findCompetitionbyId({
+        id: competition_id
+    }));
+
+    React.useEffect(() => {
+        if (competition.loading) {
+            message.loading('Waiting a seconds...', 0);
+        } else {
+            message.destroy();
+        }
+        return function cleanup() {
+            message.destroy();
+        }
+    }, [competition.loading]);
+
+    React.useEffect(() => {
+        dispatchFetchCompetitionItemByID(competition_id);
+    }, []);
+    
     return (
         <div id="trading-competition-detail-screen">
             <div id="trading-competition-detail__info" className="container-fluid">
@@ -47,7 +74,7 @@ export const TradingCompetitionDetailScreen: React.FC = () => {
                 </Row>
             </div>
             <div id="trading-competition-detail__ranks" className="container-fluid">
-                <RankingTable />
+                <RankingTable competition_id={competition_id} />
             </div>
         </div>
     );

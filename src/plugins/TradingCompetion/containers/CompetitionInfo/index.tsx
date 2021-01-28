@@ -1,11 +1,16 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
+
 import './CompetitionInfo.css';
+
 import Countdown from 'react-countdown';
 import { Button, Cascader, Statistic } from 'antd';
-interface SaleInfoProps {
-    // ieoID: string;
-    // sale: SaleItem;
-}
+import { format } from 'date-fns';
+
+
+import { selectCompetitionItem } from '../../../../modules';
+import { useHistory } from 'react-router';
+
 
 const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -22,55 +27,84 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
     }
 };
 
-export const CompetitionInfo: React.FC<SaleInfoProps> = (props: SaleInfoProps) => {
-    const options = [
-        {
-            value: 'btcusdt',
-            label: 'BTC/USDT',
+export const CompetitionInfo: React.FC = () => {
+    // State
+    const [marketIDState, setMarketIDState] = React.useState('');
 
-        },
-        {
-            value: 'btcesc',
-            label: 'BTC/ESC',
-        },
-    ];
+    const history = useHistory();
+    const competition = useSelector(selectCompetitionItem);
+    let { currency_id, market_ids, next_update, start_date, end_date } = competition.payload;
+
+    // Options: Dropdown trade
+    const options = market_ids ? market_ids.map(market_id => {
+        const newMarketIds = {
+            value: market_id.replace('/', ''),
+            label: market_id.toUpperCase()
+        }
+        return newMarketIds;
+    }) : [];
 
     function onChange(value) {
-        console.log(value);
+        setMarketIDState(value);
     }
-    // const countdownTime = props.sale.type === 'upcoming' ? new Date(props.sale.start_date) : new Date(props.sale.end_date);
+
+    const handleGoTrading = () => {
+        const location = {
+            pathname: '/trading/' + marketIDState
+        }
+        history.push(location);
+    }
+
+    const renderTopInfo = () => {
+        return (
+            <React.Fragment>
+                <div className="row">
+                    <div className="col-12 text-center">
+                        <h2 className="competition-info__title" style={{ color: '#f07c22' }}>Become a winner and get a prize</h2>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-12 text-center">
+                        <h5>Trade {currency_id.toUpperCase()} and win. The one who trades the largest volume will receive the main prize! Condition: buy {currency_id.toUpperCase()} without sell!</h5>
+                    </div>
+                </div>
+            </React.Fragment>
+
+        );
+    }
+
+    const renderBottomInfo = () => {
+        if (next_update && start_date && end_date) {
+            return (
+                <React.Fragment>
+                    <div className="row mt-3">
+                        <div className="col-xl-4 col-md-6 mt-3">
+                            <Statistic title="Your Trade Volumn" value={112893} />
+                            <div className="mt-3">
+                                <h3 className="ant-statistic-title">Next rank update</h3>
+                                <Countdown date={new Date(next_update)} renderer={renderer} />
+                            </div>
+                        </div>
+                        <div className="col-xl-4 col-md-6 mt-3">
+                            <Statistic title="Start Time" value={format(new Date(start_date), 'yyyy-MM-dd hh:mm')} />
+                            <Statistic className="mt-3" title="End Time" value={format(new Date(end_date), 'yyyy-MM-dd hh:mm')} />
+                        </div>
+                        <div className="col-xl-4 col-md-12 mt-3 d-flex flex-column align-items-center justify-content-center">
+                            <Cascader className="competition-item__bottom-select w-100 text-center" allowClear={false} options={options} onChange={onChange} placeholder="Trade" />
+                            <Button type="primary" className="mt-3" onClick={handleGoTrading}>Let's Trade</Button>
+                        </div>
+                    </div>
+                </React.Fragment>
+            );
+        }
+        return '';
+    }
 
     return (
         <div id="competition-info" style={{ backgroundColor: '#1c3049', height: '100%' }}>
-            <div className="row">
-                <div className="col-12 text-center">
-                    <h2 className="competition-info__title" style={{ color: '#f07c22' }}>Become a winner and get a prize</h2>
-                </div>
-            </div>
+            {renderTopInfo()}
             <hr />
-            <div className="row">
-                <div className="col-12">
-                    <h5>Trade BTNYX and win. The one who trades the largest volume will receive the main prize! Condition: buy BTNYX without sell!</h5>
-                </div>
-            </div>
-            <hr />
-            <div className="row mt-3">
-                <div className="col-xl-4 col-md-6 mt-3">
-                    <Statistic title="Your Trade Volumn" value={112893} />
-                    <div className="mt-3">
-                        <h3 className="ant-statistic-title">Next rank update</h3>
-                        <Countdown date={'2021-01-27'} renderer={renderer} />
-                    </div>
-                </div>
-                <div className="col-xl-4 col-md-6 mt-3">
-                    <Statistic title="Start Time" value={'12-01-2021, 03:00'} />
-                    <Statistic className="mt-3" title="End Time" value={'26-01-2021, 03:00'} />
-                </div>
-                <div className="col-xl-4 col-md-12 mt-3 d-flex flex-column align-items-center justify-content-center">
-                    <Cascader className="competition-item__bottom-select w-100 text-center" allowClear={false} options={options} onChange={onChange} placeholder="Trade" />
-                    <Button type="primary" className="mt-3">Let's Trade</Button>
-                </div>
-            </div>
+            {renderBottomInfo()}
         </div>
     )
 }
