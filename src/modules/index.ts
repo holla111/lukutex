@@ -3,7 +3,7 @@ import { all, call } from 'redux-saga/effects';
 import { AirdropState, rootAirdropSaga } from './airdrops/airdrop';
 import { ClaimState, rootClaimSaga } from './airdrops/claim';
 import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
-import { airdropsReducer, ethFeesReducer, publicReducer, saleReducer, tradingCompetitionsReducer, userReducer } from './app';
+import { airdropsReducer, ethFeesReducer, infoReducer, publicReducer, saleReducer, tradingCompetitionsReducer, userReducer } from './app';
 import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
 import { AlertState, rootHandleAlertSaga } from './public/alert';
 import { BlocklistAccessState, rootBlocklistAccessSaga } from './public/blocklistAccess';
@@ -53,6 +53,7 @@ import { PriceState, rootPriceSaga } from './sale/price';
 import { TradingRankingsState, rootRankingsSaga } from './trading_competitions/rankings';
 import { CompetionListState, rootCompetionsListSaga } from './trading_competitions/competitions';
 import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
+import { EventsState, rootEventSaga } from './info/events';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -93,6 +94,7 @@ export * from './sale/price';
 export * from './trading_competitions/competitions';
 export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
+export * from './info/events';
 
 export interface RootState {
     airdrops: {
@@ -115,6 +117,10 @@ export interface RootState {
         ethFee: ETHFeeState;
         withdraw: ETHFeeWithdrawState;
     };
+    info: {
+        events: EventsState
+    };
+
     public: {
         alerts: AlertState;
         blocklistAccess: BlocklistAccessState;
@@ -164,7 +170,8 @@ export const rootReducer = combineReducers({
     airdrops: airdropsReducer,
     ethFee: ethFeesReducer,
     sale: saleReducer,
-    trading_competitions: tradingCompetitionsReducer
+    trading_competitions: tradingCompetitionsReducer,
+    info: infoReducer
 });
 
 export function* rootSaga() {
@@ -210,6 +217,7 @@ export function* rootSaga() {
         call(rootPriceSaga),
         call(rootCompetionsListSaga),
         call(rootcompetitionItemSaga),
-        call(rootRankingsSaga)
+        call(rootRankingsSaga),
+        call(rootEventSaga)
     ]);
 }

@@ -195,7 +195,7 @@ class Landing extends React.Component<Props> {
     return (
       <div className="pg-landing-screen__market-feature">
         <div className="pg-landing-screen__market-feature__wrap">
-          <div className="pg-landing-screen__market-feature__wrap__left">
+          <div className="pg-landing-screen__market-feature__wrap__left" style={{background: '#131e33'}}>
             <div className="item-feature">
               <div><img src={FeaturesCustomizeIcon} alt="Screen" /></div>
               <div>
@@ -288,6 +288,7 @@ class Landing extends React.Component<Props> {
         {this.renderMarketTable()}
         {this.renderRoadmap()}
         {this.renderFeature()}
+        {this.renderParterList()}
       </div>
     );
   }
