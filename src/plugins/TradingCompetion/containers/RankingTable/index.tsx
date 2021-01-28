@@ -24,7 +24,7 @@ interface RankingTableProps {
 export const RankingTable: React.FC<RankingTableProps> = (props: RankingTableProps) => {
     const { competition_id } = props;
 
-    // const [rankOfUserState, setRankOfUserState] = React.useState(100);
+    const [rankOfUserState, setRankOfUserState] = React.useState(-1);
 
     const dispatch = useDispatch();
     const dispatchFetchRanksByCompetitionID = (competition_id: number | string) => dispatch(tradingRankingsFetch({ competition_id: competition_id }));
@@ -86,7 +86,10 @@ export const RankingTable: React.FC<RankingTableProps> = (props: RankingTablePro
 
         pluginAPI.get(`/ranks/fetch/uid=${user.uid}`)
             .then(res => {
-                console.log(res);
+                const data = res.data;
+                if(data.payload.rank) {
+                    setRankOfUserState(data.payload.rank);
+                }
             })
             .catch(err => {
                 console.log(err);
