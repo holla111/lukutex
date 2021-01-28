@@ -27,7 +27,14 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
     }
 };
 
-export const CompetitionInfo: React.FC = () => {
+interface CompetitionInfoProps {
+    volumn: number;
+}
+
+export const CompetitionInfo: React.FC<CompetitionInfoProps> = (props: CompetitionInfoProps) => {
+    // props
+    const { volumn } = props;
+
     // State
     const [marketIDState, setMarketIDState] = React.useState('');
 
@@ -65,7 +72,7 @@ export const CompetitionInfo: React.FC = () => {
                 </div>
                 <div className="row">
                     <div className="col-12 text-center">
-                        <h5>Trade {currency_id.toUpperCase()} and win. The one who trades the largest volume will receive the main prize! Condition: buy {currency_id.toUpperCase()} without sell!</h5>
+                        <h5>Trade {currency_id.toUpperCase()} and win. The one who trades the largest volume will receive the main prize! Condition: buy or sell {currency_id.toUpperCase()}!</h5>
                     </div>
                 </div>
             </React.Fragment>
@@ -79,7 +86,7 @@ export const CompetitionInfo: React.FC = () => {
                 <React.Fragment>
                     <div className="row mt-3">
                         <div className="col-xl-4 col-md-6 mt-3">
-                            <Statistic title="Your Trade Volumn" value={112893} />
+                            <Statistic title="Your Trade Volumn" value={volumn.toFixed(3)} />
                             <div className="mt-3">
                                 <h3 className="ant-statistic-title">Next rank update</h3>
                                 <Countdown date={new Date(next_update)} renderer={renderer} />
@@ -91,7 +98,7 @@ export const CompetitionInfo: React.FC = () => {
                         </div>
                         <div className="col-xl-4 col-md-12 mt-3 d-flex flex-column align-items-center justify-content-center">
                             <Cascader className="competition-item__bottom-select w-100 text-center" allowClear={false} options={options} onChange={onChange} placeholder="Trade" />
-                            <Button type="primary" className="mt-3" onClick={handleGoTrading}>Let's Trade</Button>
+                            <Button type="primary" className="mt-3" disabled={marketIDState === ''} onClick={handleGoTrading}>Let's Trade</Button>
                         </div>
                     </div>
                 </React.Fragment>
@@ -101,7 +108,7 @@ export const CompetitionInfo: React.FC = () => {
     }
 
     return (
-        <div id="competition-info" style={{ backgroundColor: '#1c3049', height: '100%' }}>
+        <div id="competition-info" style={{ backgroundColor: '#0E121C', height: '100%' }}>
             {renderTopInfo()}
             <hr />
             {renderBottomInfo()}

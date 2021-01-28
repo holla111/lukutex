@@ -50,17 +50,16 @@ export const CompetitionItem: React.FC<CompetitionItemProps> = (props: Competiti
     }
 
     return (
-        <div className="competition-item container">
+        <div className="competition-item">
             <div className="row competition-item__top" >
                 <div className="col-6">
-                    <img style={{ width: '26px', height: '26px' }} src="https://coinsbit.io/storage/currency/sVmRDPgDdWX6P6NVqjzIswtr3w4XQdahRwVTrvbr.png" alt="currency" />
+                    <img style={{ width: '30px', height: '30px' }} src="https://coinsbit.io/storage/currency/sVmRDPgDdWX6P6NVqjzIswtr3w4XQdahRwVTrvbr.png" alt="currency" />
                     <span style={{ padding: '0.5rem 1rem', color: '#fff', fontSize: '1.3rem', fontWeight: 'bold' }}>{currency_id.toUpperCase()}</span>
                 </div>
                 <div className="col-6" style={{ textAlign: 'end' }}>
                     <span style={{ backgroundColor: competitionTitleColor }} className="competition-item__badge">{type.toUpperCase()}</span>
                 </div>
             </div>
-            <hr />
             <div className="row competition-item__middle mt-3">
                 <div className="col-12 d-flex flex-column justify-content-center align-items-center">
                     <img style={{ width: '60px', height: '60px', textAlign: 'center' }} src={GiftBoxImage} alt="gift-box" />
@@ -73,7 +72,7 @@ export const CompetitionItem: React.FC<CompetitionItemProps> = (props: Competiti
             <div className="row competition-item__bottom mt-3">
 
                 <div className="col-12 text-center">
-                    <Button block type="primary" onClick={handleDetailClick}>Start</Button>
+                    <Button block type="primary" disabled={type !== 'ongoing'} onClick={handleDetailClick}>Start</Button>
                 </div>
             </div>
         </div>

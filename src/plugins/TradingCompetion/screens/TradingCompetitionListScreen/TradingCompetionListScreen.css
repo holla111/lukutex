@@ -1,9 +1,11 @@
 #trading-competition-list {
-    background-color: #192b41;
+    background-color: #141927;
     width: 100%;
     padding-top: 2rem;
     margin-bottom: 50px;
     min-height: 100vh;
+    background-image: url('../../assets/26146.jpg');
+    background-size: cover;
 }
 
 .trading-competition-list__title,

@@ -8,13 +8,19 @@ import './PrizeTable.css'
 import RankOne from '../../assets/1.png';
 import RankTwo from '../../assets/2.png';
 import RankThird from '../../assets/3.png';
+import { Prize } from '../..';
 
-export const PrizeTable: React.FC = () => {
+interface PrizeTableProps {
+    prizes: Prize[]
+}
+
+export const PrizeTable: React.FC<PrizeTableProps> = (props: PrizeTableProps) => {
+    const { prizes } = props;
     const columns = [
         {
-            title: 'Ranking',
-            dataIndex: 'ranking',
-            key: 'ranking',
+            title: 'Rank',
+            dataIndex: 'rank',
+            key: 'rank',
             render: rank => {
                 if (rank === 1) {
                     return (
@@ -35,46 +41,18 @@ export const PrizeTable: React.FC = () => {
             }
         },
         {
-            title: 'Reward',
-            dataIndex: 'reward',
-            key: 'reward',
+            title: 'Award',
+            dataIndex: 'award',
+            key: 'award',
         }
     ];
 
-    const data = [
-        {
-            ranking: 1,
-            reward: '114.371 LKT'
-        },
-        {
-            ranking: 2,
-            reward: '14.371 LKT'
-        },
-        {
-            ranking: 3,
-            reward: '14.371 LKT'
-        },
-        {
-            ranking: 4,
-            reward: '14.371 LKT'
-        },
-        {
-            ranking: 5,
-            reward: '14.371 LKT'
-        },
-        {
-            ranking: '6-10',
-            reward: '14.371 LKT'
-        },
-
-
-    ];
 
     return (
         <div id="prize-table" className="container-fluid">
             <div className="row">
                 <div className="col-12">
-                    <Table size="small" pagination={false} dataSource={data} columns={columns} />
+                    <Table size="small" pagination={false} dataSource={prizes} columns={columns} />
                 </div>
             </div>
         </div>

@@ -1,36 +1,3 @@
-// import * as React from 'react';
-// import { CompetitionSummary, RankingTable, CompetitionAwards } from '../../containers';
-
-// import './TradingCompetitionDetailScreen.css';
-
-// export const TradingCompetitionDetailScreen = () => {
-//     return (
-//         <React.Fragment>
-//             <div id="trading-competition-detail" className="container-fluid">
-//                 <div className="row">
-//                     <div className="col-12">
-//                         <CompetitionSummary />
-//                     </div>
-//                 </div>
-//                 <div className="row mt-3">
-//                     <div className="col-12">
-//                         <h3 className="ml-4" style={{fontSize: '2rem'}}>TOP 10 Rankings</h3>
-//                         <RankingTable />
-//                     </div>
-//                 </div>
-
-//             </div>
-//             <div id="trading-competition-detail__awards" className="container-fluid">
-//                 <div className="row mt-3">
-//                     <div className="col-12">
-//                         <CompetitionAwards />
-//                     </div>
-//                 </div>
-//             </div>
-//         </React.Fragment>
-//     )
-// }
-
 import * as React from 'react';
 import { CompetitionInfo, PrizeTable } from '../../containers';
 import './TradingCompetitionDetailScreen.css';
@@ -38,16 +5,56 @@ import { Col, message, Row } from 'antd';
 import { RankingTable } from '../../containers';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { findCompetitionbyId, selectCompetitionItem } from '../../../../modules';
+import { findCompetitionbyId, selectCompetitionItem, selectUserInfo } from '../../../../modules';
+
+// axios
+import pluginAPI from '../../../api/index';
+
+export interface Prize {
+    rank: string;
+    award: string;
+}
+
+export interface Prizes {
+    competition_id: number | string;
+    prizes: Prize[]
+}
+
+const prizeList: Prizes[] = [
+    {
+        competition_id: 1,
+        prizes: [
+            {
+                rank: '1',
+                award: '200 LKT'
+            },
+            {
+                rank: '2',
+                award: '200 LKT'
+            },
+            {
+                rank: '3',
+                award: '200 LKT'
+            },
+            {
+                rank: '4',
+                award: '200 LKT'
+            }
+        ]
+    }
+]
 
 export const TradingCompetitionDetailScreen: React.FC = () => {
+    const [rankOfUserState, setRankOfUserState] = React.useState(-1);
+    const [volumnOfUserState, setVolumnOfUserState] = React.useState(0);
+
     const { competition_id } = useParams<{ competition_id: string }>();
     const competition = useSelector(selectCompetitionItem);
-    
-    // const user = useSelector(selectUserInfo);
+    const user = useSelector(selectUserInfo);
+
     const dispatch = useDispatch();
     const dispatchFetchCompetitionItemByID = (ieoID) => dispatch(findCompetitionbyId({
-        id: competition_id
+        id: ieoID
     }));
 
     React.useEffect(() => {
@@ -64,17 +71,48 @@ export const TradingCompetitionDetailScreen: React.FC = () => {
     React.useEffect(() => {
         dispatchFetchCompetitionItemByID(competition_id);
     }, []);
+
+    React.useEffect(() => {
+        if (user.uid !== '') {
+            pluginAPI.get(`/ranks/fetchByUid/competition_id=${competition_id}&uid=${user.uid}`)
+                .then(res => {
+                    const data = res.data;
+                    if (data.payload.rank) {
+                        setRankOfUserState(data.payload.rank);
+                        setVolumnOfUserState(data.payload.volumn)
+                    }
+                })
+                .catch(err => {
+                });
+
+        }
+    }, [user.uid]);
+
+    const prizeOfCompetition = prizeList.find(prize => prize.competition_id == competition_id);
     
+    const renderTradingInfo = () => {
+        if (prizeOfCompetition) {
+            return (
+                <Row gutter={[16, 16]}>
+                    <Col span={16}><CompetitionInfo volumn={volumnOfUserState} /></Col>
+                    <Col span={8}><PrizeTable prizes={[...prizeOfCompetition.prizes]} /></Col>
+                </Row>
+            );
+        }
+        return (
+            <Row gutter={[16, 16]}>
+                <Col span={24}><CompetitionInfo volumn={volumnOfUserState} /></Col>
+            </Row>
+        );
+    }
+
     return (
         <div id="trading-competition-detail-screen">
             <div id="trading-competition-detail__info" className="container-fluid">
-                <Row gutter={[16, 16]}>
-                    <Col span={16}><CompetitionInfo /></Col>
-                    <Col span={8}><PrizeTable /></Col>
-                </Row>
+                {renderTradingInfo()}
             </div>
             <div id="trading-competition-detail__ranks" className="container-fluid">
-                <RankingTable competition_id={competition_id} />
+                <RankingTable competition_id={competition_id} rank={rankOfUserState} prizes={prizeOfCompetition}/>
             </div>
         </div>
     );

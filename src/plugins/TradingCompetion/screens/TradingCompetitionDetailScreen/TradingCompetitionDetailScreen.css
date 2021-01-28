@@ -1,9 +1,23 @@
 #trading-competition-detail__info,
 #trading-competition-detail__ranks {
     position: relative;
-    background-color: #192b41;
+    background-color: #0E121C;
     margin-bottom: 50px;
     padding: 5vh 5vw;
+}
+
+#trading-competition-detail__info {
+    background-image: url('../../assets/team-bg-v2.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#trading-competition-detail__ranks {
+    background-image: url('../../assets/individual-bg-v4.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .trading-competition-detail__badge {

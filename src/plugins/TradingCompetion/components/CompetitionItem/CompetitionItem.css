@@ -1,10 +1,10 @@
 .competition-item {
     border: 2px solid #4B5D6C;
-    padding: 1rem 3rem;
-    background: #1A2B41;
+    padding: 1rem 2rem;
+    background: #1C2437;
     border-radius: 10px;
     cursor: pointer;
-    margin: 5px 5% 0 5%;
+    margin: 10px 5% 0 5%;
     transition: all 0.3s;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .competition-item:hover {
-    background: #263d5e;
+    background: #313F60;
 }
 
 .competition-item__title {

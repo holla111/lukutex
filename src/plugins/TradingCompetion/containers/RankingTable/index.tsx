@@ -1,8 +1,6 @@
 import { Table } from 'antd';
 import * as React from 'react';
 
-// axios
-import pluginAPI from '../../../api/index';
 
 //css
 import './RankingTable.css'
@@ -15,16 +13,18 @@ import RankTwo from '../../assets/2.png';
 import RankThird from '../../assets/3.png';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTradingRankings, selectUserInfo, tradingRankingsFetch } from '../../../../modules';
+import { selectTradingRankings, tradingRankingsFetch } from '../../../../modules';
+import { Prizes } from '../../screens';
 
 interface RankingTableProps {
     competition_id: number | string;
+    rank: number;
+    prizes: Prizes | undefined
 }
 
 export const RankingTable: React.FC<RankingTableProps> = (props: RankingTableProps) => {
-    const { competition_id } = props;
+    const { competition_id, rank, prizes } = props;
 
-    const [rankOfUserState, setRankOfUserState] = React.useState(-1);
 
     const dispatch = useDispatch();
     const dispatchFetchRanksByCompetitionID = (competition_id: number | string) => dispatch(tradingRankingsFetch({ competition_id: competition_id }));
@@ -33,7 +33,6 @@ export const RankingTable: React.FC<RankingTableProps> = (props: RankingTablePro
         dispatchFetchRanksByCompetitionID(competition_id);
     }, []);
 
-    const user = useSelector(selectUserInfo);
     const ranks = useSelector(selectTradingRankings);
 
     const columns = [
@@ -69,33 +68,33 @@ export const RankingTable: React.FC<RankingTableProps> = (props: RankingTablePro
             title: 'Volume',
             dataIndex: 'volumn',
             key: 'volumn',
+        },
+        {
+            title: 'Award',
+            dataIndex: 'award',
+            key: 'award',
         }
     ];
 
-    const data = ranks.payload.map(rank => {
-        const newRank = {
+    const data = ranks.payload.map((rank) => {
+        let newRank = {
             rank: rank.rank,
             uid: rank.uid,
-            volumn: Number(rank.volumn).toFixed(3)
+            volumn: Number(rank.volumn).toFixed(3),
         }
+
         return newRank;
     });
 
-    // Fetch rank of user
-    React.useEffect(() => {
+    const rankWithAward = data.map((n, index) => {
+        const x = {
+            ...n,
+            award: prizes && prizes.prizes[index] ? prizes.prizes[index].award : ''
+        }
+        return x;
+    })
 
-        pluginAPI.get(`/ranks/fetch/uid=${user.uid}`)
-            .then(res => {
-                const data = res.data;
-                if(data.payload.rank) {
-                    setRankOfUserState(data.payload.rank);
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
 
-    }, [])
 
     return (
         <div id="trading-competition-ranking">
@@ -108,15 +107,15 @@ export const RankingTable: React.FC<RankingTableProps> = (props: RankingTablePro
 
             <div className="row">
                 <div className="col-6">
-                    <h3 style={{ textAlign: 'start' }}>Top 10 Rankings</h3>
+                    <h3 style={{ textAlign: 'start' }}>🏆 Top 20 Rankings</h3>
                 </div>
                 <div className="col-6">
-                    <h3 style={{ textAlign: 'end' }}>Your rank: 26</h3>
+                    {rank !== -1 ? <h3 style={{ textAlign: 'end' }}>Your rank: {rank}</h3> : ''}
                 </div>
             </div>
             <div className="row">
                 <div className="col-12">
-                    <Table size="small" pagination={false} dataSource={data} columns={columns} />
+                    <Table size="small" pagination={false} dataSource={rankWithAward} columns={columns} />
                 </div>
             </div>
         </div>
