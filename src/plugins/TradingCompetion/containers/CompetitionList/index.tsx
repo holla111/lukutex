@@ -13,7 +13,6 @@ export const CompetitionList: React.FC = () => {
   const dispatchCompetitionListFetch = () => dispatch(competionListFetch());
 
   const competitions = useSelector(selectCompetionsList);
-  console.log(competitions);
 
   React.useEffect(() => {
     // Dispatch Active Competition List Fetch in one time

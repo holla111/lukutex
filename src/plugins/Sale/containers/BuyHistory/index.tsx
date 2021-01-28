@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table } from 'antd';
-import api from '../../api';
+import api from '../../../api';
 import format from 'date-fns/format';
 
 interface BuyHistoryProps {
