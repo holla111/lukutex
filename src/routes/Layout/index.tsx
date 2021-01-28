@@ -269,7 +269,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
                         {showLanding() && <Route exact={true} path="/" component={LandingScreenMobile} />}
                         <Route path="/trading-competition" exact component={TradingCompetionListMobileScreen} />
-                        <Route path="/trading-competition/1" exact component={TradingCompetitionDetailMobileScreen} />
+                        <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailMobileScreen} />
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>
                     {isLoggedIn && <WalletsFetch />}

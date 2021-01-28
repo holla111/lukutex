@@ -1,65 +1,80 @@
-import * as React from 'react'
-
-import './CompetitionItem.css';
-
-import CaptainImage from '../../assets/captain.png';
-import PlayerImage from '../../assets/player.png';
+import * as React from 'react';
 import { useHistory } from 'react-router';
-interface CompetitionItem {
-    competition_id: number;
-    competition_name: string;
-    total_prize: number;
-    total_participants: number;
-    start_date: string;
-    end_date;
-}
+import './CompetitionItem.css';
+// import Countdown from 'react-countdown';
+import { Competition, currenciesFetch } from '../../../../../modules';
+import { useDispatch } from 'react-redux';
+
+import GiftBoxImage from '../../assets/4th-v2.png';
+import { Button } from 'antd';
 
 interface CompetitionItemProps {
-    competition: CompetitionItem;
-    index: number;
+    competition: Competition;
+    type: 'ongoing' | 'upcoming' | 'ended';
 }
 
-
 export const CompetitionItem: React.FC<CompetitionItemProps> = (props: CompetitionItemProps) => {
-    // const {competition_name,total_prize, total_participants, start_date, end_date} = props.competition;
-    const { competition_name, competition_id } = props.competition;
-    const { index } = props;
-    const selectedImage = index % 2 == 0 ? CaptainImage : PlayerImage;
+
+    const { id, currency_id, total_prize } = props.competition;
+    const { type } = props;
 
     const history = useHistory();
 
+    const dispatch = useDispatch();
+    const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
+
+    React.useEffect(() => {
+        dispatchcFetchCurrencies();
+    }, []);
+
     const handleDetailClick = () => {
         const location = {
-            pathname: '/trading-competition/' + competition_id
+            pathname: '/trading-competition/' + id
         }
         history.push(location);
     }
 
+    let competitionTitleColor: string = '#0C9D58ff';
+    switch (type) {
+        case 'ongoing':
+            competitionTitleColor = '#0C9D58ff';
+            break;
+        case 'upcoming':
+            competitionTitleColor = '#FABE08ff';
+            break;
+        case 'ended':
+            competitionTitleColor = '#EA4235ff';
+            break;
+        default:
+            break;
+    }
+
     return (
-
-        <div id="competition-mobile-item" style={{ backgroundImage: `url(${selectedImage})` }} onClick={handleDetailClick}>
-            <div className="competition-mobile-item-top">
-                <div className="competition-mobile-item-top__date">
-                    Dec 5 - Jan 1
-                    </div>
-                <div className="competition-mobile-item-top__title">
-                    {competition_name}
+        <div className="competition-item-mobile">
+            <div className="row competition-item-mobile__top" >
+                <div className="col-6">
+                    <img style={{ width: '30px', height: '30px' }} src="https://coinsbit.io/storage/currency/sVmRDPgDdWX6P6NVqjzIswtr3w4XQdahRwVTrvbr.png" alt="currency" />
+                    <span style={{ padding: '0.5rem 1rem', color: '#fff', fontSize: '1rem', fontWeight: 'bold' }}>{currency_id.toUpperCase()}</span>
+                </div>
+                <div className="col-6" style={{ textAlign: 'end' }}>
+                    <span style={{ backgroundColor: competitionTitleColor }} className="competition-item-mobile__badge">{type.toUpperCase()}</span>
                 </div>
             </div>
-            <div className="competition-mobile-item-bottom row">
-                <div className="competition-mobile-item-bottom__prize col-6">
-                    <span>Round prize</span> <br/>
-                    <span>$7000</span>
-                </div>
-                <div className="competition-mobile-item-bottom__participant col-6">
-                    <span>Participant</span> <br/>
-                    <span>267</span>
+            <div className="row competition-item-mobile__middle mt-3">
+                <div className="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <img style={{ width: '60px', height: '60px', textAlign: 'center' }} src={GiftBoxImage} alt="gift-box" />
+                    <br />
+                    <h4>{total_prize.toUpperCase()}</h4>
+                    <h5>Best prize</h5>
                 </div>
             </div>
+            <hr />
+            <div className="row competition-item-mobile__bottom mt-3">
 
-            <div className="competition-mobile-item-winner">
-                Phuochuynh
+                <div className="col-12 text-center">
+                    <Button block type="primary" disabled={type !== 'ongoing'} onClick={handleDetailClick}>Start</Button>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};

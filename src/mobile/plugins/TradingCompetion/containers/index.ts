@@ -1,4 +1,4 @@
 export * from './RankingTable';
+export * from './PrizesTable';
 export * from './CompetitionList';
-export * from './CompetitionSummary';
-export * from './CompetitionAwards';
+export * from './CompetitionInfo';

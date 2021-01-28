@@ -1,73 +1,60 @@
-import * as React from 'react'
+import { message } from 'antd';
+import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { competionListFetch, selectCompetionsList } from '../../../../../modules';
 import { CompetitionItem } from '../../components';
-import Slider from "react-slick";
-
-import './CompetitionList.css';
-
-interface Competition {
-  competition_id: number;
-  competition_name: string;
-  total_prize: number;
-  total_participants: number;
-  start_date: string;
-  end_date;
-}
+import './CompetitionList.css'
 
 export const CompetitionList: React.FC = () => {
-  const competions: Competition[] = [
-    {
-      competition_id: 1,
-      competition_name: '$10,000 in VCA Trading Competition',
-      total_prize: 200000,
-      total_participants: 552,
-      start_date: 'Dec 12',
-      end_date: 'Jan 1'
+
+
+  // // Dispatch Fetch Wallets Of User Action
+  const dispatch = useDispatch();
+  const dispatchCompetitionListFetch = () => dispatch(competionListFetch());
+
+  const competitions = useSelector(selectCompetionsList);
+  console.log(competitions);
+
+  React.useEffect(() => {
+    // Dispatch Active Competition List Fetch in one time
+    dispatchCompetitionListFetch();
+  }, []);
+
+  React.useEffect(() => {
+    if (competitions.loading) {
+      message.loading('', 0);
+    } else {
+      message.destroy();
     }
-  ];
 
-  const carouselSettings = {
-    className: 'slider',
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    adaptiveHeight: true,
-    responsive: [
-      {
-        breakpoint: 1700,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  };
-
-  const competitonListView = competions.map((competition, index) => (
-    <CompetitionItem index={index} competition={competition} />
-
-  ));
+    return function cleanup() {
+      message.destroy();
+    }
+  }, [competitions.loading]);
 
   return (
-    <div id="competition-list">
-      <Slider {...carouselSettings}>
-        {competitonListView}
-      </Slider>
+    <div className="container-fluid">
+      <div className="row mt-4 d-flex justify-content-center">
+        {[...competitions.payload.ongoing, ...competitions.payload.ongoing].map(competition => (
+          <div className="col-sm-6">
+            <CompetitionItem competition={competition} type="ongoing" />
+          </div>
+        ))}
+      </div>
+      <div className="row mt-4 d-flex justify-content-center">
+        {competitions.payload.upcoming.map(competition => (
+          <div className="col-sm-6">
+            <CompetitionItem competition={competition} type="upcoming" />
+          </div>
+        ))}
+      </div>
+      <div className="row mt-4 d-flex justify-content-center">
+        {competitions.payload.ended.map(competition => (
+          <div className="col-sm-6">
+            <CompetitionItem competition={competition} type="ended" />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

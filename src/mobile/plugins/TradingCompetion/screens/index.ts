@@ -1,2 +1,2 @@
-export * from './TradingCompetitionListMobileScreen';
+export * from './TradingCompetionListMobileScreen';
 export * from './TradingCompetitionDetailMobileScreen';
