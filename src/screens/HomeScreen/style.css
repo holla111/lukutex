@@ -130,7 +130,7 @@
 }
 .slick-slide img:hover {
     display: block;
-    border: .5px solid #cee7ff;
+    border: 2.5px solid #161DE3;
     cursor: pointer;
 }
 

@@ -61,12 +61,12 @@ export const HomeScreen: React.FC<any> = (props: any) => {
             <div className="landing-page__banner__bottom">
                <Slider {...settingEvents}>
                 { 
-                [...events.payload, ...events.payload,  ...events.payload, ...events.payload, ...events.payload].map(event => {
+                [...events.payload, ...events.payload,  ...events.payload, ...events.payload].map(event => {
                   return (
-                    <div key={event.event_id} style={{width: "374px", height: "130px"}}>
-                      <Link to="#">
+                    <div key={event.event_id} style={{width: "350px", height: "150px"}}>
+                      <a href={event.ref_link} target="_blank">
                         <img src={event.image_link}></img>
-                      </Link>
+                      </a>
                     </div>
                   )
                 })}
