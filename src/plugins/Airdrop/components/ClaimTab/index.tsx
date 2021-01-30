@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { selectAirdrop, selectClaim } from '../../../../modules';
-import axios from '../../api/index';
+import axios from '../../../api/index';
 const publicIp = require('public-ip');
 
 interface ClaimTabProps {

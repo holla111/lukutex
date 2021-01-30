@@ -1,5 +1,5 @@
 import * as React from 'react';
-import api from '../../api';
+import api from '../../../api';
 import format from 'date-fns/format';
 import { Table } from 'antd';
 

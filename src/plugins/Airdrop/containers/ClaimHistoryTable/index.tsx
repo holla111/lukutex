@@ -1,7 +1,7 @@
 import { Table } from 'antd/lib';
 import format from 'date-fns/format';
 import * as React from 'react';
-import api from '../../api';
+import api from '../../../api/index';
 
 interface ClaimHistoryProp {
     airdropID: string;

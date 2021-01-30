@@ -6,6 +6,9 @@ import * as ReactDOM from 'react-dom';
 import {  WrappedComponentProps } from 'react-intl';
 import 'antd/dist/antd.dark.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// Import css files
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { Provider } from 'react-redux';
 import { sentryEnabled } from './api/config';
 import { App } from './App';
