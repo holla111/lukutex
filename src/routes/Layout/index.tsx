@@ -34,6 +34,12 @@ import {
     WalletsMobileScreen,
     WalletWithdraw,
 } from '../../mobile/screens';
+
+import {
+    TradingCompetionListMobileScreen,
+    TradingCompetitionDetailMobileScreen
+} from '../../mobile/plugins/TradingCompetion';
+
 import {
     configsFetch,
     logoutFetch,
@@ -82,6 +88,7 @@ import {HomeScreen} from '../../screens/HomeScreen';
 import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 
 interface ReduxProps {
     colorTheme: string;
@@ -194,7 +201,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
     public componentDidUpdate(prevProps: LayoutProps) {
 
-        const { customization, isLoggedIn,history, userLoading } = this.props;
+        const { customization, isLoggedIn, history, userLoading } = this.props;
 
         if (!isLoggedIn && prevProps.isLoggedIn && !userLoading) {
             this.props.walletsReset();
@@ -262,6 +269,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileMobileScreen} />
                         <Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
                         {showLanding() && <Route exact={true} path="/" component={LandingScreenMobile} />}
+                        <Route path="/trading-competition" exact component={TradingCompetionListMobileScreen} />
+                        <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailMobileScreen} />
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>
                     {isLoggedIn && <WalletsFetch />}
@@ -296,6 +305,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/airdrop/detail/:airdropID" component={AirdropDetail} />
                     <Route path="/ieo" exact component={SaleListScreen} />
                     <Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
+                    <Route path="/trading-competition" exact component={TradingCompetionListScreen} />
+                    <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
                 </Switch>
                 {isLoggedIn && <WalletsFetch />}
