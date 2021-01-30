@@ -1,7 +1,7 @@
-import { Button, Input} from 'antd';
+import { Button, Input } from 'antd';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import {Pagination} from '../';
+import { Pagination } from '../';
 import { Decimal } from '../../components';
 import { Market } from '../../modules';
 import './ticker.css';
@@ -14,18 +14,17 @@ interface Props {
   setCurrentBidUnit: (key: string) => void;
 }
 
-
 export const TickerTableScreen = (props: Props) => {
   const { currentBidUnit, markets } = props;
   const intl = useIntl();
 
-  const [searchMarketInput, setSearchMarketInput] = React.useState('');
-  const [pagination, setPagination] = React.useState({
+  const [searchMarketInputState, setSearchMarketInputState] = React.useState('');
+  const [paginationState, setPaginationState] = React.useState({
     current: 1,
     pageSize: 15,
     total: 0,
   });
-  const [tableFilterPagination,setTableFilterPagination] = React.useState<Market[]>([]);
+
   const renderHeader = () => (
     <ul className="navigation" role="tablist">
       {props.currentBidUnitsList.map((item, i) => (
@@ -39,38 +38,38 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </li>
       ))}
-      <div className="home-page__markets-top-block" style={{marginLeft : 764}}>
-          <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
+      <div className="home-page__markets-top-block" style={{ marginLeft: 764 }}>
+        <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
       </div>
     </ul>
   );
   const handldeSearchInputChange = (e: any) => {
     props.setCurrentBidUnit('');
-    setSearchMarketInput(e.target.value);
+    setSearchMarketInputState(e.target.value);
   };
 
   React.useEffect(() => {
-    if (markets){
-        setPagination(prev => ({
-                ...prev,
-                total : markets.length,
-        }));
+    if (markets) {
+      setPaginationState(prev => ({
+        ...prev,
+        total: markets.length,
+      }));
     }
-  },[markets.length]);
+  }, [markets.length]);
 
   React.useEffect(() => {
-      actionFilterPage();
-  },[pagination]);
+    handleGetStartPointPagination();
+  }, [paginationState]);
 
-  const actionFilterPage = () => {
-      const start = (pagination.pageSize * pagination.current) - pagination.pageSize;
-      setTableFilterPagination(markets.slice(start , start + pagination.pageSize));
+  const handleGetStartPointPagination = (): number => {
+    const start = (paginationState.pageSize * paginationState.current) - paginationState.pageSize;
+    return start;
   };
 
   const renderPagination = () => {
-    const {current,pageSize,total} = pagination;
+    const { current, pageSize, total } = paginationState;
 
-    return(
+    return (
       <Pagination onClickToPage={onClickToPage}
         page={current}
         onClickNextPage={onClickNextPage}
@@ -82,23 +81,23 @@ export const TickerTableScreen = (props: Props) => {
 
   };
   const onClickPrevPage = () => {
-    setPagination(prev => ({
-        ...prev,
-        current : prev.current - 1,
+    setPaginationState(prev => ({
+      ...prev,
+      current: prev.current - 1,
     }));
-};
-const onClickNextPage = () => {
-    setPagination(prev => ({
-        ...prev,
-        current : prev.current + 1,
+  };
+  const onClickNextPage = () => {
+    setPaginationState(prev => ({
+      ...prev,
+      current: prev.current + 1,
     }));
-};
-const onClickToPage = (value : number) => {
-    setPagination(prev => ({
-        ...prev,
-        current : value,
+  };
+  const onClickToPage = (value: number) => {
+    setPaginationState(prev => ({
+      ...prev,
+      current: value,
     }));
-};
+  };
 
   const renderItem = (market, index: number) => {
     const marketChangeColor = +(market.change || 0) < 0 ? 'negative' : 'positive';
@@ -144,7 +143,7 @@ const onClickToPage = (value : number) => {
         </td>
         <td>
           <Button type="primary" size="small"
-            style={{marginRight: 0, fontSize: 14}}
+            style={{ marginRight: 0, fontSize: 14 }}
             onClick={() => props.redirectToTrading(market.id)}
           >
             Trade
@@ -173,8 +172,11 @@ const onClickToPage = (value : number) => {
             </tr>
           </thead>
           <tbody>
-            {tableFilterPagination ? (
-              tableFilterPagination.filter(market => market.base_unit.includes(searchMarketInput) || market.quote_unit.includes(searchMarketInput)).map(renderItem)
+            {markets ? (
+              markets
+                .slice(handleGetStartPointPagination(), handleGetStartPointPagination() + paginationState.pageSize)
+                .filter(market => market.base_unit.includes(searchMarketInputState) || market.quote_unit.includes(searchMarketInputState))
+                .map(renderItem)
             ) : (
                 <tr><td><span className="no-data">{intl.formatMessage({ id: 'page.noDataToShow' })}</span></td></tr>
               )}
