@@ -36,10 +36,17 @@ export function* getPrice(action: GetPrice) {
             }
         }
         if(tsyms.includes('SWP')) {
-            const escPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/escusdt/tickers');
+            const escPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/swpusdt/tickers');
             newPrice = {
                 ...newPrice,
                 'SWP': Number(escPrice.data.ticker.last)
+            }
+        }
+        if(tsyms.includes('EOC')) {
+            const escPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/eocusdt/tickers');
+            newPrice = {
+                ...newPrice,
+                'EOC': Number(escPrice.data.ticker.last)
             }
         }
         yield put(priceData({
