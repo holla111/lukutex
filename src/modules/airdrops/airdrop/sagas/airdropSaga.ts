@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
 // import { API, RequestOptions } from '../../../../../api';
-import axios from '../../../../plugins/api/index';
+import axios from '../../../../plugins/Airdrop/api/index';
 
 import {
     airdropData,

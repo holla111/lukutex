@@ -4,7 +4,7 @@ import CoinWallet from './coin-wallet.png';
 import { Button, Menu, message, Progress, Table } from 'antd';
 import { useHistory } from 'react-router';
 import Countdown from 'react-countdown';
-import axios from '../../../api/index';
+import axios from '../../api/index';
 
 import './AirdropTable.css';
 import { Airdrop } from '../../../../modules';
@@ -52,7 +52,7 @@ export const AirdropTable: React.FunctionComponent = () => {
     }
 
     const fetch = (params: any) => {
-        setTableState({ ...tableState, loading: true });
+        // setTableState({ ...tableState, loading: true });
         try {
             switch (params.key) {
                 case 'wait':
