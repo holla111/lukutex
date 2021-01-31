@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Buy, buySaleItem, SaleItem, selectBuy, selectWallets, walletsFetch, resetBuyResponse, selectPrice, getPrice, getTotalBuyers, findSalebyId, currenciesFetch, selectCurrencies } from '../../../../modules';
+import { Buy, buySaleItem, SaleItem, selectBuy, selectWallets, walletsFetch, resetBuyResponse, selectPrice, getPrice, getTotalBuyers, findSalebyId, currenciesFetch, selectCurrencies } from '../../../../../modules';
 import { BuyConfirmModal } from '../BuyConfirmModal';
 import { Button, Input, message, notification } from 'antd';
 import NP from 'number-precision';
-import WalletImage from '../../assets/wallet.png';
 
 import './SaleBuy.css';
 interface SaleBuyProps {
@@ -67,7 +66,6 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
     const [quoteTotalState, setQuoteTotalState] = React.useState<number>(0);
     const [isShowBuyConfirmModalState, setIsBuyConfirmModalVisibleState] = React.useState<boolean>(false);
 
-
     const calculatePrice = (base_price: number, quantity: number, quote_price: number) => {
         switch (quoteCurrencyState.toLowerCase()) {
             case 'kobe':
@@ -127,10 +125,10 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
     const findIcon = (code: string): string => {
         const currency = currencies.find((currency: any) => currency.id === code);
         try {
-            return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
+            return require(`../../../../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
         } catch (err) {
             if (currency) return currency.icon_url;
-            return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
+            return require('../../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
         }
     };
 
@@ -154,7 +152,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
             setPriceState(convertedPrice);
             setQuoteTotalState(NP.strip(NP.times(quantityInputState, convertedPrice)));
         }
-    }, [quoteCurrencyState, price.loading]);
+    }, [quoteCurrencyState, price.loading])
 
     const hiddenBuyConfirmModal = () => {
         setIsBuyConfirmModalVisibleState(false);
@@ -265,7 +263,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
                             onChange={handleQuantityInput}
                             addonBefore={<img className="currency-icon" src={findIcon(currency_id)} alt="currency_buy" />}
                             addonAfter={currency_id.toUpperCase()} />
-                        {quantityInputState < props.sale.min_buy ? <span style={{ color: '#e63946', fontWeight: 'bold' }}>** Quantiy must be larger {props.sale.min_buy}</span> : ''}
+                        {quantityInputState < props.sale.min_buy ? <span style={{ color: '#e63946', fontWeight: 'bold', fontSize: '14px' }}>** Quantiy must be larger {props.sale.min_buy}</span> : ''}
                     </div>
                     <div className="price">
                         <span>At the price:</span>
@@ -300,7 +298,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
     const showSelectCurrencyForm = () => {
         return (
-            <div className="select-currency-box">
+            <div className="select-currency-box-mobile">
                 <span>Select currency</span>
                 <select onChange={handleSelectCurrency} value={quoteCurrencyState}>
                     {currency_available.map(currency => {
@@ -319,7 +317,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
     const showCloseView = () => {
         if (type !== 'ongoing') {
             return (
-                <div id="sale-buy__closed">
+                <div id="sale-buy-mobile__closed">
                     <span>STARTING PRICE:</span>
                     <p>${props.sale.price} USD</p>
                     <span>STARTS AFTER:</span>
@@ -354,19 +352,14 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
     return (
         <React.Fragment>
-            <div id="sale-buy" style={{ height: '100%' }}>
-                <h2 className="sale-buy__title">Buy {currency_id.toUpperCase()}</h2>
-                <h3 className="sale-buy__subtitle">
+            <div id="sale-buy-mobile" style={{ height: '100%' }}>
+                <h2 className="sale-buy-mobile__title">Buy {currency_id.toUpperCase()}</h2>
+                <h3 className="sale-buy-mobile__subtitle">
                     {`Available: ${baseBalance} ${currency_id.toUpperCase()}`}
                 </h3>
                 <div className="buy-box">
                     {showSelectCurrencyForm()}
                     {showBuyForm()}
-                </div>
-                <div className="row">
-                    <div className="col-12 text-center" style={{ marginTop: '2rem' }}>
-                        <img width="100px" src={WalletImage} alt="wallet-image" />
-                    </div>
                 </div>
             </div>
             {showCloseView()}
