@@ -82,8 +82,6 @@ import { HomeScreen } from '../../screens/HomeScreen';
 import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
-import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
-import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 
 interface ReduxProps {
     colorTheme: string;
@@ -264,10 +262,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileMobileScreen} />
                         <Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
                         {showLanding() && <Route exact={true} path="/" component={LandingScreenMobile} />}
-                        <Route path="/ieo" exact component={IEOListMobileScreen} />
-                        <Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
-                        <Route path="/trading-competition" exact component={TradingCompetionListMobileScreen} />
-                        <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailMobileScreen} />
 
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>

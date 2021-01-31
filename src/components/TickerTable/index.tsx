@@ -33,7 +33,6 @@ export const TickerTable = (props: Props) => {
 
   const renderItem = (market, index: number) => {
     const marketChangeColor = +(market.change || 0) < 0 ? 'negative' : 'positive';
-    const decima = 4;
     return (
       <tr key={index} onClick={() => props.redirectToTrading(market.id)}>
         <td>
@@ -43,7 +42,7 @@ export const TickerTable = (props: Props) => {
         </td>
         <td>
           <span className={marketChangeColor}>
-            <Decimal fixed={decima} thousSep=",">
+            <Decimal fixed={market.price_precision} thousSep=",">
               {market.last}
             </Decimal>
           </span>
@@ -53,14 +52,14 @@ export const TickerTable = (props: Props) => {
         </td>
         <td>
           <span>
-            <Decimal fixed={decima} thousSep=",">
+            <Decimal fixed={market.price_precision} thousSep=",">
               {market.high}
             </Decimal>
           </span>
         </td>
         <td>
           <span>
-            <Decimal fixed={decima} thousSep=",">
+            <Decimal fixed={market.price_precision} thousSep=",">
               {market.low}
             </Decimal>
           </span>
@@ -68,7 +67,7 @@ export const TickerTable = (props: Props) => {
         
         <td>
           <span className={marketChangeColor}>
-            <Decimal fixed={decima} thousSep=",">
+            <Decimal fixed={market.amount_precision} thousSep=",">
               {market.volume}
             </Decimal>
           </span>
