@@ -2,7 +2,7 @@ import * as React from 'react';
 import './FacebookTab.css'
 import { Table, Button, Result, message } from 'antd/lib';
 import { FacebookProvider, Login, Like, Share } from 'react-facebook';
-import api from '../../../api';
+import api from '../../api';
 import { FacebookTabConfig } from '../../screens';
 
 interface FacebookTabProps {
