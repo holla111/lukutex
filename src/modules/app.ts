@@ -48,8 +48,7 @@ import { ethFeeWithdrawReducer } from './eth-withdraw/withdraw';
 import { eventReducer } from './info/events';
 import { buyReducer, totalBuyersReducer } from './sale/buy';
 import { priceReducer } from './sale/price';
-import { saleItemReducer } from './sale/sale-item';
-import { saleListReducer } from './sale/sale-list';
+import { eventReducer } from './info/events';
 
 export const airdropsReducer = combineReducers({
     airdrops: airdropReducer,
@@ -70,8 +69,8 @@ export const saleReducer = combineReducers({
 });
 
 export const infoReducer = combineReducers({
-    events: eventReducer,
-});
+    events: eventReducer
+})
 
 export const publicReducer = combineReducers({
     blocklistAccess: blocklistAccessReducer,

@@ -11,6 +11,7 @@ import * as actions from '../../../../modules/index';
 import { LKTDetail } from './LKTDetail';
 import { HNYDetail } from './HNYDetail';
 import { VNDetail } from './VNDetail';
+import { IDDetail } from './IDDetail';
 
 export interface FacebookTabConfig {
     facebookAppId: string;
@@ -58,10 +59,10 @@ type Props = ReduxProps & DispatchProps & AirdropDetailConfig;
 
 const detailData: AirdropDetailConfig[] = [
     {
-        id: '1',
+        id: '10',
         tasks: {
             telegram: {
-                telegramGroup: 'https://t.me/lukutex_office"',
+                telegramGroup: 'https://t.me/Lukutex_Indonesia',
                 telegramChannel: 'https://t.me/Lukutex_News',
                 disable: false
             },
@@ -69,14 +70,14 @@ const detailData: AirdropDetailConfig[] = [
                 twitterName: 'Lukutex Exchange',
                 twitterUserName: 'Lukutex',
                 twitterPage: 'https://twitter.com/Lukutex',
-                twitterPost: 'https://twitter.com/Lukutex/status/1323957478493548545',
-                twitterPostId: '1323957478493548545',
+                twitterPost: 'https://twitter.com/Lukutex/status/1354165454483427329',
+                twitterPostId: '1354165454483427329',
                 disable: false
             },
             facebook: {
                 facebookAppId: '1243206966058196',
                 facebookPage: 'http://www.facebook.com/lukutex',
-                facebookPost: 'https://www.facebook.com/lukutex/posts/144902607331739',
+                facebookPost: 'https://www.facebook.com/lukutex/posts/187940439694622',
                 disable: false
             },
         }
@@ -272,8 +273,8 @@ const Detail: React.FC<Props> = (props: Props) => {
     let detailScreen;
     if (detail !== undefined) {
         switch (airdropID) {
-            case '1':
-                detailScreen = <LKTDetail detailConfig={detail} />;
+            case '10':
+                detailScreen = <IDDetail detailConfig={detail} />;
                 break;
             case '2':
                 detailScreen = <LKTDetail detailConfig={detail} />;

@@ -16,7 +16,7 @@ interface SaleBuyProps {
 export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
     const { id, currency_id, currency_available, type } = props.sale;
-    
+
     const price = useSelector(selectPrice);
     const buyResponse = useSelector(selectBuy, shallowEqual);
 
@@ -51,7 +51,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
     // Get Balance By Currency_ID
     const handleGetBalance = (currency) => {
         const foundedWallet = filteredWallets.find(wallet => wallet.currency === currency);
-        
+
         if (foundedWallet) {
             return Number(foundedWallet.balance);
         }
@@ -67,28 +67,29 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
     const [quoteTotalState, setQuoteTotalState] = React.useState<number>(0);
     const [isShowBuyConfirmModalState, setIsBuyConfirmModalVisibleState] = React.useState<boolean>(false);
 
-    
 
-    const calculateTotalPurchase = (defaultPrice: number, quantity: number, comparePrice: number) => {
-        return NP.times(defaultPrice, quantity, comparePrice);
-    }
-
-    // Reset Form
-    const resetForm = () => {
-        setQuantityInputState(props.sale.min_buy);
-        if(price.payload[quoteCurrencyState.toUpperCase()]) {
-            setQuoteTotalState(calculateTotalPurchase(props.sale.price, quantityInputState, price.payload[quoteCurrencyState.toUpperCase()]));
+    const calculatePrice = (base_price: number, quantity: number, quote_price: number) => {
+        switch (quoteCurrencyState.toLowerCase()) {
+            case 'kobe':
+                return NP.divide(NP.divide(1, quote_price), NP.divide(1, base_price));
+            case 'esc':
+                return NP.divide(NP.divide(1, quote_price), NP.divide(1, base_price));
+            case 'swp':
+                return NP.divide(NP.divide(1, quote_price), NP.divide(1, base_price));
+            default:
+                return NP.divide(quote_price, NP.divide(1, base_price));
         }
     }
 
     // Handle Select Currency
     const handleSelectCurrency = (event) => {
-        resetForm();
         const selectedCurrency = event.target.value;
         setQuoteCurrencyState(selectedCurrency);
         setQuoteBalanceState(handleGetBalance(selectedCurrency));
-        setPriceState(0);
-        setQuoteTotalState(0);
+        setQuantityInputState(props.sale.min_buy);
+        if (price.payload[quoteCurrencyState.toUpperCase()]) {
+            setQuoteTotalState(calculatePrice(props.sale.price, selectedCurrency, price.payload[quoteCurrencyState.toUpperCase()]));
+        }
     }
 
     const updateBonusState = (quantity: number) => {
@@ -117,7 +118,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
         if (priceState) {
             setQuantityInputState(quantity);
-            setQuoteTotalState(calculateTotalPurchase(quantity, priceState, price));
+            setQuoteTotalState(NP.strip(calculatePrice(price, quantity, priceState)));
         }
 
         updateBonusState(quantity);
@@ -149,10 +150,11 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
     React.useEffect(() => {
         if (price.payload && quoteCurrencyState && price.payload[quoteCurrencyState.toUpperCase()]) {
-            setPriceState(price.payload[quoteCurrencyState.toUpperCase()]);
-            setQuoteTotalState(calculateTotalPurchase(props.sale.price, quantityInputState, price.payload[quoteCurrencyState.toUpperCase()]));;
+            const convertedPrice= calculatePrice(props.sale.price, quantityInputState, price.payload[quoteCurrencyState.toUpperCase()]);
+            setPriceState(convertedPrice);
+            setQuoteTotalState(NP.strip(NP.times(quantityInputState, convertedPrice)));
         }
-    }, [quoteCurrencyState, price.loading])
+    }, [quoteCurrencyState, price.loading]);
 
     const hiddenBuyConfirmModal = () => {
         setIsBuyConfirmModalVisibleState(false);
@@ -286,7 +288,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
                             addonBefore={<img className="currency-icon" src={findIcon(quoteCurrencyState)} alt="" />}
                             addonAfter={quoteCurrencyState.toUpperCase()} />
                     </div>
-                    <div className="buy-button" style={{ marginTop: '3rem'}}>
+                    <div className="buy-button" style={{ marginTop: '3rem' }}>
                         {buyButton}
                     </div>
                 </React.Fragment>
@@ -352,7 +354,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
     return (
         <React.Fragment>
-            <div id="sale-buy" style={{height: '100%'}}>
+            <div id="sale-buy" style={{ height: '100%' }}>
                 <h2 className="sale-buy__title">Buy {currency_id.toUpperCase()}</h2>
                 <h3 className="sale-buy__subtitle">
                     {`Available: ${baseBalance} ${currency_id.toUpperCase()}`}
@@ -362,7 +364,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
                     {showBuyForm()}
                 </div>
                 <div className="row">
-                    <div className="col-12 text-center" style={{marginTop: '2rem'}}>
+                    <div className="col-12 text-center" style={{ marginTop: '2rem' }}>
                         <img width="100px" src={WalletImage} alt="wallet-image" />
                     </div>
                 </div>

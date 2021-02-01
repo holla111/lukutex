@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import { all, call } from 'redux-saga/effects';
 import { AirdropState, rootAirdropSaga } from './airdrops/airdrop';
 import { ClaimState, rootClaimSaga } from './airdrops/claim';
-import { airdropsReducer, ethFeesReducer,infoReducer , publicReducer, saleReducer, userReducer } from './app';
+import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
+import { airdropsReducer, ethFeesReducer, infoReducer, publicReducer, saleReducer, userReducer } from './app';
 import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
 import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
 import { EventsState, rootEventSaga } from './info/events';
@@ -51,6 +52,11 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
+import { SaleListState, rootSaleListSaga } from './sale/sale-list';
+import { SaleItemState, rootSaleItemSaga } from './sale/sale-item';
+import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
+import { PriceState, rootPriceSaga } from './sale/price';
+import { EventsState, rootEventSaga } from './info/events';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -107,7 +113,7 @@ export interface RootState {
         withdraw: ETHFeeWithdrawState;
     };
     info: {
-        events: EventsState;
+        events: EventsState
     };
 
     public: {
@@ -160,7 +166,7 @@ export const rootReducer = combineReducers({
     airdrops: airdropsReducer,
     ethFee: ethFeesReducer,
     sale: saleReducer,
-    info: infoReducer,
+    info: infoReducer
 });
 
 export function* rootSaga() {
@@ -204,6 +210,6 @@ export function* rootSaga() {
         call(rootSaleItemSaga),
         call(rootBuySaga),
         call(rootPriceSaga),
-        call(rootEventSaga),
+        call(rootEventSaga)
     ]);
 }

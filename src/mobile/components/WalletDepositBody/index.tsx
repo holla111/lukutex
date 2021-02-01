@@ -30,7 +30,7 @@ const WalletDepositBodyComponent = props => {
 
     const textConfirmation = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currencyItem.min_confirmations });
 
-    const textMinDeposit = `${translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} > ${Number(currencyItem.min_deposit_amount)} ${wallet.currency.toUpperCase()}`;
+    const textMinDeposit = `${translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount)} ${wallet.currency.toUpperCase()}`;
 
     const textNote = `Only Deposit ${wallet.currency.toUpperCase()} to this wallet.`
 

@@ -21,27 +21,18 @@ export function* getPrice(action: GetPrice) {
             price.data[key] = Number(price.data[key]);
         });
         let newPrice = {...price.data};
-        if(tsyms.includes('KOBE')) {
-            const kobePrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/kobeusdt/tickers');
-            newPrice = {
-                ...newPrice,
-                'KOBE': Number(kobePrice.data.ticker.last)
-            }
+        const kobePrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/kobeusdt/tickers');
+        const escPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/escusdt/tickers');
+        const swpPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/swpusdt/tickers');
+      
+        newPrice = {
+            ...newPrice,
+            'KOBE': Number(kobePrice.data.ticker.last),
+            'ESC': Number(escPrice.data.ticker.last),
+            'SWP': Number(swpPrice.data.ticker.last)
         }
-        if(tsyms.includes('ESC')) {
-            const escPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/escusdt/tickers');
-            newPrice = {
-                ...newPrice,
-                'ESC': Number(escPrice.data.ticker.last)
-            }
-        }
-        if(tsyms.includes('SWP')) {
-            const escPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/escusdt/tickers');
-            newPrice = {
-                ...newPrice,
-                'SWP': Number(escPrice.data.ticker.last)
-            }
-        }
+        console.log(newPrice);
+        
         yield put(priceData({
             payload: {
                 ...newPrice,
