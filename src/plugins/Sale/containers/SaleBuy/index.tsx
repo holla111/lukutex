@@ -118,7 +118,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
         if (priceState) {
             setQuantityInputState(quantity);
-            setQuoteTotalState(NP.strip(calculatePrice(price, quantity, priceState)));
+            setQuoteTotalState(NP.times(NP.strip(calculatePrice(price, quantity, priceState)), quantity));
         }
 
         updateBonusState(quantity);
