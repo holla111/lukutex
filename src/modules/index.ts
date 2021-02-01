@@ -5,7 +5,6 @@ import { ClaimState, rootClaimSaga } from './airdrops/claim';
 import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
 import { airdropsReducer, ethFeesReducer, infoReducer, publicReducer, saleReducer, userReducer } from './app';
 import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
-import { EventsState, rootEventSaga } from './info/events';
 import { AlertState, rootHandleAlertSaga } from './public/alert';
 import { BlocklistAccessState, rootBlocklistAccessSaga } from './public/blocklistAccess';
 import { ConfigsState, rootConfigsSaga } from './public/configs';
@@ -25,10 +24,6 @@ import {
 } from './public/orderBook';
 import { RangerState } from './public/ranger/reducer';
 import { RecentTradesState, rootRecentTradesSaga } from './public/recentTrades';
-import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
-import { PriceState, rootPriceSaga } from './sale/price';
-import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
-import { rootSaleListSaga, SaleListState } from './sale/sale-list';
 import { ApiKeysState } from './user/apiKeys';
 import { rootApiKeysSaga } from './user/apiKeys/sagas';
 import { AuthState, rootAuthSaga } from './user/auth';
@@ -51,6 +46,11 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
+import { SaleListState, rootSaleListSaga } from './sale/sale-list';
+import { SaleItemState, rootSaleItemSaga } from './sale/sale-item';
+import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
+import { PriceState, rootPriceSaga } from './sale/price';
+import { EventsState, rootEventSaga } from './info/events';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -100,8 +100,8 @@ export interface RootState {
         saleItem: SaleItemState,
         buy: BuyState,
         price: PriceState,
-        totalBuyers: TotalBuyersState,
-    };
+        totalBuyers: TotalBuyersState
+    }
     ethFee: {
         ethFee: ETHFeeState;
         withdraw: ETHFeeWithdrawState;
