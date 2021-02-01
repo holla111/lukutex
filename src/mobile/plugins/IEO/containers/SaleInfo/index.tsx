@@ -81,10 +81,10 @@ export const SaleInfo: React.FC<SaleInfoProps> = (props: SaleInfoProps) => {
             <div className="row">
                 <div className="col-12 text-center">
                     <Row gutter={[16, 16]}>
-                        <Col span={12}>
+                        <Col span={24}>
                             <Statistic valueStyle={{ color: '#e9c46a' }} title={"Remain"} value={props.sale.remains} />
                         </Col>
-                        <Col span={12}>
+                        <Col span={24}>
                             <Statistic valueStyle={{ color: '#f4a261' }} title={"Total"} value={props.sale.total_ieo} />
                         </Col>
                         <Col span={24}>

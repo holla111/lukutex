@@ -82,6 +82,7 @@ import { HomeScreen } from '../../screens/HomeScreen';
 import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 
 interface ReduxProps {
     colorTheme: string;
@@ -194,7 +195,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
     public componentDidUpdate(prevProps: LayoutProps) {
 
-        const { customization, isLoggedIn,history, userLoading } = this.props;
+        const { customization, isLoggedIn, history, userLoading } = this.props;
 
         if (!isLoggedIn && prevProps.isLoggedIn && !userLoading) {
             this.props.walletsReset();
@@ -262,7 +263,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileMobileScreen} />
                         <Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
                         {showLanding() && <Route exact={true} path="/" component={LandingScreenMobile} />}
-
+                        <Route path="/ieo" exact component={IEOListMobileScreen} />
+                        <Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>
                     {isLoggedIn && <WalletsFetch />}

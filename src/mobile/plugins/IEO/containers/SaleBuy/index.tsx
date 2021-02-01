@@ -16,7 +16,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
     const { id, currency_id, currency_available, type } = props.sale;
 
-    const price = useSelector(selectPrice);
+    const priceSelector = useSelector(selectPrice);
     const buyResponse = useSelector(selectBuy, shallowEqual);
 
     // Dispatch Fetch Wallets Of User Action
@@ -66,7 +66,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
     const [quoteTotalState, setQuoteTotalState] = React.useState<number>(0);
     const [isShowBuyConfirmModalState, setIsBuyConfirmModalVisibleState] = React.useState<boolean>(false);
 
-    const calculatePrice = (base_price: number, quantity: number, quote_price: number) => {
+    const calculatePrice = (base_price: number, quote_price: number) => {
         switch (quoteCurrencyState.toLowerCase()) {
             case 'kobe':
                 return NP.divide(NP.divide(1, quote_price), NP.divide(1, base_price));
@@ -79,14 +79,14 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
         }
     }
 
-    // Handle Select Currency
-    const handleSelectCurrency = (event) => {
+      // Handle Select Currency
+      const handleSelectCurrency = (event) => {
         const selectedCurrency = event.target.value;
         setQuoteCurrencyState(selectedCurrency);
         setQuoteBalanceState(handleGetBalance(selectedCurrency));
         setQuantityInputState(props.sale.min_buy);
-        if (price.payload[quoteCurrencyState.toUpperCase()]) {
-            setQuoteTotalState(calculatePrice(props.sale.price, selectedCurrency, price.payload[quoteCurrencyState.toUpperCase()]));
+        if (priceSelector.payload[quoteCurrencyState.toUpperCase()]) {
+            setQuoteTotalState(calculatePrice(props.sale.price, priceSelector.payload[quoteCurrencyState.toUpperCase()]));
         }
     }
 
@@ -114,10 +114,8 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
         const quantity = event.target.value;
         const { price } = props.sale;
 
-        if (priceState) {
-            setQuantityInputState(quantity);
-            setQuoteTotalState(NP.strip(calculatePrice(price, quantity, priceState)));
-        }
+        setQuantityInputState(quantity);
+        setQuoteTotalState(NP.times(NP.strip(calculatePrice(price, priceSelector.payload[quoteCurrencyState.toUpperCase()] || 0)), quantity));
 
         updateBonusState(quantity);
     }
@@ -147,12 +145,12 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
     }, [filteredWallets.length]);
 
     React.useEffect(() => {
-        if (price.payload && quoteCurrencyState && price.payload[quoteCurrencyState.toUpperCase()]) {
-            const convertedPrice= calculatePrice(props.sale.price, quantityInputState, price.payload[quoteCurrencyState.toUpperCase()]);
+        if (priceSelector.payload && quoteCurrencyState && priceSelector.payload[quoteCurrencyState.toUpperCase()]) {
+            const convertedPrice = calculatePrice(props.sale.price, priceSelector.payload[quoteCurrencyState.toUpperCase()]);
             setPriceState(convertedPrice);
             setQuoteTotalState(NP.strip(NP.times(quantityInputState, convertedPrice)));
         }
-    }, [quoteCurrencyState, price.loading])
+    }, [quoteCurrencyState, priceSelector.loading]);
 
     const hiddenBuyConfirmModal = () => {
         setIsBuyConfirmModalVisibleState(false);

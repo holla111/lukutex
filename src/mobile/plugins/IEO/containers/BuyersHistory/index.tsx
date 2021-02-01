@@ -44,11 +44,11 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
             dataIndex: 'quote_currency',
             key: 'quote_currency',
         },
-        {
-            title: 'Buy Date',
-            dataIndex: 'created_at',
-            key: 'created_at',
-        },
+        // {
+        //     title: 'Buy Date',
+        //     dataIndex: 'created_at',
+        //     key: 'created_at',
+        // },
     ];
 
     const [tableState, setTableState] = React.useState({
