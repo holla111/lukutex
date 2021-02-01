@@ -68,7 +68,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
     const [isShowBuyConfirmModalState, setIsBuyConfirmModalVisibleState] = React.useState<boolean>(false);
 
 
-    const calculatePrice = (base_price: number, quantity: number, quote_price: number) => {
+    const calculatePrice = (base_price: number, quote_price: number) => {
         switch (quoteCurrencyState.toLowerCase()) {
             case 'kobe':
                 return NP.divide(NP.divide(1, quote_price), NP.divide(1, base_price));
@@ -88,7 +88,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
         setQuoteBalanceState(handleGetBalance(selectedCurrency));
         setQuantityInputState(props.sale.min_buy);
         if (price.payload[quoteCurrencyState.toUpperCase()]) {
-            setQuoteTotalState(calculatePrice(props.sale.price, selectedCurrency, price.payload[quoteCurrencyState.toUpperCase()]));
+            setQuoteTotalState(calculatePrice(props.sale.price, price.payload[quoteCurrencyState.toUpperCase()]));
         }
     }
 
@@ -118,7 +118,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
         if (priceState) {
             setQuantityInputState(quantity);
-            setQuoteTotalState(NP.times(NP.strip(calculatePrice(price, quantity, priceState)), quantity));
+            setQuoteTotalState(NP.times(NP.strip(calculatePrice(price, priceState)), quantity));
         }
 
         updateBonusState(quantity);
@@ -150,7 +150,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
     React.useEffect(() => {
         if (price.payload && quoteCurrencyState && price.payload[quoteCurrencyState.toUpperCase()]) {
-            const convertedPrice= calculatePrice(props.sale.price, quantityInputState, price.payload[quoteCurrencyState.toUpperCase()]);
+            const convertedPrice= calculatePrice(props.sale.price, price.payload[quoteCurrencyState.toUpperCase()]);
             setPriceState(convertedPrice);
             setQuoteTotalState(NP.strip(NP.times(quantityInputState, convertedPrice)));
         }
