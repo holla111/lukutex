@@ -52,7 +52,7 @@ export const AirdropTable: React.FunctionComponent = () => {
     }
 
     const fetch = (params: any) => {
-        // setTableState({ ...tableState, loading: true });
+        setTableState({ ...tableState, loading: true });
         try {
             switch (params.key) {
                 case 'wait':

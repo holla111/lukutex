@@ -98,8 +98,8 @@ export const IEODetailMobileScreen: React.FC = () => {
                     <div id="sale-info-buy-mobile" className="container-fluid">
                         <span className="sale-detail-mobile__badge" style={{ backgroundColor: getBadgeColor(saleItem.payload.type) }}>{saleItem.payload ? saleItem.payload.type : ''}</span>
                         <Row gutter={[16, 16]}>
-                            <Col span={24}>{saleInfoView}</Col>
                             <Col span={24}>{saleBuyView}</Col>
+                            <Col span={24}>{saleInfoView}</Col>
                         </Row>
 
                     </div>
