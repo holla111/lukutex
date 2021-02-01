@@ -86,4 +86,4 @@ const PaginationComponent:React.FC<PaginationComponentComponent> = props => {
     );
 };
 
-export const Pagination = React.memo(PaginationComponent);
+export const PaginationMobile = React.memo(PaginationComponent);

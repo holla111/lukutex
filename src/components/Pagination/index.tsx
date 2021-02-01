@@ -105,7 +105,7 @@ export const Pagination: React.FC<PaginationProps> =props => {
 
 
     return(
-        <nav className="cr-mobile-table__pagination" aria-label="Page navigation example">
+        <nav className="cr-desktop-table__pagination" aria-label="Page navigation example">
             <ul className="pagination">
                 <li className="pagination-item" onClick={onClickPrevPage} style={{width: '30px',  margin: '0 10px'}}>
                     <a className="page-link"  aria-label="Previous">

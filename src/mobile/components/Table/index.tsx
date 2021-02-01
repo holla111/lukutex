@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import {useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {Pagination} from '../';
+import {PaginationMobile} from '../';
 import {Decimal } from '../../../components';
 import {
     Market,
@@ -107,7 +107,7 @@ const TableComponent : React.FC<TableProps> = ({headers,markets}) => {
         const {current,pageSize,total} = tablePagination;
 
         return (
-            <Pagination onClickToPage={onClickToPage}  page={current} onClickNextPage={onClickNextPage} onClickPrevPage={onClickPrevPage} firstElemIndex={1} lastElemIndex={Math.ceil(total / pageSize)} />
+            <PaginationMobile onClickToPage={onClickToPage}  page={current} onClickNextPage={onClickNextPage} onClickPrevPage={onClickPrevPage} firstElemIndex={1} lastElemIndex={Math.ceil(total / pageSize)} />
         );
     };
 

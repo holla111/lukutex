@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { WalletOutlined } from '@ant-design/icons';
-import {Link} from 'react-router-dom';
+import { WalletOutlined, GiftOutlined, ExperimentOutlined, CrownOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const DirectionalsComponent: React.FC = ({ }) => {
     return (
@@ -12,17 +12,16 @@ const DirectionalsComponent: React.FC = ({ }) => {
                 </Link>
                 <Link to="/ieo" className="dropdown-content-show">
 
-                    <WalletOutlined style={{ color: 'wheat', fontSize: "20px" }} />
+                    <ExperimentOutlined style={{ color: 'wheat', fontSize: "20px" }} />
                     <span>IEO</span>
                 </Link>
                 <Link to="/airdrop" className="dropdown-content-show">
 
-                    <WalletOutlined style={{ color: 'wheat', fontSize: "20px" }} />
+                    <GiftOutlined style={{ color: 'wheat', fontSize: "20px" }} />
                     <span>Airdrop</span>
                 </Link>
                 <Link to="/competition" className="dropdown-content-show">
-
-                    <WalletOutlined style={{ color: 'wheat', fontSize: "20px" }} />
+                    <CrownOutlined style={{ color: 'wheat', fontSize: "20px" }} />
                     <span>Competition</span>
                 </Link>
             </div>
