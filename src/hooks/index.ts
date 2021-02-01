@@ -3,6 +3,7 @@ export * from './useBeneficiariesFetch';
 export * from './useCurrenciesFetch';
 export * from './useDepthFetch';
 export * from './useDocumentTitle';
+export * from './useEventsFetch';
 export * from './useHistoryFetch';
 export * from './useMarketsFetch';
 export * from './usePrevious';

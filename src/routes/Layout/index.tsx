@@ -5,7 +5,7 @@ import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Route, RouterProps, Switch } from 'react-router';
 import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { minutesUntilAutoLogout, sessionCheckInterval, showLanding } from '../../api';
+import { minutesUntilAutoLogout, sessionCheckInterval, /* showLanding */ } from '../../api';
 import { ExpiredSessionModal } from '../../components';
 import { WalletsFetch } from '../../containers';
 import { toggleColorTheme } from '../../helpers';
@@ -261,8 +261,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile/theme" component={ProfileThemeMobileScreen} />
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileMobileScreen} />
                         <Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
-                        {showLanding() && <Route exact={true} path="/" component={LandingScreenMobile} />}
-
+                        {/* {showLanding() && <Route exact={true} path="/" component={LandingScreenMobile} />} */}
+                        <Route exact={true} path="/" component={LandingScreenMobile} />
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>
                     {isLoggedIn && <WalletsFetch />}
