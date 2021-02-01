@@ -31,7 +31,6 @@ export function* getPrice(action: GetPrice) {
             'ESC': Number(escPrice.data.ticker.last),
             'SWP': Number(swpPrice.data.ticker.last)
         }
-        console.log(newPrice);
         
         yield put(priceData({
             payload: {
