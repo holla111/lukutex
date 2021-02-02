@@ -7,6 +7,8 @@ import { useHistory } from 'react-router';
 import { FormInput, PasswordStrengthMeter } from '../';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '../../helpers';
 import { selectMobileDeviceState } from '../../modules/public/globalSettings';
+import {CaretDownOutlined} from '@ant-design/icons';
+
 
 export interface RegisterFormProps {
     isLoading?: boolean;
@@ -312,7 +314,7 @@ export const Register = (props: RegisterFormProps) => {
                         {confirmationError && <div className={'cr-sign-up-form__error'}>{confirmationError}</div>}
                     </div>
                     <div className={refIdGroupClass}>
-                        <p style={{cursor: 'pointer'}} onClick={handleDropdown}>Referral ID (Optional)</p>
+                        <p style={{cursor: 'pointer'}} onClick={handleDropdown}>Referral ID (Optional) <CaretDownOutlined /></p>
                         {renderFormInput()}
                         
                     </div>
