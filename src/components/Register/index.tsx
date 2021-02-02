@@ -102,30 +102,29 @@ export const Register = (props: RegisterFormProps) => {
 
     const handleDropdown = () => {
         setDropdown(!dropdown);
-    }
 
+    }
     const renderFormInput = ():any | boolean => {
-      if(dropdown){
+      if(dropdown) {
           return(
             <React.Fragment>
               <FormInput
-              type="text"
-              label={referalCodeLabel || 'Referral code'}
-              placeholder={referalCodeLabel || 'Referral code'}
-              defaultLabel="Referral code"
-              handleChangeInput={props.handleChangeRefId}
-              inputValue={refId}
-              handleFocusInput={props.handleFocusRefId}
-              classNameLabel="cr-sign-up-form__label"
-              classNameInput="cr-sign-up-form__input"
-              autoFocus={false}
+                type="text"
+                label={referalCodeLabel || 'Referral code'}
+                placeholder={referalCodeLabel || 'Referral code'}
+                defaultLabel="Referral code"
+                handleChangeInput={props.handleChangeRefId}
+                inputValue={refId}
+                handleFocusInput={props.handleFocusRefId}
+                classNameLabel="cr-sign-up-form__label"
+                classNameInput="cr-sign-up-form__input"
+                autoFocus={false}
               />
             </React.Fragment>
             
           );
       }
     }
-
     const disableButton = (): boolean => {
         if (!hasConfirmed || isLoading || !email.match(EMAIL_REGEX) || !password || !confirmPassword) {
             return true;
