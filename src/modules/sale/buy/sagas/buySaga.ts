@@ -1,7 +1,7 @@
 import { put } from 'redux-saga/effects';
 import { Buy } from '..';
 // import { API, RequestOptions } from '../../../../../api';
-import axios from '../../../../plugins/Sale/api/index';
+import axios from '../../../../plugins/api/index';
 
 import {
     BuySaleItem,

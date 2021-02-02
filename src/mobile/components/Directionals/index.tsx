@@ -10,17 +10,18 @@ const DirectionalsComponent: React.FC = ({ }) => {
                     <WalletOutlined style={{ color: 'wheat', fontSize: "20px" }} />
                     <span>Deposit</span>
                 </Link>
-                <Link to="/ieo" className="dropdown-content-show">
 
+                <Link to="/ieo" className="dropdown-content-show">
                     <ExperimentOutlined style={{ color: 'wheat', fontSize: "20px" }} />
                     <span>IEO</span>
                 </Link>
-                <Link to="/airdrop" className="dropdown-content-show">
 
+                <Link to="/airdrop" className="dropdown-content-show">
                     <GiftOutlined style={{ color: 'wheat', fontSize: "20px" }} />
                     <span>Airdrop</span>
                 </Link>
-                <Link to="/competition" className="dropdown-content-show">
+
+                <Link to="/trading-competition" className="dropdown-content-show">
                     <CrownOutlined style={{ color: 'wheat', fontSize: "20px" }} />
                     <span>Competition</span>
                 </Link>

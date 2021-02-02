@@ -3,7 +3,7 @@ import { all, call } from 'redux-saga/effects';
 import { AirdropState, rootAirdropSaga } from './airdrops/airdrop';
 import { ClaimState, rootClaimSaga } from './airdrops/claim';
 import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
-import { airdropsReducer, ethFeesReducer, infoReducer, publicReducer, saleReducer, userReducer } from './app';
+import { airdropsReducer, ethFeesReducer, infoReducer, publicReducer, saleReducer, tradingCompetitionsReducer, userReducer } from './app';
 import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
 import { AlertState, rootHandleAlertSaga } from './public/alert';
 import { BlocklistAccessState, rootBlocklistAccessSaga } from './public/blocklistAccess';
@@ -50,6 +50,9 @@ import { SaleListState, rootSaleListSaga } from './sale/sale-list';
 import { SaleItemState, rootSaleItemSaga } from './sale/sale-item';
 import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
 import { PriceState, rootPriceSaga } from './sale/price';
+import { TradingRankingsState, rootRankingsSaga } from './trading_competitions/rankings';
+import { CompetionListState, rootCompetionsListSaga } from './trading_competitions/competitions';
+import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
 import { EventsState, rootEventSaga } from './info/events';
 
 export * from './public/markets';
@@ -88,6 +91,9 @@ export * from './sale/sale-list';
 export * from './sale/sale-item';
 export * from './sale/buy';
 export * from './sale/price';
+export * from './trading_competitions/competitions';
+export * from './trading_competitions/competition_item';
+export * from './trading_competitions/rankings';
 export * from './info/events';
 
 export interface RootState {
@@ -101,7 +107,12 @@ export interface RootState {
         buy: BuyState,
         price: PriceState,
         totalBuyers: TotalBuyersState
-    }
+    };
+    trading_competitions: {
+        competitions: CompetionListState,
+        competition_item: CompetitionItemState,
+        rankings: TradingRankingsState
+    };
     ethFee: {
         ethFee: ETHFeeState;
         withdraw: ETHFeeWithdrawState;
@@ -151,7 +162,6 @@ export interface RootState {
         wallets: WalletsState;
         withdrawLimit: WithdrawLimitState;
     };
-
 }
 
 export const rootReducer = combineReducers({
@@ -160,6 +170,7 @@ export const rootReducer = combineReducers({
     airdrops: airdropsReducer,
     ethFee: ethFeesReducer,
     sale: saleReducer,
+    trading_competitions: tradingCompetitionsReducer,
     info: infoReducer
 });
 
@@ -204,6 +215,9 @@ export function* rootSaga() {
         call(rootSaleItemSaga),
         call(rootBuySaga),
         call(rootPriceSaga),
+        call(rootCompetionsListSaga),
+        call(rootcompetitionItemSaga),
+        call(rootRankingsSaga),
         call(rootEventSaga)
     ]);
 }
