@@ -26,19 +26,135 @@ const prizeList: Prizes[] = [
         prizes: [
             {
                 rank: '1',
-                award: '200 LKT'
+                award: '1,000,000 SWP and 150 USDT'
             },
             {
                 rank: '2',
-                award: '200 LKT'
+                award: '500,000 SWP and 50 USDT'
             },
             {
                 rank: '3',
-                award: '200 LKT'
+                award: '200,000 SWP'
             },
             {
                 rank: '4',
-                award: '200 LKT'
+                award: '70,000 SWP'
+            },
+            {
+                rank: '5',
+                award: '50,000 SWP'
+            },
+            {
+                rank: '6',
+                award: '30,000 SWP'
+            },
+            {
+                rank: '7',
+                award: '25,000 SWP'
+            },
+            {
+                rank: '8',
+                award: '25,000 SWP'
+            },
+            {
+                rank: '9',
+                award: '25,000 SWP'
+            },
+            {
+                rank: '10',
+                award: '25,000 SWP'
+            },
+            {
+                rank: '11',
+                award: '25,000 SWP'
+            },
+            {
+                rank: '12',
+                award: '25,000 SWP'
+            }
+        ]
+    },
+
+    {
+        competition_id: 2,
+        prizes: [
+            {
+                rank: '1',
+                award: '4000 EOC and 150 USDT'
+            },
+            {
+                rank: '2',
+                award: '2000 EOC and 50 USDT'
+            },
+            {
+                rank: '3',
+                award: '1000 EOC'
+            },
+            {
+                rank: '4',
+                award: '500 EOC'
+            },
+            {
+                rank: '5',
+                award: '500 EOC'
+            },
+            {
+                rank: '6',
+                award: '500 EOC'
+            },
+            {
+                rank: '7',
+                award: '500 EOC'
+            },
+            {
+                rank: '8',
+                award: '500 EOC'
+            },
+            {
+                rank: '9',
+                award: '500 EOC'
+            },
+            {
+                rank: '10',
+                award: '500 EOC'
+            },
+        ]
+    },
+
+    {
+        competition_id: 3,
+        prizes: [
+            {
+                rank: '1',
+                award: '20,000 DOGY'
+            },
+            {
+                rank: '2',
+                award: '10,000 DOGY'
+            },
+            {
+                rank: '3',
+                award: '5,000 DOGY'
+            },
+            {
+                rank: '4',
+                award: '3,000 DOGY'
+            },
+            {
+                rank: '5',
+                award: '3,000 DOGY'
+            },
+            {
+                rank: '6',
+                award: '3,000 DOGY'
+            },
+            {
+                rank: '7',
+                award: '3,000 DOGY'
+            },
+            {
+                rank: '8',
+                award: '3,000 DOGY'
             }
         ]
     }

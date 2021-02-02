@@ -15,7 +15,7 @@ interface CompetitionItemProps {
 
 export const CompetitionItem: React.FC<CompetitionItemProps> = (props: CompetitionItemProps) => {
 
-    const { id, currency_id, total_prize } = props.competition;
+    const { id, currency_id, total_prize, currency_image } = props.competition;
     const { type } = props;
 
     const history = useHistory();
@@ -53,7 +53,7 @@ export const CompetitionItem: React.FC<CompetitionItemProps> = (props: Competiti
         <div className="competition-item-mobile">
             <div className="row competition-item-mobile__top" >
                 <div className="col-6">
-                    <img style={{ width: '30px', height: '30px' }} src="https://coinsbit.io/storage/currency/sVmRDPgDdWX6P6NVqjzIswtr3w4XQdahRwVTrvbr.png" alt="currency" />
+                    <img style={{ width: '30px', height: '30px' }} src={currency_image} alt="currency" />
                     <span style={{ padding: '0.5rem 1rem', color: '#fff', fontSize: '1rem', fontWeight: 'bold' }}>{currency_id.toUpperCase()}</span>
                 </div>
                 <div className="col-6" style={{ textAlign: 'end' }}>

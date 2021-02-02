@@ -10,7 +10,7 @@ import { ExpiredSessionModal } from '../../components';
 import { WalletsFetch } from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
-import { isMobile } from "react-device-detect";
+/* import { isMobile } from "react-device-detect"; */
 import {
     ChangeForgottenPasswordMobileScreen,
     ConfirmMobileScreen,
@@ -244,7 +244,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
             return renderLoader();
         }
 
-        if (isMobileDevice && isMobile) {
+        if (isMobileDevice /* && isMobile */) {
             return (
                 <div className={'container-fluid pg-layout pg-layout--mobile'}>
                     <Switch>
