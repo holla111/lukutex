@@ -11,6 +11,8 @@ export * from './ProfileScreen';
 export * from './ProfileTwoFactorAuthScreen';
 export * from './SignInScreen';
 export * from './SignUpScreen';
+export * from './LogInScreen';
+export * from './RegisterScreen';
 export * from './TradingScreen';
 export * from './VerificationScreen';
 export * from './WalletsScreen';

@@ -169,11 +169,11 @@ class Head extends React.Component<Props, State> {
   };
 
   public redirectSingIn = () => {
-    this.props.history.push('/signin');
+    this.props.history.push('/login');
   };
 
   public redirectSingUp = () => {
-    this.props.history.push('/signup');
+    this.props.history.push('/register');
   };
 
   private translate = (key: string) => this.props.intl.formatMessage({ id: key });
