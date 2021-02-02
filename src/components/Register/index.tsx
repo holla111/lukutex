@@ -99,7 +99,7 @@ export const Register = (props: RegisterFormProps) => {
     } = props;
 
     const handleDropdown = () => {
-        setDropdown(true);
+        setDropdown(!dropdown);
     }
 
     const renderFormInput = ():any | boolean => {
