@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
-// import { API, RequestOptions } from '../../../../../api';
-import axios from 'axios';
+import pluginsAPI from '../../../../plugins/api/index';
+
 import {
     eventData,
     eventError,
@@ -11,7 +11,7 @@ import { EventItem } from '../types';
 
 export function* eventFetchSaga(action: EventFetch) {
     try {
-        const events = yield axios.get<EventItem[]>('https://lukutex-api-test.herokuapp.com/events/fetch');
+        const events = yield pluginsAPI.get<EventItem[]>('/events/fetch');
         yield put(eventData({
             payload: events.data.events,
             loading: false

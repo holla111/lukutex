@@ -16,8 +16,10 @@ import './style.css';
 
 const settingEvents = {
   dots: true,
-  infinite: false,
+  infinite: true,
   speed: 500,
+  autoplay : true,
+  autoplaySpeed : 2500,
   slidesToShow: 3,
   slidesToScroll: 3,
   adaptiveHeight: true,
