@@ -195,7 +195,7 @@ export const TradingCompetitionDetailMobileScreen: React.FC = () => {
                     const data = res.data;
                     if (data.payload.rank) {
                         setRankOfUserState(data.payload.rank);
-                        setVolumnOfUserState(data.payload.volumn)
+                        setVolumnOfUserState(Number(data.payload.volumn))
                     }
                 })
                 .catch(err => {
