@@ -157,6 +157,92 @@ const prizeList: Prizes[] = [
                 award: '3,000 DOGY'
             }
         ]
+    },
+
+    {
+        competition_id: 4,
+        prizes: [
+            {
+                rank: '1',
+                award: '40,000 GHD'
+            },
+            {
+                rank: '2',
+                award: '30,000 GHD'
+            },
+            {
+                rank: '3',
+                award: '25,000 GHD'
+            },
+            {
+                rank: '4',
+                award: '10,000 GHD'
+            },
+            {
+                rank: '5',
+                award: '8,000 GHD'
+            },
+            {
+                rank: '6',
+                award: '7,000 GHD'
+            },
+            {
+                rank: '7',
+                award: '5,000 GHD'
+            },
+            {
+                rank: '8',
+                award: '5,000 GHD'
+            },
+            {
+                rank: '9',
+                award: '5,000 GHD'
+            },
+            {
+                rank: '10',
+                award: '5,000 GHD'
+            },
+            {
+                rank: '11',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '12',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '13',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '14',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '15',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '16',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '17',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '18',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '19',
+                award: '1,500 GHD'
+            },
+            {
+                rank: '20',
+                award: '1,500 GHD'
+            }
+        ]
     }
 ]
 
