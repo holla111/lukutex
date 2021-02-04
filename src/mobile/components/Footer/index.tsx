@@ -24,7 +24,7 @@ const FooterComponent: React.FC = () => {
                 <HomeIcon className="pg-mobile-footer__item__icon" />
                 <span className="pg-mobile-footer__item__title">{intl.formatMessage({id: 'page.mobile.footer.home'})}</span>
             </Link>
-            <Link to="/orders" className={handleGetActiveItemClass(pathname, '/orders')}>
+            <Link to="/ieo" className={handleGetActiveItemClass(pathname, '/ieo')}>
                 <OrderIcon className="pg-mobile-footer__item__icon" />
                 <span className="pg-mobile-footer__item__title">{intl.formatMessage({id: 'page.mobile.footer.ieos'})}</span>
             </Link>
