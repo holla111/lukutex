@@ -243,7 +243,37 @@ const prizeList: Prizes[] = [
                 award: '1,500 GHD'
             }
         ]
-    }
+    },
+
+    {
+        competition_id: 5,
+        prizes: [
+            {
+                rank: '1',
+                award: '20,000 TDI'
+            },
+            {
+                rank: '2',
+                award: '7,500 TDI'
+            },
+            {
+                rank: '3',
+                award: '5,000 TDI'
+            },
+            {
+                rank: '4',
+                award: '2,500 TDI'
+            },
+            {
+                rank: '5',
+                award: '1,500 TDI'
+            },
+            {
+                rank: '6',
+                award: '1,000 TDI'
+            },
+        ]
+    },
 ]
 
 export const TradingCompetitionDetailScreen: React.FC = () => {
