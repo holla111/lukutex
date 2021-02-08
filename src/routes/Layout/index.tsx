@@ -1,3 +1,5 @@
+import { CloseOutlined } from '@ant-design/icons';
+import {Modal} from 'antd';
 import * as React from 'react';
 import { Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
@@ -122,6 +124,7 @@ interface LocationProps extends RouterProps {
 
 interface LayoutState {
     isShownExpSessionModal: boolean;
+    isShowGameLunarModal: boolean;
 }
 
 interface OwnProps {
@@ -191,6 +194,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
         this.state = {
             isShownExpSessionModal: false,
+            isShowGameLunarModal : true,
         };
     }
 
@@ -318,6 +322,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
                 </Switch>
+                {this.handleRenderGameLunarModal()}
                 {isLoggedIn && <WalletsFetch />}
                 {isShownExpSessionModal && this.handleRenderExpiredSessionModal()}
             </div>
@@ -373,6 +378,19 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
         this.handleChangeExpSessionModalState();
         history.push('/signin');
     };
+
+     private handleRenderGameLunarModal = () => {
+        const {isShowGameLunarModal} = this.state;
+        const {history} = this.props;
+        const modalBg = require('../../assets/images/lunar-game/modal.png');
+        const closeModal = ()=> this.setState({isShowGameLunarModal : false});
+
+        return (
+            <Modal style={{ position:'relative' }} closeIcon={<CloseOutlined style={{fontSize:'25px',color:'#131E33'}}/>} visible={isShowGameLunarModal} footer={null} onCancel={() => closeModal()} mask={false}>
+                <img style={{ position: 'absolute',top: '0',left: '0',width: '100%', cursor: 'pointer' }} src={modalBg} alt="bg-modal" onClick={() => {closeModal();history.push('/lunar-tutorial');}}/>
+            </Modal>
+        );
+     }
 
     private handleRenderExpiredSessionModal = () => (
         <ExpiredSessionModal
