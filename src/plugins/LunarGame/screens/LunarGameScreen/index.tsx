@@ -7,9 +7,8 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from 'react-redu
 import { RouterProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { IntlProps } from '../..';
-import { RootState, selectUserInfo, User } from '../../modules';
-import { lotFetch, rewardPost, RewardsDataResponse,selectLunarLots } from '../../modules/events/lunar';
+import { IntlProps } from '../../../../';
+import { lotFetch, rewardPost, RewardsDataResponse,RootState, selectLunarLots, selectUserInfo,User  } from '../../../../modules';
 
 // tslint:disable-next-line: no-empty-interface
 interface LocationProps extends RouterProps {
@@ -90,7 +89,7 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
     // const {awardsState} = this.state;
     const query = new URLSearchParams(history.location.search);
     const txid = query.get('txid');
-    const boxImg = require('../../assets/images/lunar-game/box.png');
+    const boxImg = require('../../assets/box.png');
 
     const handleClickBox = (index:number) => {
       //remove class shake animation
@@ -188,7 +187,7 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
   public modalResultRender = () => {
     const { isShowResultModal,valueResultModalState } = this.state;
 
-    const bgResult = require('../../assets/images/lunar-game/bg-result.png');
+    const bgResult = require('../../assets/bg-result.png');
 
     return (
       <Modal className="pg-lunar-game-modal-result" mask={false} visible={isShowResultModal} footer={null} onCancel={this.closeResultModal}>
@@ -212,9 +211,9 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
   //end_result-modal
 
   public render() {
-    const bgImg = require('../../assets/images/lunar-game/bg-op.jpg');
-    const bgLeftImg = require('../../assets/images/lunar-game/bg-left.png');
-    const bgRightImg = require('../../assets/images/lunar-game/bg-right.png');
+    const bgImg = require('../../assets/bg-op.jpg');
+    const bgLeftImg = require('../../assets/bg-left.png');
+    const bgRightImg = require('../../assets/bg-right.png');
 
     return (
       <div className="container-fluid pg-lunar-game" style={{ backgroundImage: `url(${bgImg})` }}>

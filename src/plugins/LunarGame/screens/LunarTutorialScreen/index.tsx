@@ -7,10 +7,9 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from 'react-redu
 import { RouterProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { IntlProps } from '../..';
-import { Decimal } from '../../components';
-import { RootState, selectUserFetching, selectUserInfo, selectUserLoggedIn, User } from '../../modules';
-import { awardFetch, Lot, lotFetch, LunarsState, selectLunarAwards, selectLunarLots } from '../../modules/events/lunar';
+import { IntlProps } from '../../../../';
+import { Decimal } from '../../../../components';
+import { awardFetch, Lot, lotFetch, LunarsState, RootState,selectLunarAwards, selectLunarLots, selectUserFetching, selectUserInfo, selectUserLoggedIn, User } from '../../../../modules';
 
 // tslint:disable-next-line: no-empty-interface
 interface LocationProps extends RouterProps {
@@ -173,9 +172,9 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
   };
 
   public render() {
-    const bgImg = require('../../assets/images/lunar-game/bg-op.jpg');
-    const bgLeftImg = require('../../assets/images/lunar-game/bg-left.png');
-    const bgRightImg = require('../../assets/images/lunar-game/bg-right.png');
+    const bgImg = require('../../assets/bg-op.jpg');
+    const bgLeftImg = require('../../assets/bg-left.png');
+    const bgRightImg = require('../../assets/bg-right.png');
 
     return (
       <div className="container-fluid pg-lunar-tutorial" style={{ backgroundImage: `url(${bgImg})` }}>

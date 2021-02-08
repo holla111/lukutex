@@ -1,5 +1,3 @@
-import { CloseOutlined } from '@ant-design/icons';
-import {Modal} from 'antd';
 import * as React from 'react';
 import { Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
@@ -72,8 +70,6 @@ import {
     EmailVerificationScreen,
     ForgotPasswordScreen,
     HistoryScreen,
-    LunarGameScreen,
-    LunarTutorialScreen,
     /* LandingScreen, */
     MagicLink,
     MaintenanceScreen,
@@ -93,6 +89,7 @@ import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
+import { LunarGameScreen, LunarModal, LunarTutorialScreen } from '../../plugins/LunarGame';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 
 interface ReduxProps {
@@ -194,7 +191,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
         this.state = {
             isShownExpSessionModal: false,
-            isShowGameLunarModal : true,
+            isShowGameLunarModal :  false,
         };
     }
 
@@ -217,10 +214,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
             }
         }
 
-        if(isLoggedIn !== prevProps.isLoggedIn && !this.state.isShowGameLunarModal){
-            this.setState({
-                isShowGameLunarModal : true,
-            })
+        //handle show modal user logged
+        if (isLoggedIn !== prevProps.isLoggedIn && !this.state.isShowGameLunarModal){
+            this.handleShowGameLunarModal();
         }
 
         if (customization && customization !== prevProps.customization) {
@@ -389,15 +385,25 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
      private handleRenderGameLunarModal = () => {
         const {isShowGameLunarModal} = this.state;
         const {history} = this.props;
-        const modalBg = require('../../assets/images/lunar-game/modal.png');
-        const closeModal = ()=> this.setState({isShowGameLunarModal : false});
+        const onCloseModal = () => this.setState({isShowGameLunarModal : false});
+        const onClickBanner = () => {
+            onCloseModal();
+            history.push('/lunar-tutorial');
+        };
 
         return (
-            <Modal style={{ position:'relative' }} closeIcon={<CloseOutlined style={{fontSize:'25px',color:'#131E33'}}/>} visible={isShowGameLunarModal} footer={null} onCancel={() => closeModal()} mask={false}>
-                <img style={{ position: 'absolute',top: '0',left: '0',width: '100%', cursor: 'pointer' }} src={modalBg} alt="bg-modal" onClick={() => {closeModal();history.push('/lunar-tutorial');}}/>
-            </Modal>
+            <LunarModal visible={isShowGameLunarModal} onCancel={onCloseModal} onClickBanner={onClickBanner} />
         );
-     }
+     };
+
+    private handleShowGameLunarModal = () => {
+        const {history} = this.props;
+        if (history.location.pathname !== '/lunar-game' && history.location.pathname !== '/lunar-tutorial'){
+            this.setState({
+                isShowGameLunarModal : true,
+            });
+        }
+    }
 
     private handleRenderExpiredSessionModal = () => (
         <ExpiredSessionModal

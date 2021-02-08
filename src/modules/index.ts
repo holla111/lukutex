@@ -96,6 +96,7 @@ export * from './trading_competitions/competitions';
 export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
 export * from './info/events';
+export * from './events/lunar';
 
 export interface RootState {
     airdrops: {
