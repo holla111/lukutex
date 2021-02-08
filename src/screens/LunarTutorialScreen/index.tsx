@@ -1,4 +1,4 @@
-import { Button, Col,notification, Row, Table, Tag } from 'antd';
+import { Button, Col,Row, Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import * as moment from 'moment';
 import * as React from 'react';
@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { IntlProps } from '../..';
 import { Decimal } from '../../components';
-import { RootState, selectUserInfo, User } from '../../modules';
+import { RootState, selectUserFetching, selectUserInfo, selectUserLoggedIn, User } from '../../modules';
 import { awardFetch, Lot, lotFetch, LunarsState, selectLunarAwards, selectLunarLots } from '../../modules/events/lunar';
 
 // tslint:disable-next-line: no-empty-interface
@@ -24,6 +24,8 @@ interface ReduxProps {
   awards: LunarsState['awards'];
   user: User;
   lots: LunarsState['lots'];
+  isLoggedIn: boolean;
+  userLoading: boolean;
 }
 
 interface DispatchProps {
@@ -39,20 +41,15 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
   }
 
   public componentDidMount = () => {
-    const {user} = this.props;
-    //fetch
     this.props.awardFetch();
-    if (user.uid){
-      this.props.lotFetch(user.uid);
-    }else{
-      notification.destroy();
-      notification.open({
-        message : 'Error',
-        type : 'error',
-        description : 'You are not logged in',
-      });
-    }
   };
+
+  public componentDidUpdate(_prevProps: LunarTutorialProps) {
+    const { user, userLoading, isLoggedIn, lots } = this.props;
+    if (isLoggedIn && !userLoading && !lots.data.length) {
+       this.props.lotFetch(user.uid);
+    }
+}
 
   public awardDetailsRender = () => {
     const awardsRedux = this.props.awards;
@@ -222,6 +219,8 @@ const mapStateToProps: MapStateToProps<ReduxProps, {}, RootState> = state => ({
   awards: selectLunarAwards(state),
   lots: selectLunarLots(state),
   user: selectUserInfo(state),
+  userLoading: selectUserFetching(state),
+  isLoggedIn: selectUserLoggedIn(state),
 });
 
 const mapDispatchProps: MapDispatchToPropsFunction<DispatchProps, {}> = dispatch => ({
