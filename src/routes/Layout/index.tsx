@@ -284,6 +284,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailMobileScreen} />
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>
+                    {this.handleRenderGameLunarModal()}
                     {isLoggedIn && <WalletsFetch />}
                     {isShownExpSessionModal && this.handleRenderExpiredSessionModal()}
                 </div>
