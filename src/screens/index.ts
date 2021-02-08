@@ -5,6 +5,8 @@ export * from './EmailVerification';
 export * from './ForgotPassword';
 export * from './History';
 export * from './LandingScreen';
+export * from './LunarGameScreen';
+export * from './LunarTutorialScreen';
 export * from './MagicLinkScreen';
 export * from './OrdersTabScreen';
 export * from './ProfileScreen';

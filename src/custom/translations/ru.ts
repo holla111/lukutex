@@ -2,6 +2,15 @@ import { LangType } from '../../translations';
 import { nationalitiesNames } from '../../translations/nationalities';
 
 export const ru: LangType = {
+    /* Lunar-game */
+    'page.body.lunar.nav.back' : 'Назад',
+    'page.body.lunar.title' : 'Рисовать удачные лоты',
+    'page.body.lunar.table.award.amount' : 'Количество',
+    'page.body.lunar.table.award.quantity' : 'Количество',
+    'page.body.lunar.table.award.remain' : 'Оставаться',
+    'page.body.lunar.modal.result.title' : 'Поздравляю !',
+    'page.body.lunar.modal.result.detail' : 'Вам посчастливилось получить :',
+     /*End Lunar-game */
     'page.header.navbar.signIn': 'Войти',
     'page.header.navbar.trade': 'Биржа',
     'page.header.navbar.wallets': 'Кошельки',

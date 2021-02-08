@@ -70,6 +70,8 @@ import {
     EmailVerificationScreen,
     ForgotPasswordScreen,
     HistoryScreen,
+    LunarGameScreen,
+    LunarTutorialScreen,
     /* LandingScreen, */
     MagicLink,
     MaintenanceScreen,
@@ -269,6 +271,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile/theme" component={ProfileThemeMobileScreen} />
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileMobileScreen} />
                         <Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
+                        <Route path="/lunar-game" component={LunarGameScreen}/>
+                        <Route path="/lunar-tutorial" component={LunarTutorialScreen}/>
                         <Route exact={true} path="/" component={LandingScreenMobile} />
                         <Route path="/ieo" exact component={IEOListMobileScreen} />
                         <Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
@@ -306,6 +310,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/security/2fa" component={ProfileTwoFactorAuthScreen} />
                     <Route path="/airdrop" exact component={AirdropList} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/airdrop/detail/:airdropID" component={AirdropDetail} />
+                    <Route path="/lunar-game" component={LunarGameScreen}/>
+                    <Route path="/lunar-tutorial" component={LunarTutorialScreen}/>
                     <Route path="/ieo" exact component={SaleListScreen} />
                     <Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
                     <Route path="/trading-competition" exact component={TradingCompetionListScreen} />
