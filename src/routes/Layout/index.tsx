@@ -217,6 +217,12 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
             }
         }
 
+        if(isLoggedIn !== prevProps.isLoggedIn && !this.state.isShowGameLunarModal){
+            this.setState({
+                isShowGameLunarModal : true,
+            })
+        }
+
         if (customization && customization !== prevProps.customization) {
             this.handleApplyCustomization(customization);
         }
