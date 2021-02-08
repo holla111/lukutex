@@ -10,6 +10,7 @@ import { compose } from 'redux';
 import { IntlProps } from '../../../../';
 import { Decimal } from '../../../../components';
 import { awardFetch, Lot, lotFetch, LunarsState, RootState,selectLunarAwards, selectLunarLots, selectUserFetching, selectUserInfo, selectUserLoggedIn, User } from '../../../../modules';
+import './LunarTutorialScreen.css';
 
 // tslint:disable-next-line: no-empty-interface
 interface LocationProps extends RouterProps {

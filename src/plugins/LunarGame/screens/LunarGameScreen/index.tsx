@@ -9,6 +9,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { IntlProps } from '../../../../';
 import { lotFetch, rewardPost, RewardsDataResponse,RootState, selectLunarLots, selectUserInfo,User  } from '../../../../modules';
+import './LunarGameScreen.css';
 
 // tslint:disable-next-line: no-empty-interface
 interface LocationProps extends RouterProps {
