@@ -15,6 +15,7 @@ export const initialLunar: LunarsState = {
     lots : {
         data : [],
         loading : false,
+        firstCall : false,
     },
     loading: false,
 };
@@ -32,6 +33,7 @@ export const lunarReducer = (state = initialLunar, action: LunarAction ): Lunars
                 break;
             case GET_LUNAR_LOTS:
                 draft.lots.loading = true;
+                draft.lots.firstCall = true;
                 break;
             case LUNAR_LOTS_DATA:
                  draft.lots.loading = false;

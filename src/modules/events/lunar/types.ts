@@ -34,6 +34,7 @@ export interface LunarsState extends CommonState {
     lots : {
         data : Lot[];
         loading : boolean;
+        firstCall : boolean;
     };
     loading: boolean;
     error? : CommonError;

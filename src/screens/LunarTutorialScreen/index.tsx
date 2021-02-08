@@ -46,7 +46,7 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
 
   public componentDidUpdate(_prevProps: LunarTutorialProps) {
     const { user, userLoading, isLoggedIn, lots } = this.props;
-    if (isLoggedIn && !userLoading && !lots.data.length) {
+    if (isLoggedIn && !userLoading && !lots.firstCall) {
        this.props.lotFetch(user.uid);
     }
 }
