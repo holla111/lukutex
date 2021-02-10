@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { put } from 'redux-saga/effects';
-import pluginsAPI from '../../../../plugins/lunarApi';
+import pluginsAPI from '../../../../plugins/api';
 import {
     awardData, awardError, AwardFetch, lotData,
     lotError,
@@ -10,7 +10,7 @@ import { Award, Lot } from './../types';
 
 export function* awardsFetchSaga(action: AwardFetch) {
     try {
-        const events = yield pluginsAPI.get<Award[]>('luckymoney/fetch');
+        const events = yield pluginsAPI.get<Award[]>('lunar-game/luckymoney/fetch');
         yield put(awardData(events.data.payload));
     } catch (error) {
         if (error.response.status === 404) {
@@ -38,7 +38,7 @@ export function* awardsFetchSaga(action: AwardFetch) {
 
 export function* lotsFetchSaga(action: LotFetch) {
     try {
-        const events = yield pluginsAPI.get<Lot[]>(`luckylots/fetch/uid=${action.uid}`);
+        const events = yield pluginsAPI.get<Lot[]>(`lunar-game/luckylots/fetch/uid=${action.uid}`);
         yield put(lotData(events.data.payload));
     } catch (error) {
         if (error.response.status === 404) {
@@ -68,7 +68,7 @@ export function* rewardPostSaga(action: RewardPost) {
     try {
         if (!action.payload.uid || !action.payload.txid) console.log('Uid or txid empty');
         else {
-            const events = yield pluginsAPI.post(`reward/post/uid=${action.payload.uid}&txid=${action.payload.txid}`);
+            const events = yield pluginsAPI.post(`lunar-game/reward/post/uid=${action.payload.uid}&txid=${action.payload.txid}`);
             action.payload.cb(events.data);
             yield put(rewardData(events.data));
         }
