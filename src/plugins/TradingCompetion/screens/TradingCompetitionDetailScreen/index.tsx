@@ -274,6 +274,52 @@ const prizeList: Prizes[] = [
             },
         ]
     },
+
+    {
+        competition_id: 6,
+        prizes: [
+            {
+                rank: '1',
+                award: '200 USDT'
+            },
+            {
+                rank: '2',
+                award: '75 USDT'
+            },
+            {
+                rank: '3',
+                award: '50 USDT'
+            },
+            {
+                rank: '4',
+                award: '25 USDT'
+            },
+            {
+                rank: '5',
+                award: '25 USDT'
+            },
+            {
+                rank: '6',
+                award: '25 USDT'
+            },
+            {
+                rank: '7',
+                award: '25 USDT'
+            },
+            {
+                rank: '8',
+                award: '25 USDT'
+            },
+            {
+                rank: '9',
+                award: '25 USDT'
+            },
+            {
+                rank: '10',
+                award: '25 USDT'
+            },
+        ]
+    },
 ]
 
 export const TradingCompetitionDetailScreen: React.FC = () => {
