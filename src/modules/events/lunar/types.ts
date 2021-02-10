@@ -8,9 +8,9 @@ export interface Award {
 }
 
 export interface Lot {
-    member_id: number;
     currency_id: string;
     amount: string;
+    reward : number;
     txid: string;
     completed_at : string;
     used : boolean;

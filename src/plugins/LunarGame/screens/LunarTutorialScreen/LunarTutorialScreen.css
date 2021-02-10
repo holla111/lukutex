@@ -65,6 +65,11 @@
 	 font-size: 1.5rem;
 	 color: white;
 }
+ .pg-lunar-tutorial-content-requirement p a{
+	color : #faff00;
+	font-weight: bold;
+	text-decoration: underline;
+ }
  @media screen and (max-width: 768px) {
 	 .pg-lunar-tutorial {
 		 padding-bottom: 100px;

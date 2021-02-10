@@ -1,4 +1,5 @@
 import { Modal } from 'antd';
+import classnames from 'classnames';
 import { TimelineLite, TweenLite } from 'gsap';
 import * as React from 'react';
 import Confetti from 'react-confetti';
@@ -19,6 +20,7 @@ interface LunarGameState {
   isShowResultModal: boolean;
   awardsState : number[];
   valueResultModalState : number;
+  isShowResultElm: boolean;
 }
 
 interface ReduxProps {
@@ -58,6 +60,7 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
     this.timeLine = new TimelineLite({ paused: true });
     this.state = {
       isShowResultModal: false,
+      isShowResultElm: false,
       valueResultModalState : 0,
       awardsState : [],
     };
@@ -93,6 +96,9 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
     const boxImg = require('../../assets/box.png');
 
     const handleClickBox = (index:number) => {
+      this.setState({
+        isShowResultElm : true,
+      });
       //remove class shake animation
       // tslint:disable-next-line: ban
       this.boxFrontElements.forEach(elm => {
@@ -149,7 +155,7 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
     return (new Array(4)).fill(null).map((_a, i) => (
       <div className="box" key={i} ref={div => this.boxElements[i] = div} >
         <img className="shake-hover" src={boxImg} alt="1" ref={ref => this.boxFrontElements[i] = ref} onClick={() => handleClickBox(i)}/>
-        <div className="result" ref={ref => this.boxBackElements[i] = ref}>
+        <div className={classnames('result',{'d-flex' : this.state.isShowResultElm,'d-none':!this.state.isShowResultElm})} ref={ref => this.boxBackElements[i] = ref}>
         </div>
       </div>),
     );

@@ -1,4 +1,4 @@
-import { Button, Col,Row, Table, Tag } from 'antd';
+import { Button, Col,notification,Row, Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import * as moment from 'moment';
 import * as React from 'react';
@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { IntlProps } from '../../../../';
 import { Decimal } from '../../../../components';
-import { awardFetch, Lot, lotFetch, LunarsState, RootState,selectLunarAwards, selectLunarLots, selectUserFetching, selectUserInfo, selectUserLoggedIn, User } from '../../../../modules';
+import { awardFetch, Lot, lotFetch, LunarsState, RootState,selectLunarAwards, selectLunarLots, selectUserFetching, selectUserInfo, selectUserLoggedIn, selectWalletAddress, selectWalletCurrency, User, walletsAddressFetch } from '../../../../modules';
 import './LunarTutorialScreen.css';
 
 // tslint:disable-next-line: no-empty-interface
@@ -26,11 +26,14 @@ interface ReduxProps {
   lots: LunarsState['lots'];
   isLoggedIn: boolean;
   userLoading: boolean;
+  selectedWalletCurrency: string;
+  selectedWalletAddress: string;
 }
 
 interface DispatchProps {
   awardFetch: typeof awardFetch;
   lotFetch: typeof lotFetch;
+  fetchAddress: typeof walletsAddressFetch;
 }
 
 export type LunarTutorialProps = LocationProps & IntlProps & ReduxProps & DispatchProps;
@@ -41,6 +44,12 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
   }
 
   public componentDidMount = () => {
+    //fetch - check usdt
+    this.props.fetchAddress({
+      currency : 'usdt',
+    });
+
+    //fetch
     this.props.awardFetch();
   };
 
@@ -104,7 +113,7 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
   };
 
   public depositTableRender = () => {
-    const { lots, history } = this.props;
+    const { lots } = this.props;
     const columns: ColumnsType<Lot> = [
       {
         title: 'Currency',
@@ -138,9 +147,9 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
         key: 'used',
         width: 100,
         dataIndex: 'used',
-        render: (status: boolean) => {
-          const color = status ? 'yellow' : 'red';
-          const name = status ? 'pending' : 'used';
+        render: (status: boolean,record : any) => {
+          const color = status ? 'red' : 'yellow';
+          const name = status ? `${record.reward} USD` : 'waiting';
 
           return (
             <Tag color={color}>
@@ -160,16 +169,28 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
             return '';
           }
 
-          const linkToPlay = `/lunar-game?txid=${record.txid}`;
-
           return (
-            <Button type="primary" onClick={() => history.push(linkToPlay)}>PLAY</Button>
+            <Button type="primary" onClick={() => this.handleClickPlay(record.txid)}>PLAY</Button>
           );
         },
       },
     ];
 
     return <div className="table-deposit-detail"><h2>Deposit history</h2> <Table<Lot> scroll={{ x: 600 }} loading={lots.loading} pagination={false} columns={columns} dataSource={lots.data} /></div>;
+  };
+
+  public handleClickPlay = (txid : string) =>  {
+    const { history } = this.props;
+
+    // tslint:disable-next-line: strict-type-predicates
+    // if (selectedWalletCurrency === 'usdt' && selectedWalletAddress !== null){
+      history.push(`/lunar-game?txid=${txid}`);
+    // }else{
+    //   notification.warning({
+    //     description : 'Please read Tutorial - Conditions and create a USDT wallet address',
+    //     message : 'No USDT wallet yet',
+    //   });
+    // }
   };
 
   public render() {
@@ -196,6 +217,7 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
             <h2 className="title-game">tutorial</h2>
             <div className="pg-lunar-tutorial-content-requirement">
               <h3 className="title">* CONDITIONS :</h3>
+              <p>- You must have a USDT wallet address in the <a onClick={this.toWalletPage}>WALLET</a> directory to receive the reward, if not, you can go to <a onClick={this.toWalletPage}>WALLET</a> -{'>'} USDT -{'>'} Generate USDT address</p>
               <p>- When making transactions> 30 USD, you will be drawn a free lucky draw.</p>
               <p>- The 3 most recent transactions will be used to join the game.</p>
               <p>- Drawings are free once eligibility is met and gifts are guaranteed.</p>
@@ -211,7 +233,9 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
       </div>
     );
   }
-
+  private toWalletPage = () => {
+    this.props.history.push('/wallets');
+  };
   // private translate = (key: string) => this.props.intl.formatMessage({id: key});
 }
 
@@ -221,11 +245,14 @@ const mapStateToProps: MapStateToProps<ReduxProps, {}, RootState> = state => ({
   user: selectUserInfo(state),
   userLoading: selectUserFetching(state),
   isLoggedIn: selectUserLoggedIn(state),
+  selectedWalletCurrency: selectWalletCurrency(state),
+  selectedWalletAddress: selectWalletAddress(state),
 });
 
 const mapDispatchProps: MapDispatchToPropsFunction<DispatchProps, {}> = dispatch => ({
   awardFetch: () => dispatch(awardFetch()),
   lotFetch: (uid: string) => dispatch(lotFetch(uid)),
+  fetchAddress: ({ currency }) => dispatch(walletsAddressFetch({ currency })),
 });
 
 export const LunarTutorialScreen = compose(
