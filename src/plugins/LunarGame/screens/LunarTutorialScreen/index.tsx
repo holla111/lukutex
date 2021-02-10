@@ -63,7 +63,7 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
   public awardDetailsRender = () => {
     const awardsRedux = this.props.awards;
     const awards = [...awardsRedux.data].sort((a, b) => a.award - b.award);
-    const headerDefault = awards.length ? awards.map(award => `${award.award}`) : ['5', '10', '20', '40'];
+    const headerDefault = awards.length ? awards.map(award => `${award.award}`) : ['10', '20', '40', '80'];
     const dataHorizontal = [
       {
         name: 'quantity',
