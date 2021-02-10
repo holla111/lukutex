@@ -89,6 +89,7 @@ import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
+import { LunarGameScreen, LunarModal, LunarTutorialScreen } from '../../plugins/LunarGame';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 
 interface ReduxProps {
@@ -120,6 +121,7 @@ interface LocationProps extends RouterProps {
 
 interface LayoutState {
     isShownExpSessionModal: boolean;
+    isShowGameLunarModal: boolean;
 }
 
 interface OwnProps {
@@ -189,6 +191,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
         this.state = {
             isShownExpSessionModal: false,
+            isShowGameLunarModal :  false,
         };
     }
 
@@ -209,6 +212,11 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
             if (!history.location.pathname.includes('/trading')) {
                 history.push('/trading/');
             }
+        }
+
+        //handle show modal user logged
+        if (isLoggedIn !== prevProps.isLoggedIn && !this.state.isShowGameLunarModal){
+            this.handleShowGameLunarModal();
         }
 
         if (customization && customization !== prevProps.customization) {
@@ -269,6 +277,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile/theme" component={ProfileThemeMobileScreen} />
                         <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileMobileScreen} />
                         <Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
+                        <Route path="/lunar-game" component={LunarGameScreen}/>
+                        <Route path="/lunar-tutorial" component={LunarTutorialScreen}/>
                         <Route exact={true} path="/" component={LandingScreenMobile} />
                         <Route path="/ieo" exact component={IEOListMobileScreen} />
                         <Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
@@ -276,6 +286,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailMobileScreen} />
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>
+                    {this.handleRenderGameLunarModal()}
                     {isLoggedIn && <WalletsFetch />}
                     {isShownExpSessionModal && this.handleRenderExpiredSessionModal()}
                 </div>
@@ -306,12 +317,15 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/security/2fa" component={ProfileTwoFactorAuthScreen} />
                     <Route path="/airdrop" exact component={AirdropList} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/airdrop/detail/:airdropID" component={AirdropDetail} />
+                    <Route path="/lunar-game" component={LunarGameScreen}/>
+                    <Route path="/lunar-tutorial" component={LunarTutorialScreen}/>
                     <Route path="/ieo" exact component={SaleListScreen} />
                     <Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
                     <Route path="/trading-competition" exact component={TradingCompetionListScreen} />
                     <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
                 </Switch>
+                {this.handleRenderGameLunarModal()}
                 {isLoggedIn && <WalletsFetch />}
                 {isShownExpSessionModal && this.handleRenderExpiredSessionModal()}
             </div>
@@ -367,6 +381,29 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
         this.handleChangeExpSessionModalState();
         history.push('/signin');
     };
+
+     private handleRenderGameLunarModal = () => {
+        const {isShowGameLunarModal} = this.state;
+        const {history} = this.props;
+        const onCloseModal = () => this.setState({isShowGameLunarModal : false});
+        const onClickBanner = () => {
+            onCloseModal();
+            history.push('/lunar-tutorial');
+        };
+
+        return (
+            <LunarModal visible={isShowGameLunarModal} onCancel={onCloseModal} onClickBanner={onClickBanner} />
+        );
+     };
+
+    private handleShowGameLunarModal = () => {
+        const {history} = this.props;
+        if (history.location.pathname !== '/lunar-game' && history.location.pathname !== '/lunar-tutorial'){
+            this.setState({
+                isShowGameLunarModal : true,
+            });
+        }
+    }
 
     private handleRenderExpiredSessionModal = () => (
         <ExpiredSessionModal

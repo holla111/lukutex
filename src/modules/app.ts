@@ -53,6 +53,11 @@ import { rankingsReducer } from './trading_competitions/rankings';
 import { competitionsListReducer } from './trading_competitions/competitions';
 import { competitionItemReducer } from './trading_competitions/competition_item';
 import { eventReducer } from './info/events';
+import { lunarReducer } from './events/lunar';
+
+export const eventsReducer = combineReducers({
+    lunar : lunarReducer
+});
 
 export const airdropsReducer = combineReducers({
     airdrops: airdropReducer,
