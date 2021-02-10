@@ -1,6 +1,7 @@
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import classnames from 'classnames';
-import { TimelineLite, TweenLite } from 'gsap';
+import { gsap ,TimelineLite, TweenLite } from 'gsap';
+import { CSSPlugin } from 'gsap/CSSPlugin';
 import * as React from 'react';
 import Confetti from 'react-confetti';
 import { injectIntl } from 'react-intl';
@@ -11,6 +12,8 @@ import { compose } from 'redux';
 import { IntlProps } from '../../../../';
 import { lotFetch, rewardPost, RewardsDataResponse,RootState, selectLunarLots, selectUserInfo,User  } from '../../../../modules';
 import './LunarGameScreen.css';
+
+gsap.registerPlugin(CSSPlugin);
 
 // tslint:disable-next-line: no-empty-interface
 interface LocationProps extends RouterProps {
@@ -106,7 +109,7 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
       });
       //loading
       const clickedElm = this.boxFrontElements.splice(index,1)[0];
-      // clickedElm && clickedElm.classList.add('shake');
+      clickedElm && clickedElm.classList.add('shake');
 
       const callback = (payload : RewardsDataResponse) => {
         const data = [...payload.fail_award];
@@ -192,7 +195,8 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
 
   //result-modal
   public modalResultRender = () => {
-    const { isShowResultModal,valueResultModalState } = this.state;
+    const { history } = this.props;
+    const { isShowResultModal ,valueResultModalState } = this.state;
 
     const bgResult = require('../../assets/bg-result.png');
 
@@ -200,7 +204,8 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
       <Modal className="pg-lunar-game-modal-result" mask={false} visible={isShowResultModal} footer={null} onCancel={this.closeResultModal}>
         <div className="d-flex img-result"><img src={bgResult} alt=""/></div>
         <h2>{this.translate('page.body.lunar.modal.result.detail')}</h2>
-        <h1 className="price">{valueResultModalState} $</h1>
+        <h1 className="price">{valueResultModalState} USDT</h1>
+        <div className="d-flex justify-content-center"><Button type="primary" danger onClick={() => history.push('/lunar-tutorial')}>Comfirm !</Button></div>
       </Modal>
     );
   };

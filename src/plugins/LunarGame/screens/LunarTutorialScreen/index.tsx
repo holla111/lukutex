@@ -81,25 +81,25 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
         render: (_text, _record, i) => i === 0 ? 'Quantity' : 'Remain',
       },
       {
-        title: `${headerDefault[0]} USD`,
+        title: `${headerDefault[0]} USDT`,
         align: 'center',
         dataIndex: headerDefault[0],
         key: headerDefault[0],
       },
       {
-        title: `${headerDefault[1]} USD`,
+        title: `${headerDefault[1]} USDT`,
         align: 'center',
         dataIndex: headerDefault[1],
         key: headerDefault[1],
       },
       {
-        title: `${headerDefault[2]} USD`,
+        title: `${headerDefault[2]} USDT`,
         align: 'center',
         dataIndex: headerDefault[2],
         key: headerDefault[2],
       },
       {
-        title: `${headerDefault[3]} USD`,
+        title: `${headerDefault[3]} USDT`,
         align: 'center' as 'center',
         dataIndex: headerDefault[3],
         key: headerDefault[3],
@@ -149,7 +149,7 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
         dataIndex: 'used',
         render: (status: boolean,record : any) => {
           const color = status ? 'red' : 'yellow';
-          const name = status ? `${record.reward} USD` : 'waiting';
+          const name = status ? `${record.reward} USDT` : 'waiting';
 
           return (
             <Tag color={color}>

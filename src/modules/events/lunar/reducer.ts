@@ -44,6 +44,7 @@ export const lunarReducer = (state = initialLunar, action: LunarAction ): Lunars
                 break;
             case LUNAR_REWARD_DATA:
                 draft.loading = false;
+                draft.lots.firstCall = false;
                 break;
             case LUNAR_AWARD_ERROR:
                 draft.awards.loading = false;
