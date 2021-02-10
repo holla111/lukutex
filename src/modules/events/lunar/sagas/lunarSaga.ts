@@ -13,25 +13,25 @@ export function* awardsFetchSaga(action: AwardFetch) {
         const events = yield pluginsAPI.get<Award[]>('luckymoney/fetch');
         yield put(awardData(events.data.payload));
     } catch (error) {
-          if (error.response.status === 404){
+        if (error.response.status === 404) {
             notification.open({
-                type : 'error',
-                message : '404',
+                type: 'error',
+                message: '404',
             });
             yield put(awardError({
                 code: error.response.status,
                 message: error.response.data.msg,
             }));
-        }else{
+        } else {
             yield put(awardError({
                 code: error.response.status,
                 message: error.response.data.msg,
             }));
         }
         notification.open({
-            type : 'error',
-            message : error.response.status,
-            description : error.response.data.msg,
+            type: 'error',
+            message: 'Sorry ...',
+            description: error.response.data.error,
         });
     }
 }
@@ -41,54 +41,58 @@ export function* lotsFetchSaga(action: LotFetch) {
         const events = yield pluginsAPI.get<Lot[]>(`luckylots/fetch/uid=${action.uid}`);
         yield put(lotData(events.data.payload));
     } catch (error) {
-        if (error.response.status === 404){
+        if (error.response.status === 404) {
             notification.open({
-                type : 'error',
-                message : '404',
+                type: 'error',
+                message: '404',
             });
             yield put(lotError({
                 code: error.response.status,
                 message: error.response.data.msg,
             }));
-        }else{
+        } else {
             yield put(lotError({
                 code: error.response.status,
                 message: error.response.data.msg,
             }));
         }
         notification.open({
-            type : 'error',
-            message : error.response.status,
-            description : error.response.data.msg,
+            type: 'error',
+            message: 'Sorry ...',
+            description: error.response.data.error,
         });
     }
 }
 
 export function* rewardPostSaga(action: RewardPost) {
     try {
-        const events = yield pluginsAPI.post(`reward/post/uid=${action.payload.uid}&txid=${action.payload.txid}`);
-        action.payload.cb(events.data);
-        yield put(rewardData(events.data));
+        if (!action.payload.uid || !action.payload.txid) console.log('Uid or txid empty');
+        else {
+            const events = yield pluginsAPI.post(`reward/post/uid=${action.payload.uid}&txid=${action.payload.txid}`);
+            action.payload.cb(events.data);
+            yield put(rewardData(events.data));
+        }
     } catch (error) {
-        if (error.response.status === 404){
+
+        if (error.response.status === 404) {
             notification.open({
-                type : 'error',
-                message : '404',
+                type: 'error',
+                message: '404',
             });
             yield put(lunarError({
                 code: error.response.status,
                 message: error.response.data.msg,
             }));
-        }else{
+        } else {
             yield put(lunarError({
                 code: error.response.status,
                 message: error.response.data.msg,
             }));
         }
         notification.open({
-            type : 'error',
-            message : error.response.status,
-            description : error.response.data.msg,
+            type: 'error',
+            message: 'Sorry ...',
+            description: error.response.data.error,
         });
     }
 }

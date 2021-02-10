@@ -106,7 +106,7 @@ class LunarGame extends React.Component<LunarGameProps, LunarGameState> {
       });
       //loading
       const clickedElm = this.boxFrontElements.splice(index,1)[0];
-      clickedElm && clickedElm.classList.add('shake');
+      // clickedElm && clickedElm.classList.add('shake');
 
       const callback = (payload : RewardsDataResponse) => {
         const data = [...payload.fail_award];
