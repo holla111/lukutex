@@ -191,7 +191,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
         this.state = {
             isShownExpSessionModal: false,
-            isShowGameLunarModal :  false,
+            isShowGameLunarModal :  true,
         };
     }
 

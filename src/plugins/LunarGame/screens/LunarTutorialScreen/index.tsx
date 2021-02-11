@@ -1,4 +1,4 @@
-import { Button, Col,Row, Table, Tag } from 'antd';
+import { Button, Col,notification,Row, Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import * as moment from 'moment';
 import * as React from 'react';
@@ -8,8 +8,8 @@ import { RouterProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { IntlProps } from '../../../../';
-import { Decimal } from '../../../../components';
-import { awardFetch, Lot, lotFetch, LunarsState, RootState,selectLunarAwards, selectLunarLots, selectUserFetching, selectUserInfo, selectUserLoggedIn, selectWalletAddress, selectWalletCurrency, User, walletsAddressFetch } from '../../../../modules';
+import { Decimal, WalletItemProps } from '../../../../components';
+import { awardFetch, Lot, lotFetch, LunarsState, RootState,selectLunarAwards, selectLunarLots, selectUserFetching, selectUserInfo, selectUserLoggedIn, selectWallets, User } from '../../../../modules';
 import './LunarTutorialScreen.css';
 
 // tslint:disable-next-line: no-empty-interface
@@ -26,14 +26,12 @@ interface ReduxProps {
   lots: LunarsState['lots'];
   isLoggedIn: boolean;
   userLoading: boolean;
-  selectedWalletCurrency: string;
-  selectedWalletAddress: string;
+  wallets :  WalletItemProps[];
 }
 
 interface DispatchProps {
   awardFetch: typeof awardFetch;
   lotFetch: typeof lotFetch;
-  fetchAddress: typeof walletsAddressFetch;
 }
 
 export type LunarTutorialProps = LocationProps & IntlProps & ReduxProps & DispatchProps;
@@ -44,11 +42,6 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
   }
 
   public componentDidMount = () => {
-    //fetch - check usdt
-    this.props.fetchAddress({
-      currency : 'usdt',
-    });
-
     //fetch
     this.props.awardFetch();
   };
@@ -180,17 +173,17 @@ class LunarTutorial extends React.Component<LunarTutorialProps, LunarTutorialSta
   };
 
   public handleClickPlay = (txid : string) =>  {
-    const { history } = this.props;
-
-    // tslint:disable-next-line: strict-type-predicates
-    // if (selectedWalletCurrency === 'usdt' && selectedWalletAddress !== null){
+    const { wallets,history } = this.props;
+    
+    const usdt = wallets.find(wallet => wallet.currency === "usdt");
+    if (usdt && usdt.balance){
       history.push(`/lunar-game?txid=${txid}`);
-    // }else{
-    //   notification.warning({
-    //     description : 'Please read Tutorial - Conditions and create a USDT wallet address',
-    //     message : 'No USDT wallet yet',
-    //   });
-    // }
+    }else{
+      notification.warning({
+        description : 'Please read Tutorial - Conditions and create a USDT wallet address',
+        message : 'No USDT wallet yet',
+      });
+    }
   };
 
   public render() {
@@ -245,14 +238,12 @@ const mapStateToProps: MapStateToProps<ReduxProps, {}, RootState> = state => ({
   user: selectUserInfo(state),
   userLoading: selectUserFetching(state),
   isLoggedIn: selectUserLoggedIn(state),
-  selectedWalletCurrency: selectWalletCurrency(state),
-  selectedWalletAddress: selectWalletAddress(state),
+  wallets : selectWallets(state),
 });
 
 const mapDispatchProps: MapDispatchToPropsFunction<DispatchProps, {}> = dispatch => ({
   awardFetch: () => dispatch(awardFetch()),
   lotFetch: (uid: string) => dispatch(lotFetch(uid)),
-  fetchAddress: ({ currency }) => dispatch(walletsAddressFetch({ currency })),
 });
 
 export const LunarTutorialScreen = compose(
