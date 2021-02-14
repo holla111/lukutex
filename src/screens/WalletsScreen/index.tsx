@@ -487,7 +487,8 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const ethFee = this.props.eth_fee ? this.props.eth_fee.fee : undefined;
     const selectedCurrency = currencies.find(cur => cur.id == currency);
     const minWithdrawAmount = (selectedCurrency && selectedCurrency.min_withdraw_amount) ? selectedCurrency.min_withdraw_amount : undefined;
-    
+    const limitWitdraw24h = (selectedCurrency && selectedCurrency.withdraw_limit_24h) ? selectedCurrency.withdraw_limit_24h : undefined;
+
     const withdrawProps: WithdrawProps = {
       withdrawDone,
       currency,
@@ -503,7 +504,8 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
       withdrawButtonLabel: this.props.intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.button' }),
       ethFee,
       ethBallance,
-      minWithdrawAmount
+      minWithdrawAmount,
+      limitWitdraw24h
     };
 
     return otp ? <Withdraw {...withdrawProps} /> : this.isOtpDisabled();
