@@ -382,11 +382,13 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const { selectedWalletIndex } = this.state;
     const currency = (wallets[selectedWalletIndex] || { currency: '' }).currency;
 
-    const currencyItem = (currencies && currencies.find(item => item.id === currency)) || { min_confirmations: 6, min_deposit_amount: 6, deposit_enabled: false };
+    const currencyItem = (currencies && currencies.find(item => item.id === currency)) || { min_confirmations: 6, min_deposit_amount: 6, deposit_fee: 6, deposit_enabled: false };
 
     const textConfirmation = this.props.intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currencyItem.min_confirmations });
 
-    const textMinDeposit = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount)} ${currency.toUpperCase()}`;
+      const textMinDeposit = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount)} ${currency.toUpperCase()}`;
+
+      const textDepositFee = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} ${Number(currencyItem.deposit_fee)} ${currency.toUpperCase()}`;
 
     const textNote = `Only Deposit ${currency.toUpperCase()} to this wallet.`
 
@@ -421,6 +423,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
             textConfirmation={textConfirmation}
             textMinDeposit={textMinDeposit}
             textNote={textNote}
+            textDepositFee={textDepositFee}
             disabled={walletAddress === ''}
             copiableTextFieldText={this.translate('page.body.wallets.tabs.deposit.ccy.message.address')}
             copyButtonText={this.translate('page.body.wallets.tabs.deposit.ccy.message.button')}
