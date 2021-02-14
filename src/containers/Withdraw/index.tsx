@@ -124,7 +124,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 							// placeholder={withdrawAmountLabel || 'Amount'}
 							placeholder={this.props.minWithdrawAmount === undefined
 								? (withdrawAmountLabel || 'Amount')
-								: ('Min Amount: ' + this.props.minWithdrawAmount + ' ' + currency.toUpperCase() + ' ' + 'Max Amount: ' + this.props.limitWitdraw24h + ' ' + currency.toUpperCase())}
+								: ('Min Amount: ' + this.props.minWithdrawAmount + ' ' + currency.toUpperCase())}
 							classNameInput="cr-withdraw__input"
 							handleChangeInput={this.handleChangeInputAmount}
 						/>
