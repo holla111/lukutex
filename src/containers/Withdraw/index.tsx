@@ -32,6 +32,7 @@ export interface WithdrawProps {
 	ethBallance?: string;
 	minWithdrawAmount?: string;
 	limitWitdraw24h?: string;
+	isLimitWithdraw24H: boolean;
 }
 
 const defaultBeneficiary: Beneficiary = {
@@ -179,12 +180,12 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleCheckButtonDisabled = (total: string, beneficiary: Beneficiary, otpCode: string) => {
 		const { amount } = this.state;
-		const { minWithdrawAmount } = this.props;
+		const { minWithdrawAmount, isLimitWithdraw24H } = this.props;
 
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
 
 		return Number(total) <= 0 || !Boolean(beneficiary.id) || isPending ||
-		!Boolean(otpCode) || minWithdrawAmount === undefined || amount < minWithdrawAmount
+		!Boolean(otpCode) || minWithdrawAmount === undefined || amount < minWithdrawAmount || isLimitWithdraw24H;
 	};
 
 	private renderFee = () => {
