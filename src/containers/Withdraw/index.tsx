@@ -159,7 +159,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 				</div>
 
 				<div className="withdrawNote">
-					<div className = "withdrawNote__right">
+					<div className="withdrawNote__right">
 						<p>
 							<span>1. Min Withdraw: </span>
 							<span>{this.props.minWithdrawAmount + ' ' + currency.toUpperCase()}</span>
@@ -178,9 +178,13 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 	}
 
 	private handleCheckButtonDisabled = (total: string, beneficiary: Beneficiary, otpCode: string) => {
+		const { amount } = this.state;
+		const { minWithdrawAmount } = this.props;
+
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
 
-		return Number(total) <= 0 || !Boolean(beneficiary.id) || isPending || !Boolean(otpCode);
+		return Number(total) <= 0 || !Boolean(beneficiary.id) || isPending ||
+		!Boolean(otpCode) || minWithdrawAmount === undefined || amount < minWithdrawAmount
 	};
 
 	private renderFee = () => {

@@ -96,7 +96,7 @@ const WalletWithdrawBodyComponent = props => {
                     currency: currency.toLowerCase(),
                     amount: amount
                 }
-                dispatch(ethFeeWithdraw({payload: withdrawByEthFeeData, error: undefined, loading: false}));
+                dispatch(ethFeeWithdraw(withdrawByEthFeeData));
             } else {
               message.error('Withdraw failed.');
               return;

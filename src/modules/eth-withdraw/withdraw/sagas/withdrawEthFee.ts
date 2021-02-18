@@ -10,7 +10,7 @@ import { ETHFeeWithdraws } from '../types';
 
 export function* withdrawByEthFee(action: ETHFeeWithdraw) {
     try {
-        yield api.post<ETHFeeWithdraws>('withdraw', action.payload.payload);
+        yield api.post<ETHFeeWithdraws>('withdraw', action.payload);
     } catch (error) {
         yield put(ethFeeWithdrawError(error));
     }

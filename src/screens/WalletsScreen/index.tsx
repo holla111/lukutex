@@ -144,7 +144,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
   public componentDidMount() {
     setDocumentTitle('Wallets');
     const { wallets, fetchAddress } = this.props;
-    
+
     const { selectedWalletIndex } = this.state;
     if (this.props.wallets.length === 0) {
       this.props.fetchWallets();
@@ -229,7 +229,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const selectedWallet = wallets.find(wallet => wallet.currency.toLowerCase() === selectedCurrency.toLowerCase());
     const selectedWalletFee =  selectedWallet ? selectedWallet.fee : undefined;
     const ethFee = this.props.eth_fee;
-    
+
     return (
       <React.Fragment>
         {wallets.length && <EstimatedValue wallets={wallets} />}
@@ -329,26 +329,23 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
       return;
     }
 
-    const { currency, fee } = this.props.wallets[selectedWalletIndex];
-    
-    
+    let { currency, fee } = this.props.wallets[selectedWalletIndex];
 
     // Withdraw by eth fee
     const {user, eth_fee, wallets} = this.props;
     const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
-    if(fee == 0) {
-      if(ethBallance && eth_fee.fee && Number(ethBallance) >= Number(eth_fee.fee)) {
+
+    if(fee == 0 && ethBallance && eth_fee.fee && Number(ethBallance) >= Number(eth_fee.fee)) {
         const withdrawByEthFeeData = {
           uid: user.uid,
           currency: currency.toLowerCase(),
           amount: amount
         }
-        this.props.withdrawByEthFee({payload: withdrawByEthFeeData, error: undefined, loading: false});
-      } else {
-        message.error('Withdraw failed.');
-        return;
-      }
+        this.props.withdrawByEthFee(withdrawByEthFeeData);
+    } else {
+      message.error('Withdraw failed.');
+      return;
     }
 
     const withdrawRequest = {
@@ -358,7 +355,6 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
       beneficiary_id: String(beneficiary.id),
     };
     this.props.walletsWithdrawCcy(withdrawRequest);
-    
     this.toggleConfirmModal();
   };
 
@@ -482,7 +478,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const { user: { level, otp }, wallets, currencies } = this.props;
     const wallet = wallets[selectedWalletIndex];
     console.log();
-    
+
     const eth = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = eth ? eth.balance : undefined;
     const { currency, fee, type } = wallet;
