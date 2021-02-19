@@ -4,12 +4,12 @@ import {
     ETH_FEE_WITHDRAW
 } from './constants';
 import {
-    ETHFeeWithdrawState
+    ETHFeeWithdraws
 } from './types';
 
 export interface ETHFeeWithdraw {
     type: typeof ETH_FEE_WITHDRAW;
-    payload: ETHFeeWithdrawState;
+    payload: ETHFeeWithdraws;
 }
 
 

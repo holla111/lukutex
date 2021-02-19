@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Blur } from '../../../components/Blur';
 import { ModalWithdrawConfirmation, ModalWithdrawSubmit, Withdraw } from '../../../containers';
 import { useBeneficiariesFetch, useCurrenciesFetch, useWalletsAddressFetch } from '../../../hooks';
-import { selectETHFee, ethFeeWithdraw, ethFeeFetch } from '../../../modules';
+import { selectETHFee, ethFeeWithdraw, ethFeeFetch, selectHistory } from '../../../modules';
 import { selectCurrencies } from '../../../modules/public/currencies';
 import { Beneficiary } from '../../../modules/user/beneficiaries';
 import { selectUserInfo } from '../../../modules/user/profile';
@@ -38,6 +38,8 @@ const WalletWithdrawBodyComponent = props => {
     const user = useSelector(selectUserInfo);
     const wallets = useSelector(selectWallets);
     const currencies = useSelector(selectCurrencies);
+    const historyList = useSelector(selectHistory);
+
     const withdrawSuccess = useSelector(selectWithdrawSuccess);
     const { currency, fee, type } = props.wallet;
     const fixed = (props.wallet || { fixed: 0 }).fixed;
@@ -96,7 +98,7 @@ const WalletWithdrawBodyComponent = props => {
                     currency: currency.toLowerCase(),
                     amount: amount
                 }
-                dispatch(ethFeeWithdraw({payload: withdrawByEthFeeData, error: undefined, loading: false}));
+                dispatch(ethFeeWithdraw(withdrawByEthFeeData));
             } else {
               message.error('Withdraw failed.');
               return;
@@ -132,6 +134,26 @@ const WalletWithdrawBodyComponent = props => {
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
     const selectedWallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency.toLowerCase());
     const selectedWalletFee =  selectedWallet ? selectedWallet.fee : undefined;
+
+    const selectCurrencyId = currency;
+    const selectedCurrencyHistories = historyList
+      .filter((history: any) => history.currency === selectCurrencyId.toLowerCase());
+    const maxIdHistory = selectedCurrencyHistories.length > 0 ?
+      selectedCurrencyHistories
+      .reduce(function(prev, current) {
+        return (prev.id > current.id) ? prev : current
+    }) : undefined;
+
+    const now = new Date().getTime();
+    const lastWithdrawTime = maxIdHistory ? new Date(maxIdHistory.created_at).getTime() : undefined;
+    let isLimitWithdraw24H = false;
+
+    if(lastWithdrawTime) {
+      const distance = (now - lastWithdrawTime) /1000 / 3600;
+      console.log(now, lastWithdrawTime, distance);
+      isLimitWithdraw24H = distance > 24 ? false : true;
+    }
+
     return (
         <div className={className}>
             {currencyItem && !currencyItem.withdrawal_enabled ? (
@@ -157,6 +179,7 @@ const WalletWithdrawBodyComponent = props => {
                     withdrawDone={withdrawData.withdrawDone}
                     withdrawButtonLabel={withdrawButtonLabel}
                     twoFactorAuthRequired={isTwoFactorAuthRequired(user.level, user.otp)}
+                    isLimitWithdraw24H={isLimitWithdraw24H}
                 />
             }
             <div className="cr-mobile-wallet-withdraw-body__submit">
@@ -179,6 +202,7 @@ const WalletWithdrawBodyComponent = props => {
                     rid={getConfirmationAddress()}
                     onSubmit={handleWithdraw}
                     onDismiss={toggleConfirmModal}
+                    isLimitWithdraw24H={isLimitWithdraw24H}
                 />
             </div>
         </div>
