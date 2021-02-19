@@ -65,6 +65,11 @@ export const RankingTable: React.FC<RankingTableProps> = (props: RankingTablePro
             key: 'uid',
         },
         {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email'
+        },
+        {
             title: 'Volume',
             dataIndex: 'volumn',
             key: 'volumn',
@@ -80,6 +85,7 @@ export const RankingTable: React.FC<RankingTableProps> = (props: RankingTablePro
         let newRank = {
             rank: rank.rank,
             uid: rank.uid,
+            email: rank.email,
             volumn: Number(rank.volumn).toFixed(3),
         }
 
