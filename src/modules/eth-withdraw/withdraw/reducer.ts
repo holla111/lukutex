@@ -19,9 +19,9 @@ export const initialETHFeeWithdraw: ETHFeeWithdrawState = {
 
 export const ethFeeWithdrawReducer = (state = initialETHFeeWithdraw, action: ETHFeeWithdrawActions): ETHFeeWithdrawState => {
     switch (action.type) {
-       
+
         case ETH_FEE_WITHDRAW:
-            const { payload } = action.payload;
+            const { payload } = action;
 
             return {
                 ...state,
