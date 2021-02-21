@@ -100,5 +100,4 @@ const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> = dispat
     fetchHistory: payload => dispatch(fetchHistory(payload)),
     resetHistory: () => dispatch(resetHistory()),
 });
-
 export const HistoryScreen = injectIntl(connect(null, mapDispatchToProps)(History));

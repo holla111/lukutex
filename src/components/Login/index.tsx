@@ -52,7 +52,7 @@ const Login = React.memo((props: LogInProps) => {
         onSignUp,
         image,
         labelSignIn,
-        labelSignUp,
+        // labelSignUp,
         emailLabel,
         passwordLabel,
         emailFocused,
@@ -165,15 +165,15 @@ const Login = React.memo((props: LogInProps) => {
         <form>
             <div className="cr-sign-in-form" onKeyPress={handleEnterPress}>
                 {
-                    !isMobileDevice && <div className="cr-sign-in-form__options-group">
-                      <div className="cr-sign-in-form__option">
-                        <div className="cr-sign-in-form__option-inner __selected">
-                            {labelSignIn ? labelSignIn : 'Sign In'}
-                        </div>
-                      </div>
-                      <div className="cr-sign-in-form__option">
-                        <div className="cr-sign-in-form__option-inner cr-sign-in-form__tab-signup" onClick={onSignUp}>
-                            {labelSignUp ? labelSignUp : 'Sign Up'}
+                    !isMobileDevice && <div className="cr-sign-in-form__options-group-sigin">
+                      <div className="cr-sign-in-form__option-sigin">
+                        <div className="cr-sign-in-form__option-inner __selected-sigin"
+                            style={{
+                                letterSpacing: '1px',
+                                wordSpacing: '2px',
+                            }}
+                        >
+                        Welcome to LuKuTex
                         </div>
                       </div>
                     </div>

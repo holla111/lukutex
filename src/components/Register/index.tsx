@@ -264,7 +264,10 @@ export const Register = (props: RegisterFormProps) => {
                     >
                         <div data-bn-type="text"
                         style={{
-                           fontSize: '24px',
+                           fontSize: '18px',
+                           letterSpacing: '1px',
+                           wordSpacing: '2px',
+                           textTransform: 'uppercase',
                            margin:  '0 0 12px',
                            color: 'var(--primary-text-color)'
                         }}
@@ -273,7 +276,7 @@ export const Register = (props: RegisterFormProps) => {
                         </div>
                         <div data-bn-type="text"
                             style={{
-                                fontSize: '12px',
+                                fontSize: '14px',
                                 margin: '0 0 32px',
 
                             }}
