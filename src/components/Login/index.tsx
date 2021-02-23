@@ -208,7 +208,7 @@ const Login = React.memo((props: LogInProps) => {
                         </div>
                         <div dir="ltr" >
                                 <span data-bn-type="text" style={{color: 'green'}}>https://</span>
-                                <span data-bn-type="text">accounts.lukutex.com</span>
+                                <span data-bn-type="text">www.lukutex.com</span>
                         </div>
                     </div>
                     {logo}
