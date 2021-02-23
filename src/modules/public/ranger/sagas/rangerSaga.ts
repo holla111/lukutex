@@ -265,7 +265,7 @@ const switchMarket = (subscribeOnInitOnly: boolean) => {
 
 function* watchDisconnect(socket: WebSocket, channel: Channel<{}>) {
     yield take(RANGER_DISCONNECT_FETCH);
-    socket.close();
+    //socket.close();
 }
 
 function* bindSocket(channel: Channel<{}>, socket: WebSocket, buffer: RangerBuffer) {
