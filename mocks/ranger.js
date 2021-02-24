@@ -105,7 +105,7 @@ const matchedTradesMock = (ws, marketId) => {
     let price = 0.1;
     let volume = 1000;
 
-    return function () {
+    return function() {
         const shouldPushOrder = Math.random() < 0.1;
         const orderId = orderIndex++;
         const tradeId = tradeIndex++;
@@ -132,7 +132,7 @@ const matchedTradesMock = (ws, marketId) => {
             "remaining_volume": volume,
             "origin_volume": volume,
             "executed_volume": executedVolume,
-            "side": takerType, 
+            "side": takerType,
             "created_at": at,
             "updated_at": at + 1,
             "order_type": orderType,
@@ -165,10 +165,10 @@ const matchedTradesMock = (ws, marketId) => {
 
             setTimeout(() => {
                 remainingVolume = volume / (Math.random() + 2);
-                sendEvent(ws, "order", { ...order, "remaining_volume": String(remainingVolume) });
+                sendEvent(ws, "order", {...order, "remaining_volume": String(remainingVolume) });
 
                 setTimeout(() => {
-                    sendEvent(ws, "order", { ...order, "state": "done", "remaining_volume": "0.0" });
+                    sendEvent(ws, "order", {...order, "state": "done", "remaining_volume": "0.0" });
                     sendEvent(ws, "trade", privateTrade);
                 }, 10000);
             }, 5000);
@@ -207,7 +207,7 @@ class RangerMock {
         this.wss.on('connection', function connection(ws, request) {
             ranger.initConnection(ws, request);
             ws.on('message', (message) => ranger.onMessage(ws, message));
-            ws.on('close', () => ranger.closeConnection(ws));
+            // ws.on('close', () => ranger.closeConnection(ws));
         });
     }
     close() {
@@ -230,7 +230,7 @@ class RangerMock {
             ws.timers.push(setInterval(matchedTradesMock(ws, marketId), 10000));
             ws.timers.push(setInterval(klinesMock(ws, marketId), 2500));
         });
-        ws.timers.push(setTimeout(() => {sendEvent(ws, "deposit_address", { address: "a4E49HU6CTHyYMmsYt3F1ar1q5W89t3hfQ?dt=1", currencies:["xrp"], type:"create" })}, 15000));
+        ws.timers.push(setTimeout(() => { sendEvent(ws, "deposit_address", { address: "a4E49HU6CTHyYMmsYt3F1ar1q5W89t3hfQ?dt=1", currencies: ["xrp"], type: "create" }) }, 15000));
     }
     closeConnection() {
         console.log('Ranger: connection closed');
