@@ -1,4 +1,4 @@
 import { RootState } from '../../index';
-import { ETHFee } from './types';
+import {  ETHFeeState } from './types';
 
-export const selectETHFee = (state: RootState): ETHFee => state.ethFee.ethFee.payload;
+export const selectETHFee = (state: RootState): ETHFeeState['payload'] => state.ethFee.ethFee.payload;

@@ -10,9 +10,7 @@ import {
 } from './types';
 
 export const initialETHFee: ETHFeeState = {
-    payload: {
-        fee: undefined
-    },
+    payload: [],
     loading: false,
 };
 

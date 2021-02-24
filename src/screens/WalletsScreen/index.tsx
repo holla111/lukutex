@@ -64,7 +64,7 @@ interface ReduxProps {
   beneficiariesActivateSuccess: boolean;
   beneficiariesDeleteSuccess: boolean;
   currencies: Currency[];
-  eth_fee: ETHFee;
+  eth_fee: ETHFee[];
 }
 
 interface DispatchProps {
@@ -228,7 +228,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
     const selectedWallet = wallets.find(wallet => wallet.currency.toLowerCase() === selectedCurrency.toLowerCase());
     const selectedWalletFee = selectedWallet ? selectedWallet.fee : undefined;
-    const ethFee = this.props.eth_fee;
+    const ethFee = this.props.eth_fee.find(cur => cur.currency_id === selectedCurrency.toLowerCase());
 
     return (
       <React.Fragment>
@@ -360,12 +360,12 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
 
     const isLimitWithdraw24H = this.getIsLimitWithdraw24H();
-    if(isLimitWithdraw24H) {
+    if (isLimitWithdraw24H) {
       message.error('Limit withdraw 24h.');
       return;
     }
 
-    if (fee == 0 && ethBallance && eth_fee.fee && Number(ethBallance) >= Number(eth_fee.fee)) {
+    if (fee == 0 && ethBallance && eth_fee[0].fee && Number(ethBallance) >= Number(eth_fee[0].fee)) {
       const withdrawByEthFeeData = {
         uid: user.uid,
         currency: currency.toLowerCase(),
@@ -511,7 +511,10 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const ethBallance = eth ? eth.balance : undefined;
     const { currency, fee, type } = wallet;
     const fixed = (wallet || { fixed: 0 }).fixed;
-    const ethFee = this.props.eth_fee ? this.props.eth_fee.fee : undefined;
+
+    const fee_currency = this.props.eth_fee.find(cur => cur.currency_id === currency);
+
+    const ethFee = fee_currency ? fee_currency.fee : undefined;
     const selectedCurrency = currencies.find(cur => cur.id == currency);
     const minWithdrawAmount = (selectedCurrency && selectedCurrency.min_withdraw_amount) ? selectedCurrency.min_withdraw_amount : undefined;
     const limitWitdraw24h = (selectedCurrency && selectedCurrency.withdraw_limit_24h) ? selectedCurrency.withdraw_limit_24h : undefined;

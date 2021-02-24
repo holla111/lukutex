@@ -1,10 +1,11 @@
 import { CommonState } from '../../types';
 
 export interface ETHFee {
-    fee: (number | undefined);
+    currency_id: string;
+    fee: number;
 }
 
 export interface ETHFeeState extends CommonState {
-    payload: ETHFee;
+    payload: ETHFee[];
     loading: boolean;
 }

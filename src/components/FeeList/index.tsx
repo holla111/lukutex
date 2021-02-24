@@ -17,6 +17,7 @@ export const FeeList: React.FC<Props> = (props: Props) => {
   }, []);
   
   const ethFee = useSelector(selectETHFee);
+  
   const renderItem = (currency, index: number) => {
     const open = require('../../assets/images/fee/turnon.png')
     const close = require('../../assets/images/fee/turnoff.png')
@@ -25,7 +26,11 @@ export const FeeList: React.FC<Props> = (props: Props) => {
 
     const imgWithdraw = currency.withdrawal_enabled ? <img src={open} alt="" /> : <img src={close} alt="" />
     const limited = currency.withdraw_limit_24h;
-    const withdrawFee = currency.withdraw_fee != 0 ? `${currency.withdraw_fee} ${currency.id.toUpperCase()}` : `${ethFee.fee} ETH`;
+    const currency_id = currency.id;
+    const find_currency = ethFee.find(cur => cur.currency_id === currency_id);
+    
+    const fee = find_currency ? find_currency.fee + ' ETH' : 'Unavailable';
+    const withdrawFee = currency.withdraw_fee != 0 ? `${currency.withdraw_fee} ${currency.id.toUpperCase()}` : `${fee}`;
     return (
       <tr key={index}>
         <td style={{ textAlign: "left", paddingLeft: "1%", color: "white" }}>

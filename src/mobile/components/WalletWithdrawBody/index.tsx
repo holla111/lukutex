@@ -65,8 +65,8 @@ const WalletWithdrawBodyComponent = props => {
             confirmationAddress = props.wallet.type === 'fiat' ? (
                 withdrawData.beneficiary.name
             ) : (
-                withdrawData.beneficiary.data ? (withdrawData.beneficiary.data.address as string) : ''
-            );
+                    withdrawData.beneficiary.data ? (withdrawData.beneficiary.data.address as string) : ''
+                );
         }
 
         return confirmationAddress;
@@ -91,8 +91,10 @@ const WalletWithdrawBodyComponent = props => {
             return;
         }
 
-        if(fee == 0) {
-            if(ethBallance && ethFee.fee && Number(ethBallance) >= Number(ethFee.fee)) {
+        const fee_currency = ethFee.find(cur => cur.currency_id === currency);
+
+        if (fee == 0) {
+            if (ethBallance && fee_currency && fee_currency.fee && Number(ethBallance) >= Number(fee_currency.fee)) {
                 const withdrawByEthFeeData = {
                     uid: user.uid,
                     currency: currency.toLowerCase(),
@@ -100,8 +102,8 @@ const WalletWithdrawBodyComponent = props => {
                 }
                 dispatch(ethFeeWithdraw(withdrawByEthFeeData));
             } else {
-              message.error('Withdraw failed.');
-              return;
+                message.error('Withdraw failed.');
+                return;
             }
         }
         const withdrawRequest = {
@@ -133,38 +135,40 @@ const WalletWithdrawBodyComponent = props => {
     const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
     const selectedWallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency.toLowerCase());
-    const selectedWalletFee =  selectedWallet ? selectedWallet.fee : undefined;
+    const selectedWalletFee = selectedWallet ? selectedWallet.fee : undefined;
 
     const selectCurrencyId = currency;
     const selectedCurrencyHistories = historyList
-      .filter((history: any) => history.currency === selectCurrencyId.toLowerCase());
+        .filter((history: any) => history.currency === selectCurrencyId.toLowerCase());
     const maxIdHistory = selectedCurrencyHistories.length > 0 ?
-      selectedCurrencyHistories
-      .reduce(function(prev, current) {
-        return (prev.id > current.id) ? prev : current
-    }) : undefined;
+        selectedCurrencyHistories
+            .reduce(function (prev, current) {
+                return (prev.id > current.id) ? prev : current
+            }) : undefined;
 
     const now = new Date().getTime();
     const lastWithdrawTime = maxIdHistory ? new Date(maxIdHistory.created_at).getTime() : undefined;
     let isLimitWithdraw24H = false;
 
-    if(lastWithdrawTime) {
-      const distance = (now - lastWithdrawTime) /1000 / 3600;
-      console.log(now, lastWithdrawTime, distance);
-      isLimitWithdraw24H = distance > 24 ? false : true;
+    if (lastWithdrawTime) {
+        const distance = (now - lastWithdrawTime) / 1000 / 3600;
+        console.log(now, lastWithdrawTime, distance);
+        isLimitWithdraw24H = distance > 24 ? false : true;
     }
+
+    const fee_currency = ethFee.find(cur => cur.currency_id === currency);
 
     return (
         <div className={className}>
             {currencyItem && !currencyItem.withdrawal_enabled ? (
-                    <Blur
-                        className="pg-blur-withdraw"
-                        text={intl.formatMessage({id: 'page.body.wallets.tabs.withdraw.disabled.message'})}
-                    />
-                ) :
+                <Blur
+                    className="pg-blur-withdraw"
+                    text={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+                />
+            ) :
                 <Withdraw
                     isMobileDevice
-                    ethFee={ethFee ? ethFee.fee : undefined }
+                    ethFee={fee_currency ? fee_currency.fee : undefined}
                     fee={fee}
                     ethBallance={ethBallance}
                     minWithdrawAmount={minWithdrawAmount}
@@ -194,7 +198,7 @@ const WalletWithdrawBodyComponent = props => {
                 <ModalWithdrawConfirmation
                     ethBallance={ethBallance}
                     selectedWalletFee={selectedWalletFee}
-                    ethFee={ethFee ? ethFee.fee : undefined}
+                    ethFee={fee_currency ? fee_currency.fee : undefined}
                     isMobileDevice
                     show={withdrawData.withdrawConfirmModal}
                     amount={withdrawData.total}
