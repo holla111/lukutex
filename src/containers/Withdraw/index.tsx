@@ -32,7 +32,7 @@ export interface WithdrawProps {
 	ethBallance?: string;
 	minWithdrawAmount?: string;
 	limitWitdraw24h?: string;
-	isLimitWithdraw24H: boolean;
+	/* isLimitWithdraw24H: boolean; */
 }
 
 const defaultBeneficiary: Beneficiary = {

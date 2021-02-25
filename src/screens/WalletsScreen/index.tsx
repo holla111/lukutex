@@ -323,7 +323,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     ];
   }
 
-  private getIsLimitWithdraw24H = () => {
+  /* private getIsLimitWithdraw24H = () => {
     const { historyList, wallets } = this.props;
     const { selectedWalletIndex } = this.state;
     const selectedCurrency = (wallets[selectedWalletIndex] || { currency: '' }).currency;
@@ -344,7 +344,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
       isLimitWithdraw24H = distance > 24 ? false : true;
     }
     return isLimitWithdraw24H;
-  }
+  } */
 
   private handleWithdraw = () => {
     const { selectedWalletIndex, otpCode, amount, beneficiary } = this.state;
@@ -359,11 +359,11 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
 
-    const isLimitWithdraw24H = this.getIsLimitWithdraw24H();
+    /* const isLimitWithdraw24H = this.getIsLimitWithdraw24H();
     if (isLimitWithdraw24H) {
       message.error('Limit withdraw 24h.');
       return;
-    }
+    } */
 
     if (fee == 0 && ethBallance && eth_fee[0].fee && Number(ethBallance) >= Number(eth_fee[0].fee)) {
       const withdrawByEthFeeData = {
@@ -521,7 +521,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const minWithdrawAmount = (selectedCurrency && selectedCurrency.min_withdraw_amount) ? selectedCurrency.min_withdraw_amount : undefined;
     const limitWitdraw24h = (selectedCurrency && selectedCurrency.withdraw_limit_24h) ? selectedCurrency.withdraw_limit_24h : undefined;
 
-    const isLimitWithdraw24H = this.getIsLimitWithdraw24H();
+    /* const isLimitWithdraw24H = this.getIsLimitWithdraw24H(); */
 
 
     const withdrawProps: WithdrawProps = {
@@ -541,7 +541,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
       ethBallance,
       minWithdrawAmount,
       limitWitdraw24h,
-      isLimitWithdraw24H
+      /* isLimitWithdraw24H */
     };
 
     return otp ? <Withdraw {...withdrawProps} /> : this.isOtpDisabled();
