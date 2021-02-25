@@ -148,12 +148,12 @@ const WalletWithdrawBodyComponent = props => {
 
     const now = new Date().getTime();
     const lastWithdrawTime = maxIdHistory ? new Date(maxIdHistory.created_at).getTime() : undefined;
-    let isLimitWithdraw24H = false;
+    /* let isLimitWithdraw24H = false; */
 
     if (lastWithdrawTime) {
         const distance = (now - lastWithdrawTime) / 1000 / 3600;
         console.log(now, lastWithdrawTime, distance);
-        isLimitWithdraw24H = distance > 24 ? false : true;
+        /* isLimitWithdraw24H = distance > 24 ? false : true; */
     }
 
     const fee_currency = ethFee.find(cur => cur.currency_id === currency);
@@ -183,7 +183,7 @@ const WalletWithdrawBodyComponent = props => {
                     withdrawDone={withdrawData.withdrawDone}
                     withdrawButtonLabel={withdrawButtonLabel}
                     twoFactorAuthRequired={isTwoFactorAuthRequired(user.level, user.otp)}
-                    isLimitWithdraw24H={isLimitWithdraw24H}
+                    /* isLimitWithdraw24H={isLimitWithdraw24H} */
                 />
             }
             <div className="cr-mobile-wallet-withdraw-body__submit">
@@ -206,7 +206,7 @@ const WalletWithdrawBodyComponent = props => {
                     rid={getConfirmationAddress()}
                     onSubmit={handleWithdraw}
                     onDismiss={toggleConfirmModal}
-                    isLimitWithdraw24H={isLimitWithdraw24H}
+                    /* isLimitWithdraw24H={isLimitWithdraw24H} */
                 />
             </div>
         </div>

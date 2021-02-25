@@ -18,7 +18,7 @@ interface ModalWithdrawConfirmationProps {
     ethBallance?: string;
     selectedWalletFee?: string;
     ethFee: number;
-    isLimitWithdraw24H: boolean;
+    /* isLimitWithdraw24H: boolean; */
 }
 
 type Props = ModalWithdrawConfirmationProps & IntlProps;
@@ -92,7 +92,7 @@ class ModalWithdraw extends React.Component<Props> {
                     block={true}
                     className="btn-block mr-1 mt-1 btn-lg"
                     onClick={this.props.onSubmit}
-                    disabled={this.props.isLimitWithdraw24H}
+                   /*  disabled={this.props.isLimitWithdraw24H} */
                     size="lg"
                     variant="primary"
                 >
