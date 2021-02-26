@@ -76,7 +76,7 @@ class Head extends React.Component<Props, State> {
           <a href="/"><img src={Logo} alt="" className="pg-logo__img" /></a>
           <Link className="market" to="/trading">Market</Link>
           <Link className="market" to="/airdrop">Airdrop Hub</Link>
-          <Link className="market" to="/introduce">Introduce Lukutex</Link>
+          <Link className="market" to="/introduce">CryptoLukutex</Link>
           <Link className="market new" to="/ieo">Launchpad</Link>
         </div>
         <div className="navbar__item-right">

@@ -2,7 +2,7 @@ import * as React  from "react";
 // import { Link } from 'react-router-dom';
 import bg from './Image/bg.png';
 import sky from './Image/sky.jpg';
-import { Collapse } from 'antd';
+import { Collapse, Input } from 'antd';
 import { 
   CaretRightOutlined,
   QuestionCircleOutlined,
@@ -75,7 +75,7 @@ export const IntroduceScreen: React.FC<any> = () => {
               </div>
             </div>
             <div className="title" >
-              <div className="title__desc" >Crypto2Cloud provides many options<br/>to earn and monetize your platform</div>
+              <div className="title__desc" >CryptoLukuTex provides many options<br/>to earn and monetize your platform</div>
               <div className="title__content">
                 <div className="title__content__text">WAYS TO MONETIZE</div>
                 <div className="title__content__sub">YOUR EXCHANGE</div>
@@ -105,10 +105,10 @@ export const IntroduceScreen: React.FC<any> = () => {
                 <Panel  header="Market Making Services" key="6">
                   <p>{text}</p>
                 </Panel>
-                <Panel  header="Initial Exchange Offerings (IEOs)" key="5">
+                <Panel  header="Initial Exchange Offerings (IEOs)" key="7">
                   <p>{text}</p>
                 </Panel>
-                <Panel  header="Plastic ATM (Bank) Debit Cards" key="6">
+                <Panel  header="Plastic ATM (Bank) Debit Cards" key="8">
                   <p>{text}</p>
                 </Panel>
               </Collapse>
@@ -330,6 +330,7 @@ export const IntroduceScreen: React.FC<any> = () => {
           </div>
         </div>
         <div className="contact__us">
+          {/* contact-us */}
           <div className="contactus">
             <div className="contactus__title">
               <div className="contactus__title__desc">
@@ -345,13 +346,69 @@ export const IntroduceScreen: React.FC<any> = () => {
                 </div>
 					    </div>
             </div>
+            {/*  */}
             <div className="contactus__desc">
               Please fill out the form below to get started. Provide your contact details and one of our sales department managers will get in touch with you as soon as possible.
             </div>
+            {/* form contact */}
             <div className="contactus__form">
-              
+              <div className="contactus__form__group">
+                <Input  placeholder="Your Name" 
+                        bordered={false} 
+                        className="contactus__form-item"
+                />
+              </div>
+              <div className="contactus__form__groupwrap">
+                <div className="contactus__form__groupwrap__twice">
+                  <Input  placeholder="Phone Number" 
+                          bordered={false} 
+                          className="contactus__form-item"
+                  />
+                </div>
+                
+                <div className="contactus__form__groupwrap__twice">
+                  <Input  placeholder="Telegram ID" 
+                          bordered={false} 
+                          className="contactus__form-item"
+                  />
+                </div>
+              </div>
+              <div className="contactus__form__groupwrap">
+                <div className="contactus__form__groupwrap__twice">
+                  <Input  placeholder="Whatsapp ID" 
+                          bordered={false} 
+                          className="contactus__form-item"
+                  />
+                </div>
+                
+                <div className="contactus__form__groupwrap__twice">
+                  <Input  placeholder="Skype ID" 
+                          bordered={false} 
+                          className="contactus__form-item"
+                  />
+                </div>
+              </div>
+              <div className="contactus__form__groupwrap">
+                <div className="contactus__form__groupwrap__twice">
+                  <Input  placeholder="Email" 
+                          bordered={false} 
+                          className="contactus__form-item"
+                  />
+                </div>
+                
+                <div className="contactus__form__groupwrap__twice">
+                  <Input  placeholder="Reference By: " 
+                          bordered={false} 
+                          className="contactus__form-item"
+                  />
+                </div>
+              </div>
+              <div className="contactus__form__action">
+                <div className="form__btn">Send me demo</div>
+              </div>
             </div>
           </div>
+          {/* our contact */}
           <div className="our-contact">
             {/* avatar contact */}
             <div className="our-contact__avatar">
