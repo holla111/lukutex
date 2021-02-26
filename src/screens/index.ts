@@ -5,6 +5,7 @@ export * from './EmailVerification';
 export * from './ForgotPassword';
 export * from './History';
 export * from './LandingScreen';
+export * from './IntroduceScreen';
 export * from './MagicLinkScreen';
 export * from './OrdersTabScreen';
 export * from './ProfileScreen';

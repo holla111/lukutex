@@ -4,7 +4,6 @@ import {MarketsTableScreen} from '../../containers/MarketsTableScreen';
 
 import {Row, Col } from 'react-bootstrap';
 import Slider from "react-slick";
-
 import { eventFetch, selectEvents } from "../../modules";
 import { useDispatch, useSelector } from "react-redux";
 import {
