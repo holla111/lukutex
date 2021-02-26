@@ -167,7 +167,7 @@ export class WithdrawWalletTable extends React.Component<Props> {
       prepared: <img src={process} alt=""/>,
       skipped: <img src={process} alt=""/>,
       errored: <img src={process} alt=""/>,
-      submitted: (confirmations !== undefined && minConfirmations !== undefined) ? (
+      confirming: (confirmations !== undefined && minConfirmations !== undefined) ? (
         `${confirmations}/${minConfirmations}`
       ) : (
         <img src={process} alt=""/>),
