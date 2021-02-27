@@ -26,13 +26,13 @@ const WalletDepositBodyComponent = props => {
 
     const translate = (id: string) => intl.formatMessage({ id });
 
-    const currencyItem = (currencies && currencies.find(item => item.id === wallet.currency)) || { min_confirmations: 6, min_deposit_amount: 6, deposit_enabled: false };
+    const currencyItem = (currencies && currencies.find(item => item.id === wallet.currency)) || { min_confirmations: 6, min_deposit_amount: 6, deposit_fee: 6, deposit_enabled: false };
 
     const textConfirmation = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currencyItem.min_confirmations });
 
-    const textMinDeposit = `${translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount) + Number(currencyItem.deposit_fee)} ${currencyItem.toUpperCase()}`;
+    const textMinDeposit = `${translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount) + Number(currencyItem.deposit_fee)} ${wallet.currency.toUpperCase()}`;
 
-    const textDepositFee = `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} ${Number(currencyItem.deposit_fee)} ${currencyItem.toUpperCase()}`;
+    const textDepositFee = `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} ${Number(currencyItem.deposit_fee)} ${wallet.currency.toUpperCase()}`;
 
     const checkDepositFee = Number(currencyItem.deposit_fee) != 0 ? textDepositFee : `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} 1 %`;
     
