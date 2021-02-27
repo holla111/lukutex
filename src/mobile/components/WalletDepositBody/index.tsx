@@ -30,8 +30,12 @@ const WalletDepositBodyComponent = props => {
 
     const textConfirmation = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currencyItem.min_confirmations });
 
-    const textMinDeposit = `${translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount)} ${wallet.currency.toUpperCase()}`;
+    const textMinDeposit = `${translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount) + Number(currencyItem.deposit_fee)} ${currencyItem.toUpperCase()}`;
 
+    const textDepositFee = `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} ${Number(currencyItem.deposit_fee)} ${currencyItem.toUpperCase()}`;
+
+    const checkDepositFee = Number(currencyItem.deposit_fee) != 0 ? textDepositFee : `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} 1 %`;
+    
     const textNote = `Only Deposit ${wallet.currency.toUpperCase()} to this wallet.`
 
 
@@ -71,6 +75,7 @@ const WalletDepositBodyComponent = props => {
             textConfirmation={textConfirmation}
             textMinDeposit={textMinDeposit}
             textNote={textNote}
+            textDepositFee={checkDepositFee}
             disabled={walletAddress === ''}
             copiableTextFieldText={`${wallet.currency.toUpperCase()} ${label}`}
             copyButtonText={intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.button' })}
