@@ -336,9 +336,9 @@ export function* rangerSagas() {
         if (connectFetchPayload) {
             const prevSubs = yield getSubscriptions();
             const [channel, socket] = yield call(initRanger, connectFetchPayload, market, prevSubs, buffer);
-            initialized = true;
             if (pipes) {
                 yield cancel(pipes);
+                initialized = true;
             }
             pipes = yield fork(bindSocket, channel, socket, buffer);
         }

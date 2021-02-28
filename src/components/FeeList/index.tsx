@@ -37,7 +37,7 @@ export const FeeList: React.FC<Props> = (props: Props) => {
           <span>{currency.name} ({currency.id.toUpperCase()})</span>
         </td>
         <td style={{ textAlign: "left", paddingLeft: "1%"}}>
-          <span>{currency.min_deposit_amount} {currency.id.toUpperCase()}</span>
+          <span>{Number(currency.min_deposit_amount) + Number(currency.deposit_fee)} {currency.id.toUpperCase()}</span>
         </td>
         <td style={{ textAlign: "left", paddingLeft: "1%"}}>
           <span>{currency.min_withdraw_amount} {currency.id.toUpperCase()}</span>

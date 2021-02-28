@@ -377,9 +377,12 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
 
     const textConfirmation = this.props.intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currencyItem.min_confirmations });
 
-    const textMinDeposit = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount)} ${currency.toUpperCase()}`;
+    const mindeposit = Number(currencyItem.min_deposit_amount) + Number(currencyItem.deposit_fee);
+    const textMinDeposit = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${mindeposit} ${currency.toUpperCase()}`;
 
     const textDepositFee = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} ${Number(currencyItem.deposit_fee)} ${currency.toUpperCase()}`;
+
+    const checkDepositFee = Number(currencyItem.deposit_fee) != 0 ? textDepositFee : `${this.translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} 1 %`;
 
     const textNote = `Only Deposit ${currency.toUpperCase()} to this wallet.`
 
@@ -414,7 +417,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
             textConfirmation={textConfirmation}
             textMinDeposit={textMinDeposit}
             textNote={textNote}
-            textDepositFee={textDepositFee}
+            textDepositFee={checkDepositFee}
             disabled={walletAddress === ''}
             copiableTextFieldText={this.translate('page.body.wallets.tabs.deposit.ccy.message.address')}
             copyButtonText={this.translate('page.body.wallets.tabs.deposit.ccy.message.button')}
