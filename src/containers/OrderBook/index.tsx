@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { Spinner } from 'react-bootstrap';
-import { useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { CombinedOrderBook, Decimal } from '../../components';
 import { colors } from '../../constants';
 import { accumulateVolume, calcMaxVolume } from '../../helpers';
 import {
     Market,
+    orderBookFetch,
     selectCurrentColorTheme,
     selectCurrentMarket,
     selectCurrentPrice,
@@ -84,15 +85,15 @@ export const OrderBook = props => {
 
         if (isMobileDevice) {
             return [
-                `${formatMessage({id: 'page.body.trade.orderbook.header.price'})}\n${formattedQuoteUnit}`,
-                `${formatMessage({id: 'page.body.trade.orderbook.header.amount'})}\n${formattedBaseUnit}`,
+                `${formatMessage({ id: 'page.body.trade.orderbook.header.price' })}\n${formattedQuoteUnit}`,
+                `${formatMessage({ id: 'page.body.trade.orderbook.header.amount' })}\n${formattedBaseUnit}`,
             ];
         }
 
         return [
-            `${formatMessage({id: 'page.body.trade.orderbook.header.price'})}\n${formattedQuoteUnit}`,
-            `${formatMessage({id: 'page.body.trade.orderbook.header.amount'})}\n${formattedBaseUnit}`,
-            `${formatMessage({id: 'page.body.trade.orderbook.header.volume'})}\n${formattedBaseUnit}`,
+            `${formatMessage({ id: 'page.body.trade.orderbook.header.price' })}\n${formattedQuoteUnit}`,
+            `${formatMessage({ id: 'page.body.trade.orderbook.header.amount' })}\n${formattedBaseUnit}`,
+            `${formatMessage({ id: 'page.body.trade.orderbook.header.volume' })}\n${formattedBaseUnit}`,
         ];
     }, [currentMarket, formatMessage, isMobileDevice]);
 
@@ -130,14 +131,14 @@ export const OrderBook = props => {
                         price={price}
                         fixed={priceFixed}
                     />,
-                    <OrderBookTableRow total={volume} fixed={amountFixed}/>,
-                    <OrderBookTableRow total={total[i]} fixed={amountFixed}/>,
+                    <OrderBookTableRow total={volume} fixed={amountFixed} />,
+                    <OrderBookTableRow total={total[i]} fixed={amountFixed} />,
                 ];
             } else {
                 if (isLarge) {
                     if (isMobileDevice) {
                         return [
-                            <OrderBookTableRow total={total[i]} fixed={amountFixed}/>,
+                            <OrderBookTableRow total={total[i]} fixed={amountFixed} />,
                             <OrderBookTableRow
                                 type="price"
                                 prevValue={array[i - 1] ? array[i - 1][0] : 0}
@@ -148,8 +149,8 @@ export const OrderBook = props => {
                     }
 
                     return [
-                        <OrderBookTableRow total={total[i]} fixed={amountFixed}/>,
-                        <OrderBookTableRow total={volume} fixed={amountFixed}/>,
+                        <OrderBookTableRow total={total[i]} fixed={amountFixed} />,
+                        <OrderBookTableRow total={volume} fixed={amountFixed} />,
                         <OrderBookTableRow
                             type="price"
                             prevValue={array[i - 1] ? array[i - 1][0] : 0}
@@ -166,7 +167,7 @@ export const OrderBook = props => {
                                 price={price}
                                 fixed={priceFixed}
                             />,
-                            <OrderBookTableRow total={total[i]} fixed={amountFixed}/>,
+                            <OrderBookTableRow total={total[i]} fixed={amountFixed} />,
                         ];
                     }
 
@@ -177,8 +178,8 @@ export const OrderBook = props => {
                             price={price}
                             fixed={priceFixed}
                         />,
-                        <OrderBookTableRow total={volume} fixed={amountFixed}/>,
-                        <OrderBookTableRow total={total[i]} fixed={amountFixed}/>,
+                        <OrderBookTableRow total={volume} fixed={amountFixed} />,
+                        <OrderBookTableRow total={total[i]} fixed={amountFixed} />,
                     ];
                 }
             }
@@ -207,6 +208,14 @@ export const OrderBook = props => {
         }
     });
 
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            if (currentMarket)
+                dispatch(orderBookFetch(currentMarket));
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className={cn} ref={orderRef}>
             <div className={'cr-table-header__content head-text'}>
@@ -220,8 +229,8 @@ export const OrderBook = props => {
                     orderBookEntryBids={accumulateVolume(bids)}
                     rowBackgroundColorAsks={colors[colorTheme].orderBook.asks}
                     rowBackgroundColorBids={colors[colorTheme].orderBook.bids}
-                    dataAsks={renderOrderBook(asksData, 'asks', formatMessage({id: 'page.noDataToShow'}), currentMarket) as any}
-                    dataBids={renderOrderBook(bids, 'bids', formatMessage({id: 'page.noDataToShow'}), currentMarket) as any}
+                    dataAsks={renderOrderBook(asksData, 'asks', formatMessage({ id: 'page.noDataToShow' }), currentMarket) as any}
+                    dataBids={renderOrderBook(bids, 'bids', formatMessage({ id: 'page.noDataToShow' }), currentMarket) as any}
                     headers={renderHeaders()}
                     lastPrice={lastPrice()}
                     onSelectAsks={handleOnSelectAsks}
