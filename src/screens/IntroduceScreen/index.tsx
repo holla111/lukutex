@@ -174,7 +174,9 @@ export const IntroduceScreen: React.FC<any> = () => {
               </div>
             </div>
             <div className="plans__items-footer">
-              <div className="price__action">START NOW</div>
+              <div className="price__action">
+                  <a className="price__action-click" href="#form__us">START NOW</a>
+              </div>
             </div>
           </div>
           <div className="plans__items">
@@ -221,7 +223,9 @@ export const IntroduceScreen: React.FC<any> = () => {
               </div>
             </div>
             <div className="plans__items-footer">
-              <div className="price__action">START NOW</div>
+              <div className="price__action">
+                <a className="price__action-click" href="#form__us">START NOW</a>
+              </div>
             </div>
           </div>
           <div className="plans__items">
@@ -268,7 +272,9 @@ export const IntroduceScreen: React.FC<any> = () => {
               </div>
             </div>
             <div className="plans__items-footer">
-              <div className="price__action">START NOW</div>
+              <div className="price__action">
+                <a className="price__action-click" href="#form__us">START NOW</a>
+              </div>
             </div>
           </div>
         </div>
@@ -329,7 +335,7 @@ export const IntroduceScreen: React.FC<any> = () => {
             
           </div>
         </div>
-        <div className="contact__us">
+        <div className="contact__us" id="form__us">
           {/* contact-us */}
           <div className="contactus">
             <div className="contactus__title">
