@@ -1,18 +1,18 @@
 import { Col, Row, Statistic } from 'antd';
 import * as React from 'react'
-export const LKTInfo = () => {
+export const YRFIInfo = () => {
     const statistics = [
         {
             title: 'Ticker',
-            subTitle: 'LKT'
+            subTitle: 'YRFI'
         },
         {
             title: 'STARTING PRICE',
-            subTitle: '$0.025 USD'
+            subTitle: '75 USD'
         },
         {
             title: 'TOTAL SUPPLY',
-            subTitle: '100,000,000 LKT'
+            subTitle: '30,000 YRFI'
         },
         {
             title: 'KYC',
@@ -20,11 +20,11 @@ export const LKTInfo = () => {
         },
         {
             title: 'CURRENCIES',
-            subTitle: 'BTC, ETH, USDT, ESC, KOBE'
+            subTitle: 'TRX, ETH, USDT'
         },
         {
             title: 'AVAILABLE FOR IEO',
-            subTitle: '30,000,000 LKT'
+            subTitle: '1000 YRFI'
         },
         {
             title: 'RESTRICTED COUNTRIES',
@@ -32,12 +32,8 @@ export const LKTInfo = () => {
         },
         {
             title: 'TOKEN TYPE',
-            subTitle: 'ERC-20'
+            subTitle: 'TRC-20'
         },
-        {
-            title: 'SOFT CAP',
-            subTitle: '$ 200,000 USD'
-        }
     ];
     
     let statisticsContent;
@@ -54,9 +50,9 @@ export const LKTInfo = () => {
             <div className="row justify-content-center">
                 <div className="col-12">
                     <h2 className="mb-4" style={{ fontWeight: 'bold', fontSize: '2rem' }}>Tokensale Information:</h2>
-                    <p style={{ fontSize: '1.6rem' }}>Lukutex Token<strong style={{ color: '#fff' }}> (LKT)</strong> IEO sale starts on 10th of January!</p>
+                    <p style={{ fontSize: '1.6rem' }}>YearFinance Token<strong style={{ color: '#fff' }}> (YRFI)</strong> IEO sale starts on 14th of March!</p>
                     <p style={{ fontSize: '1.6rem' }}>
-                        Pre-Launch: 10/01/2021, 9:00am, UTC - 25/01/2021, 9:00am, UTC | $0.025 USD | <strong style={{ color: '#fff' }}> Pre-Launch!</strong>
+                        Pre-Launch: 14/03/2021, 8:00am, UTC - 21/03/2021, 8:00am, UTC | $75 USD | <strong style={{ color: '#fff' }}> Pre-Launch!</strong>
                     </p>
                 </div>
             </div>
