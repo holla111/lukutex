@@ -1,8 +1,11 @@
 import * as React  from "react";
-// import { Link } from 'react-router-dom';
+import Axios from "axios";
+import { useForm } from "react-hook-form";
+
 import bg from './Image/bg.png';
 import sky from './Image/sky.jpg';
-import { Collapse, Input } from 'antd';
+import { Collapse, Button } from 'antd';
+
 import { 
   CaretRightOutlined,
   QuestionCircleOutlined,
@@ -11,10 +14,28 @@ import {
   MailOutlined,
   SkypeFilled,
  } from '@ant-design/icons';
+ const { Panel } = Collapse;
 
-const { Panel } = Collapse;
 
-export const IntroduceScreen: React.FC<any> = () => {
+ type PersonScore = {
+  name: string;
+  email: string;
+  phone: number;
+};
+
+export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
+
+  const [formContact, setFormContact] = React.useState({
+    name: '',
+    email: '',
+    phone: '',
+    skype: '',
+    telegram: '',
+  })
+
+  const { handleSubmit, errors, register } = useForm<PersonScore>();
+
+  // const [validationForm, setValidationForm] = React.useState('');
 
   const text = `
   A dog is a type of domesticated animal.
@@ -282,7 +303,25 @@ export const IntroduceScreen: React.FC<any> = () => {
     );
   }
 
+
+ 
+  const handleContact = (e: any) => {
+    setFormContact({
+      ...formContact,
+      [e.target.name]: e.target.value
+    });
+    
+  }
+
+
+  const handleSubmitForm = (e: PersonScore) => {
+
+    Axios.post('https://sheet.best/api/sheets/27dcd6cf-ef34-457e-bbd4-a094a8b59af6', formContact)
+     
+  }
+
   const renderFifth = () => {
+ 
     const coin = require('./Image/Coin.PNG')
     return (
       <div className="fifthScreen">
@@ -357,62 +396,76 @@ export const IntroduceScreen: React.FC<any> = () => {
               Please fill out the form below to get started. Provide your contact details and one of our sales department managers will get in touch with you as soon as possible.
             </div>
             {/* form contact */}
-            <div className="contactus__form">
+            <form className="contactus__form" onSubmit={handleSubmit(handleSubmitForm)} >
               <div className="contactus__form__group">
-                <Input  placeholder="Your Name" 
-                        bordered={false} 
+                <input  placeholder="Your Name"
                         className="contactus__form-item"
+                        name="name"
+                        type="text"
+                        ref={register({ required: true })}
+                        onChange={handleContact}
                 />
+                {errors.name && errors.name.type === "required" && (
+                  <div className="error">You must enter your name.</div>
+                )}
               </div>
+              
               <div className="contactus__form__groupwrap">
                 <div className="contactus__form__groupwrap__twice">
-                  <Input  placeholder="Phone Number" 
-                          bordered={false} 
+                  <input  placeholder="Phone Number" 
                           className="contactus__form-item"
+                          name="phone"
+                          type="number"
+                          ref={register({ required: true })}
+                          onChange={handleContact}
                   />
+                  {errors.phone && errors.phone.type === "required" && (
+                    <div className="error">You must enter phone number.</div>
+                  )}
                 </div>
                 
                 <div className="contactus__form__groupwrap__twice">
-                  <Input  placeholder="Telegram ID" 
-                          bordered={false} 
+                  <input  placeholder="Telegram ID"  
                           className="contactus__form-item"
+                          name="telegram"
+                          type="number"
+                          onChange={handleContact}
                   />
                 </div>
               </div>
               <div className="contactus__form__groupwrap">
                 <div className="contactus__form__groupwrap__twice">
-                  <Input  placeholder="Whatsapp ID" 
-                          bordered={false} 
+                  <input  placeholder="Email" 
                           className="contactus__form-item"
+                          name="email"
+                          type="email"
+                          ref={register({ required: true })}
+                          onChange={handleContact}
                   />
+                  {errors.email && errors.email.type === "required" && (
+                    <div className="error">You must enter your email.</div>
+                  )}
                 </div>
-                
                 <div className="contactus__form__groupwrap__twice">
-                  <Input  placeholder="Skype ID" 
-                          bordered={false} 
+                  <input  placeholder="Skype ID" 
                           className="contactus__form-item"
-                  />
-                </div>
-              </div>
-              <div className="contactus__form__groupwrap">
-                <div className="contactus__form__groupwrap__twice">
-                  <Input  placeholder="Email" 
-                          bordered={false} 
-                          className="contactus__form-item"
-                  />
-                </div>
-                
-                <div className="contactus__form__groupwrap__twice">
-                  <Input  placeholder="Reference By: " 
-                          bordered={false} 
-                          className="contactus__form-item"
+                          name="skype"
+                          type="number"
+                          onChange={handleContact}
                   />
                 </div>
               </div>
               <div className="contactus__form__action">
-                <div className="form__btn">Send me demo</div>
+                <Button type="primary"
+                        className="form__btn"
+                        style={{border: 'none'}}
+                        htmlType="submit"
+                        size="large"
+                >
+                  Send me demo
+                </Button>
               </div>
-            </div>
+            </form>
           </div>
           {/* our contact */}
           <div className="our-contact">
