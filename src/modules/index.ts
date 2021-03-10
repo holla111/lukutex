@@ -89,6 +89,7 @@ export * from './sale/sale-item';
 export * from './sale/buy';
 export * from './sale/price';
 export * from './info/events';
+// export * from './info/announcement';
 
 export interface RootState {
     airdrops: {
@@ -109,6 +110,10 @@ export interface RootState {
     info: {
         events: EventsState
     };
+
+    // announcement: {
+    //     post: AnnounState
+    // };
 
     public: {
         alerts: AlertState;
@@ -204,6 +209,8 @@ export function* rootSaga() {
         call(rootSaleItemSaga),
         call(rootBuySaga),
         call(rootPriceSaga),
-        call(rootEventSaga)
+        call(rootEventSaga),
+        // call(rootAnnounSaga),
+        
     ]);
 }

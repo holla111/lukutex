@@ -1,4 +1,3 @@
-// import { sliceArray } from '../../../../helpers';
 import { EventActions } from './actions';
 import {
     EVENT_ERROR,
