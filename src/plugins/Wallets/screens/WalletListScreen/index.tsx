@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Decimal } from '../../../../components';
 import { EstimatedValue } from '../../../../containers/Wallets/EstimatedValue';
 import { currenciesFetch, selectCurrencies, selectWallets, walletsFetch } from '../../../../modules';
+import NP from 'number-precision';
+import { useHistory } from 'react-router';
 const { Search } = Input;
 
 export interface WalletItem {
@@ -12,6 +14,7 @@ export interface WalletItem {
   address?: string;
   currency: string;
   name: string;
+  total?: string;
   balance?: string;
   locked?: string;
   type: 'fiat' | 'coin';
@@ -23,6 +26,9 @@ export interface WalletItem {
     currency_id: string,
     name: string;
     iconUrl?: string;
+  }
+  action: {
+    currency_id: string
   }
 }
 
@@ -39,6 +45,9 @@ export const WalletListScreen = () => {
       </svg>
     );
   };
+
+  // history
+  const history = useHistory();
 
   // dispatch
   const dispatch = useDispatch();
@@ -67,6 +76,14 @@ export const WalletListScreen = () => {
       ),
     },
     {
+      title: 'Total',
+      dataIndex: 'total',
+      key: 'total',
+      sorter: {
+        compare: (a, b) => a.balance - b.balance,
+      }
+    },
+    {
       title: 'Available',
       dataIndex: 'balance',
       key: 'balance',
@@ -90,27 +107,33 @@ export const WalletListScreen = () => {
     },
     {
       title: 'Action',
+      dataIndex: 'action',
       key: 'action',
-      render: () => (
+      render: (currency) => (
         <Space size="middle">
-          <Button variant="success">Deposit</Button>
-          <Button variant="primary">Withdraw</Button>
+          <Button size="lg" variant="success" onClick={() => handleDepositClick(currency.currency_id)}>Deposit</Button>
+          <Button size="lg" variant="primary">Withdraw</Button>
         </Space>
       ),
     },
   ];
 
   const data: WalletItem[] = wallets.map((walletItem) => {
+    const total = NP.plus(walletItem.balance || 0, walletItem.locked || 0);
     const newWalletItem: WalletItem = {
       ...walletItem,
       key: walletItem.currency,
-      balance: walletItem.balance && Number(walletItem.balance) > 0 ? walletItem.balance : "0.00.000000",
+      total: total > 0 ? String(total) : "0.000000",
+      balance: walletItem.balance && Number(walletItem.balance) > 0 ? walletItem.balance : "0.000000",
       locked: walletItem.locked && Number(walletItem.balance) > 0 ? walletItem.locked : "0.000000",
       coin: {
         currency_id: walletItem.currency,
         name: walletItem.name,
         iconUrl: walletItem.iconUrl
       },
+      action: {
+        currency_id: walletItem.currency
+      }
     }
     return newWalletItem;
   });
@@ -120,6 +143,7 @@ export const WalletListScreen = () => {
   const onSearch = (value) => {
     console.log(value);
   }
+
   const findIcon = (code: string): string => {
     const currency = currencies.find((currency: any) => currency.id === code);
     try {
@@ -129,6 +153,14 @@ export const WalletListScreen = () => {
       return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
     }
   };
+
+  const handleDepositClick = (currency_id) => {
+    const location = {
+      pathname: '/new-wallets/deposit/' + String(currency_id).toUpperCase()
+    }
+    history.push(location);
+  }
+
   return (
     <div className="container-fluid px-5">
       <div className="row">
@@ -143,7 +175,7 @@ export const WalletListScreen = () => {
       </div>
       <div className="row mt-2">
         <div className="col-12">
-          <Table size="small" columns={columns} dataSource={data} />
+          <Table size="middle" columns={columns} dataSource={data} />
         </div>
       </div>
     </div>
