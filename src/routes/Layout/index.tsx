@@ -77,6 +77,7 @@ import {
     VerificationScreen,
     WalletsScreen,
     FeeScreen,
+    ListingFormScreen,
 } from '../../screens';
 import { HomeScreen } from '../../screens/HomeScreen';
 import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
@@ -289,6 +290,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route exact={true} path="/" component={HomeScreen} />
                     {/* <Route exact={true} path="/home" component={HomeScreen} /> */}
                     <Route exact={false} path="/fee" component={FeeScreen} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/listingform" component={ListingFormScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
