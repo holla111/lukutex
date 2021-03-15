@@ -13,6 +13,7 @@ import {
   PhoneOutlined,
   MailOutlined,
   SkypeFilled,
+  PhoneFilled,
  } from '@ant-design/icons';
  const { Panel } = Collapse;
 
@@ -45,7 +46,6 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
   const desc = 'We offer various purchase options: White label package is the fastest way to launch. Source code package allows you to start your own platform with an option to be customized by your team.  Source code with customized front package will be a full house solution.'
 
   const renderFirstScreen = () => {
-    // const Logo = require('../../assets/images/logo.svg');
     return(
       <div className="first-screen">
         {/*  */}
@@ -53,7 +53,7 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
           <div className="main-left">
             <div className="main-left__title">LAUNCH</div>
             <div className="main-left__sub1">YOUR OWN</div>
-            <div className="main-left__sub2">CRYPTO EXCHANGE</div>
+            <div className="main-left__sub2">LUKUTEX BUSINESS</div>
             <div className="main-left__desc">Create your own cryptocurrency exchange quickly and easily. We will provide all the required tools and technical support</div>
           </div>
           <div className="main-right">
@@ -146,7 +146,7 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
         <div className="title">
           <div className="title__desc">{desc}</div>
           <div className="title__content">
-            <div className="title__content__text" data-lang-id="PURCHASE">PACKAGE</div>
+            <div className="title__content__text" data-lang-id="PURCHASE">LUKUTEX</div>
             <div className="title__content__sub" data-lang-id="OPTIONS">OPTIONS</div>
 			    </div>
         </div>
@@ -198,6 +198,9 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
               <div className="price__action">
                   <a className="price__action-click" href="#form__us">START NOW</a>
               </div>
+              <div className="price__action">
+                  <a className="price__action-click" href="#form__us">SENT ME DEMO</a>
+              </div>
             </div>
           </div>
           <div className="plans__items">
@@ -246,6 +249,9 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
             <div className="plans__items-footer">
               <div className="price__action">
                 <a className="price__action-click" href="#form__us">START NOW</a>
+              </div>
+              <div className="price__action">
+                  <a className="price__action-click" href="#form__us">SENT ME DEMO</a>
               </div>
             </div>
           </div>
@@ -296,6 +302,9 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
               <div className="price__action">
                 <a className="price__action-click" href="#form__us">START NOW</a>
               </div>
+              <div className="price__action">
+                  <a className="price__action-click" href="#form__us">SENT ME DEMO</a>
+              </div>
             </div>
           </div>
         </div>
@@ -303,7 +312,122 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
     );
   }
 
+  const renderThirdScreen = () => {
 
+    const SOON = require('./Image/SOON.PNG');
+
+    return (
+      <div className="thirdscreen">
+        <div className="thirdscreen__title">
+          <div className="thirdscreen__title__content">
+            <div className="thirdscreen__title__content__text">READY-MADE</div>
+            <div className="thirdscreen__title__content__sub">TURNKEY EXCHANGES</div>
+          </div>
+          <div className="thirdscreen__title__desc">
+            Do you want to purchase ready-made crypto exchange with existing domain name, custom design and layout? Get one in less than 24 hours!
+          </div>
+        </div>
+        <div className="thirdscreen__main">
+          <div className="thirdscreen__main-product">
+            <div className="thirdscreen__main-product__items">
+              <div className="items__image"style={{backgroundImage: `url(${SOON})`}}></div>
+              <div className="items__name">LUKUTEX.COM</div>
+              <div className="items__action">
+                <div className="items__action-title">Up to<br/>request</div>
+                <div className="items__action-buy">
+                  <a className="items__action-buy-link" href="#form__us">BUY NOW</a>
+                </div>
+              </div>
+            </div>
+            <div className="thirdscreen__main-product__items">
+              <div className="items__image"style={{backgroundImage: `url(${SOON})`}}></div>
+              <div className="items__name">SOON</div>
+              <div className="items__action">
+                <div className="items__action-title">Soon</div>
+                <div className="items__action-buy">
+                  <a className="items__action-buy-link" href="#form__us">BUY NOW</a>
+                </div>
+                </div>
+            </div>
+            <div className="thirdscreen__main-product__items">
+              <div className="items__image"style={{backgroundImage: `url(${SOON})`}}></div>
+              <div className="items__name">SOON</div>
+              <div className="items__action">
+                <div className="items__action-title">Soon</div>
+                <div className="items__action-buy">
+                  <a className="items__action-buy-link" href="#form__us">BUY NOW</a>
+                </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const renderForth = () => {
+    return(
+      <div className="forthScreen">
+        <div className="forthScreen__title">
+          <div className="title__content">
+            <div className="title__text">MORE</div>
+            <div className="title__sub">PRODUCTS</div>
+          </div>
+          <div className="title__desc">Besides Crypto Exchanges, we offer even more<br/> 
+            turn-key ready made businesses! Check it out!
+          </div>
+        </div>
+        <div className="forthScreen__contactus">
+          <div className="forthScreen__contactus__wrap">
+            <PhoneFilled />
+            <div className="contactus-text">
+              <a className="contactus-text-link" href="#form__us">
+                Contact us for more details
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="forthScreen__more-product">
+          <div className="more__product-items">
+            <img src="" alt=""/>
+            <div className="product-items-text" >
+              SPORTSBOOK<br/>BETTING/BOOKMAKER
+            </div>
+          </div>
+          <div className="more__product-items">
+            <img src="" alt=""/>
+            <div className="product-items-text">
+              CRYPTO MARKET<br/>CAPITALIZATIONS
+            </div>
+          </div>
+          <div className="more__product-items">
+            <img src="" alt=""/>
+            <div className="product-items-text" >
+              DECENTRALIZED CRYPTO<br/>EXCHANGE
+            </div>
+          </div>
+          <div className="more__product-items">
+            <img src="" alt=""/>
+            <div className="product-items-text" >
+              AUCTIONS
+            </div>
+          </div>
+          <div className="more__product-items">
+            <img src="" alt=""/>
+            <div className="product-items-text" >
+              P2P CRYPTO MARKETPLACE<br/>(LOCAL BITCOINS)
+            </div>
+          </div>
+          <div className="more__product-items">
+            <img src="" alt=""/>
+            <div className="product-items-text" >
+              SMART CONTRACTS
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
  
   const handleContact = (e: any) => {
     setFormContact({
@@ -312,68 +436,16 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
     });
     
   }
-
-
   const handleSubmitForm = (e: PersonScore) => {
 
     Axios.post('https://sheet.best/api/sheets/27dcd6cf-ef34-457e-bbd4-a094a8b59af6', formContact)
      
   }
-
   const renderFifth = () => {
  
     const coin = require('./Image/Coin.PNG')
     return (
       <div className="fifthScreen">
-        <div className="why__us">
-          <div className="why__us-content">
-            <div className="title">
-              <div className="title__desc">Quick and easy setup in 72 hours or even less.<br/>Professional support and dev team at your disposal.</div>
-              <div className="title__content">
-                <div className="title__text">WHY</div>
-                <div className="title__sub">US</div>
-						  </div>
-            </div>
-            <div className="img" style={{width: '100%'}}>
-              <img src={coin} style={{width: '100%'}}/>
-            </div>
-            <div className="desc">
-              <span className="desc__span">We offer various packages to meet your requirements:</span>
-              <b className="desc__bold"> White Label</b>
-              <b className="desc__bold"> Full Source Code</b>
-              <span className="desc__span"> which is intended for experienced crypto enterpreneurs with their own established development team, highly customizable, and</span>
-              <a className="desc__link" href="#"> custom-designed</a>
-              <span className="desc__span"> exchanges.</span>
-            </div>
-          </div>
-          <div className="why__us-benefits">
-            <div className="benefits">
-              <div className="benefits__title">
-                <div className="benefits__bold">Quick</div>
-                <div data-lang-id="easysetup">&amp; easy setup</div>
-              </div>
-              <div className="benefits__desc">Getting started is easy. Just confirm your package with our manager.</div>
-              <div className="benefits__sub">Full product delivery only takes up to 72h</div>
-           </div>
-           <div className="benefits">
-              <div className="benefits__title">
-                <div className="benefits__bold">Fully</div>
-                <div data-lang-id="easysetup">customizable</div>
-              </div>
-              <div className="benefits__desc">Create your own custom exchange and dashboard design easily.</div>
-              <div className="benefits__sub">Full-featured Front-End API</div>
-           </div>
-           <div className="benefits">
-              <div className="benefits__title">
-                <div className="benefits__bold">Professional</div>
-                <div data-lang-id="easysetup">team</div>
-              </div>
-              <div className="benefits__desc">We are always here to help</div>
-              <div className="benefits__sub">Additional development services only $50/hour</div>
-           </div>
-            
-          </div>
-        </div>
         <div className="contact__us" id="form__us">
           {/* contact-us */}
           <div className="contactus">
@@ -471,7 +543,7 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
           <div className="our-contact">
             {/* avatar contact */}
             <div className="our-contact__avatar">
-                <img src=""/>
+                <img className="avatar-lukutex" src={coin}/>
             </div>
             <div className="our-contact__name">
               contacts
@@ -480,7 +552,7 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
               <div className="option">
                 <div className="option__left">+0123456789</div>
                 <div className="option__sep"></div>
-                <PhoneOutlined  style={{color: 'green'}}/>
+                <PhoneOutlined  style={{color: '#00DD00'}}/>
               </div>
               <div className="option">
                 <div className="option__left">+0123456789</div>
@@ -490,7 +562,7 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
               <div className="option">
                 <div className="option__left">+0123456789</div>
                 <div className="option__sep"></div>
-                <SkypeFilled style={{color: 'violet'}} />
+                <SkypeFilled style={{color: '	#9900FF'}} />
               </div>
             </div>
           </div>
@@ -502,6 +574,8 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
     <div className="introduce">
       {renderFirstScreen()}
       {renderSecondScreen()}
+      {renderThirdScreen()}
+      {renderForth()}
       {renderFifth()}
     </div>
   );
