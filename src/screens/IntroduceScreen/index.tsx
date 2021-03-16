@@ -36,13 +36,6 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
 
   const { handleSubmit, errors, register } = useForm<PersonScore>();
 
-  // const [validationForm, setValidationForm] = React.useState('');
-
-  const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
   const desc = 'We offer various purchase options: White label package is the fastest way to launch. Source code package allows you to start your own platform with an option to be customized by your team.  Source code with customized front package will be a full house solution.'
 
   const renderFirstScreen = () => {
@@ -109,28 +102,28 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
                 className="site-collapse-custom-collapse"
               >
                 <Panel  header="Listing Fees" key="1">
-                  <p>{text}</p>
+                  <p>LUKUTEX exchanges can introduce a paid token and/or coin listing services to drive  revenues.</p>
                 </Panel>
                 <Panel header="Deposit / Withdrawal Fees" key="2">
-                  <p>{text}</p>
+                  <p>Create an additional source of revenue by charging a small fee for deposit and(or) withdrawal.</p>
                 </Panel>
                 <Panel  header="Trading Fees" key="3">
-                  <p>{text}</p>
+                  <p>Probably the most popular way of monetization for lukutex exchanges is to charge a commission on users trades. This commission is actually a fee for the service of  facilitating a trade between the seller and the buyer.</p>
                 </Panel>
                 <Panel  header="Resell Crypto2Cloud Products and Services" key="4">
-                  <p>{text}</p>
+                  <p>You can place a link to LukutexExchange and receive a commissions for every sale your link generates.</p>
                 </Panel>
                 <Panel header="Liquidity Import Fees" key="5">
-                  <p>{text}</p>
+                  <p>Another great revenue stream for cryptocurrency exchanges is Liquidity Import, or producing liquidity for a given financial instrument. In its simplest form, market making consists of buying and selling a digital asset on your own exchange, at slightly less desirable prices than on another exchange. Once the trade occurs on your own exchange, you place a trade on a different exchange which offsets your previous trade, and you pocket the difference.</p>
                 </Panel>
                 <Panel  header="Market Making Services" key="6">
-                  <p>{text}</p>
+                  <p>LukutexExchange packages include built-in Market Making (or liquidity generation) bots. Which means you are free to provide paid market making services to token and coin projects.</p>
                 </Panel>
                 <Panel  header="Initial Exchange Offerings (IEOs)" key="7">
-                  <p>{text}</p>
+                  <p>By organizing Initial Exchange Offerings (IEOs), Security Token Offerings (STOs), and Initial Coin Offerings (ICOs), exchange operators may collect a percentage of funds raised which in itself can be to the tune of hundreds of thousands of US dollars, depending on the project.</p>
                 </Panel>
                 <Panel  header="Plastic ATM (Bank) Debit Cards" key="8">
-                  <p>{text}</p>
+                  <p>Bitcoin and other crypto debit cards work just like any other card you have in your wallet. You can swipe them at card terminals to buy things in-store, use them to withdraw cash at ATMs and enter their numbers when shopping online. By offering Plastic Crypto Debit Cards to your customers, you can create additional stable source of revenue.</p>
                 </Panel>
               </Collapse>
             </div>
@@ -366,6 +359,14 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
   }
 
   const renderForth = () => {
+
+    const icon1 = require('./Image/bookmark.png');
+    const icon2 = require('./Image/auction.png');
+    const icon3 = require('./Image/cryptomarket.png');
+    const icon4 = require('./Image/exchange.png');
+    const icon5 = require('./Image/trade.png');
+    const icon6 = require('./Image/smart.png');
+
     return(
       <div className="forthScreen">
         <div className="forthScreen__title">
@@ -389,37 +390,37 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
         </div>
         <div className="forthScreen__more-product">
           <div className="more__product-items">
-            <img src="" alt=""/>
+            <img className="product-items-icon" src={icon1} alt=""/>
             <div className="product-items-text" >
               SPORTSBOOK<br/>BETTING/BOOKMAKER
             </div>
           </div>
           <div className="more__product-items">
-            <img src="" alt=""/>
+            <img className="product-items-icon" src={icon2} alt=""/>
             <div className="product-items-text">
               CRYPTO MARKET<br/>CAPITALIZATIONS
             </div>
           </div>
           <div className="more__product-items">
-            <img src="" alt=""/>
+            <img className="product-items-icon" src={icon3} alt=""/>
             <div className="product-items-text" >
               DECENTRALIZED CRYPTO<br/>EXCHANGE
             </div>
           </div>
           <div className="more__product-items">
-            <img src="" alt=""/>
+            <img className="product-items-icon" src={icon4} alt=""/>
             <div className="product-items-text" >
               AUCTIONS
             </div>
           </div>
           <div className="more__product-items">
-            <img src="" alt=""/>
+            <img className="product-items-icon" src={icon5} alt=""/>
             <div className="product-items-text" >
               P2P CRYPTO MARKETPLACE<br/>(LOCAL BITCOINS)
             </div>
           </div>
           <div className="more__product-items">
-            <img src="" alt=""/>
+            <img className="product-items-icon" src={icon6} alt=""/>
             <div className="product-items-text" >
               SMART CONTRACTS
             </div>
@@ -443,7 +444,7 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
   }
   const renderFifth = () => {
  
-    const coin = require('./Image/Coin.PNG')
+    const avatar = require('./Image/avatar.png')
     return (
       <div className="fifthScreen">
         <div className="contact__us" id="form__us">
@@ -543,7 +544,7 @@ export const IntroduceScreen: React.FC<any> = (props: PersonScore) => {
           <div className="our-contact">
             {/* avatar contact */}
             <div className="our-contact__avatar">
-                <img className="avatar-lukutex" src={coin}/>
+                <img className="avatar-lukutex" src={avatar}/>
             </div>
             <div className="our-contact__name">
               contacts
