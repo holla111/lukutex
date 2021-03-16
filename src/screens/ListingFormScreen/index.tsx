@@ -1,24 +1,25 @@
 import * as React  from "react";
-import { useForm } from "react-hook-form";
-import {Form, Col, Button} from 'react-bootstrap';
-
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Button, Radio, DatePicker, Space } from 'antd';
 
 interface IFormInput {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
-  nameOfProject: string;
+  nameofproject: string;
   contact: string;
-  projectWebsite: string;
+  projectwebsite: string;
   description: string;
   media: string;
 
 }
 export const ListingFormScreen: React.FC = () => {
 
+  const { register, handleSubmit, errors } = useForm<IFormInput>();
+
   const [formValue, setFormValue] = React.useState({
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     email: '',
     nameofproject: '',
     contact: '',
@@ -27,119 +28,227 @@ export const ListingFormScreen: React.FC = () => {
     media: '',
   });
 
-  const { register, handleSubmit, errors } = useForm<IFormInput>();
-  type RBRef = (string & ((ref: Element | null) => void));
+ 
+  const onSubmit: SubmitHandler<IFormInput> = data => {
+    alert(JSON.stringify(data));
+  };
 
-
-  const handleSubmitForm = (data: IFormInput) => (
-    console.log(data)
-  );
-
-  const handleValidInput = (e: any) => (
+  const handleValidInput = (e: any) => {
     setFormValue({
       ...formValue,
       [e.target.name]: e.target.value
-    })
-  )
+    });
+  }
 
   const renderForm = () => {
+    const radioStyle = {
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    };
+    console.log(formValue)
     return (
-      <div className="listingformscreen">
+      <form className="listingformscreen" onSubmit={handleSubmit(onSubmit)}>
         <div className="listing__token">
           <div className="listing__info">
-          <Form onSubmit={handleSubmit(handleSubmitForm)}>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridEmail">
-                <Form.Label>FirstName</Form.Label>
-                <Form.Control type="text" placeholder="+" 
-                      name="firstname"
-                      onChange={handleValidInput}
-                      ref={register({ required: true}) as RBRef} 
+            <div className="listing__info-name">
+              <div className="listing__info-name-firstname">
+                <label className="Input-label">FirstName</label>
+                <input className="Input-text"
+                        name='firstname'
+                        type='text'
+                        ref={register({ required: true})}
+                        onChange={handleValidInput}
                 />
-                {errors.firstName && errors.firstName.type === "required" && (
-                  <div className="error">You must enter your name.</div>
-                )}
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridPassword">
-                <Form.Label>LastName</Form.Label>
-                <Form.Control type="text" placeholder="+"
-                      name="lastname"
+                {errors.firstname && <p className='error'>This field is required</p>}
+              </div>
+              <div className="listing__info-name-lastname">
+                <label className="Input-label">LastName</label>
+                <input className="Input-text"
+                      name='lastname'
+                      type='text'
+                      ref={register({ required: true})}
                       onChange={handleValidInput}
-                      ref={register({ required: true}) as RBRef}
+                      style={{marginLeft: 10}}
                 />
-                {errors.lastName && errors.lastName.type === "required" && (
-                  <div className="error">You must enter your name.</div>
-                )}
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="text" placeholder="+"
-                      name="email"
+                {errors.lastname && <p className='error'>This field is required</p>}
+              </div>
+            </div>
+            <div className="listing__info-email">
+              <label className="Input-label">Email</label>
+              <input className="Input-text"
+                      name='email'
+                      type='email'
+                      ref={register({ required: true})}
                       onChange={handleValidInput}
-                      ref={register({ required: true}) as RBRef}
-                />
-                {errors.email && errors.email.type === "required" && (
-                  <div className="error">You must enter your name.</div>
-                )}
-              </Form.Group>
-            </Form.Row>
-          </Form>
+              />
+              {errors.email && <p className='error'>This field is required</p>}
+            </div>
           </div>
           <div className="project__info">
-          <Form>
-            <Col>
-              <Form.Group>
-                <Form.Label>Name of Project</Form.Label>
-                <Form.Control type="text" placeholder="+" 
-                      name="nameOfProject"
+            <div className="project__info-wrap">
+              <label className="Input-label">Name of Project</label>
+              <input className="Input-text"
+                      name='nameofproject'
+                      type='text'
+                      ref={register({ required: true})}
                       onChange={handleValidInput}
-                      ref={register({ required: true}) as RBRef}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>CEO Contact(telegram, email...)</Form.Label>
-                <Form.Control type="text" placeholder="+"
-                      name="contact"
+              />
+              {errors.nameofproject && <p className='error'>This field is required</p>}
+            </div>
+            <div className="project__info-wrap">
+              <label className="Input-label">Contact</label>
+              <input className="Input-text"
+                      name='contact'
+                      type='text'
+                      ref={register({ required: true})}
                       onChange={handleValidInput}
-                      ref={register({ required: true}) as RBRef}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Project Website</Form.Label>
-                <Form.Control type="url" placeholder="+" 
-                      name="projectWebsite"
+              />     
+              {errors.contact && <p className='error'>This field is required </p>} 
+              </div>
+            <div className="project__info-wrap">
+              <label className="Input-label">Project Website</label>   
+              <input className="Input-text"
+                      name='projectwebsite'
+                      type='url'
+                      ref={register({ required: true})}
                       onChange={handleValidInput}
-                      ref={register({ required: true}) as RBRef}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Description</Form.Label>
-                <Form.Control type="text" placeholder="+"
-                      name="description"
+              />
+              {errors.projectwebsite && <p className='error'>This field is required</p>}
+            </div>
+            <div className="project__info-wrap">
+              <label className="Input-label">Description</label>
+              <textarea className="Input-text"
+                      name='pescription'
+                      ref={register({ required: true})}
                       onChange={handleValidInput}
-                      ref={register({ required: true}) as RBRef}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Media Link(FaceBook, Telegram Group...)</Form.Label>
-                <Form.Control type="url" placeholder="+"
-                      name="media"
+              />
+              {errors.description && <p className='error'>This field is required</p>}
+            </div>
+            <div className="project__info-wrap">
+              <label className="Input-label">Media (Facebook, Telegram...)</label>
+              <input className="Input-text"
+                      name='media'
+                      type='url'
+                      ref={register({ required: true})}
                       onChange={handleValidInput}
-                      ref={register({ required: true}) as RBRef} 
-                />
-              </Form.Group>
-            </Col>
-            <Button type="submit">Submit form</Button>
-          </Form>
+              />
+              {errors.media && <p className='error'>This field is required</p>}
+            </div>
           </div>
         </div>
-       
+        {/*  */}
         <div className="token__info">
-
+          <div className="token__info-infomation">
+            <div className="token__info-infomation-lock-1">
+              <div className="token__info-coin">
+                <div className="token__info-coi-wrap">
+                  <label className="Input-label">Coin Name(Ex: Bitcoin)</label>
+                  <input className="Input-text"
+                            id="input"
+                            name='coinname'
+                            type='text'
+                            ref={register({ required: true})}
+                            onChange={handleValidInput}
+                  />
+                  {errors.description && <p className='error'>This field is required</p>}
+                </div>
+                <div className="token__info-coin-wrap">
+                  <label className="Input-label">Coin Ticker(Ex: BTC)</label>
+                  <input className="Input-text"
+                            id="input"
+                            name='cointicker'
+                            type='text'
+                            ref={register({ required: true})}
+                            onChange={handleValidInput}
+                  />
+                  {errors.media && <p className='error'>This field is required</p>}
+                </div>
+              </div>
+              <div className="token__info-cointype">
+                <Radio.Group >
+                  <Radio style={radioStyle} value={1}>
+                    Ethereum (Fee: 100 USDT)
+                  </Radio>
+                  <Radio style={radioStyle} value={2}>
+                    Wave (Fee: 500 USDT)
+                  </Radio>
+                  <Radio style={radioStyle} value={3}>
+                    Neo (Fee: 500 USDT)
+                  </Radio>
+                  <Radio style={radioStyle} value={4}>
+                    Tron (Fee: 200 USDT)
+                  </Radio>
+                </Radio.Group>
+              </div>
+            </div>
+            <div className="token__info-infomation-lock-2">
+              <div className="token__info-explorer">
+                <div className="project__info-wrap">
+                  <label className="Input-label">Explorer Link</label>
+                  <textarea className="Input-text"
+                          name='explorerlink'
+                          ref={register({ required: true})}
+                          onChange={handleValidInput}
+                  />
+                  {errors.description && <p className='error'>This field is required</p>}
+                </div>
+                <div className="project__info-wrap">
+                  <label className="Input-label">Total Supply</label>   
+                  <input className="Input-text"
+                          name='totalsupply'
+                          ref={register({ required: true})}
+                          onChange={handleValidInput}
+                  />
+                  {errors.projectwebsite && <p className='error'>This field is required</p>}
+                </div>
+                <div className="project__info-wrap">
+                  <label className="Input-label">Logo ( 128x128) </label>   
+                  <input className="Input-text"
+                          name='logo'
+                          type='file'
+                          ref={register({ required: true})}
+                          onChange={handleValidInput}
+                  />
+                  {errors.projectwebsite && <p className='error'>This field is required</p>}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+        {/*  */}
+        <div className="listing__plan">
+          <div className="listing__plan-openpair">
+            <Radio.Group >
+              <Radio style={radioStyle} value={1}>
+                Ethereum (Fee: 100 USDT)
+              </Radio>
+              <Radio style={radioStyle} value={2}>
+                Wave (Fee: 500 USDT)
+              </Radio>
+              <Radio style={radioStyle} value={3}>
+                Neo (Fee: 500 USDT)
+              </Radio>
+              <Radio style={radioStyle} value={4}>
+                Tron (Fee: 200 USDT)
+              </Radio>
+            </Radio.Group>
+          </div>
+          <div className="listing__Plan-date">
+            <Space direction="vertical" size={12}>
+              <DatePicker renderExtraFooter={() => 'extra footer'} />
+            </Space>
+          </div>
+          <div className="listing__trade-date">
+            <Space direction="vertical" size={12}>
+              <DatePicker renderExtraFooter={() => 'extra footer'} />
+            </Space>
+          </div>
+        </div>
+        <Button htmlType="submit" color="primary">
+            submit
+        </Button>
+      </form>
     );
   }
     
