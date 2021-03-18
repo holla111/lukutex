@@ -86,6 +86,11 @@ export const DepositInfo = () => {
         <div className="container">
             <div className="row">
                 <div className="col-12">
+                    <h1>Deposit</h1>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-6">
                     <Select
                         styles={customStyles}
                         value={options.filter(option => option.value == currency_id.toLowerCase())}

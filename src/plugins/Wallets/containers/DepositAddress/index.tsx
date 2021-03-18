@@ -2,7 +2,7 @@ import * as React from 'react'
 
 export const DepositAddress = () => {
     return (
-        <div className="container" style={{ backgroundColor: '#222B42', padding: '10px 20px' }}>
+        <div className="container" style={{ backgroundColor: '#222B42', padding: '20px', borderRadius: '2rem' }}>
             <div className="row">
                 <div className="col-12">
                     <h4>Deposit Nework</h4>
