@@ -1,8 +1,6 @@
 import * as React  from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {MarketsTableScreen} from '../../containers/MarketsTableScreen';
-
-import {Row, Col } from 'react-bootstrap';
 import Slider from "react-slick";
 
 import { eventFetch, selectEvents } from "../../modules";
@@ -15,13 +13,17 @@ import {
 import './style.css';
 
 const settingEvents = {
+
   dots: true,
-  infinite: false,
+  infinite: true,
   speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 3,
-  adaptiveHeight: true,
-  initialSlide: 0,
+  fade: true,
+  arrows: false,
+  autoplay: true,
+  autoplaySpeed: 3000,
+  pauseOnHover: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
       responsive: [
         {
           breakpoint: 1000,
@@ -50,6 +52,22 @@ const settingEvents = {
       ]
 };
 
+
+const arrimg = [
+  {
+    url: 'https://inhongdang.com.vn/images/images/In%20Hong%20Dang%20-%20tri%20an%20khach%20hang(1).png'
+  },
+  {
+    url: 'https://minhduongads.com/wp-content/uploads/2019/03/truyen-thong-minh-duong.jpg'
+  },
+  {
+    url: 'https://www.dienmaythienhoa.vn/static/images/2.%20landing%20pages%20promotion/banner-web-chinh-900x300.jpg'
+  },
+  {
+    url: 'https://vnso.vn/wp-content/uploads/2019/09/quang-cao-tang-100-web-banner.jpg'
+  }, 
+ 
+]
 export const HomeScreen: React.FC<any> = (props: any) => {
 
   const dispatch = useDispatch();
@@ -61,29 +79,12 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   }, []);
 
   const events = useSelector(selectEvents);
+  console.log(events)
 
   const renderBanner = ()  => {
     return (
       <div className="landing-page__banner">
-        <div className="container">
-          <div className="landing-page__banner-wrapper">
-            <Row className="landing-page__banner__top">
-              <Col lg={12} className="landing-page__banner__top-title">
-                <div className="landing-page__banner__top__new">
-                  <h2>Lukutex Crypto Exchange</h2>
-                  <p className="banner-tit-small">Trade Bitcoin, Ethereum and other cryptos instantly</p>
-                  <div className="pc-otc-box">
-                    <div className="pc-otc-buy-box">
-                      <div className="pc-otc-input-box">
-                        <input className="pc-otc-input" type="text" placeholder="Email Address/Mobile Number"/>
-                      </div>
-                      <Link className="pc-otc-buy-btn" to="/signup">Register now</Link>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-            <div >
+            {/* <div >
                <Slider {...settingEvents}>
                 { 
                 [...events.payload].map(event => {
@@ -94,9 +95,19 @@ export const HomeScreen: React.FC<any> = (props: any) => {
                   )
                 })}
                </Slider>
-            </div>
-          </div>
-        </div>  
+            </div> */}
+
+            <Slider {...settingEvents}>
+              {
+                arrimg.map(event => {
+                  return(
+                    <div style={{width: '100%', height: '100%'}} className="slide">
+                        <img style={{width: '100%', height: '100%'}} src={event.url} />
+                    </div>
+                  )
+                })
+              }
+            </Slider>
       </div>
     );
   }
