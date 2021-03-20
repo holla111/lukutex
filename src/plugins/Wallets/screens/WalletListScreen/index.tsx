@@ -27,8 +27,9 @@ export interface WalletItem {
 const TableStyles = styled.div`
     table {
         width: 100%;
+        border-radius: 10px;
         border-spacing: 0;
-        border: 1px solid black;
+        border: 0.5px solid black;
         tr {
             background-color: #28334e;
         :last-child {
@@ -45,8 +46,8 @@ const TableStyles = styled.div`
         padding: 0.5rem 0.5rem;
         color: #fff;
         text-align: justify;
-        border-bottom: 1px solid black;
-        border-right: 1px solid black;
+        border-bottom: 0.5px solid black;
+        border-right: 0.5px solid black;
         :last-child {
             border-right: 0;
         }

@@ -9,7 +9,8 @@ const TableStyles = styled.div`
         width: 100%;
         border-spacing: 0;
         tr {
-            /* background-color: #28334e; */
+            background-color: #3B4B72;
+            border-radius: 1rem;
         :last-child {
             td {
             border-bottom: 0;
@@ -29,7 +30,7 @@ const TableStyles = styled.div`
         }
         }
         th {
-            /* background-color: #1e2841; */
+            background-color: #3B4B72;
         }
     }
 `
@@ -77,14 +78,8 @@ export const DepositHistory = () => {
     });
 
     return (
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-12">
-                    <TableStyles>
-                        <ReactTable columns={columns} data={data} />
-                    </TableStyles>
-                </div>
-            </div>
-        </div>
+        <TableStyles>
+            <ReactTable columns={columns} data={data} />
+        </TableStyles>
     )
 }

@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import Select from 'react-select';
-import { currenciesFetch, selectCurrencies } from '../../../../modules';
+import { selectCurrencies } from '../../../../modules';
 
 
 const customStyles = {
@@ -32,11 +32,18 @@ const customStyles = {
         color: '#fff',
         backgroundColor: "#3B4B72",
     }),
+    input: (provided, state) => ({
+        ...provided,
+        color: '#fff',
+    }),
 }
 
-export const DepositInfo = () => {
-    const { currency_id } = useParams<{ currency_id: string }>();
+interface DepositInfoProps {
+    currency_id: string;
+}
 
+export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps) => {
+    const { currency_id } = props;
     // history
     const history = useHistory();
 
@@ -45,13 +52,7 @@ export const DepositInfo = () => {
     // selector
     const currencies = useSelector(selectCurrencies);
 
-    // dispatch
-    const dispatch = useDispatch();
-    const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 
-    React.useEffect(() => {
-        dispatchFetchCurrencies();
-    }, []);
 
     // method
     const findIcon = (code: string): string => {
@@ -68,7 +69,7 @@ export const DepositInfo = () => {
     const options = currencies.map(currency => {
         const newCurrency = {
             value: currency.id,
-            label: <span><img style={{width: '2rem'}} src={findIcon(currency.id)} alt={currency.id}/> {currency.name.toUpperCase()}</span>
+            label: <span><img style={{ width: '2rem' }} src={findIcon(currency.id)} alt={currency.id} /> {currency.name.toUpperCase()}</span>
         }
         return newCurrency;
     });
@@ -76,11 +77,11 @@ export const DepositInfo = () => {
     const handleChange = (selectedOption: any) => {
         const currency_id = selectedOption.value;
         const location = {
-            pathname: `/new-wallets/deposit/${currency_id}`  
+            pathname: `/new-wallets/deposit/${currency_id}`
         }
         history.push(location);
     };
-    
+
 
     return (
         <div className="container">
@@ -90,7 +91,7 @@ export const DepositInfo = () => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-6">
+                <div className="col-8">
                     <Select
                         styles={customStyles}
                         value={options.filter(option => option.value == currency_id.toLowerCase())}
