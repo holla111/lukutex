@@ -1,6 +1,7 @@
 import * as React  from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, Radio, DatePicker, Space} from 'antd';
+import { Button, Radio, DatePicker, Space, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 interface IFormInput {
   firstname: string;
@@ -19,7 +20,7 @@ interface IFormInput {
   tradedate: string;
   totalsupply: number;
   logo: string;
-
+  fileList: string;
 }
 export const ListingFormScreen: React.FC = () => {
 
@@ -44,8 +45,11 @@ export const ListingFormScreen: React.FC = () => {
     logo: '',
 
   });
+  const [fileList, setFileList] = React.useState('');
+  const [dateTrade, setDateTrade] = React.useState('');
+  const [listingDate, setListingDate] = React.useState('');
 
- 
+
   const onSubmit: SubmitHandler<IFormInput> = data => {
     alert(JSON.stringify(data));
   };
@@ -57,6 +61,20 @@ export const ListingFormScreen: React.FC = () => {
     });
   }
 
+  const handleChange = (info: any) => {
+    let fileList:any = [...info.fileList];
+    fileList = fileList.slice(-1);
+    setFileList(fileList);
+  };
+
+  const handleListingDate = (date, dateString) => {
+    console.log(dateString)
+    setListingDate(dateString);
+  }
+  const handleTradeDate = (date, dateString) => {
+    console.log(dateString)
+    setDateTrade(dateString)
+  }
   const renderForm = () => {
     const radioStyle = {
       display: 'block',
@@ -64,6 +82,9 @@ export const ListingFormScreen: React.FC = () => {
       lineHeight: '30px',
     };
     console.log(formValue)
+    console.log(fileList)
+    console.log(listingDate);
+    console.log(dateTrade);
     return (
       <form className="listingformscreen" onSubmit={handleSubmit(onSubmit)}>
         {/*  */}
@@ -221,16 +242,17 @@ export const ListingFormScreen: React.FC = () => {
                         />
                         {errors.totalsupply && <p className='error'>This field is required</p>}
                       </div>
+                      
                       <div className="project__info-wrap">
-                        <label className="Input-label">Logo ( 128x128) </label>   
-                        <input className="Input-text"
-                                style={{color: 'rgba(0, 0, 0, 0)'}}              
-                                name='logo'
-                                type='file'
-                                ref={register({ required: true})}
-                                onChange={handleValidInput}
-                        />
-                        {errors.logo && <p className='error'>This field is required</p>}
+                        <label className="Input-label">
+                          Token logo(only png)
+                        </label>
+                        <Upload
+                          listType="picture"
+                          onChange={handleChange}
+                        >
+                          <Button icon={<UploadOutlined />}>Upload</Button>
+                        </Upload>
                       </div>
                     </div>
                   </div>
@@ -286,13 +308,19 @@ export const ListingFormScreen: React.FC = () => {
               </div>
               <div className="listing__plan-date">
                 <div className="listing__Plan-listingdate">
+                <label className="Input-label">
+                  Listing Date
+                </label>
                   <Space direction="vertical" size={12}>
-                    <DatePicker  showTime />
+                    <DatePicker  showTime  onChange={handleListingDate}/>
                   </Space>
                 </div>
                 <div className="listing__plan-tradedate">
+                  <label className="Input-label">
+                    Trade Date
+                  </label>
                   <Space direction="vertical" size={12}>
-                    <DatePicker showTime />
+                    <DatePicker showTime onChange={handleTradeDate}/>
                   </Space>
                 </div>
               </div>
