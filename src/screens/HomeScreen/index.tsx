@@ -53,21 +53,21 @@ const settingEvents = {
 };
 
 
-const arrimg = [
-  {
-    url: 'https://inhongdang.com.vn/images/images/In%20Hong%20Dang%20-%20tri%20an%20khach%20hang(1).png'
-  },
-  {
-    url: 'https://minhduongads.com/wp-content/uploads/2019/03/truyen-thong-minh-duong.jpg'
-  },
-  {
-    url: 'https://www.dienmaythienhoa.vn/static/images/2.%20landing%20pages%20promotion/banner-web-chinh-900x300.jpg'
-  },
-  {
-    url: 'https://vnso.vn/wp-content/uploads/2019/09/quang-cao-tang-100-web-banner.jpg'
-  }, 
+// const arrimg = [
+//   {
+//     url: 'https://inhongdang.com.vn/images/images/In%20Hong%20Dang%20-%20tri%20an%20khach%20hang(1).png'
+//   },
+//   {
+//     url: 'https://minhduongads.com/wp-content/uploads/2019/03/truyen-thong-minh-duong.jpg'
+//   },
+//   {
+//     url: 'https://www.dienmaythienhoa.vn/static/images/2.%20landing%20pages%20promotion/banner-web-chinh-900x300.jpg'
+//   },
+//   {
+//     url: 'https://vnso.vn/wp-content/uploads/2019/09/quang-cao-tang-100-web-banner.jpg'
+//   }, 
  
-]
+// ]
 export const HomeScreen: React.FC<any> = (props: any) => {
 
   const dispatch = useDispatch();
@@ -84,30 +84,25 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   const renderBanner = ()  => {
     return (
       <div className="landing-page__banner">
-            {/* <div >
-               <Slider {...settingEvents}>
-                { 
-                [...events.payload].map(event => {
-                  return (
-                      <a key={event.event_id} href={event.ref_link} target="_blank">
-                        <img src={event.image_link} style={{width: '100%', height: '100%'}}></img>
+            <div className="landing-page__banner-list">
+              <Slider {...settingEvents}>
+                {[...events.payload].map(event => {
+                    return (
+                      <a style={{width: '100%', height: '100%'}} href={event.ref_link} className="slide">
+                          <img style={{width: '100%', height: '100%'}} src={event.image_link} />
                       </a>
-                  )
+                    )
                 })}
-               </Slider>
-            </div> */}
+              </Slider>
+            </div>
+            <div className="landing-page__banner-list-link">
+              {[...events.payload].map(event => {
+                    return (
+                      <a href={event.ref_link} className="slide-link">{event.event_name}</a>
+                    )
+              })}
+            </div>
 
-            <Slider {...settingEvents}>
-              {
-                arrimg.map(event => {
-                  return(
-                    <div style={{width: '100%', height: '100%'}} className="slide">
-                        <img style={{width: '100%', height: '100%'}} src={event.url} />
-                    </div>
-                  )
-                })
-              }
-            </Slider>
       </div>
     );
   }
