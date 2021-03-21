@@ -1,22 +1,20 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux';
 import { QRCode } from '../../../../components';
 import { formatCCYAddress } from '../../../../helpers';
-import { selectWallets } from '../../../../modules';
-
 interface DepositAddressProps {
     currency_id: string;
-    selectedWalletIndex: number;
+    walletAddress: string;
+
+    fetchQRCode: (currency_id: string) => void;
 }
 
+const QRCODE_SIZE = 150;
+
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-    const { currency_id, selectedWalletIndex } = props;
-    const wallets = useSelector(selectWallets);
-    const currency = (wallets[selectedWalletIndex] || { currency: '' }).currency;
-    console.log(wallets[selectedWalletIndex]);
+    const { currency_id, walletAddress, fetchQRCode } = props;
     
-    const selectedWalletAddress = wallets[selectedWalletIndex] ? wallets[selectedWalletIndex].address : '';
-    const walletAddress = formatCCYAddress(currency, selectedWalletAddress || '');
+    const selectedWalletAddress = formatCCYAddress(currency_id, walletAddress);
+
     return (
         <div className="container" style={{ backgroundColor: '#3B4B72', padding: '30px', borderRadius: '2rem' }}>
             <div className="row">
@@ -34,9 +32,13 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                     <h5 className="text-center">{currency_id.toUpperCase()} Address</h5>
                 </div>
                 <div className="col-12 text-center">
-                    <QRCode dimensions={118} data={walletAddress} />
+                    {selectedWalletAddress
+                        ? <QRCode dimensions={QRCODE_SIZE} data={selectedWalletAddress} />
+                        : <button className="btn btn-primary" onClick={() => fetchQRCode(currency_id)}>Reload</button>}
+
                     {/* <img className="rounded mx-auto d-block" height="120" width="120" src="https://www.kaspersky.com/content/en-global/images/repository/isc/2020/9910/a-guide-to-qr-codes-and-how-to-scan-qr-codes-2.png" /> */}
                 </div>
+
             </div>
             <div className="row mt-5">
                 <div className="col-8">

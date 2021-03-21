@@ -45,8 +45,6 @@ export const DepositHistory = () => {
     //  const dispatch = useDispatch();
     //  const dispatchFetchHistories = () => dispatch(fetchHistory());
 
-    console.log(histories);
-
     const columns = React.useMemo(
         () => [
             {

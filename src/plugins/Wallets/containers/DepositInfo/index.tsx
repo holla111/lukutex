@@ -75,9 +75,9 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
     });
 
     const handleChange = (selectedOption: any) => {
-        const currency_id = selectedOption.value;
+        const currency_id = String(selectedOption.value);
         const location = {
-            pathname: `/new-wallets/deposit/${currency_id}`
+            pathname: `/new-wallets/deposit/${currency_id.toUpperCase()}`
         }
         history.push(location);
     };
