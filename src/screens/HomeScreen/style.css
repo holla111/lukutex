@@ -36,6 +36,7 @@
 .slide-link {
     color: white;
     font-size: 14px;
+    font-family: Georgia, serif;
 }
 .slide-link:hover {
     color: #00c3ff;
