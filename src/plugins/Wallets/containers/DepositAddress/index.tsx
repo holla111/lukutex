@@ -1,22 +1,39 @@
 import * as React from 'react'
-import { QRCode } from '../../../../components';
-import { formatCCYAddress } from '../../../../helpers';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectWallets, walletsAddressFetch, walletsFetch } from '../../../../modules';
+import { DepositBody } from '../../components/DepositBody';
 interface DepositAddressProps {
     currency_id: string;
-    walletAddress: string;
-
-    fetchQRCode: (currency_id: string) => void;
 }
 
-const QRCODE_SIZE = 150;
 
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-    const { currency_id, walletAddress, fetchQRCode } = props;
-    
-    const selectedWalletAddress = formatCCYAddress(currency_id, walletAddress);
+    const { currency_id } = props;
+
+    const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
+    const dispatch = useDispatch();
+    const wallets = useSelector(selectWallets) || [];
+
+    const wallet = wallets.find(item => item.currency === currency_id) || { name: '', currency: '', balance: '', type: '', address: '' };
+
+    const isAccountActivated = wallet.type === 'fiat' || wallet.balance;
+
+
+    const handleGenerateAddress = () => {
+        if (!wallet.address && wallets.length && wallet.type !== 'fiat') {
+            dispatch(walletsAddressFetch({ currency: currency_id }));
+            dispatch(walletsFetch());
+            setGenerateAddressTriggered(true);
+        }
+    };
+
+
+    React.useEffect(() => {
+        dispatch(walletsAddressFetch({ currency: currency_id }));
+    }, [dispatch, currency_id]);
 
     return (
-        <div className="container" style={{ backgroundColor: '#3B4B72', padding: '30px', borderRadius: '2rem' }}>
+        <div className="container" style={{ backgroundColor: '#3B4B72', padding: '30px', borderRadius: '5px' }}>
             <div className="row">
                 <div className="col-12">
                     <h4>Deposit Nework</h4>
@@ -31,12 +48,13 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                 <div className="col-12">
                     <h5 className="text-center">{currency_id.toUpperCase()} Address</h5>
                 </div>
-                <div className="col-12 text-center">
-                    {selectedWalletAddress
-                        ? <QRCode dimensions={QRCODE_SIZE} data={selectedWalletAddress} />
-                        : <button className="btn btn-primary" onClick={() => fetchQRCode(currency_id)}>Reload</button>}
-
-                    {/* <img className="rounded mx-auto d-block" height="120" width="120" src="https://www.kaspersky.com/content/en-global/images/repository/isc/2020/9910/a-guide-to-qr-codes-and-how-to-scan-qr-codes-2.png" /> */}
+                <div className="col-12">
+                    <DepositBody
+                        wallet={wallet}
+                        isAccountActivated={isAccountActivated}
+                        handleGenerateAddress={handleGenerateAddress}
+                        generateAddressTriggered={generateAddressTriggered}
+                    />
                 </div>
 
             </div>

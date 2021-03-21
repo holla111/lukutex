@@ -52,8 +52,6 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
     // selector
     const currencies = useSelector(selectCurrencies);
 
-
-
     // method
     const findIcon = (code: string): string => {
         const currency = currencies.find((currency: any) => currency.id === code);
@@ -81,7 +79,6 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
         }
         history.push(location);
     };
-
 
     return (
         <div className="container">
