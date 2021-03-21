@@ -23,51 +23,10 @@ const settingEvents = {
   autoplaySpeed: 3000,
   pauseOnHover: true,
   slidesToShow: 1,
-  slidesToScroll: 1,
-      responsive: [
-        {
-          breakpoint: 1000,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            infinite: true,
-            dots: true
-          }
-        },
-        {
-          breakpoint: 600,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            initialSlide: 2
-          }
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }
-      ]
+  slidesToScroll: 1, 
 };
 
 
-// const arrimg = [
-//   {
-//     url: 'https://inhongdang.com.vn/images/images/In%20Hong%20Dang%20-%20tri%20an%20khach%20hang(1).png'
-//   },
-//   {
-//     url: 'https://minhduongads.com/wp-content/uploads/2019/03/truyen-thong-minh-duong.jpg'
-//   },
-//   {
-//     url: 'https://www.dienmaythienhoa.vn/static/images/2.%20landing%20pages%20promotion/banner-web-chinh-900x300.jpg'
-//   },
-//   {
-//     url: 'https://vnso.vn/wp-content/uploads/2019/09/quang-cao-tang-100-web-banner.jpg'
-//   }, 
- 
-// ]
 export const HomeScreen: React.FC<any> = (props: any) => {
 
   const dispatch = useDispatch();
@@ -102,7 +61,6 @@ export const HomeScreen: React.FC<any> = (props: any) => {
                     )
               })}
             </div>
-
       </div>
     );
   }
