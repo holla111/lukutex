@@ -1,7 +1,7 @@
 import * as React  from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, Radio, DatePicker, Space, Upload } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Button, Radio, DatePicker, Space,} from 'antd';
+
 
 interface IFormInput {
   firstname: string;
@@ -39,16 +39,12 @@ export const ListingFormScreen: React.FC = () => {
     cointype: '',
     cointicker: '',
     explorerlink: '',
-    listingdate: '',
-    tradedate: '',
+    listingdate: 'listingdate',
+    tradedate: 'tradedate',
     totalsupply: '',
     logo: '',
 
   });
-  const [fileList, setFileList] = React.useState('');
-  const [dateTrade, setDateTrade] = React.useState('');
-  const [listingDate, setListingDate] = React.useState('');
-
 
   const onSubmit: SubmitHandler<IFormInput> = data => {
     alert(JSON.stringify(data));
@@ -57,23 +53,29 @@ export const ListingFormScreen: React.FC = () => {
   const handleValidInput = (e: any) => {
     setFormValue({
       ...formValue,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.files[0]['name']
     });
   }
 
-  const handleChange = (info: any) => {
-    let fileList:any = [...info.fileList];
-    fileList = fileList.slice(-1);
-    setFileList(fileList);
-  };
+  const handleValidInputFile = (e: any) => {
+   setFormValue({
+     ...formValue,
+     [e.target.name]: e.target.value
+   })
+  }
 
   const handleListingDate = (date, dateString) => {
-    console.log(dateString)
-    setListingDate(dateString);
+
+    let newFormValue = {...formValue};
+    newFormValue.listingdate = dateString;
+    setFormValue(newFormValue)
   }
   const handleTradeDate = (date, dateString) => {
-    console.log(dateString)
-    setDateTrade(dateString)
+
+    let newFormValue = {...formValue};
+    newFormValue.tradedate= dateString;
+    setFormValue(newFormValue)
+
   }
   const renderForm = () => {
     const radioStyle = {
@@ -82,9 +84,6 @@ export const ListingFormScreen: React.FC = () => {
       lineHeight: '30px',
     };
     console.log(formValue)
-    console.log(fileList)
-    console.log(listingDate);
-    console.log(dateTrade);
     return (
       <form className="listingformscreen" onSubmit={handleSubmit(onSubmit)}>
         {/*  */}
@@ -232,13 +231,14 @@ export const ListingFormScreen: React.FC = () => {
                         {errors.explorerlink && <p className='error'>This field is required</p>}
                       </div>
                     </div>
-                    <div className="token__info-explorer__supply-logo">
+
                       <div className="project__info-wrap">
                         <label className="Input-label">Total Supply</label>   
                         <input className="Input-text"
                                 name='totalsupply'
+                                type="number"
                                 ref={register({ required: true})}
-                                onChange={handleValidInput}
+                                onChange={handleValidInputFile}
                         />
                         {errors.totalsupply && <p className='error'>This field is required</p>}
                       </div>
@@ -247,14 +247,17 @@ export const ListingFormScreen: React.FC = () => {
                         <label className="Input-label">
                           Token logo(only png)
                         </label>
-                        <Upload
-                          listType="picture"
-                          onChange={handleChange}
-                        >
-                          <Button icon={<UploadOutlined />}>Upload</Button>
-                        </Upload>
+                        <input className="Input-text"
+                                name="logo"
+                                type="file"
+                                ref={register({ required: true})}
+                                onChange={handleValidInput}
+                                style={{color: 'transparent'}}
+                                title="title"
+                                accept="image/*"
+                        />
+                         {errors.logo && <p className='error'>This field is required</p>}
                       </div>
-                    </div>
                   </div>
                 </div>
                 <div className="token__info-infomation-lock-3">
