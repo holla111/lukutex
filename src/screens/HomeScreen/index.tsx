@@ -1,5 +1,4 @@
 import * as React  from "react";
-// import { Link } from "react-router-dom";
 import {MarketsTableScreen} from '../../containers/MarketsTableScreen';
 import Slider from "react-slick";
 
@@ -25,7 +24,42 @@ const settingEvents = {
   slidesToShow: 1,
   slidesToScroll: 1, 
 };
-
+const settings = {
+  dots: false,
+  infinite: true,
+  arrows: false,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  autoplay: true,
+  speed: 2000,
+  autoplaySpeed: 4000,
+  responsive: [
+    {
+      breakpoint: 1000,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        initialSlide: 1,
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+  ]
+};
 
 export const HomeScreen: React.FC<any> = (props: any) => {
 
@@ -55,11 +89,14 @@ export const HomeScreen: React.FC<any> = (props: any) => {
               </Slider>
             </div>
             <div className="landing-page__banner-list-link">
-              {[...events.payload].map(event => {
+              <Slider {...settings}>
+                {[...events.payload].map(event => {
                     return (
                       <a href={event.ref_link} className="slide-link">{event.event_name}</a>
                     )
-              })}
+                })}
+              </Slider>
+              
             </div>
       </div>
     );

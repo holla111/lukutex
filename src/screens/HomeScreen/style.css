@@ -31,6 +31,7 @@
     align-items: center;
     background: rgba(0,0,0,.4);
     width: 100%;
+    padding: 5px 200px 0 280px;
     height: 30px;
 }
 .slide-link {
@@ -45,11 +46,15 @@
 
 .slick-slider{
     margin: 0 -10px;
+    width: 102%;
 }
 .slick-slider,
 .slick-list,
 .slick-track  {
     height: 100%;
+}
+.slick-list{    
+ 
 }
 .slick-dots {
     position: absolute;
