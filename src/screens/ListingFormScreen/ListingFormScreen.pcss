@@ -6,7 +6,7 @@
   --gutterXl: 2.4rem;
   --gutterXx: 7.2rem;
   --colorPrimary400: #7e57c2;
-  --colorPrimary600: #5e35b1;
+  --colorPrimary600: #219ebc;
   --colorPrimary800: #4527a0;
   --fontFamily: "Dosis", sans-serif;
   --fontSizeSm: 1.2rem;
@@ -60,6 +60,7 @@
 .Input-text:focus {
   outline: none;
   box-shadow: 0.2rem 0.8rem 1.6rem var(--colorPrimary600);
+  
 }
 
 .Input-label {
@@ -108,7 +109,7 @@
     justify-content: space-between;
 
     .listing__info {
-      width: 35%;
+      width: 40%;
       padding: 10px;
       display: flex;
       flex-direction: column;
@@ -155,7 +156,7 @@
 
     .project__info {
       padding: 10px;
-      width: calc(100% - 30% - 10%);
+      width: calc(100% - 30% - 12%);
       display: flex;
       flex-direction: column;
       /* box-shadow: 0.2rem 0.8rem 1.6rem var(--colorPrimary600); */
@@ -191,13 +192,58 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-top: 40px;
 
     &-lock-1{
-    
+      width: 40%;
+      background-color: var(--subheader-background-color);
+
+      .contact__us {
+        height: 100%;
+
+        &__avatar {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 80px;
+          width: 100%;
+          padding: 10%;
+          background-color: #219ebc;
+
+          .avatar {
+            width: 150px;
+            margin-right: 5px;
+          }
+        }
+
+        &__contact {
+          padding: 10%;
+          .contact-option {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 20px 0;
+
+            .option__left {
+              font-size: 16px;
+              color: white;
+            }
+            .option__mid{
+              border-bottom: 1px dotted #8a9eac;
+              height: 19px;
+              flex-grow: 1;
+            }
+            .option__right {
+              width: 30px;
+            }
+          }
+
+        }
+      }
     }
 
     &-lock-2 {
-      width: calc(100% - 30% - 10%);
+      width: calc(100% - 30% - 12%);
       display: flex;
       flex-direction: row-reverse;
       justify-content: space-between;
@@ -208,7 +254,6 @@
         flex-direction: row;
         justify-content: space-between;
         width: 55%;
-        margin-top: 80px;
         background-color: var(--subheader-background-color);
   
         &-infomation {
@@ -275,8 +320,7 @@
       .listing__plan {
         display: flex;
         flex-direction: column;
-        width: 35%;
-        margin: 80px 0;
+        width: 41%;
         max-height: 350px;
         height: 100%;
         padding: 10px;
@@ -331,8 +375,12 @@
       width: 250px;
       margin-right: 0;
       padding: 15px 0 40px;
-      background-color: #3067f0;
+      background-color: var(--colorPrimary600);
       font-size: 20px;
+      &:hover {
+        background-color: #52b788;
+        color: white;
+      }
     }
   }
 }
@@ -475,7 +523,12 @@
     }
     .main__2 {
       width: 100%;
-
+      display: flex;
+      flex-direction: column-reverse;
+      &-lock-1{
+        margin-top: 40px;
+        width: 100%;
+      }
       &-lock-2 {
         width: 100%;
         .token__info{

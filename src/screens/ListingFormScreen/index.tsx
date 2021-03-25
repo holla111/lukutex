@@ -1,4 +1,5 @@
 import * as React  from "react";
+import axios from 'axios';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, Radio, DatePicker, Space,} from 'antd';
 
@@ -46,22 +47,20 @@ export const ListingFormScreen: React.FC = () => {
 
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = data => {
-    alert(JSON.stringify(data));
-  };
-
   const handleValidInput = (e: any) => {
     setFormValue({
       ...formValue,
-      [e.target.name]: e.target.files[0]['name']
+      [e.target.name]: e.target.value
     });
   }
 
   const handleValidInputFile = (e: any) => {
-   setFormValue({
-     ...formValue,
-     [e.target.name]: e.target.value
-   })
+  
+     const newFormValue = {...formValue};
+     newFormValue.logo = URL.createObjectURL(e.target.files[0]);
+
+     setFormValue(newFormValue)
+      
   }
 
   const handleListingDate = (date, dateString) => {
@@ -77,12 +76,30 @@ export const ListingFormScreen: React.FC = () => {
     setFormValue(newFormValue)
 
   }
+  
+  const onSubmit: SubmitHandler<IFormInput> = (data, e: any) => {
+   
+    const url = 'https://docs.google.com/spreadsheets/d/11fz7m4xCN8eUF3B5yPrTELmML-pdNgJiBEk53MDnCM8/edit?fbclid=IwAR3caL7VxJUn72UEHAipN_76FSAfSr6EwS44ZHB6EYMYXwIPunF503cWlRU#gid=1378413446'
+    axios.post(url, formValue)
+
+    setTimeout(() => {
+      e.target.reset(); 
+    }, 2000); 
+    alert("Your form is being uploaded!");
+
+  };
+
+
   const renderForm = () => {
     const radioStyle = {
       display: 'block',
       height: '30px',
       lineHeight: '30px',
     };
+    const profile = require('./common/man.png');
+    const gmail = require('./common/gmail.png');
+    const skype = require('./common/skype.png');
+    const telegram = require('./common/telegram.png');
     console.log(formValue)
     return (
       <form className="listingformscreen" onSubmit={handleSubmit(onSubmit)}>
@@ -184,7 +201,32 @@ export const ListingFormScreen: React.FC = () => {
         </div>
         {/*  */}
         <div className="main__2">
-          <div className="main__2-lock-1"></div>
+          <div className="main__2-lock-1">
+            <div className="contact__us">
+              <div className="contact__us__avatar">
+                <div className="contact__avatar-wrap">
+                  <img src={profile} alt="avatar" className="avatar"/>
+                </div>
+              </div>
+              <div className="contact__us__contact">
+                <div className="contact-option">
+                  <div className="option__left">Luktex@gmail.com</div>
+                  <div className="option__mid"></div>
+                  <img src={gmail} alt="call" className="option__right"/>
+                </div>
+                <div className="contact-option">
+                  <div className="option__left">LUkutex Skype</div>
+                  <div className="option__mid"></div>
+                  <img src={skype} alt="call" className="option__right"/>
+                </div>
+                <div className="contact-option">
+                  <div className="option__left">Lukutex Telagram</div>
+                  <div className="option__mid"></div>
+                  <img src={telegram} alt="call" className="option__right"/>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="main__2-lock-2">
             <div className="token__info">
               <div className="token__info-infomation">
@@ -238,7 +280,7 @@ export const ListingFormScreen: React.FC = () => {
                                 name='totalsupply'
                                 type="number"
                                 ref={register({ required: true})}
-                                onChange={handleValidInputFile}
+                                onChange={handleValidInput}
                         />
                         {errors.totalsupply && <p className='error'>This field is required</p>}
                       </div>
@@ -251,7 +293,7 @@ export const ListingFormScreen: React.FC = () => {
                                 name="logo"
                                 type="file"
                                 ref={register({ required: true})}
-                                onChange={handleValidInput}
+                                onChange={handleValidInputFile}
                                 style={{color: 'transparent'}}
                                 title="title"
                                 accept="image/*"
