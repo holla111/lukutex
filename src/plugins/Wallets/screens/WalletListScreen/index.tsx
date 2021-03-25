@@ -35,13 +35,13 @@ const SearchInput = styled.input`
   font-size: 1.2rem;
   /* When the input field gets focus, change its width to 100% */
   :focus {
-    width: 100%;
+    width: 200px;
     border: 2px solid #9AA9D1;
   }
 `;
 
 const DepositButton = styled.button`
-  background: #31416B;
+  background: #2a9d8f;
   border: none;
   outline: none;
   color: white;
@@ -55,8 +55,123 @@ const DepositButton = styled.button`
   transition: all 0.2s;
   :focus { outline: none; }
   :hover {
-    background: #5D76B5;
+    background: #2EAFA0;
   }
+`;
+
+const WithdrawButton = styled.button`
+  background: #e76f51;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 5px;
+  font-weight: 600;
+  transition: all 0.2s;
+  :focus { outline: none; }
+  :hover {
+    background: #f4a261;
+  }
+`;
+
+const CheckBox = styled.div`
+  .checkbox {
+    --background: #fff;
+    --border: #D1D6EE;
+    --border-hover: #BBC1E1;
+    --border-active: #182034;
+    --tick: #fff;
+    position: relative;
+    input,
+    svg {
+        width: 21px;
+        height: 21px;
+        display: block;
+    }
+    input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        position: relative;
+        outline: none;
+        background: var(--background);
+        border: 2px solid #5D76B5;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: box-shadow .3s;
+        box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border));
+        &:hover {
+            --s: 2px;
+            --b: var(--border-hover);
+        }
+        &:checked {
+            --b: var(--border-active);
+        }
+    }
+    svg {
+        pointer-events: none;
+        fill: none;
+        stroke-width: 2px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: var(--stroke, var(--border-active));
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 21px;
+        height: 21px;
+        transform: scale(var(--scale, 1)) translateZ(0);
+    }
+    &.path {
+        input {
+            &:checked {
+                --s: 2px;
+                transition-delay: .4s;
+                & + svg {
+                    --a: 16.1 86.12;
+                    --o: 102.22;
+                }
+            }
+        }
+        svg {
+            stroke-dasharray: var(--a, 86.12);
+            stroke-dashoffset: var(--o, 86.12);
+            transition: stroke-dasharray .6s, stroke-dashoffset .6s;
+        }
+    }
+    &.bounce {
+        --stroke: var(--tick);
+        input {
+            &:checked {
+                --s: 11px;
+                & + svg {
+                    animation: bounce .4s linear forwards .2s;
+                }
+            }
+        }
+        svg {
+            --scale: 0;
+        }
+    }
+}
+
+@keyframes bounce {
+    50% {
+        transform: scale(1.2);
+    }
+    75% {
+        transform: scale(.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 `;
 
 export const WalletListScreen = () => {
@@ -125,7 +240,7 @@ export const WalletListScreen = () => {
         in_order: <span className="text-secondary">{wallet.locked && Number(wallet.balance) > 0 ? wallet.locked : '0.000000'}</span>,
         action: <div className="d-flex justify-content-between">
           <DepositButton onClick={() => handleDepositClick(wallet.currency)}>Deposit</DepositButton>
-          <DepositButton onClick={() => handleDepositClick(wallet.currency)}>Withdraw</DepositButton>
+          <WithdrawButton onClick={() => handleDepositClick(wallet.currency)}>Withdraw</WithdrawButton>
         </div>
       };
     });
@@ -148,8 +263,19 @@ export const WalletListScreen = () => {
         </div>
       </div>
       <div className="row mt-2">
-        <div className="col-4">
-          <SearchInput autoFocus type="text" value={searchInputState} placeholder="Search.." onChange={e => onChange(e)} />
+        <div className="col-12 d-flex justify-content-between align-items-center flex-row">
+          <SearchInput autoFocus type="text" value={searchInputState} placeholder="Search coin ..." onChange={e => onChange(e)} />
+          <CheckBox>
+            <span>Hide Small Balances</span>
+            <label className="checkbox bounce">
+              <input type="checkbox" defaultChecked />
+              <svg viewBox="0 0 21 21">
+                <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+              </svg>
+            </label>
+          </CheckBox>
+
+
         </div>
       </div>
       <div className="row mt-2">
