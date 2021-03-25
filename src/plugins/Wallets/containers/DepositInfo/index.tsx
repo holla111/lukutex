@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
 import { selectCurrencies } from '../../../../modules';
-
+import styled from 'styled-components';
 
 const customStyles = {
     option: (provided, state) => ({
@@ -37,6 +37,25 @@ const customStyles = {
         color: '#fff',
     }),
 }
+
+const WalletCard = styled.div`
+    width: 335px;
+    height: 220px;
+    background: linear-gradient(270deg, hsla(223, 37%, 15%, 1) 0%, hsla(223, 32%, 20%, 1) 100%);
+    border-radius: 30px;
+    border: 1px solid #fff;
+    backdrop-filter: blur(20px);
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    padding: 20px;
+    .left {
+        width: 85%;
+    }
+    .right {
+        width: 15%;
+    }
+`;
 
 interface DepositInfoProps {
     currency_id: string;
@@ -81,14 +100,12 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
     };
 
     return (
-        <div className="container">
+        <div className="container" style={{padding: '50px 0'}}>
             <div className="row">
-                <div className="col-12">
-                    <h1>Deposit</h1>
+                <div className="col-6">
+                    <h2>Deposit</h2>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-8">
+                <div className="col-6">
                     <Select
                         styles={customStyles}
                         value={options.filter(option => option.value == currency_id.toLowerCase())}
@@ -97,15 +114,26 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                     />
                 </div>
             </div>
-            <div className="row mt-5">
-                <div className="col-12">
+            <div className="row" style={{marginTop: '100px'}}>
+                <div className="col-12 d-flex justify-content-center">
+                    <WalletCard>
+                        <div className="left">
+                            <h4 className="text-white">BTC</h4>
+                            <h5 className="text-secondary">Bitcoin</h5>
+                        </div>
+                        <div className="right">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png" width="44px" height="44px" alt="" />
+                        </div>
+                    </WalletCard>
+                </div>
+                {/* <div className="col-12">
                     Total balance: 0.00000000 1INCH
                </div>
                 <div className="col-12">
                     Locked: 0.00000000 1INCH
-               </div>
+               </div> */}
             </div>
-            <div className="row mt-5">
+            {/* <div className="row mt-5">
                 <div className="col-12">
                     <div>
                         <svg style={{ width: '20px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -119,7 +147,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                         <li data-bn-type="text">Until <span className="num">2</span> confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.</li>
                     </ul>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

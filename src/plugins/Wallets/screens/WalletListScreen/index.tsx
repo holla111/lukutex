@@ -79,6 +79,10 @@ const WithdrawButton = styled.button`
 `;
 
 const CheckBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   .checkbox {
     --background: #fff;
     --border: #D1D6EE;
@@ -176,6 +180,9 @@ const CheckBox = styled.div`
 
 export const WalletListScreen = () => {
 
+  // state
+  const [hideSmallBalanceState, setHideSmallBalanceState] = React.useState<boolean>(false);
+
   // history
   const history = useHistory();
 
@@ -216,18 +223,17 @@ export const WalletListScreen = () => {
     { Header: 'Coin', accessor: 'coin' }, { Header: 'Total', accessor: 'total' }, { Header: 'Available', accessor: 'available' }, { Header: 'In Order', accessor: 'in_order' }, { Header: 'Action', accessor: 'action' }], []
   );
 
-
-
   const [searchInputState, setSearchInputState] = React.useState("");
 
   const data = wallets
-    .filter(wallet => wallet.currency.toLowerCase().includes(searchInputState.toLowerCase()))
     .map(wallet => {
       return {
         ...wallet,
         total: Number(wallet.balance) + Number(wallet.locked)
       };
     })
+    .filter(wallet => wallet.currency.toLowerCase().includes(searchInputState.toLowerCase()))
+    .filter(wallet => hideSmallBalanceState ? wallet.total > 0 : wallet.total >= 0)
     .sort((prev_wallet, next_wallet) => { //sort desc
       return next_wallet.total - prev_wallet.total;
     }).map(wallet => {
@@ -266,16 +272,14 @@ export const WalletListScreen = () => {
         <div className="col-12 d-flex justify-content-between align-items-center flex-row">
           <SearchInput autoFocus type="text" value={searchInputState} placeholder="Search coin ..." onChange={e => onChange(e)} />
           <CheckBox>
-            <span>Hide Small Balances</span>
+            <span className="mr-2">Hide Small Balances</span>
             <label className="checkbox bounce">
-              <input type="checkbox" defaultChecked />
+              <input type="checkbox" defaultChecked checked={hideSmallBalanceState} onChange={e => setHideSmallBalanceState(e.target.checked)} />
               <svg viewBox="0 0 21 21">
                 <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
               </svg>
             </label>
           </CheckBox>
-
-
         </div>
       </div>
       <div className="row mt-2">
