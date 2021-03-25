@@ -247,7 +247,7 @@ export const WalletListScreen = () => {
 
   const renderTable = () => {
     return (
-      <ReactTable columns={columns} data={data} />
+      <ReactTable columns={columns} data={data} headColor="#222B42" rowColor={["#182034", "#222B42"]} />
     );
   };
 

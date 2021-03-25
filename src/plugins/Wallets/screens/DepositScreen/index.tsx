@@ -32,7 +32,7 @@ export const DepositScreen = () => {
                     />
                 </div>
             </div>
-            <div className="row mt-3">
+            <div className="row">
                 <div className="col-12">
                     <DepositHistory />
                 </div>

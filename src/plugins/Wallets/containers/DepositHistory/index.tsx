@@ -44,6 +44,9 @@ export const DepositHistory = () => {
     });
 
     return (
-            <ReactTable columns={columns} data={data} />
+        <div style={{ backgroundColor: '#182034', borderRadius: '1rem' }}>
+            <h2 className="text-center">Deposit History</h2>
+            <ReactTable columns={columns} data={data} headColor="#222B42" rowColor={["#182034", "#222B42"]} />
+        </div>
     )
 }

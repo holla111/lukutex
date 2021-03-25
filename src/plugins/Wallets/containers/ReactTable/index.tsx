@@ -43,9 +43,17 @@ const TableStyles = styled.div`
             color: #222B42;
         }
     }
-`
+`;
 
-export const ReactTable = ({ columns, data }) => {
+interface ReacTableProps {
+    columns: any;
+    data: any;
+    headColor: string;
+    rowColor: [string, string];
+}
+
+export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
+    const { columns, data, headColor, rowColor } = props;
     const {
         getTableProps,
         getTableBodyProps,
@@ -61,7 +69,7 @@ export const ReactTable = ({ columns, data }) => {
     return (
         <TableStyles>
             <table {...getTableProps()}>
-                <thead>
+                <thead style={{backgroundColor: headColor}}>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
@@ -74,7 +82,7 @@ export const ReactTable = ({ columns, data }) => {
                     {rows.map((row, i) => {
                         prepareRow(row)
                         return (
-                            <tr {...row.getRowProps()} style={{ backgroundColor: i % 2 == 0 ? '#182034' : '#222B42' }}>
+                            <tr {...row.getRowProps()} style={{ backgroundColor: i % 2 == 0 ? rowColor[0] : rowColor[1] }}>
                                 {row.cells.map((cell) => {
                                     return <td width="25%" {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                 })}
