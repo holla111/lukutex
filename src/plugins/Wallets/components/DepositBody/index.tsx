@@ -2,11 +2,13 @@ import classnames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { CurrencyInfo, DepositCrypto, DepositFiat } from '../../../../components';
 import { formatCCYAddress } from '../../../../helpers';
 import { selectCurrencies, selectUserInfo, selectWalletAddress } from '../../../../modules';
 import styled from 'styled-components';
 import { LockIcon } from '../../../../assets/images/LockIcon';
+import { DepositCrypto } from '../DepositCrypto';
+import { CurrencyInfo } from '../CurrencyInfo';
+import { DepositFiat } from '../DepositFiat';
 
 const BlurDisable = styled.div`
     position: absolute;
@@ -43,15 +45,11 @@ const WalletDepositBodyComponent = props => {
 
     const currencyItem = (currencies && currencies.find(item => item.id === wallet.currency)) || { min_confirmations: 6, min_deposit_amount: 6, deposit_fee: 6, deposit_enabled: false };
 
-    const textConfirmation = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currencyItem.min_confirmations });
+    const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(currencyItem.deposit_fee)} ${wallet.currency.toUpperCase()}`;
 
-    const textMinDeposit = `${translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount) + Number(currencyItem.deposit_fee)} ${wallet.currency.toUpperCase()}`;
-
-    const textDepositFee = `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} ${Number(currencyItem.deposit_fee)} ${wallet.currency.toUpperCase()}`;
 
     const checkDepositFee = Number(currencyItem.deposit_fee) != 0 ? textDepositFee : `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} 1 %`;
 
-    const textNote = `Only Deposit ${wallet.currency.toUpperCase()} to this wallet.`
 
 
     const error = addressDepositError ?
@@ -90,9 +88,6 @@ const WalletDepositBodyComponent = props => {
             data={walletAddress}
             handleOnCopy={handleOnCopy}
             error={error}
-            textConfirmation={textConfirmation}
-            textMinDeposit={textMinDeposit}
-            textNote={textNote}
             textDepositFee={checkDepositFee}
             disabled={walletAddress === ''}
             copiableTextFieldText={`${wallet.currency.toUpperCase()} ${label}`}

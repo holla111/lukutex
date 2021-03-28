@@ -1,35 +1,26 @@
 import * as React from 'react';
-import { useTable } from 'react-table';
+import { useTable, usePagination } from 'react-table';
 import styled from 'styled-components';
 
 const TableStyles = styled.div`
     table {
         width: 100%;
         border-spacing: 0;
-        tr {
-            td:first-child { border-top-left-radius: 10px; }
-            td:last-child { border-top-right-radius: 10px; }
-            td:first-child { border-bottom-left-radius: 10px; }
-            td:last-child { border-bottom-right-radius: 10px; }
-        }
-      
         th,td {
             margin: 0;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #fff;
             text-align: justify;
-            padding-top:10px;
-            padding-bottom:10px;
-            padding-right:10px; 
-            padding-left:10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 10px; 
+            padding-left: 10px;
             transition: all 0.2s;
-            font-weight: 600;
-           
+            background-color: #182034;
         }
         th {
-            background-color: #222B42;
-           
+            background-color: #111725;
         }
         th:not(:first-child) {
             text-align: center
@@ -39,8 +30,60 @@ const TableStyles = styled.div`
         }
 
         tr:hover td{
-            background-color: #fff;
-            color: #222B42;
+            background-color: #40527D;
+            color: #fff;
+        }
+    }
+
+    .pagination {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.3rem;
+
+        .pagination-page_number, .pagination-page_select {
+            color: #fff;
+            select, input {
+                width: 200px;
+                font-size: 1.3rem;
+                border: 3px solid #5D76B5;
+                outline: none;
+                padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+                color: #fff;
+                font-weight: 500;
+                padding: 1rem;
+                background-color: #182034;
+                border-radius: 5px;
+                -webkit-transition: width 0.4s ease-in-out;
+                transition: all 0.2s ease-in-out;
+                font-size: 1rem;
+                /* When the input field gets focus, change its width to 100% */
+                :focus {
+                    width: 200px;
+                    border: 3px solid #9AA9D1;
+                }
+            }
+        }
+
+        .pagination-button-box {
+            button {
+            outline: none;
+            margin-right: 5px;
+            border: none;
+            border-radius: 5px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            color: #fff;
+            background-color: #3F5489;
+            transition: ease-in-out 0.3s;
+            :disabled {
+                background-color: #222D4A;
+                cursor: not-allowed;
+                color: #49619E;
+            }
+
+        }
         }
     }
 `;
@@ -49,27 +92,42 @@ interface ReacTableProps {
     columns: any;
     data: any;
     headColor: string;
-    rowColor: [string, string];
 }
 
 export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
-    const { columns, data, headColor, rowColor } = props;
+    const { columns, data, headColor } = props;
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
         prepareRow,
-    } = useTable({
-        columns,
-        data,
-    })
+        page, // Instead of using 'rows', we'll use page,
+        // which has only the rows for the active page
+
+        // The rest of these things are super handy, too ;)
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+        state: { pageIndex, pageSize },
+    } = useTable(
+        {
+            columns,
+            data,
+            initialState: { pageIndex: 0 },
+        },
+        usePagination
+    )
 
     // Render the UI for your table
     return (
         <TableStyles>
             <table {...getTableProps()}>
-                <thead style={{backgroundColor: headColor}}>
+                <thead style={{ backgroundColor: headColor }}>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
@@ -79,10 +137,10 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map((row, i) => {
+                    {page.map((row) => {
                         prepareRow(row)
                         return (
-                            <tr {...row.getRowProps()} style={{ backgroundColor: i % 2 == 0 ? rowColor[0] : rowColor[1] }}>
+                            <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
                                     return <td width="25%" {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                 })}
@@ -91,6 +149,59 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
                     })}
                 </tbody>
             </table>
+            <div className="pagination">
+                <div className="pagination-page_number">
+                    <span>
+                        Page{' '}
+                        <strong>
+                            {pageIndex + 1} of {pageOptions.length}
+                        </strong>{' '}
+                    </span>
+                    <span>
+                        | Go to page:{' '}
+                        <input
+                            type="number"
+                            defaultValue={pageIndex + 1}
+                            onChange={e => {
+                                const page = e.target.value ? Number(e.target.value) - 1 : 0
+                                gotoPage(page)
+                            }}
+                            style={{ width: '100px' }}
+                        />
+                    </span>{' '}
+                </div>
+                <div className="pagination-button-box">
+                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                        {'<<'}
+                    </button>{' '}
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        {'<'}
+                    </button>{' '}
+                    <button style={{ backgroundColor: '#8093C4' }}>
+                        {pageIndex + 1}
+                    </button>{' '}
+                    <button onClick={() => nextPage()} disabled={!canNextPage}>
+                        {'>'}
+                    </button>{' '}
+                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                        {'>>'}
+                    </button>{' '}
+                </div>
+                <div className="pagination-page_select">
+                    <select
+                        value={pageSize}
+                        onChange={e => {
+                            setPageSize(Number(e.target.value))
+                        }}
+                    >
+                        {[10, 20, 30, 40, 50].map(pageSize => (
+                            <option key={pageSize} value={pageSize}>
+                                Show {pageSize}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
         </TableStyles>
 
     )

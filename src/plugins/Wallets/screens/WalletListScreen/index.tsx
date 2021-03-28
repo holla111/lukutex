@@ -25,14 +25,14 @@ const SearchInput = styled.input`
   width: 130px;
   border: 2px solid #5D76B5;
   outline: none;
-  padding: 0.6rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   color: #fff;
   font-weight: 500;
   background-color: #182034;
   border-radius: 5px;
   -webkit-transition: width 0.4s ease-in-out;
   transition: all 0.2s ease-in-out;
-  font-size: 1.2rem;
+  font-size: 1rem;
   /* When the input field gets focus, change its width to 100% */
   :focus {
     width: 200px;
@@ -41,7 +41,7 @@ const SearchInput = styled.input`
 `;
 
 const DepositButton = styled.button`
-  background: #2a9d8f;
+  background: #36456A;
   border: none;
   outline: none;
   color: white;
@@ -55,12 +55,12 @@ const DepositButton = styled.button`
   transition: all 0.2s;
   :focus { outline: none; }
   :hover {
-    background: #2EAFA0;
+    background: #222D4A;
   }
 `;
 
 const WithdrawButton = styled.button`
-  background: #e76f51;
+  background: #36456A;
   border: none;
   outline: none;
   color: white;
@@ -74,7 +74,7 @@ const WithdrawButton = styled.button`
   transition: all 0.2s;
   :focus { outline: none; }
   :hover {
-    background: #f4a261;
+    background: #222D4A;
   }
 `;
 
@@ -238,7 +238,7 @@ export const WalletListScreen = () => {
       return next_wallet.total - prev_wallet.total;
     }).map(wallet => {
       const total = NP.plus(wallet.balance || 0, wallet.locked || 0);
-      const currency_icon = <img width="40px" height="40px" src={wallet.iconUrl ? wallet.iconUrl : findIcon(wallet.currency)} alt={wallet.currency + '_icon'} />;
+      const currency_icon = <img width="30px" height="30px" src={wallet.iconUrl ? wallet.iconUrl : findIcon(wallet.currency)} alt={wallet.currency + '_icon'} />;
       return {
         coin: <span style={{ fontWeight: 'bold' }}> {currency_icon} {wallet.currency.toUpperCase()} <span className="text-secondary">{wallet.name}</span></span>,
         total: total > 0 ? String(total) : '0.000000',
@@ -253,7 +253,7 @@ export const WalletListScreen = () => {
 
   const renderTable = () => {
     return (
-      <ReactTable columns={columns} data={data} headColor="#222B42" rowColor={["#182034", "#222B42"]} />
+      <ReactTable columns={columns} data={data} headColor="#222B42" />
     );
   };
 
@@ -262,13 +262,13 @@ export const WalletListScreen = () => {
   };
 
   return (
-    <div className="container p-5" style={{ backgroundColor: '#222B42', borderRadius: '5px' }}>
+    <div className="container-fluid" style={{ backgroundColor: '#222B42', borderRadius: '5px', height: '100vh', marginTop: '-10px', padding: '20px 10% 0 10%' }}>
       <div className="row">
         <div className="col-12">
           <EstimatedValue wallets={wallets} />
         </div>
       </div>
-      <div className="row mt-2">
+      <div className="row mt-3">
         <div className="col-12 d-flex justify-content-between align-items-center flex-row">
           <SearchInput autoFocus type="text" value={searchInputState} placeholder="Search coin ..." onChange={e => onChange(e)} />
           <CheckBox>
@@ -282,7 +282,7 @@ export const WalletListScreen = () => {
           </CheckBox>
         </div>
       </div>
-      <div className="row mt-2">
+      <div className="row mt-3">
         <div className="col-12">
           {renderTable()}
         </div>

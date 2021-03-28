@@ -33,14 +33,10 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
     }, [dispatch, currency_id]);
 
     return (
-        <div className="container" style={{ backgroundColor: '#182034', padding: '30px', borderRadius: '5px' }}>
+        <div className="container d-flex flex-column justify-content-between" style={{ backgroundColor: '#182034', padding: '30px', borderRadius: '5px', height: '100%', fontSize: '1.3rem' }}>
             <div className="row">
-                <div className="col-12">
+                <div className="col-12 d-flex justify-content-between">
                     <h4>Deposit Nework</h4>
-                </div>
-            </div>
-            <div className="row mt-2">
-                <div className="col-12">
                     <span>Average arrival time：1 minutes</span>
                 </div>
             </div>
