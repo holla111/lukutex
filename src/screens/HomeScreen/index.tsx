@@ -1,8 +1,6 @@
-
-
-
 import * as React  from "react";
 import {MarketsTableScreen} from '../../containers/MarketsTableScreen';
+import {DispChart} from '../../containers';
 import Slider from "react-slick";
 
 import { eventFetch, selectEvents } from "../../modules";
@@ -11,8 +9,19 @@ import {
   AppleFilled,
   AndroidFilled
 } from '@ant-design/icons';
-
 import './style.css';
+import styled from 'styled-components';
+
+const WrapperComponet = styled.div`
+  position: absolute;
+  left: 170px;
+  bottom: 0;
+  z-index: 1;
+  img {
+    width: 30px;
+  }
+`;
+
 
 const settingEvents = {
 
@@ -78,6 +87,8 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   console.log(events)
 
   const renderBanner = ()  => {
+
+    const speakericon = require('./Home/sound-speaker.svg');
     return (
       <div className="landing-page__banner">
             <div className="landing-page__banner-list">
@@ -91,6 +102,9 @@ export const HomeScreen: React.FC<any> = (props: any) => {
                 })}
               </Slider>
             </div>
+            <WrapperComponet>
+              <img src={speakericon} alt="speaker" />
+            </WrapperComponet>
             <div className="landing-page__banner-list-link">
               <Slider {...settings}>
                 {[...events.payload].map(event => {
@@ -99,8 +113,21 @@ export const HomeScreen: React.FC<any> = (props: any) => {
                     )
                 })}
               </Slider>
-              
             </div>
+      </div>
+    );
+  }
+
+  const renderChart = () => {
+    return (
+      <div className="home-page__chart">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <DispChart/>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -208,6 +235,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
     return (
         <div className="home-page">
            {renderBanner()}
+           {renderChart()}
            {renderMarket()}
            {renderAboutUs()}
            {renderFeature()}
