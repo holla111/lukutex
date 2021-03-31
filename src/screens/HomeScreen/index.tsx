@@ -123,9 +123,9 @@ export const HomeScreen: React.FC<any> = (props: any) => {
       <div className="home-page__chart">
         <div className="container">
           <div className="row">
-            <div className="col-12">
+            
               <DispChart/>
-            </div>
+          
           </div>
         </div>
       </div>
