@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { localeDate } from '../../../../helpers';
-import { fetchHistory, resetHistory, RootState, selectHistory, selectNextPageExists } from '../../../../modules';
+import { fetchHistory, resetHistory, RootState, selectCurrencies, selectHistory, selectNextPageExists } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 
 interface DepositHistoryProps {
@@ -17,6 +17,12 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 
     // selector
     const list = useSelector(selectHistory);
+    const currencies = useSelector(selectCurrencies);
+    const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
+    const blockchain_address = currency ? currency.explorer_address : '';
+    console.log(currencies);
+    
+
     const nextPageExists = useSelector((state: RootState) => selectNextPageExists(state, 6));
     console.log(nextPageExists);
 
@@ -90,7 +96,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
             date: localeDate(history.created_at, 'fullDate'),
             status: 'success',
             amount: history.amount,
-            txid: <a href="" className="text-info">{history.txid}</a>,
+            txid: <a href={blockchain_address.replace('#{address}', history.txid)} className="text-info">{blockchain_address.replace('#{address}', history.txid)}</a>,
             state: formatTxState(history.state)
         }
     });
