@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 import Select from 'react-select';
 import { selectCurrencies } from '../../../../modules';
 import styled from 'styled-components';
-import { useIntl } from 'react-intl';
 
 const SelectStyles = {
     option: (provided, state) => ({
@@ -91,28 +90,19 @@ const WalletCardStyles = styled.div`
     }
 `;
 
-interface DepositInfoProps {
+interface WithdrawInfoProps {
     currency_id: string;
     currency_icon: string;
 }
 
-export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps) => {
+export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoProps) => {
     const { currency_id, currency_icon } = props;
-    const intl = useIntl();
     // history
     const history = useHistory();
 
     // selector
     const currencies = useSelector(selectCurrencies);
     const currency = currencies.find((currency: any) => String(currency.id).toLowerCase() === currency_id.toLowerCase()) || { name: '', min_confirmations: 6, min_deposit_amount: 6, deposit_fee: 6, deposit_enabled: false };
-
-    const textConfirmation = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currency.min_confirmations });
-
-    const textMinDeposit = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.mindeposit' })} ${Number(currency.min_deposit_amount) + Number(currency.deposit_fee)} ${currency_id.toUpperCase()}`;
-
-    const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(currency.deposit_fee)} ${currency_id.toUpperCase()}`;
-
-    const textNote = `Only Deposit ${currency_id.toUpperCase()} to this wallet.`
 
     // method
     const findIcon = (code: string): string => {
@@ -137,18 +127,18 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
     const handleChange = (selectedOption: any) => {
         const currency_id = String(selectedOption.value);
         const location = {
-            pathname: `/new-wallets/deposit/${currency_id.toUpperCase()}`
+            pathname: `/new-wallets/withdraw/${currency_id.toUpperCase()}`
         }
         history.push(location);
     };
 
+
     return (
         <div className="container" style={{ padding: '50px 0' }}>
             <div className="row">
-                <div className="col-6 d-inline">
-                    <span style={{ fontSize: '3rem', cursor: "context-menu", color: '#3c78e0' }}>Deposit/ </span>
-                    <span className="text-secondary" style={{ fontSize: '2rem', cursor: 'pointer' }} 
-                        onClick={() => history.push({ pathname: `/new-wallets/withdraw/${currency_id.toUpperCase()}` })}>Withdraw</span>
+                <div className="col-6">
+                    <span style={{ fontSize: '3rem', cursor: "context-menu", color: '#3c78e0' }}>Withdraw/ </span>
+                    <span className="text-secondary" style={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => history.push({ pathname: `/new-wallets/deposit/${currency_id.toUpperCase()}` })}>Deposit</span>
                 </div>
                 <div className="col-6">
                     <Select
@@ -175,12 +165,6 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                         </div>
                     </WalletCardStyles>
                 </div>
-                {/* <div className="col-12">
-                    Total balance: 0.00000000 1INCH
-               </div>
-                <div className="col-12">
-                    Locked: 0.00000000 1INCH
-               </div> */}
             </div>
             <div className="row mt-5" style={{ fontSize: '1.3rem' }}>
                 <div className="col-12">
@@ -191,13 +175,9 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                         <span className="ml-2">Tips: </span>
                     </div>
                     <div className="ml-2 mt-2">
-                        <p>{textConfirmation}</p>
-                        <p>{textMinDeposit}</p>
-                        <p>{textDepositFee}</p>
-                        <p className="textnote">
-                            <span className="textnote__textj">Note:</span>
-                            <span> {textNote}</span>
-                        </p>
+                        <p>1. Funds can only been withdrawn from your spot account. To withdraw funds in other accounts, please transfer to your spot account first.</p>
+                        <p>2. When withdrawing to the Binance user's address, the handling fee will be returned to the Current Account by default. Learn more</p>
+                        <p>3. Do not withdraw directly to a crowdfund or ICO address, as your account will not be credited with tokens from such sales.</p>
                     </div>
                 </div>
             </div>

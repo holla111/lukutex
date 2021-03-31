@@ -92,6 +92,7 @@ import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import { DepositScreen, WalletListScreen } from '../../plugins/Wallets';
+import { WithdrawScreen } from '../../plugins/Wallets/screens/WithdrawScreen';
 
 interface ReduxProps {
     colorTheme: string;
@@ -316,8 +317,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
                     <Route path="/new-wallets" exact component={WalletListScreen} />
                     <Route path="/new-wallets/deposit/:currency_id" exact component={DepositScreen} />
+                    <Route path="/new-wallets/withdraw/:currency_id" exact component={WithdrawScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
-                   
+
                 </Switch>
                 {isLoggedIn && <WalletsFetch />}
                 {isShownExpSessionModal && this.handleRenderExpiredSessionModal()}

@@ -92,11 +92,12 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     );
 
     const data = list.map((history: any) => {
+        const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
         return {
             date: localeDate(history.created_at, 'fullDate'),
             status: 'success',
             amount: history.amount,
-            txid: <a href={blockchain_address.replace('#{address}', history.txid)} className="text-info">{blockchain_address.replace('#{address}', history.txid)}</a>,
+            txid: <a target="_blank" href={blockchainTxidAddress}>{blockchainTxidAddress.slice(0, 60) + '....'}</a>,
             state: formatTxState(history.state)
         }
     });

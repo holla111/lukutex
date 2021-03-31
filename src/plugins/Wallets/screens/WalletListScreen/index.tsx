@@ -1,5 +1,6 @@
 import NP from 'number-precision';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
@@ -74,6 +75,10 @@ const WithdrawButton = styled.button`
   transition: all 0.2s;
   :focus { outline: none; }
   :hover {
+    background: #222D4A;
+  }
+  :disabled {
+    cursor: not-allowed;
     background: #222D4A;
   }
 `;
@@ -180,8 +185,15 @@ const CheckBox = styled.div`
 
 export const WalletListScreen = () => {
 
+  const intl = useIntl();
+
   // state
   const [hideSmallBalanceState, setHideSmallBalanceState] = React.useState<boolean>(false);
+
+  // intl
+  const withdrawButtonLabel = React.useMemo(() => intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw' }), [intl]);
+  const depositButtonLabel = React.useMemo(() => intl.formatMessage({ id: 'page.body.wallets.tabs.deposit' }), [intl]);
+
 
   // history
   const history = useHistory();
@@ -212,13 +224,6 @@ export const WalletListScreen = () => {
     }
   };
 
-  const handleDepositClick = (currency_id) => {
-    const location = {
-      pathname: '/new-wallets/deposit/' + String(currency_id).toUpperCase()
-    };
-    history.push(location);
-  };
-
   const columns = React.useMemo(() => [
     { Header: 'Coin', accessor: 'coin' }, { Header: 'Total', accessor: 'total' }, { Header: 'Available', accessor: 'available' }, { Header: 'In Order', accessor: 'in_order' }, { Header: 'Action', accessor: 'action' }], []
   );
@@ -239,15 +244,16 @@ export const WalletListScreen = () => {
     }).map(wallet => {
       const total = NP.plus(wallet.balance || 0, wallet.locked || 0);
       const currency_icon = <img width="30px" height="30px" src={wallet.iconUrl ? wallet.iconUrl : findIcon(wallet.currency)} alt={wallet.currency + '_icon'} />;
+      const isWithdrawEnabled = wallet.type === "fiat" || wallet.balance;
       return {
         coin: <span style={{ fontWeight: 'bold' }}> {currency_icon} {wallet.currency.toUpperCase()} <span className="text-secondary">{wallet.name}</span></span>,
         total: total > 0 ? String(total) : '0.000000',
         available: <span>{wallet.balance && Number(wallet.balance) > 0 ? wallet.balance : '0.000000'}</span>,
         in_order: <span className="text-secondary">{wallet.locked && Number(wallet.balance) > 0 ? wallet.locked : '0.000000'}</span>,
         action: <div className="d-flex justify-content-between">
-          <DepositButton onClick={() => handleDepositClick(wallet.currency)}>Deposit</DepositButton>
-          <WithdrawButton onClick={() => handleDepositClick(wallet.currency)}>Withdraw</WithdrawButton>
-        </div>
+          <DepositButton onClick={() => history.push({ pathname: '/new-wallets/deposit/' + String(wallet.currency).toUpperCase() })}>{depositButtonLabel}</DepositButton>
+          <WithdrawButton disabled={!isWithdrawEnabled} onClick={() => history.push({ pathname: '/new-wallets/withdraw/' + String(wallet.currency).toUpperCase() })}>{withdrawButtonLabel}</WithdrawButton>
+        </div >
       };
     });
 

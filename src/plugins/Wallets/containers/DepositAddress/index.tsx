@@ -2,13 +2,54 @@ import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectWallets, walletsAddressFetch, walletsFetch } from '../../../../modules';
 import { DepositBody } from '../../components/DepositBody';
+import Tabs, { TabPane } from 'rc-tabs';
+import styled from 'styled-components';
+
+const TabsStyle = styled.div`
+    .rc-tabs-nav-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .rc-tabs-tab {
+            width: 100%;
+            padding: 5px 0;
+            transition: ease-in-out 0.3s;
+            border-bottom: 4px solid transparent;
+            .rc-tabs-tab-btn {
+                text-align: center;
+                outline: none;
+                border: none;
+                cursor: pointer;
+            }
+
+            :hover {
+                font-weight: bold;
+                color: #3c78e0;
+            }
+        }
+        
+        .rc-tabs-tab-active {
+            font-weight: bold;
+            color: #3c78e0;
+            background-color: #1e2841;
+            border-bottom: 4px solid #3c78e0;
+        }
+
+        .rc-tabs-ink-bar {
+            display: none;
+        }
+    }
+`;
+
+
 interface DepositAddressProps {
     currency_id: string;
+    currency_icon: string;
 }
 
 
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-    const { currency_id } = props;
+    const { currency_id, currency_icon } = props;
 
     const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
     const dispatch = useDispatch();
@@ -40,28 +81,46 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                     <span>Average arrival time：1 minutes</span>
                 </div>
             </div>
-            <div className="row mt-5">
+            <div className="row">
                 <div className="col-12">
-                    <h5 className="text-center">{currency_id.toUpperCase()} Address</h5>
+                    <TabsStyle>
+                        <Tabs defaultActiveKey="1" >
+                            <TabPane tab="ERC20" key="1">
+                                <DepositBody
+                                    wallet={wallet}
+                                    isAccountActivated={isAccountActivated}
+                                    handleGenerateAddress={handleGenerateAddress}
+                                    generateAddressTriggered={generateAddressTriggered}
+                                />
+                            </TabPane>
+                            <TabPane tab="TRON20" key="2">
+                                <DepositBody
+                                    wallet={wallet}
+                                    isAccountActivated={isAccountActivated}
+                                    handleGenerateAddress={handleGenerateAddress}
+                                    generateAddressTriggered={generateAddressTriggered}
+                                />
+                            </TabPane>
+                            <TabPane tab="BEP20" key="3">
+                                <DepositBody
+                                    wallet={wallet}
+                                    isAccountActivated={isAccountActivated}
+                                    handleGenerateAddress={handleGenerateAddress}
+                                    generateAddressTriggered={generateAddressTriggered}
+                                />
+                            </TabPane>
+                        </Tabs>
+                    </TabsStyle>
                 </div>
-                <div className="col-12">
-                    <DepositBody
-                        wallet={wallet}
-                        isAccountActivated={isAccountActivated}
-                        handleGenerateAddress={handleGenerateAddress}
-                        generateAddressTriggered={generateAddressTriggered}
-                    />
-                </div>
-
             </div>
             <div className="row mt-5">
-                <div className="col-8">
-                    <strong>Send only BTC to this deposit address.</strong>
-                    <br />
-                    Sending coin or token other than BTC to this address may result in the loss of your deposit.
-                </div>
-                <div className="col-4">
-                    <img height="50px" width="50px" src="https://bitcoin.org/img/icons/opengraph.png?1615248773" alt="bitcoin" />
+                <div className="col-12 d-flex justify-content-between">
+                    <p className="pr-5">
+                        <strong>Send only {currency_id.toUpperCase()}  to this deposit address.</strong>
+                        <br />
+                    Sending coin or token other than {currency_id.toUpperCase()} to this address may result in the loss of your deposit.
+                   </p>
+                    <img height="50px" width="50px" src={currency_icon} alt={currency_id} />
                 </div>
             </div>
         </div >

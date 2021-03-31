@@ -75,7 +75,7 @@ const WalletDepositBodyComponent = props => {
 
     if (wallet.type === 'coin') {
       return (
-        <React.Fragment>
+        <div style={{position: 'relative'}}>
           <CurrencyInfo wallet={wallet} />
           {currencyItem && !currencyItem.deposit_enabled ? (
             <BlurDisable >
@@ -96,7 +96,7 @@ const WalletDepositBodyComponent = props => {
             buttonLabel={buttonLabel}
             isAccountActivated={isAccountActivated}
           />
-        </React.Fragment>
+        </div>
       );
     } else {
       return (
