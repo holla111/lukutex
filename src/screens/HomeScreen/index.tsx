@@ -1,8 +1,6 @@
 import * as React  from "react";
-import { Link } from "react-router-dom";
 import {MarketsTableScreen} from '../../containers/MarketsTableScreen';
-
-import {Row, Col } from 'react-bootstrap';
+import {DispChart} from '../../containers';
 import Slider from "react-slick";
 
 import { eventFetch, selectEvents } from "../../modules";
@@ -11,45 +9,68 @@ import {
   AppleFilled,
   AndroidFilled
 } from '@ant-design/icons';
-
 import './style.css';
+import styled from 'styled-components';
+
+const WrapperComponet = styled.div`
+  position: absolute;
+  left: 170px;
+  bottom: 0;
+  z-index: 1;
+  img {
+    width: 30px;
+  }
+`;
+
 
 const settingEvents = {
+
   dots: true,
   infinite: true,
   speed: 500,
-  autoplay : true,
-  autoplaySpeed : 2500,
-  slidesToShow: 3,
-  slidesToScroll: 3,
-  adaptiveHeight: true,
-  initialSlide: 0,
-      responsive: [
-        {
-          breakpoint: 1000,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            infinite: true,
-            dots: true
-          }
-        },
-        {
-          breakpoint: 600,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            initialSlide: 2
-          }
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }
-      ]
+  fade: true,
+  arrows: false,
+  autoplay: true,
+  autoplaySpeed: 3000,
+  pauseOnHover: true,
+  slidesToShow: 1,
+  slidesToScroll: 1, 
+};
+const settings = {
+  dots: false,
+  infinite: true,
+  arrows: false,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  autoplay: true,
+  speed: 2000,
+  autoplaySpeed: 4000,
+  responsive: [
+    {
+      breakpoint: 1000,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        initialSlide: 1,
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+  ]
 };
 
 export const HomeScreen: React.FC<any> = (props: any) => {
@@ -63,42 +84,50 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   }, []);
 
   const events = useSelector(selectEvents);
+  console.log(events)
 
   const renderBanner = ()  => {
+
+    const speakericon = require('./Home/sound-speaker.svg');
     return (
       <div className="landing-page__banner">
-        <div className="container">
-          <div className="landing-page__banner-wrapper">
-            <Row className="landing-page__banner__top">
-              <Col lg={12} className="landing-page__banner__top-title">
-                <div className="landing-page__banner__top__new">
-                  <h2>Lukutex Crypto Exchange</h2>
-                  <p className="banner-tit-small">Trade Bitcoin, Ethereum and other cryptos instantly</p>
-                  <div className="pc-otc-box">
-                    <div className="pc-otc-buy-box">
-                      <div className="pc-otc-input-box">
-                        <input className="pc-otc-input" type="text" placeholder="Email Address/Mobile Number"/>
-                      </div>
-                      <Link className="pc-otc-buy-btn" to="/signup">Register now</Link>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-            <div >
-               <Slider {...settingEvents}>
-                { 
-                [...events.payload].map(event => {
-                  return (
-                      <a key={event.event_id} href={event.ref_link} target="_blank">
-                        <img src={event.image_link} style={{width: '100%', height: '100%'}}></img>
+            <div className="landing-page__banner-list">
+              <Slider {...settingEvents}>
+                {[...events.payload].map(event => {
+                    return (
+                      <a style={{width: '100%', height: '100%'}} href={event.ref_link} className="slide">
+                          <img style={{width: '100%', height: '100%'}} src={event.image_link} />
                       </a>
-                  )
+                    )
                 })}
-               </Slider>
+              </Slider>
             </div>
+            <WrapperComponet>
+              <img src={speakericon} alt="speaker" />
+            </WrapperComponet>
+            <div className="landing-page__banner-list-link">
+              <Slider {...settings}>
+                {[...events.payload].map(event => {
+                    return (
+                      <a href={event.ref_link} className="slide-link">{event.event_name}</a>
+                    )
+                })}
+              </Slider>
+            </div>
+      </div>
+    );
+  }
+
+  const renderChart = () => {
+    return (
+      <div className="home-page__chart">
+        <div className="container">
+          <div className="row">
+            
+              <DispChart/>
+          
           </div>
-        </div>  
+        </div>
       </div>
     );
   }
@@ -206,6 +235,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
     return (
         <div className="home-page">
            {renderBanner()}
+           {renderChart()}
            {renderMarket()}
            {renderAboutUs()}
            {renderFeature()}
