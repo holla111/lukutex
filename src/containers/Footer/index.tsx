@@ -64,7 +64,10 @@ class FooterComponent extends React.Component<RouterProps> {
               <h5 className="text-uppercase font-weight-bold">Contact</h5>
               <p className="footer-about">
                 <img src={email} alt="Email" />
-                listing@lukutex.com</p>
+                Listing: listing@lukutex.com</p>
+              <p className="footer-about">
+                <img src={email} alt="Email" />
+                Support: business@lukutex.com</p>
               <p className="footer-about">
                 <img src={phone} alt="Phone" />
                 + 60 787960192</p>

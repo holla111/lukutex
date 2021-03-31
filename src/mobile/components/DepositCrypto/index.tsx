@@ -32,6 +32,7 @@ export interface DepositCryptoProps {
   textConfirmation?: string;
   textMinDeposit?: string;
   textNote?: string;
+  textDepositFee?: string;
   /**
    * @default 'Deposit by Wallet Address'
    * Renders text of the label of CopyableTextField component
@@ -70,6 +71,7 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
     error,
     textConfirmation,
     textMinDeposit,
+    textDepositFee,
     textNote,
     copiableTextFieldText,
     copyButtonText,
@@ -91,6 +93,7 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
             <div className="note__mobile-right">
               <p>{textConfirmation}</p>
               <p>{textMinDeposit}</p>
+              <p>{textDepositFee}</p>
               <p className="textnote">
                 <span className="textnote__mobile-textj">Note:</span>
                 <span> {textNote}</span>

@@ -10,7 +10,7 @@ import { ExpiredSessionModal } from '../../components';
 import { WalletsFetch } from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
-import { isMobile } from "react-device-detect";
+/* import { isMobile } from "react-device-detect"; */
 import {
     ChangeForgottenPasswordMobileScreen,
     ConfirmMobileScreen,
@@ -34,6 +34,12 @@ import {
     WalletsMobileScreen,
     WalletWithdraw,
 } from '../../mobile/screens';
+
+import {
+    TradingCompetionListMobileScreen,
+    TradingCompetitionDetailMobileScreen
+} from '../../mobile/plugins/TradingCompetion';
+
 import {
     configsFetch,
     logoutFetch,
@@ -71,18 +77,20 @@ import {
     ProfileScreen,
     ProfileTwoFactorAuthScreen,
     RestrictedScreen,
-    SignInScreen,
-    SignUpScreen,
     TradingScreen,
     VerificationScreen,
     WalletsScreen,
     FeeScreen,
+    // SignUpScreen,
+    LogInScreen,
+    RegisterScreen,
 } from '../../screens';
 import { HomeScreen } from '../../screens/HomeScreen';
 import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
+import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 
 interface ReduxProps {
     colorTheme: string;
@@ -237,7 +245,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
             return renderLoader();
         }
 
-        if (isMobileDevice && isMobile) {
+        if (isMobileDevice /* && isMobile */) {
             return (
                 <div className={'container-fluid pg-layout pg-layout--mobile'}>
                     <Switch>
@@ -265,6 +273,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                         <Route exact={true} path="/" component={LandingScreenMobile} />
                         <Route path="/ieo" exact component={IEOListMobileScreen} />
                         <Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
+                        <Route path="/trading-competition" exact component={TradingCompetionListMobileScreen} />
+                        <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailMobileScreen} />
                         <Route path="**"><Redirect to="/trading/" /></Route>
                     </Switch>
                     {isLoggedIn && <WalletsFetch />}
@@ -277,9 +287,11 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
             <div className={`container-fluid pg-layout ${tradingCls}`}>
                 <Switch>
                     <Route exact={true} path="/magic-link" component={MagicLink} />
-                    <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signin" component={SignInScreen} />
+                    <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/login" component={LogInScreen} />
+                    <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/register" component={RegisterScreen} />
+                    {/* <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signin" component={SignInScreen} /> */}
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/accounts/confirmation" component={VerificationScreen} />
-                    <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signup" component={SignUpScreen} />
+                    {/* <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signup" component={SignUpScreen} /> */}
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/forgot_password" component={ForgotPasswordScreen} />
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/accounts/password_reset" component={ChangeForgottenPasswordScreen} />
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/email-verification" component={EmailVerificationScreen} />
@@ -299,6 +311,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/airdrop/detail/:airdropID" component={AirdropDetail} />
                     <Route path="/ieo" exact component={SaleListScreen} />
                     <Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
+                    <Route path="/trading-competition" exact component={TradingCompetionListScreen} />
+                    <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
                 </Switch>
                 {isLoggedIn && <WalletsFetch />}

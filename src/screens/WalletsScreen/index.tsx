@@ -64,7 +64,7 @@ interface ReduxProps {
   beneficiariesActivateSuccess: boolean;
   beneficiariesDeleteSuccess: boolean;
   currencies: Currency[];
-  eth_fee: ETHFee;
+  eth_fee: ETHFee[];
 }
 
 interface DispatchProps {
@@ -144,7 +144,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
   public componentDidMount() {
     setDocumentTitle('Wallets');
     const { wallets, fetchAddress } = this.props;
-    
+
     const { selectedWalletIndex } = this.state;
     if (this.props.wallets.length === 0) {
       this.props.fetchWallets();
@@ -227,9 +227,9 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
     const selectedWallet = wallets.find(wallet => wallet.currency.toLowerCase() === selectedCurrency.toLowerCase());
-    const selectedWalletFee =  selectedWallet ? selectedWallet.fee : undefined;
-    const ethFee = this.props.eth_fee;
-    
+    const selectedWalletFee = selectedWallet ? selectedWallet.fee : undefined;
+    const ethFee = this.props.eth_fee.find(cur => cur.currency_id === selectedCurrency.toLowerCase());
+
     return (
       <React.Fragment>
         {wallets.length && <EstimatedValue wallets={wallets} />}
@@ -323,42 +323,33 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     ];
   }
 
+
   private handleWithdraw = () => {
     const { selectedWalletIndex, otpCode, amount, beneficiary } = this.state;
     if (selectedWalletIndex === -1) {
       return;
     }
 
-    const { currency, fee } = this.props.wallets[selectedWalletIndex];
-    
-    
+    let { currency, fee } = this.props.wallets[selectedWalletIndex];
 
     // Withdraw by eth fee
-    const {user, eth_fee, wallets} = this.props;
+    const { user, eth_fee, wallets } = this.props;
     const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
-    if(fee == 0) {
-      if(ethBallance && eth_fee.fee && Number(ethBallance) >= Number(eth_fee.fee)) {
-        const withdrawByEthFeeData = {
-          uid: user.uid,
-          currency: currency.toLowerCase(),
-          amount: amount
-        }
-        this.props.withdrawByEthFee({payload: withdrawByEthFeeData, error: undefined, loading: false});
-      } else {
-        message.error('Withdraw failed.');
-        return;
-      }
-    }
+
+    if (!(fee == 0 && ethBallance && eth_fee[0].fee && Number(ethBallance) >= Number(eth_fee[0].fee))) {
+      message.error('Withdraw failed.');
+      return;
+    } 
 
     const withdrawRequest = {
+      uid: user.uid,
       amount,
       currency: currency.toLowerCase(),
       otp: otpCode,
       beneficiary_id: String(beneficiary.id),
     };
     this.props.walletsWithdrawCcy(withdrawRequest);
-    
     this.toggleConfirmModal();
   };
 
@@ -382,11 +373,16 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const { selectedWalletIndex } = this.state;
     const currency = (wallets[selectedWalletIndex] || { currency: '' }).currency;
 
-    const currencyItem = (currencies && currencies.find(item => item.id === currency)) || { min_confirmations: 6, min_deposit_amount: 6, deposit_enabled: false };
+    const currencyItem = (currencies && currencies.find(item => item.id === currency)) || { min_confirmations: 6, min_deposit_amount: 6, deposit_fee: 6, deposit_enabled: false };
 
     const textConfirmation = this.props.intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currencyItem.min_confirmations });
 
-    const textMinDeposit = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${Number(currencyItem.min_deposit_amount)} ${currency.toUpperCase()}`;
+    const mindeposit = Number(currencyItem.min_deposit_amount) + Number(currencyItem.deposit_fee);
+    const textMinDeposit = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${mindeposit} ${currency.toUpperCase()}`;
+
+    const textDepositFee = `${this.translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} ${Number(currencyItem.deposit_fee)} ${currency.toUpperCase()}`;
+
+    const checkDepositFee = Number(currencyItem.deposit_fee) != 0 ? textDepositFee : `${this.translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} 1 %`;
 
     const textNote = `Only Deposit ${currency.toUpperCase()} to this wallet.`
 
@@ -421,6 +417,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
             textConfirmation={textConfirmation}
             textMinDeposit={textMinDeposit}
             textNote={textNote}
+            textDepositFee={checkDepositFee}
             disabled={walletAddress === ''}
             copiableTextFieldText={this.translate('page.body.wallets.tabs.deposit.ccy.message.address')}
             copyButtonText={this.translate('page.body.wallets.tabs.deposit.ccy.message.button')}
@@ -478,16 +475,19 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     }
     const { user: { level, otp }, wallets, currencies } = this.props;
     const wallet = wallets[selectedWalletIndex];
-    console.log();
-    
+
     const eth = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = eth ? eth.balance : undefined;
     const { currency, fee, type } = wallet;
     const fixed = (wallet || { fixed: 0 }).fixed;
-    const ethFee = this.props.eth_fee ? this.props.eth_fee.fee : undefined;
+
+    const fee_currency = this.props.eth_fee.find(cur => cur.currency_id === currency);
+
+    const ethFee = fee_currency ? fee_currency.fee : undefined;
     const selectedCurrency = currencies.find(cur => cur.id == currency);
     const minWithdrawAmount = (selectedCurrency && selectedCurrency.min_withdraw_amount) ? selectedCurrency.min_withdraw_amount : undefined;
-    
+    const limitWitdraw24h = (selectedCurrency && selectedCurrency.withdraw_limit_24h) ? selectedCurrency.withdraw_limit_24h : undefined;
+
     const withdrawProps: WithdrawProps = {
       withdrawDone,
       currency,
@@ -503,7 +503,8 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
       withdrawButtonLabel: this.props.intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.button' }),
       ethFee,
       ethBallance,
-      minWithdrawAmount
+      minWithdrawAmount,
+      limitWitdraw24h,
     };
 
     return otp ? <Withdraw {...withdrawProps} /> : this.isOtpDisabled();

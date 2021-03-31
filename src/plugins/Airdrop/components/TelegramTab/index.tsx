@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table, Input, Button, Result, message } from 'antd/lib';
-import api from '../../api';
+import api from '../../../api';
 import { TelegramTabConfig } from '../../screens';
 
 const { Search } = Input;
