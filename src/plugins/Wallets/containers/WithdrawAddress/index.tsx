@@ -1,13 +1,14 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Currency, Wallet, walletsAddressFetch, /* selectWalletsAddressError, */ Beneficiary, User, selectETHFee } from '../../../../modules';
+import { Currency, Wallet, walletsAddressFetch, /* selectWalletsAddressError, */ Beneficiary, User, selectETHFee, walletsWithdrawCcyFetch } from '../../../../modules';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { Blur, WalletItemProps } from '../../../../components';
-import { Withdraw, WithdrawProps } from '../../../../containers';
+import { ModalWithdrawConfirmation, ModalWithdrawSubmit, Withdraw, WithdrawProps } from '../../../../containers';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
+import { message } from 'antd';
 
 
 const TabsStyle = styled.div`
@@ -65,11 +66,9 @@ const defaultBeneficiary: Beneficiary = {
 };
 
 interface WalletsState {
-    activeIndex: number;
     otpCode: string;
     amount: string;
     beneficiary: Beneficiary;
-    selectedWalletIndex: number;
     withdrawSubmitModal: boolean;
     withdrawConfirmModal: boolean;
     bchAddress?: string;
@@ -82,11 +81,17 @@ interface WalletsState {
 }
 
 export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawAddressProps) => {
-    const intl = useIntl();
     const { currency_id, wallets, currencies } = props;
 
+    const intl = useIntl();
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    // selectors
+    const eth_fee = useSelector(selectETHFee);
+
     // state
-    const [withdrawState, setState] = React.useState<any>({
+    const [withdrawState, setState] = React.useState<WalletsState>({
         withdrawSubmitModal: false,
         withdrawConfirmModal: false,
         otpCode: '',
@@ -98,31 +103,43 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         currentTabIndex: 0,
         generateAddressTriggered: false,
     });
-    const dispatch = useDispatch();
-    const history = useHistory();
 
-    // const walletsError = useSelector(selectWalletsAddressError);
-    const eth_fee = useSelector(selectETHFee);
-
+    // side effects
     React.useEffect(() => {
         dispatch(walletsAddressFetch({ currency: currency_id }));
     }, [dispatch, currency_id]);
+   
 
-
+    // const walletsError = useSelector(selectWalletsAddressError);
+    
     const wallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || { name: '', currency: '', balance: '', type: "fiat", address: '', fee: '', fixed: 6 };
     const currencyItem = currencies.find(currency => currency.id.toLowerCase() === currency_id.toLowerCase());
+    const fee_currency = eth_fee.find(cur => cur.currency_id === currency_id);
+    const ethFee = fee_currency ? fee_currency.fee : undefined;
+    const selectedWalletFee = wallet ? wallet.fee : undefined;
+    const eth_wallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
+    const eth_balance = eth_wallet ? eth_wallet.balance : undefined;
+    let confirmationAddress = '';
+    if (wallet) {
+        confirmationAddress = wallet.type === 'fiat' ? (
+            withdrawState.beneficiary.name
+        ) : (
+            withdrawState.beneficiary.data ? (withdrawState.beneficiary.data.address as string) : ''
+        );
+    }
 
     const redirectToEnable2fa = () => history.push('/security/2fa', { enable2fa: true });
 
     const toggleConfirmModal = (amount?: string, total?: string, beneficiary?: Beneficiary, otpCode?: string) => {
-        setState((state: WalletsState) => ({
+        setState({
+            ...withdrawState,
             amount: amount || '',
             beneficiary: beneficiary ? beneficiary : defaultBeneficiary,
             otpCode: otpCode ? otpCode : '',
-            withdrawConfirmModal: !state.withdrawConfirmModal,
+            withdrawConfirmModal: !withdrawState.withdrawConfirmModal,
             total: total || '',
             withdrawDone: false,
-        }));
+        });
     };
 
     const isOtpDisabled = () => {
@@ -147,18 +164,14 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         return level > 1 || (level === 1 && is2faEnabled);
     }
 
-
     const renderWithdrawContent = () => {
 
-        const { user: { level, otp }, wallets, currencies } = props;
-
-        const eth = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
-        const ethBallance = eth ? eth.balance : undefined;
+        const { user: { level, otp }, currencies } = props;
+        
         const { currency, fee, type } = wallet;
         const fixed = (wallet || { fixed: 0 }).fixed;
 
-        const fee_currency = eth_fee.find(cur => cur.currency_id === currency);
-        const ethFee = fee_currency ? fee_currency.fee : undefined;
+        
         const selectedCurrency = currencies.find(cur => cur.id == currency);
         const minWithdrawAmount = (selectedCurrency && selectedCurrency.min_withdraw_amount) ? selectedCurrency.min_withdraw_amount : undefined;
         const limitWitdraw24h = (selectedCurrency && selectedCurrency.withdraw_limit_24h) ? selectedCurrency.withdraw_limit_24h : undefined;
@@ -177,13 +190,49 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
             withdrawTotalLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.total' }),
             withdrawButtonLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.button' }),
             ethFee,
-            ethBallance,
+            ethBallance: eth_balance,
             minWithdrawAmount,
             limitWitdraw24h,
         };
 
         return otp ? <Withdraw {...withdrawProps} /> : isOtpDisabled();
     };
+
+    const toggleSubmitModal = () => {
+        setState({
+            ...withdrawState,
+            withdrawSubmitModal: !withdrawState.withdrawSubmitModal,
+            withdrawDone: true,
+        });
+    };
+
+    const handleWithdraw = () => {
+        const {  otpCode, amount, beneficiary } = withdrawState;
+        if (!wallet) {
+          return;
+        }
+    
+        let { currency, fee } = wallet;
+    
+        // Withdraw by eth fee
+        const { user } = props;
+        
+    
+        if (!(fee == 0 && eth_balance && eth_fee[0].fee && Number(eth_balance) >= Number(eth_fee[0].fee))) {
+          message.error('Withdraw failed.');
+          return;
+        } 
+    
+        const withdrawRequest = {
+          uid: user.uid,
+          amount,
+          currency: currency.toLowerCase(),
+          otp: otpCode,
+          beneficiary_id: String(beneficiary.id),
+        };
+        dispatch(walletsWithdrawCcyFetch(withdrawRequest));
+        toggleConfirmModal();
+      };
 
     return (
         <React.Fragment>
@@ -218,6 +267,22 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                     </div>
                 </div>
             </div >
+            <ModalWithdrawSubmit
+                show={withdrawState.withdrawSubmitModal}
+                currency={currency_id}
+                onSubmit={toggleSubmitModal}
+            />
+            <ModalWithdrawConfirmation
+                show={withdrawState.withdrawConfirmModal}
+                amount={withdrawState.total}
+                currency={currency_id}
+                rid={confirmationAddress}
+                onSubmit={handleWithdraw}
+                onDismiss={toggleConfirmModal}
+                ethFee={ethFee}
+                ethBallance={eth_balance}
+                selectedWalletFee={selectedWalletFee}
+            />
         </React.Fragment>
     )
 }

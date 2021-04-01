@@ -2,9 +2,10 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
-import { selectCurrencies } from '../../../../modules';
-import styled from 'styled-components';
+import { selectCurrencies, Wallet } from '../../../../modules';
+// import styled from 'styled-components';
 import { useIntl } from 'react-intl';
+import { CurrencyInfo } from '../../components/CurrencyInfo';
 
 const SelectStyles = {
     option: (provided, state) => ({
@@ -39,71 +40,75 @@ const SelectStyles = {
     }),
 }
 
-const WalletCardStyles = styled.div`
-    width: 300px;
-    height: 200px;
-    background: linear-gradient(135deg, #13f1fc 0%,#0470dc 100%);
-    border-radius: 30px;
-    backdrop-filter: blur(20px);
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    padding: 20px;
-    .left {
-        width: 85%;
-        padding-left: 1rem;
-    }
-    .right {
-        width: 15%;
-    }
-    h4 {
-        font-weight: bold;
-        font-size: 2rem;
-        color: #fff;
-        span {
-            font-size: 1.3rem;
-            color: #5F5F5F;
-        }
-    }
-    .wallet-balance {
-        position: absolute;
-        width: 100%;
-        height: 30%;
-        bottom: 0;
-        left: 0;
-        background-color: #036ED9;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-        padding: 1rem 2rem 0 2rem;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
+// const WalletCardStyles = styled.div`
+//     width: 300px;
+//     height: 200px;
+//     background: linear-gradient(135deg, #13f1fc 0%,#0470dc 100%);
+//     border-radius: 30px;
+//     backdrop-filter: blur(20px);
+//     display: flex;
+//     -webkit-box-pack: justify;
+//     justify-content: space-between;
+//     padding: 20px;
+//     .left {
+//         width: 85%;
+//         padding-left: 1rem;
+//     }
+//     .right {
+//         width: 15%;
+//     }
+//     h4 {
+//         font-weight: bold;
+//         font-size: 2rem;
+//         color: #fff;
+//         span {
+//             font-size: 1.3rem;
+//             color: #5F5F5F;
+//         }
+//     }
+//     .wallet-balance {
+//         position: absolute;
+//         width: 100%;
+//         height: 30%;
+//         bottom: 0;
+//         left: 0;
+//         background-color: #036ED9;
+//         border-bottom-left-radius: 30px;
+//         border-bottom-right-radius: 30px;
+//         padding: 1rem 2rem 0 2rem;
+//         display: flex;
+//         justify-content: space-between;
+//         flex-direction: row;
 
-        .wallet-balance__available {
-            text-align: left;
-        }
+//         .wallet-balance__available {
+//             text-align: left;
+//         }
 
-        .wallet-balance__locked {
-            align-self: flex-end;
-            text-align: right;
-            margin-bottom: 1rem;
-        }
-    }
-`;
+//         .wallet-balance__locked {
+//             align-self: flex-end;
+//             text-align: right;
+//             margin-bottom: 1rem;
+//         }
+//     }
+// `;
 
 interface DepositInfoProps {
     currency_id: string;
     currency_icon: string;
+    wallets: Wallet[]
 }
 
 export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps) => {
-    const { currency_id, currency_icon } = props;
+    const { currency_id, wallets } = props;
+
     const intl = useIntl();
-    // history
     const history = useHistory();
 
-    // selector
+    // selectors
     const currencies = useSelector(selectCurrencies);
+
+    const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { currency: "", name: "", type: "fiat", fee: 0, fixed: 0 };
+
     const currency = currencies.find((currency: any) => String(currency.id).toLowerCase() === currency_id.toLowerCase()) || { name: '', min_confirmations: 6, min_deposit_amount: 6, deposit_fee: 6, deposit_enabled: false };
 
     const textConfirmation = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: currency.min_confirmations });
@@ -147,7 +152,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
             <div className="row">
                 <div className="col-6 d-inline">
                     <span style={{ fontSize: '3rem', cursor: "context-menu", color: '#3c78e0' }}>Deposit/ </span>
-                    <span className="text-secondary" style={{ fontSize: '2rem', cursor: 'pointer' }} 
+                    <span className="text-secondary" style={{ fontSize: '2rem', cursor: 'pointer' }}
                         onClick={() => history.push({ pathname: `/new-wallets/withdraw/${currency_id.toUpperCase()}` })}>Withdraw</span>
                 </div>
                 <div className="col-6">
@@ -160,6 +165,11 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                 </div>
             </div>
             <div className="row" style={{ marginTop: '50px' }}>
+                <div className="col-12">
+                    <CurrencyInfo wallet={wallet} />
+                </div>
+            </div>
+            {/* <div className="row" style={{ marginTop: '50px' }}>
                 <div className="col-12 d-flex justify-content-center">
                     <WalletCardStyles>
                         <div className="left">
@@ -175,13 +185,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                         </div>
                     </WalletCardStyles>
                 </div>
-                {/* <div className="col-12">
-                    Total balance: 0.00000000 1INCH
-               </div>
-                <div className="col-12">
-                    Locked: 0.00000000 1INCH
-               </div> */}
-            </div>
+            </div> */}
             <div className="row mt-5" style={{ fontSize: '1.3rem' }}>
                 <div className="col-12">
                     <div className="d-flex align-items-center">

@@ -75,7 +75,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
                     accessor: 'date'
                 },
                 {
-                    Header: 'Txid',
+                    Header: 'Txid Address',
                     accessor: 'txid'
                 },
                 {
@@ -102,12 +102,9 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
         }
     });
 
-    console.log(list);
-
-
     return (
         <div style={{ marginTop: '100px' }}>
-            <h2 className="text-center">{intl.formatMessage({ id: `page.body.history.deposit` })}</h2>
+            <h2>{intl.formatMessage({ id: `page.body.history.deposit` })}</h2>
             {
                 list.length > 0
                     ? <ReactTable columns={columns} data={data} headColor="#182034" />

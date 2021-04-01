@@ -15,7 +15,7 @@ interface CurrencyIconProps {
 
 const CurrencyIcon: React.FunctionComponent<CurrencyIconProps> = (props: CurrencyIconProps) => {
   return props.icon ?
-    <img alt="" className="cr-wallet-item__single__image-icon" src={props.icon} /> :
+    <img width="60px" height="60px" alt="" className="cr-wallet-item__single__image-icon" src={props.icon} /> :
     <CryptoIcon code={props.currency} />;
 };
 

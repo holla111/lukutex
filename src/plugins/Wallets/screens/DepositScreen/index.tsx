@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { currenciesFetch, selectCurrencies, walletsFetch } from '../../../../modules';
+import { currenciesFetch, selectCurrencies, selectWallets, walletsFetch } from '../../../../modules';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 
 
@@ -11,6 +11,7 @@ export const DepositScreen = () => {
 
     // selectors
     const currencies = useSelector(selectCurrencies);
+    const wallets = useSelector(selectWallets) || [];
 
     const dispatch = useDispatch();
     const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
@@ -39,7 +40,11 @@ export const DepositScreen = () => {
         <div className="container-fluid" style={{ position: "relative", padding: '20px 10% 20px 10%', marginTop: '-7px', backgroundColor: '#222B42', color: '#fff' }}>
             <div className="row">
                 <div className="col-6">
-                    <DepositInfo currency_id={currency_id.toLowerCase()} currency_icon={findIcon(currency_id.toLowerCase())} />
+                    <DepositInfo
+                        currency_id={currency_id.toLowerCase()}
+                        currency_icon={findIcon(currency_id.toLowerCase())}
+                        wallets={wallets}
+                    />
                 </div>
                 <div className="col-6">
                     <DepositAddress
