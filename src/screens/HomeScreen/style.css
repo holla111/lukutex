@@ -222,7 +222,6 @@
 
 .slick-slide img:hover {
     display: block;
-    border: 3px solid #fff;
     cursor: pointer;
 }
 
