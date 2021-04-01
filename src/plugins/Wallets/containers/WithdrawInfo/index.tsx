@@ -2,8 +2,8 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
-import { selectCurrencies } from '../../../../modules';
-import styled from 'styled-components';
+import { selectCurrencies, Wallet } from '../../../../modules';
+import { CurrencyInfo } from '../../components/CurrencyInfo';
 
 const SelectStyles = {
     option: (provided, state) => ({
@@ -38,71 +38,20 @@ const SelectStyles = {
     }),
 }
 
-const WalletCardStyles = styled.div`
-    width: 300px;
-    height: 200px;
-    background: linear-gradient(135deg, #13f1fc 0%,#0470dc 100%);
-    border-radius: 30px;
-    backdrop-filter: blur(20px);
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    padding: 20px;
-    .left {
-        width: 85%;
-        padding-left: 1rem;
-    }
-    .right {
-        width: 15%;
-    }
-    h4 {
-        font-weight: bold;
-        font-size: 2rem;
-        color: #fff;
-        span {
-            font-size: 1.3rem;
-            color: #5F5F5F;
-        }
-    }
-    .wallet-balance {
-        position: absolute;
-        width: 100%;
-        height: 30%;
-        bottom: 0;
-        left: 0;
-        background-color: #036ED9;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-        padding: 1rem 2rem 0 2rem;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-
-        .wallet-balance__available {
-            text-align: left;
-        }
-
-        .wallet-balance__locked {
-            align-self: flex-end;
-            text-align: right;
-            margin-bottom: 1rem;
-        }
-    }
-`;
-
 interface WithdrawInfoProps {
     currency_id: string;
     currency_icon: string;
+    wallets: Wallet[];
 }
 
 export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoProps) => {
-    const { currency_id, currency_icon } = props;
+    const { currency_id, wallets } = props;
     // history
     const history = useHistory();
 
     // selector
     const currencies = useSelector(selectCurrencies);
-    const currency = currencies.find((currency: any) => String(currency.id).toLowerCase() === currency_id.toLowerCase()) || { name: '', min_confirmations: 6, min_deposit_amount: 6, deposit_fee: 6, deposit_enabled: false };
+    const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { currency: "", name: "", type: "fiat", fee: 0, fixed: 0 };
 
     // method
     const findIcon = (code: string): string => {
@@ -132,7 +81,6 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
         history.push(location);
     };
 
-
     return (
         <div className="container" style={{ padding: '50px 0' }}>
             <div className="row">
@@ -150,20 +98,8 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
                 </div>
             </div>
             <div className="row" style={{ marginTop: '50px' }}>
-                <div className="col-12 d-flex justify-content-center">
-                    <WalletCardStyles>
-                        <div className="left">
-                            <h4>{currency_id.toUpperCase()} <span> / {currency ? currency.name : ''}</span></h4>
-                        </div>
-                        <div className="right">
-                            <img width="44px" height="44px" src={currency_icon} alt={currency_id} />
-                        </div>
-                        <div className="wallet-balance">
-                            <div className="wallet-balance__available">
-                                <span style={{ fontSize: '1.7rem' }}>0.01232 BTC</span>
-                            </div>
-                        </div>
-                    </WalletCardStyles>
+                <div className="col-12">
+                    <CurrencyInfo wallet={wallet} />
                 </div>
             </div>
             <div className="row mt-5" style={{ fontSize: '1.3rem' }}>

@@ -65,7 +65,7 @@ export interface DepositCryptoProps {
  */
 const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: DepositCryptoProps) => {
   /* const QR_SIZE = isMobile ? 80 : 118; */
-  const QR_SIZE = 118;
+  const QR_SIZE = 200;
   const {
     data,
     dimensions,
