@@ -33,7 +33,7 @@ export const DispChart: React.FC<any> = () => {
   };
 
   const market_ids = [
-    'btc/usdt', 'eth/usdt', 'eth/usdt', 'eth/usdt'
+    'btc/usdt', 'eth/usdt', 'esc/usdt', 'kobe/usdt'
   ]
 
   const markets = useSelector(selectMarkets);
