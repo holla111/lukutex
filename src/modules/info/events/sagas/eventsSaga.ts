@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
-import pluginsAPI from '../../../../plugins/api/index';
-
+/* import pluginsAPI from '../../../../plugins/api/index'; */
+import axios from 'axios';
 import {
     eventData,
     eventError,
