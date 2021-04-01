@@ -96,7 +96,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
                 {[...events.payload].map(event => {
                     return (
                       <a style={{width: '100%', height: '100%'}} href={event.ref_link} className="slide">
-                          <img style={{width: '100%', height: '100%'}} src={event.image_link} />
+                          <img style={{position: "absolute", top: 0, left: '50%', transform: 'translateX(-50%)', width: "auto", height: '100%'}} src={event.image_link} />
                       </a>
                     )
                 })}
