@@ -2,8 +2,7 @@ import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { currenciesFetch, selectCurrencies, selectUserInfo, selectWallets, walletsFetch } from '../../../../modules';
-import { WithdrawAddress } from '../../containers/WithdrawAddress';
-import { WithdrawInfo } from '../../containers/WithdrawInfo'
+import { WithdrawAddress, WithdrawHistory, WithdrawInfo } from '../../containers';
 
 export const WithdrawScreen = () => {
     const { currency_id } = useParams<{ currency_id: string }>();
@@ -50,7 +49,9 @@ export const WithdrawScreen = () => {
                 </div>
             </div>
             <div className="row">
-
+                <div className="col-12">
+                    <WithdrawHistory currency_id={currency_id} />
+                </div>
             </div>
         </div>
     )

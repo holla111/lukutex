@@ -5,10 +5,10 @@ import { localeDate } from '../../../../helpers';
 import { fetchHistory, resetHistory, RootState, selectCurrencies, selectHistory, selectNextPageExists } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 
-interface DepositHistoryProps {
+interface WithdrawHistoryProps {
     currency_id: string;
 }
-export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHistoryProps) => {
+export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawHistoryProps) => {
 
     const intl = useIntl();
 
@@ -31,7 +31,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 
     // dispatch
     const dispatch = useDispatch();
-    const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "deposits", page: 1, limit: 6 }));
+    const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "withdraws", page: 1, limit: 6 }));
     const dispatchResetHistory = () => dispatch(resetHistory());
 
     React.useEffect(() => {
@@ -66,9 +66,9 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     const columns = React.useMemo(
         () => {
             const headersTable = [
-                intl.formatMessage({ id: `page.body.history.deposit.header.date` }),
-                intl.formatMessage({ id: `page.body.history.deposit.header.status` }),
-                intl.formatMessage({ id: `page.body.history.deposit.header.amount` }),
+                intl.formatMessage({ id: `page.body.history.withdraw.header.date` }),
+                intl.formatMessage({ id: `page.body.history.withdraw.header.status` }),
+                intl.formatMessage({ id: `page.body.history.withdraw.header.amount` }),
             ];
             return [
                 {
@@ -105,7 +105,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 
     return (
         <div style={{ marginTop: '100px' }}>
-            <h2>{intl.formatMessage({ id: `page.body.history.deposit` })}</h2>
+            <h2>{intl.formatMessage({ id: `page.body.history.withdraw` })}</h2>
             {
                 list.length > 0
                     ? <ReactTable columns={columns} data={data} headColor="#182034" />
