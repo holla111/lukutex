@@ -1,10 +1,10 @@
 import * as React  from "react";
 import axios from "axios"; 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {useHistory } from "react-router-dom";
 import styled from 'styled-components';
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
-import { selectCurrencies, selectMarkets, selectMarketTickers } from '../../modules';
+import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers } from '../../modules';
 
 export const DispChart: React.FC<any> = () => {
 
@@ -35,6 +35,13 @@ export const DispChart: React.FC<any> = () => {
   const market_ids = [
     'btc/usdt', 'eth/usdt', 'esc/usdt', 'kobe/usdt'
   ]
+
+  const dispatch = useDispatch();
+  const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
+
+  React.useEffect(() => {
+    dispatchFetchCurrencies();
+  }, [])
 
   const markets = useSelector(selectMarkets);
   const marketTickers = useSelector(selectMarketTickers);
