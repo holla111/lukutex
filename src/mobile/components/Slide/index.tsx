@@ -20,7 +20,7 @@ const SlideComponent: React.FC = ({}) => {
 
         const renderElms = (paramsEventsDat: EventItem[]) => paramsEventsDat.map((event, i) => (
             <a href={event.ref_link} target="_blank" key={i}>
-                <img src={event.image_link} alt={event.description}/>
+                <img src={event.image_mobile_link} alt={event.description}/>
             </a>
         ));
 
