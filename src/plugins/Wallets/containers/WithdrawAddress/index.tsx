@@ -4,12 +4,12 @@ import { Currency, Wallet, walletsAddressFetch, /* selectWalletsAddressError, */
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
-import { Blur, WalletItemProps } from '../../../../components';
+import { WalletItemProps } from '../../../../components';
 import { ModalWithdrawConfirmation, ModalWithdrawSubmit, Withdraw, WithdrawProps } from '../../../../containers';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
-
+import { LockIcon } from '../../../../assets/images/LockIcon';
 
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
@@ -47,7 +47,23 @@ const TabsStyle = styled.div`
     }
 `;
 
-
+const BlurDisable = styled.div`
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    align-items: center;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background: var(--body-background-color-level-6);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    z-index: 10;
+    flex-direction: column;
+`
 interface WithdrawAddressProps {
     currency_id: string;
     wallets: Wallet[];
@@ -108,10 +124,10 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
     React.useEffect(() => {
         dispatch(walletsAddressFetch({ currency: currency_id }));
     }, [dispatch, currency_id]);
-   
+
 
     // const walletsError = useSelector(selectWalletsAddressError);
-    
+
     const wallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || { name: '', currency: '', balance: '', type: "fiat", address: '', fee: '', fixed: 6 };
     const currencyItem = currencies.find(currency => currency.id.toLowerCase() === currency_id.toLowerCase());
     const fee_currency = eth_fee.find(cur => cur.currency_id === currency_id);
@@ -167,11 +183,11 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
     const renderWithdrawContent = () => {
 
         const { user: { level, otp }, currencies } = props;
-        
+
         const { currency, fee, type } = wallet;
         const fixed = (wallet || { fixed: 0 }).fixed;
 
-        
+
         const selectedCurrency = currencies.find(cur => cur.id == currency);
         const minWithdrawAmount = (selectedCurrency && selectedCurrency.min_withdraw_amount) ? selectedCurrency.min_withdraw_amount : undefined;
         const limitWitdraw24h = (selectedCurrency && selectedCurrency.withdraw_limit_24h) ? selectedCurrency.withdraw_limit_24h : undefined;
@@ -207,63 +223,75 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
     };
 
     const handleWithdraw = () => {
-        const {  otpCode, amount, beneficiary } = withdrawState;
+        const { otpCode, amount, beneficiary } = withdrawState;
         if (!wallet) {
-          return;
+            return;
         }
-    
+
         let { currency, fee } = wallet;
-    
+
         // Withdraw by eth fee
         const { user } = props;
-        
-    
+
+
         if (!(fee == 0 && eth_balance && eth_fee[0].fee && Number(eth_balance) >= Number(eth_fee[0].fee))) {
-          message.error('Withdraw failed.');
-          return;
-        } 
-    
+            message.error('Withdraw failed.');
+            return;
+        }
+
         const withdrawRequest = {
-          uid: user.uid,
-          amount,
-          currency: currency.toLowerCase(),
-          otp: otpCode,
-          beneficiary_id: String(beneficiary.id),
+            uid: user.uid,
+            amount,
+            currency: currency.toLowerCase(),
+            otp: otpCode,
+            beneficiary_id: String(beneficiary.id),
         };
         dispatch(walletsWithdrawCcyFetch(withdrawRequest));
         toggleConfirmModal();
-      };
+    };
 
     return (
         <React.Fragment>
             <div className="container d-flex flex-column justify-content-between" style={{ backgroundColor: '#182034', padding: '30px', borderRadius: '5px', height: '100%', fontSize: '1.3rem' }}>
-                <div className="row">
-                    <div className="col-12">
-                        {
-                            wallet ?
-                                <TabsStyle>
-                                    <Tabs defaultActiveKey="1" >
-                                        <TabPane tab="ERC20" key="1">
-                                            {/* {walletsError && <p className="pg-wallet__error">{walletsError.message}</p>} */}
-                                            {currencyItem && !currencyItem.withdrawal_enabled ? (
-                                                <Blur
-                                                    className="pg-blur-withdraw"
-                                                    text={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
-                                                />
-                                            ) : null}
-                                            {renderWithdrawContent()}
-                                        </TabPane>
-                                        <TabPane tab="TRON20" key="2">
-                                            TRON20
+                <div>
+                    <div className="row">
+                        <div className="col-12">
+                            <h4>Withdrawal Nework</h4>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                            {
+                                wallet ?
+                                    <TabsStyle>
+                                        <Tabs defaultActiveKey="1" >
+                                            <TabPane tab="ERC20" key="1">
+                                                {/* {walletsError && <p className="pg-wallet__error">{walletsError.message}</p>} */}
+                                                {currencyItem && !currencyItem.withdrawal_enabled ? (
+                                                    <BlurDisable >
+                                                        <LockIcon className="pg-blur__content__icon" />
+                                                        {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+                                                    </BlurDisable>
+                                                ) : null}
+                                                {renderWithdrawContent()}
+                                            </TabPane>
+                                            <TabPane tab="TRON20" key="2">
+                                                TRON20
                             </TabPane>
-                                        <TabPane tab="BEP20" key="3">
-                                            BEP20
+                                            <TabPane tab="BEP20" key="3">
+                                                BEP20
                             </TabPane>
-                                    </Tabs>
-                                </TabsStyle>
-                                : ''
-                        }
+                                        </Tabs>
+                                    </TabsStyle>
+                                    : ''
+                            }
 
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-12">
+                        <a>Withdrawal hasn’t arrived?</a>
                     </div>
                 </div>
             </div >

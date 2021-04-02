@@ -75,6 +75,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 
     return (
         <div className="container d-flex flex-column justify-content-between" style={{ backgroundColor: '#182034', padding: '30px', borderRadius: '5px', height: '100%', fontSize: '1.3rem' }}>
+            <div>
             <div className="row">
                 <div className="col-12 d-flex justify-content-between">
                     <h4>Deposit Nework</h4>
@@ -112,6 +113,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                         </Tabs>
                     </TabsStyle>
                 </div>
+            </div>
             </div>
             <div className="row mt-5">
                 <div className="col-12 d-flex justify-content-between">

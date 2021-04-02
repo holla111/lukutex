@@ -146,7 +146,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						/>
 					</div>
 					{isMobileDevice && twoFactorAuthRequired && this.renderOtpCodeInput()}
-					<div className="cr-withdraw__deep">
+					<div className="cr-withdraw__deep d-flex justify-content-end">
 						<Button
 							variant="primary"
 							size="lg"
