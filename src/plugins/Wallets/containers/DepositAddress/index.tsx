@@ -5,6 +5,9 @@ import { DepositBody } from '../../components/DepositBody';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
 
+import { LockIcon } from '../../../../assets/images/LockIcon';
+
+
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
         display: flex;
@@ -114,7 +117,8 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                 <TabPane tab="TRON20" key="2">
                                     <div style={{ position: 'relative', width: '100%', height: '300px' }}>
                                         <BlurDisable>
-                                            TRON20 wasn't supported.
+                                            <LockIcon className="pg-blur__content__icon" />
+                                            TRON20 hasn't been supported.
                                         </BlurDisable>
                                     </div>
 
@@ -122,7 +126,8 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                 <TabPane tab="BEP20" key="3">
                                     <div style={{ position: 'relative', width: '100%', height: '300px' }}>
                                         <BlurDisable>
-                                            BEP20 wasn't supported.
+                                            <LockIcon className="pg-blur__content__icon" />
+                                            BEP20 hasn't been supported.
                                         </BlurDisable>
                                     </div>
                                 </TabPane>

@@ -16,6 +16,9 @@ export const WithdrawScreen = () => {
     const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
     const dispatchFetchWallets = () => dispatch(walletsFetch());
 
+
+    
+
     // side effects
     React.useEffect(() => {
         dispatchFetchCurrencies();
@@ -50,7 +53,7 @@ export const WithdrawScreen = () => {
             </div>
             <div className="row">
                 <div className="col-12">
-                    <WithdrawHistory currency_id={currency_id} />
+                    <WithdrawHistory currency_id={currency_id.toLowerCase()} />
                 </div>
             </div>
         </div>

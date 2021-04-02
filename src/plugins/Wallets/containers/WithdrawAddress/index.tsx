@@ -10,6 +10,7 @@ import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
 import { LockIcon } from '../../../../assets/images/LockIcon';
+import { useEthFeeFetch } from '../../../../hooks';
 
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
@@ -98,6 +99,8 @@ interface WalletsState {
 
 export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawAddressProps) => {
     const { currency_id, wallets, currencies } = props;
+
+    useEthFeeFetch();
 
     const intl = useIntl();
     const dispatch = useDispatch();
@@ -268,19 +271,31 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                                             <TabPane tab="ERC20" key="1">
                                                 {/* {walletsError && <p className="pg-wallet__error">{walletsError.message}</p>} */}
                                                 {currencyItem && !currencyItem.withdrawal_enabled ? (
-                                                    <BlurDisable >
-                                                        <LockIcon className="pg-blur__content__icon" />
-                                                        {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
-                                                    </BlurDisable>
-                                                ) : null}
-                                                {renderWithdrawContent()}
+                                                    <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                                                        <BlurDisable >
+                                                            <LockIcon className="pg-blur__content__icon" />
+                                                            {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+                                                        </BlurDisable>
+                                                    </div>
+                                                ) : renderWithdrawContent()}
+
                                             </TabPane>
                                             <TabPane tab="TRON20" key="2">
-                                                TRON20
-                            </TabPane>
+                                                <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                                                    <BlurDisable>
+                                                    <LockIcon className="pg-blur__content__icon" />
+                                                        TRON20 hasn't been supported.
+                                                </BlurDisable>
+                                                </div>
+                                            </TabPane>
                                             <TabPane tab="BEP20" key="3">
-                                                BEP20
-                            </TabPane>
+                                                <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                                                    <BlurDisable>
+                                                    <LockIcon className="pg-blur__content__icon" />
+                                                        TRON20 hasn't been supported.
+                                        </BlurDisable>
+                                                </div>
+                                            </TabPane>
                                         </Tabs>
                                     </TabsStyle>
                                     : ''
