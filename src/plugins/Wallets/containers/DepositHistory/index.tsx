@@ -22,7 +22,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     const blockchain_address = currency ? currency.explorer_address : '';
     console.log(currencies);
     console.log(list);
-    
+
 
     const nextPageExists = useSelector((state: RootState) => selectNextPageExists(state, 6));
     console.log(nextPageExists);
@@ -65,14 +65,9 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 
     const columns = React.useMemo(
         () => {
-            const headersTable = [
-                intl.formatMessage({ id: `page.body.history.deposit.header.date` }),
-                intl.formatMessage({ id: `page.body.history.deposit.header.status` }),
-                intl.formatMessage({ id: `page.body.history.deposit.header.amount` }),
-            ];
             return [
                 {
-                    Header: headersTable[0],
+                    Header: intl.formatMessage({ id: `page.body.history.deposit.header.date` }),
                     accessor: 'date'
                 },
                 {
@@ -80,11 +75,11 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
                     accessor: 'txid'
                 },
                 {
-                    Header: headersTable[1],
+                    Header: intl.formatMessage({ id: `page.body.history.deposit.header.status` }),
                     accessor: 'state'
                 },
                 {
-                    Header: headersTable[2],
+                    Header: intl.formatMessage({ id: `page.body.history.deposit.header.amount` }),
                     accessor: 'amount'
                 },
             ]

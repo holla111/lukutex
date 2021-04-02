@@ -41,6 +41,23 @@ const TabsStyle = styled.div`
     }
 `;
 
+const BlurDisable = styled.div`
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    align-items: center;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background: var(--body-background-color-level-6);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    z-index: 10;
+    flex-direction: column;
+`
 
 interface DepositAddressProps {
     currency_id: string;
@@ -76,44 +93,43 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
     return (
         <div className="container d-flex flex-column justify-content-between" style={{ backgroundColor: '#182034', padding: '30px', borderRadius: '5px', height: '100%', fontSize: '1.3rem' }}>
             <div>
-            <div className="row">
-                <div className="col-12 d-flex justify-content-between">
-                    <h4>Deposit Nework</h4>
-                    <span>Average arrival time：1 minutes</span>
+                <div className="row">
+                    <div className="col-12 d-flex justify-content-between">
+                        <h4>Deposit Nework</h4>
+                        <span>Average arrival time：1 minutes</span>
+                    </div>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-12">
-                    <TabsStyle>
-                        <Tabs defaultActiveKey="1" >
-                            <TabPane tab="ERC20" key="1">
-                                <DepositBody
-                                    wallet={wallet}
-                                    isAccountActivated={isAccountActivated}
-                                    handleGenerateAddress={handleGenerateAddress}
-                                    generateAddressTriggered={generateAddressTriggered}
-                                />
-                            </TabPane>
-                            <TabPane tab="TRON20" key="2">
-                                <DepositBody
-                                    wallet={wallet}
-                                    isAccountActivated={isAccountActivated}
-                                    handleGenerateAddress={handleGenerateAddress}
-                                    generateAddressTriggered={generateAddressTriggered}
-                                />
-                            </TabPane>
-                            <TabPane tab="BEP20" key="3">
-                                <DepositBody
-                                    wallet={wallet}
-                                    isAccountActivated={isAccountActivated}
-                                    handleGenerateAddress={handleGenerateAddress}
-                                    generateAddressTriggered={generateAddressTriggered}
-                                />
-                            </TabPane>
-                        </Tabs>
-                    </TabsStyle>
+                <div className="row">
+                    <div className="col-12">
+                        <TabsStyle>
+                            <Tabs defaultActiveKey="1" >
+                                <TabPane tab="ERC20" key="1">
+                                    <DepositBody
+                                        wallet={wallet}
+                                        isAccountActivated={isAccountActivated}
+                                        handleGenerateAddress={handleGenerateAddress}
+                                        generateAddressTriggered={generateAddressTriggered}
+                                    />
+                                </TabPane>
+                                <TabPane tab="TRON20" key="2">
+                                    <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                                        <BlurDisable>
+                                            TRON20 wasn't supported.
+                                        </BlurDisable>
+                                    </div>
+
+                                </TabPane>
+                                <TabPane tab="BEP20" key="3">
+                                    <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                                        <BlurDisable>
+                                            BEP20 wasn't supported.
+                                        </BlurDisable>
+                                    </div>
+                                </TabPane>
+                            </Tabs>
+                        </TabsStyle>
+                    </div>
                 </div>
-            </div>
             </div>
             <div className="row mt-5">
                 <div className="col-12 d-flex justify-content-between">

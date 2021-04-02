@@ -104,14 +104,9 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
 
     const columns = React.useMemo(
         () => {
-            const headersTable = [
-                intl.formatMessage({ id: `page.body.history.withdraw.header.date` }),
-                intl.formatMessage({ id: `page.body.history.withdraw.header.status` }),
-                intl.formatMessage({ id: `page.body.history.withdraw.header.amount` }),
-            ];
             return [
                 {
-                    Header: headersTable[0],
+                    Header: intl.formatMessage({ id: `page.body.history.withdraw.header.date` }),
                     accessor: 'date'
                 },
                 {
@@ -119,11 +114,11 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
                     accessor: 'txid'
                 },
                 {
-                    Header: headersTable[1],
+                    Header: intl.formatMessage({ id: `page.body.history.withdraw.header.status` }),
                     accessor: 'state'
                 },
                 {
-                    Header: headersTable[2],
+                    Header: intl.formatMessage({ id: `page.body.history.withdraw.header.amount` }),
                     accessor: 'amount'
                 },
             ]
