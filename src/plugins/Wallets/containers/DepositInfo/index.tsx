@@ -150,12 +150,12 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
     return (
         <div className="container" style={{ padding: '50px 0' }}>
             <div className="row">
-                <div className="col-6 d-inline">
-                    <span style={{ fontSize: '3rem', cursor: "context-menu", color: '#3c78e0' }}>Deposit/ </span>
+                <div className="col-8 d-inline">
+                    <span style={{ fontSize: '3rem', color: '#3c78e0' }}>Deposit/ </span>
                     <span className="text-secondary" style={{ fontSize: '2rem', cursor: 'pointer' }}
                         onClick={() => history.push({ pathname: `/new-wallets/withdraw/${currency_id.toUpperCase()}` })}>Withdraw</span>
                 </div>
-                <div className="col-6">
+                <div className="col-4">
                     <Select
                         styles={SelectStyles}
                         value={options.filter(option => option.value == currency_id.toLowerCase())}

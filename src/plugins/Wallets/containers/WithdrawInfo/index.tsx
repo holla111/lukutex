@@ -84,11 +84,11 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
     return (
         <div className="container" style={{ padding: '50px 0' }}>
             <div className="row">
-                <div className="col-6">
-                    <span style={{ fontSize: '3rem', cursor: "context-menu", color: '#3c78e0' }}>Withdraw/ </span>
+                <div className="col-8">
+                    <span style={{ fontSize: '3rem', color: '#3c78e0' }}>Withdraw/ </span>
                     <span className="text-secondary" style={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => history.push({ pathname: `/new-wallets/deposit/${currency_id.toUpperCase()}` })}>Deposit</span>
                 </div>
-                <div className="col-6">
+                <div className="col-4">
                     <Select
                         styles={SelectStyles}
                         value={options.filter(option => option.value == currency_id.toLowerCase())}
