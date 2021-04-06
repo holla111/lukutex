@@ -80,11 +80,9 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   }, []);
 
   const events = useSelector(selectEvents);
-  console.log(events)
 
 
   const renderBanner = ()  => {
-    console.log(events.payload.slice(events.payload.length - 2, events.payload.length ))
     const speakericon = require('./Home/sound-speaker.svg');
     return (
       <div className="landing-page__banner">
