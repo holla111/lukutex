@@ -22,7 +22,39 @@ const WrapperComponet = styled.div`
   }
 `;
 
+const BannerListStyle = styled.div`
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background: rgba(0,0,0,.4);
+  width: 100%;
+  height: 30px;
+`;
 
+const BannerDisplayStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 1140px;
+`;
+
+const SlideStyle = styled.div`
+  display: flex;
+  text-decoration: row;
+  padding: 0 30px;
+  :nth-child(1)::after{
+    content: "/";
+    color: white;
+    font-weight: bold;
+  }
+  /* :nth-child(2)::after{
+    content: "/";
+    color: white;
+    font-weight: bold;
+  }   */
+`;
 const settingEvents = {
 
   dots: true,
@@ -35,42 +67,6 @@ const settingEvents = {
   pauseOnHover: true,
   slidesToShow: 1,
   slidesToScroll: 1, 
-};
-const settings = {
-  dots: false,
-  infinite: true,
-  arrows: false,
-  slidesToShow: 5,
-  slidesToScroll: 1,
-  autoplay: true,
-  speed: 2000,
-  autoplaySpeed: 4000,
-  responsive: [
-    {
-      breakpoint: 1000,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        infinite: true,
-        dots: true
-      }
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 1,
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1
-      }
-    }
-  ]
 };
 
 export const HomeScreen: React.FC<any> = (props: any) => {
@@ -86,8 +82,9 @@ export const HomeScreen: React.FC<any> = (props: any) => {
   const events = useSelector(selectEvents);
   console.log(events)
 
-  const renderBanner = ()  => {
 
+  const renderBanner = ()  => {
+    console.log(events.payload.slice(events.payload.length - 2, events.payload.length ))
     const speakericon = require('./Home/sound-speaker.svg');
     return (
       <div className="landing-page__banner">
@@ -105,15 +102,17 @@ export const HomeScreen: React.FC<any> = (props: any) => {
             <WrapperComponet>
               <img src={speakericon} alt="speaker" />
             </WrapperComponet>
-            <div className="landing-page__banner-list-link">
-              <Slider {...settings}>
-                {[...events.payload].map(event => {
+            <BannerListStyle>
+              <BannerDisplayStyle className="row">
+                {[...events.payload.slice(events.payload.length - 2, events.payload.length)].map(event => {
                     return (
-                      <a href={event.ref_link} className="slide-link">{event.event_name}</a>
+                      <SlideStyle className=" col-6 slide" >
+                        <a href={event.ref_link} style={{display: 'block', width: '100%', textAlign: 'center'}} className="slide-link">{event.event_name}</a>
+                      </SlideStyle>
                     )
                 })}
-              </Slider>
-            </div>
+              </BannerDisplayStyle>
+            </BannerListStyle>
       </div>
     );
   }
@@ -234,6 +233,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
     }
     return (
         <div className="home-page">
+          
            {renderBanner()}
            {renderChart()}
            {renderMarket()}
