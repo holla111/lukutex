@@ -1,7 +1,8 @@
 import * as React  from "react";
 import axios from 'axios';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, Radio, DatePicker, Space,} from 'antd';
+import { Button, Radio, DatePicker, Space, Checkbox, Row, Col} from 'antd';
+import { CheckboxGroupProps } from "antd/lib/checkbox";
 
 
 interface IFormInput {
@@ -13,7 +14,7 @@ interface IFormInput {
   projectwebsite: string;
   description: string;
   media: string;
-  coinname: string;
+  coinname: string[];
   cointype: string;
   cointicker: string;
   explorerlink: string;
@@ -27,7 +28,7 @@ export const ListingFormScreen: React.FC = () => {
 
   const { register, handleSubmit, errors } = useForm<IFormInput>();
 
-  const [formValue, setFormValue] = React.useState({
+  const [formValue, setFormValue] = React.useState<IFormInput>({
     firstname: '',
     lastname: '',
     email: '',
@@ -36,15 +37,15 @@ export const ListingFormScreen: React.FC = () => {
     projectwebsite: '',
     description: '',
     media: '',
-    coinname: '',
+    coinname:[],
     cointype: '',
     cointicker: '',
     explorerlink: '',
     listingdate: 'listingdate',
     tradedate: 'tradedate',
-    totalsupply: '',
+    totalsupply: 0,
     logo: '',
-
+    fileList : ''
   });
 
   const handleValidInput = (e: any) => {
@@ -54,10 +55,9 @@ export const ListingFormScreen: React.FC = () => {
     });
   }
 
-  const handleValidInputFile = (e: any) => {
-  
+  const handleValidInputFile : React.InputHTMLAttributes<HTMLInputElement>["onChange"] = (e) => {
      const newFormValue = {...formValue};
-     newFormValue.logo = URL.createObjectURL(e.target.files[0]);
+     newFormValue.logo = URL.createObjectURL(e.target.files && e.target.files[0]);
 
      setFormValue(newFormValue)
       
@@ -75,6 +75,13 @@ export const ListingFormScreen: React.FC = () => {
     newFormValue.tradedate= dateString;
     setFormValue(newFormValue)
 
+  }
+  const handlePair : CheckboxGroupProps["onChange"] = (e) => {
+    setFormValue((prev) => {
+      prev.coinname =  e as string[];
+      return prev;
+    })
+  
   }
   
   const onSubmit: SubmitHandler<IFormInput> = (data, e: any) => {
@@ -100,6 +107,7 @@ export const ListingFormScreen: React.FC = () => {
     const gmail = require('./common/gmail.png');
     const skype = require('./common/skype.png');
     const telegram = require('./common/telegram.png');
+    console.log(formValue)
     console.log(formValue)
     return (
       <form className="listingformscreen" onSubmit={handleSubmit(onSubmit)}>
@@ -333,23 +341,25 @@ export const ListingFormScreen: React.FC = () => {
                 <label className="Input-label">
                   What pair you want open? 
                 </label>
-                <Radio.Group className="openpair-radio" onChange={handleValidInput} name='cointicker'>
-                  <Radio style={radioStyle} value={'BTC'}>
-                    BTC
-                  </Radio>
-                  <Radio style={radioStyle} value={'ETH'}>
-                    ETH
-                  </Radio>
-                  <Radio style={radioStyle} value={'USDT'}>
-                    USDT
-                  </Radio>
-                  <Radio style={radioStyle} value={'TRX'}>
-                    TRX
-                  </Radio>
-                  <Radio style={radioStyle} value={'LKT'}>
-                    LKT
-                  </Radio>
-                </Radio.Group>
+                <Checkbox.Group style={{ width: '100%',  }} onChange={handlePair}>
+                  <Row>
+                    <Col span={24}>
+                      <Checkbox style={{ outlineColor: 'red'}} value="BTC">BTC</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="ETH">RTH</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="USDT">USDT</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="TRX">TRX</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="LKT">LKT</Checkbox>
+                    </Col>
+                  </Row>
+                </Checkbox.Group>
               </div>
               <div className="listing__plan-date">
                 <div className="listing__Plan-listingdate">
