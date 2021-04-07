@@ -73,7 +73,7 @@ const MarketsTableComponent = props => {
             price_change_percent: String((marketTickers[market.id] || defaultTicker).price_change_percent),
             high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), 6),
             low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), 6),
-            volume: Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision),
+            volume: Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), 4),
         }),
     ).map(market =>
         ({

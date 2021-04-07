@@ -220,8 +220,8 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
       confirmationAddress = wallets[selectedWalletIndex].type === 'fiat' ? (
         beneficiary.name
       ) : (
-          beneficiary.data ? (beneficiary.data.address as string) : ''
-        );
+        beneficiary.data ? (beneficiary.data.address as string) : ''
+      );
     }
 
     const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
@@ -336,14 +336,22 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
     const { user, eth_fee, wallets } = this.props;
     const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
+    const fee_currency = eth_fee.find(cur => cur.currency_id === currency);
 
-    if (!(fee == 0 && ethBallance && eth_fee[0].fee && Number(ethBallance) >= Number(eth_fee[0].fee))) {
-      message.error('Withdraw failed.');
-      return;
-    } 
+    if (fee == 0) {
+      if (!(fee_currency && fee_currency.fee)) {
+        message.error('Something wrong with ETH fee.');
+        return;
+      }
+      if (!(ethBallance && Number(ethBallance) >= Number(fee_currency.fee))) {
+        message.error('ETH balance isn`\t enough to pay.');
+        return;
+      }
+    }
 
     const withdrawRequest = {
       uid: user.uid,
+      fee: fee.toString(),
       amount,
       currency: currency.toLowerCase(),
       otp: otpCode,

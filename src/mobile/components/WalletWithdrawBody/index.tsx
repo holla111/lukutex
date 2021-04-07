@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Blur } from '../../../components/Blur';
 import { ModalWithdrawConfirmation, ModalWithdrawSubmit, Withdraw } from '../../../containers';
 import { useBeneficiariesFetch, useCurrenciesFetch, useWalletsAddressFetch } from '../../../hooks';
-import { selectETHFee, ethFeeWithdraw, ethFeeFetch } from '../../../modules';
+import { selectETHFee, ethFeeFetch } from '../../../modules';
 import { selectCurrencies } from '../../../modules/public/currencies';
 import { Beneficiary } from '../../../modules/user/beneficiaries';
 import { selectUserInfo } from '../../../modules/user/profile';
@@ -64,8 +64,8 @@ const WalletWithdrawBodyComponent = props => {
             confirmationAddress = props.wallet.type === 'fiat' ? (
                 withdrawData.beneficiary.name
             ) : (
-                    withdrawData.beneficiary.data ? (withdrawData.beneficiary.data.address as string) : ''
-                );
+                withdrawData.beneficiary.data ? (withdrawData.beneficiary.data.address as string) : ''
+            );
         }
 
         return confirmationAddress;
@@ -93,20 +93,18 @@ const WalletWithdrawBodyComponent = props => {
         const fee_currency = ethFee.find(cur => cur.currency_id === currency);
 
         if (fee == 0) {
-            if (ethBallance && fee_currency && fee_currency.fee && Number(ethBallance) >= Number(fee_currency.fee)) {
-                const withdrawByEthFeeData = {
-                    uid: user.uid,
-                    currency: currency.toLowerCase(),
-                    amount: amount
-                }
-                dispatch(ethFeeWithdraw(withdrawByEthFeeData));
-            } else {
-                message.error('Withdraw failed.');
+            if (!(fee_currency && fee_currency.fee)) {
+                message.error('Something wrong with ETH fee.');
+                return;
+            }
+            if (!(ethBallance && Number(ethBallance) >= Number(fee_currency.fee))) {
+                message.error('ETH balance isn`\t enough to pay.');
                 return;
             }
         }
         const withdrawRequest = {
             uid: user.uid,
+            fee: fee,
             amount,
             currency: currency.toLowerCase(),
             otp: otpCode,

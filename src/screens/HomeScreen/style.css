@@ -9,16 +9,104 @@
 }
 
 .landing-page__banner {
-    padding: 40px 0;
+    position: relative;
     width: 100%;
-    height: 536px;
+    height: 310px;
     margin: 0 auto;
     background-image: url('../../assets/images/background_setting.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
+.landing-page__banner-list {
+    webkit: 100%;
+    height: 100%;
+}
+.landing-page__banner-list-link{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgba(0,0,0,.4);
+    width: 100%;
+    padding: 5px 200px 0 280px;
+    height: 30px;
+}
+.slide-link {
+    color: white;
+    font-size: 14px;
+   
+}
+.slide-link:hover {
+    color: #00c3ff;
+}
 
+
+.slick-slider{
+    margin: 0 -10px;
+    width: 102%;
+}
+.slick-slider,
+.slick-list,
+.slick-track  {
+    height: 100%;
+}
+.slick-list{    
+ 
+}
+.slick-dots {
+    position: absolute;
+    bottom: 30px;
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+}
+.slick-dots li {
+    color: transparent;
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 4px;
+    margin: 0px 7px;
+    padding: 0px;
+    cursor: pointer;
+    padding: 1px;
+    background-color: white;
+}
+.slick-dots li button {
+    font-size: 0px;
+    line-height: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    cursor: pointer;
+    color: transparent;
+    border: 0;
+    outline: none;
+    background: transparent;
+}
+.slick-dots li button:before {
+    font-family: 'slick';
+    font-size: 120px;
+    line-height: 20px;
+    position: absolute;
+    top: -8;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    content: '';
+    text-align: center;
+    opacity: .25;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 .landing-page__banner__top-title {
     display: flex;
     flex-direction: column;
@@ -134,7 +222,6 @@
 
 .slick-slide img:hover {
     display: block;
-    border: 3px solid #fff;
     cursor: pointer;
 }
 

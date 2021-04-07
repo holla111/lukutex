@@ -5,6 +5,7 @@ export interface EventItem {
     event_name: string;
     description: string;
     image_link: string;
+    image_mobile_link : string;
     ref_link: string;
     created_at: string;
 }

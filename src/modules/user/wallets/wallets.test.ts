@@ -305,6 +305,8 @@ describe('Wallets', () => {
 
     describe('Fetch wallets withdraw ccy', () => {
         const payload = {
+            uid: '',
+            fee: '0.2',
             amount: '0.1',
             currency: 'btc',
             otp: '123123',
