@@ -44,13 +44,13 @@ class CustomInput extends React.Component<Props> {
             isDisabled,
             onKeyPress,
         } = this.props;
-        console.log(labelVisible, inputValue, label, defaultLabel);
+        
 
         return (
             <React.Fragment>
                 <div className="custom-input">
                     <label className={classNameLabel}>
-                        {(label || defaultLabel)}
+                    {(labelVisible || inputValue) && (label || defaultLabel)}
                     </label>
                     <InputGroup size="lg">
                         <FormControl

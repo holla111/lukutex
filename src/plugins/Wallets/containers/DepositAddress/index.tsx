@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import { LockIcon } from '../../../../assets/images/LockIcon';
 
-
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
         display: flex;
@@ -65,18 +64,19 @@ const BlurDisable = styled.div`
 interface DepositAddressProps {
     currency_id: string;
     currency_icon: string;
+    tron20_currency_id: string
 }
 
 
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-    const { currency_id, currency_icon } = props;
+    const { currency_id, currency_icon, tron20_currency_id } = props;
 
     const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
     const dispatch = useDispatch();
     const wallets = useSelector(selectWallets) || [];
 
     const wallet = wallets.find(item => item.currency === currency_id) || { name: '', currency: '', balance: '', type: '', address: '' };
-
+    const tron20_wallet = wallets.find(item => item.currency === tron20_currency_id);
     const isAccountActivated = wallet.type === 'fiat' || wallet.balance;
 
 
@@ -116,19 +116,39 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                 </TabPane>
                                 <TabPane tab="TRON20" key="2">
                                     <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                                        <BlurDisable>
-                                            <LockIcon className="pg-blur__content__icon" />
-                                            TRON20 hasn't been supported.
-                                        </BlurDisable>
+                                        {
+                                            tron20_currency_id && tron20_wallet ?
+                                                <DepositBody
+                                                    wallet={tron20_wallet}
+                                                    isAccountActivated={isAccountActivated}
+                                                    handleGenerateAddress={handleGenerateAddress}
+                                                    generateAddressTriggered={generateAddressTriggered}
+                                                />
+                                                :
+                                                <BlurDisable>
+                                                    <LockIcon className="pg-blur__content__icon" />
+                                                TRON20 hasn't been available.
+                                            </BlurDisable>
+                                        }
                                     </div>
 
                                 </TabPane>
                                 <TabPane tab="BEP20" key="3">
                                     <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                                        <BlurDisable>
-                                            <LockIcon className="pg-blur__content__icon" />
-                                            BEP20 hasn't been supported.
-                                        </BlurDisable>
+                                        {
+                                            tron20_currency_id && tron20_wallet ?
+                                                <DepositBody
+                                                    wallet={tron20_wallet}
+                                                    isAccountActivated={isAccountActivated}
+                                                    handleGenerateAddress={handleGenerateAddress}
+                                                    generateAddressTriggered={generateAddressTriggered}
+                                                />
+                                                :
+                                                <BlurDisable>
+                                                    <LockIcon className="pg-blur__content__icon" />
+                                                TRON20 hasn't been available.
+                                            </BlurDisable>
+                                        }
                                     </div>
                                 </TabPane>
                             </Tabs>

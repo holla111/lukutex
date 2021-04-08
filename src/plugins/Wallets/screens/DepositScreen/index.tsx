@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { currenciesFetch, selectCurrencies, selectWallets, walletsFetch } from '../../../../modules';
+import { currenciesFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 
 
@@ -12,10 +12,14 @@ export const DepositScreen = () => {
     // selectors
     const currencies = useSelector(selectCurrencies);
     const wallets = useSelector(selectWallets) || [];
-
+    const child_currencies = useSelector(selectChildCurrencies);
+    const child_currency_tron20 = child_currencies.payload.find(child_currency => child_currency.blockchain_key === 'tron20') || {id: ''};
+    console.log(child_currency_tron20);
+    
     const dispatch = useDispatch();
     const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
     const dispatchFetchWallets = () => dispatch(walletsFetch());
+    const dispatchFetchChildCurrencies= () => dispatch(walletsChildCurrenciesFetch({currency: currency_id}));
 
     const history = useHistory();
 
@@ -34,7 +38,12 @@ export const DepositScreen = () => {
     React.useEffect(() => {
         dispatchFetchCurrencies();
         dispatchFetchWallets();
+        dispatchFetchChildCurrencies();
     }, []);
+
+    React.useEffect(() => {
+        dispatchFetchChildCurrencies();
+    }, [currency_id]);
 
     return (
         <div className="container-fluid" style={{ position: "relative", padding: '20px 10% 20px 10%', marginTop: '-7px', backgroundColor: '#222B42', color: '#fff' }}>
@@ -50,6 +59,7 @@ export const DepositScreen = () => {
                     <DepositAddress
                         currency_id={currency_id.toLowerCase()}
                         currency_icon={findIcon(currency_id.toLowerCase())}
+                        tron20_currency_id={child_currency_tron20.id}
                     />
                 </div>
             </div>

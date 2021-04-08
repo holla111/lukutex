@@ -1,6 +1,6 @@
 import { RootState } from '../../';
 import { CommonError } from '../../types';
-import { Wallet } from './types';
+import { ChildCurrenciesState, Wallet } from './types';
 
 export const selectWallets = (state: RootState): Wallet[] =>
     state.user.wallets.wallets.list;
@@ -28,3 +28,6 @@ export const selectWalletAddress = (state: RootState): string =>
 
 export const selectShouldFetchWallets = (state: RootState): boolean =>
     !selectWalletsTimestamp(state) && !selectWalletsLoading(state);
+
+export const selectChildCurrencies = (state: RootState): ChildCurrenciesState => state.user.child_currencies;
+

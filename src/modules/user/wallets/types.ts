@@ -1,3 +1,5 @@
+import { CommonState } from "../../types";
+
 export interface Wallet {
     balance?: string;
     currency: string;
@@ -38,4 +40,17 @@ export interface AccountInterface {
     currency: string;
     balance?: string;
     locked?: string;
+}
+
+export interface ChildCurrency {
+    id: string;
+    parent_id: string;
+    name: string;
+    blockchain_key: string;
+    type: string;
+}
+
+export interface ChildCurrenciesState extends CommonState {
+    payload: ChildCurrency[];
+    loading: boolean;
 }

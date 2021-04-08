@@ -15,7 +15,6 @@ const TabsStyle = styled.div`
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        font-size: 1.3rem;
         .rc-tabs-tab {
             width: 100%;
             padding: 5px 0;
@@ -24,6 +23,7 @@ const TabsStyle = styled.div`
             .rc-tabs-tab-btn {
                 text-align: center;
                 outline: none;
+                font-size: 1.3rem;
                 border: none;
                 cursor: pointer;
             }
@@ -37,7 +37,7 @@ const TabsStyle = styled.div`
         .rc-tabs-tab-active {
             font-weight: bold;
             color: #3c78e0;
-            /* background-color: #1e2841; */
+            background-color: #1e2841;
             border-bottom: 4px solid #3c78e0;
         }
 

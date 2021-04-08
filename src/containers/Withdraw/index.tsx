@@ -115,7 +115,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						/>
 					</div>
 					<div className="cr-withdraw__divider cr-withdraw__divider-one" />
-					<div className={withdrawAmountClass}>
+					<div className={withdrawAmountClass} style={{position:'relative', marginTop: '2rem'}}>
 						<CustomInput
 							type="number"
 							label={withdrawAmountLabel || 'Withdrawal Amount'}
@@ -216,7 +216,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		return (
 			<React.Fragment>
-				<div className={withdrawCodeClass}>
+				<div className={withdrawCodeClass} style={{position:'relative', marginTop: '2rem'}}>
 					<CustomInput
 						type="number"
 						label={withdraw2faLabel || '2FA code'}
