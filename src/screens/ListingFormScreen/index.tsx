@@ -1,9 +1,9 @@
 import * as React  from "react";
 import axios from 'axios';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, Radio, DatePicker, Space, Checkbox, Row, Col} from 'antd';
-import { CheckboxGroupProps } from "antd/lib/checkbox";
+import { Button, Radio, DatePicker, Space} from 'antd';
 
+import styled from 'styled-components';
 
 interface IFormInput {
   firstname: string;
@@ -24,6 +24,8 @@ interface IFormInput {
   logo: string;
   fileList: string;
 }
+
+const CheckBox = styled.div` display: flex; flex-direction: row; justify-content: center; align-items: center; .checkbox { --background: #fff; --border: #D1D6EE; --border-hover: #BBC1E1; --border-active: #182034; --tick: #fff; position: relative; input, svg { width: 21px; height: 21px; display: block; } input { -webkit-appearance: none; -moz-appearance: none; position: relative; outline: none; background: var(--background); border: 2px solid #5D76B5; margin: 0; padding: 0; cursor: pointer; border-radius: 4px; transition: box-shadow .3s; box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border)); &:hover { --s: 2px; --b: var(--border-hover); } &:checked { --b: var(--border-active); } } svg { pointer-events: none; fill: none; stroke-width: 2px; stroke-linecap: round; stroke-linejoin: round; stroke: var(--stroke, var(--border-active)); position: absolute; top: 0; left: 0; width: 21px; height: 21px; transform: scale(var(--scale, 1)) translateZ(0); } &.path { input { &:checked { --s: 2px; transition-delay: .4s; & + svg { --a: 16.1 86.12; --o: 102.22; } } } svg { stroke-dasharray: var(--a, 86.12); stroke-dashoffset: var(--o, 86.12); transition: stroke-dasharray .6s, stroke-dashoffset .6s; } } &.bounce { --stroke: var(--tick); input { &:checked { --s: 11px; & + svg { animation: bounce .4s linear forwards .2s; } } } svg { --scale: 0; } } } @keyframes bounce { 50% { transform: scale(1.2); } 75% { transform: scale(.9); } 100% { transform: scale(1); } } `;
 export const ListingFormScreen: React.FC = () => {
 
   const { register, handleSubmit, errors } = useForm<IFormInput>();
@@ -37,7 +39,9 @@ export const ListingFormScreen: React.FC = () => {
     projectwebsite: '',
     description: '',
     media: '',
-    coinname:[],
+    coinname:[
+
+    ],
     cointype: '',
     cointicker: '',
     explorerlink: '',
@@ -76,12 +80,14 @@ export const ListingFormScreen: React.FC = () => {
     setFormValue(newFormValue)
 
   }
-  const handlePair : CheckboxGroupProps["onChange"] = (e) => {
-    setFormValue((prev) => {
-      prev.coinname =  e as string[];
-      return prev;
-    })
-  
+  const handlePair = (e) => {
+    e.persist();
+    if(e.target.checked){
+      setFormValue((prev) => {
+        prev.coinname =  prev.coinname.concat(e.target.value);
+        return prev;
+      })
+    }
   }
   
   const onSubmit: SubmitHandler<IFormInput> = (data, e: any) => {
@@ -341,25 +347,65 @@ export const ListingFormScreen: React.FC = () => {
                 <label className="Input-label">
                   What pair you want open? 
                 </label>
-                <Checkbox.Group style={{ width: '100%',  }} onChange={handlePair}>
-                  <Row>
-                    <Col span={24}>
-                      <Checkbox style={{ outlineColor: 'red'}} value="BTC">BTC</Checkbox>
-                    </Col>
-                    <Col span={24}>
-                      <Checkbox value="ETH">RTH</Checkbox>
-                    </Col>
-                    <Col span={24}>
-                      <Checkbox value="USDT">USDT</Checkbox>
-                    </Col>
-                    <Col span={24}>
-                      <Checkbox value="TRX">TRX</Checkbox>
-                    </Col>
-                    <Col span={24}>
-                      <Checkbox value="LKT">LKT</Checkbox>
-                    </Col>
-                  </Row>
-                </Checkbox.Group>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-12 d-flex justify-content-between align-items-center flex-row">
+                      <CheckBox>
+                        <label className="checkbox bounce">
+                          <input type="checkbox" value="BTC" onChange={handlePair}/>
+                          <svg viewBox="0 0 21 21">
+                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                          </svg>
+                        </label>
+                        <span className="ml-2" style={{color: 'white'}}>BTC</span>
+                      </CheckBox>
+                    </div>
+                    <div className="col-12 d-flex justify-content-between align-items-center flex-row">
+                      <CheckBox>
+                        <label className="checkbox bounce">
+                          <input type="checkbox" value="ETH"  onChange={handlePair}/>
+                          <svg viewBox="0 0 21 21">
+                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                          </svg>
+                        </label>
+                        <span className="ml-2" style={{color: 'white'}}>ETH</span>
+                      </CheckBox>
+                    </div>
+                    <div className="col-12 d-flex justify-content-between align-items-center flex-row">
+                      <CheckBox>
+                        <label className="checkbox bounce">
+                          <input type="checkbox" value="USDT" onChange={handlePair}/>
+                          <svg viewBox="0 0 21 21">
+                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                          </svg>
+                        </label>
+                        <span className="ml-2" style={{color: 'white'}}>USDT</span>
+                      </CheckBox>
+                    </div>
+                    <div className="col-12 d-flex justify-content-between align-items-center flex-row">
+                      <CheckBox>
+                        <label className="checkbox bounce">   
+                          <input type="checkbox" value="TRX" onChange={handlePair}/>
+                          <svg viewBox="0 0 21 21">
+                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                          </svg>
+                        </label>
+                        <span className="ml-2" style={{color: 'white'}}>TRX</span>
+                      </CheckBox>
+                    </div>
+                    <div className="col-12 d-flex justify-content-between align-items-center flex-row">
+                      <CheckBox>
+                        <label className="checkbox bounce">
+                          <input type="checkbox" value="LKT" onChange={handlePair}/>
+                          <svg viewBox="0 0 21 21">
+                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                          </svg>
+                        </label>
+                        <span className="ml-2" style={{color: 'white'}}>LKT</span>
+                      </CheckBox>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="listing__plan-date">
                 <div className="listing__Plan-listingdate">
