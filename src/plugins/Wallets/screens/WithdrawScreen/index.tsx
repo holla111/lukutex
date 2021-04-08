@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { currenciesFetch, ethFeeFetch, selectCurrencies, selectETHFee, selectUserInfo, selectWallets, walletsFetch } from '../../../../modules';
+import { currenciesFetch, ethFeeFetch, selectChildCurrencies, selectCurrencies, selectETHFee, selectUserInfo, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { WithdrawAddress, WithdrawHistory, WithdrawInfo } from '../../containers';
 
 export const WithdrawScreen = () => {
@@ -12,11 +12,13 @@ export const WithdrawScreen = () => {
     const wallets = useSelector(selectWallets) || [];
     const user = useSelector(selectUserInfo);
     const eth_fee = useSelector(selectETHFee);
-
+    const child_currencies = useSelector(selectChildCurrencies);
+    
     const dispatch = useDispatch();
     const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
     const dispatchFetchWallets = () => dispatch(walletsFetch());
     const dispatchFetchEthFee = () => dispatch(ethFeeFetch());
+    const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
 
     // side effects
     React.useEffect(() => {
@@ -24,6 +26,23 @@ export const WithdrawScreen = () => {
         dispatchFetchWallets();
         dispatchFetchEthFee();
     }, []);
+
+    React.useEffect(() => {
+        dispatchFetchChildCurrencies();
+    }, [currency_id]);
+
+    const networks = [
+        {
+            name: 'TRON20',
+            key: 'tron20',
+            currency: child_currencies.payload.find(child_currency => child_currency.blockchain_key === 'tron20') || { id: '', type: '', blockchain_key: '', name: '', parent_id: '', deposit_enabled: 0, withdrawal_enabled: 0 }
+        },
+        {
+            name: 'BEP20',
+            key: 'bep20',
+            currency: child_currencies.payload.find(child_currency => child_currency.blockchain_key === 'bep20') || { id: '', type: '', blockchain_key: '', name: '', parent_id: '', deposit_enabled: 0, withdrawal_enabled: 0 }
+        }
+    ]
 
     // method
     const findIcon = (currency_id: string): string => {
@@ -49,6 +68,7 @@ export const WithdrawScreen = () => {
                         wallets={wallets}
                         currencies={currencies}
                         eth_fee={eth_fee}
+                        networks={networks}
                     />
                 </div>
             </div>

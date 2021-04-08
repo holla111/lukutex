@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Currency, Wallet, walletsAddressFetch, /* selectWalletsAddressError, */ Beneficiary, User, selectETHFee, walletsWithdrawCcyFetch, ETHFee } from '../../../../modules';
+import { Currency, Wallet, walletsAddressFetch, /* selectWalletsAddressError, */ Beneficiary, User, selectETHFee, walletsWithdrawCcyFetch, ETHFee, ChildCurrency } from '../../../../modules';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
@@ -64,13 +64,21 @@ const BlurDisable = styled.div`
     justify-content: center;
     z-index: 10;
     flex-direction: column;
-`
+`;
+
+interface Network {
+    name: string;
+    key: string;
+    currency: ChildCurrency;
+}
+
 interface WithdrawAddressProps {
     currency_id: string;
     wallets: Wallet[];
     currencies: Currency[];
     user: User;
     eth_fee: ETHFee[];
+    networks: Network[];
 }
 
 const defaultBeneficiary: Beneficiary = {
@@ -99,7 +107,7 @@ interface WalletsState {
 }
 
 export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawAddressProps) => {
-    const { currency_id, wallets, currencies } = props;
+    const { currency_id, wallets, currencies, networks } = props;
 
     useEthFeeFetch();
 
@@ -129,6 +137,12 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         dispatch(walletsAddressFetch({ currency: currency_id }));
     }, [dispatch, currency_id]);
 
+    const child_wallets = networks.map(network => {
+        return {
+            ...network,
+            wallet: wallets.find(item => item.currency === network.currency.id) || { name: '', currency: '', balance: '', type: '', address: '' }
+        }
+    })
 
     // const walletsError = useSelector(selectWalletsAddressError);
 
@@ -242,15 +256,15 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 
         if (fee == 0) {
             if (!(fee_currency && fee_currency.fee)) {
-              message.error('Something wrong with ETH fee.');
-              return;
+                message.error('Something wrong with ETH fee.');
+                return;
             }
             if (!(ethBallance && Number(ethBallance) >= Number(fee_currency.fee))) {
-              message.error('ETH balance isn`\t enough to pay.');
-              return;
+                message.error('ETH balance isn`\t enough to pay.');
+                return;
             }
-          }
-      
+        }
+
 
         const withdrawRequest = {
             uid: user.uid,
@@ -259,7 +273,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
             currency: currency.toLowerCase(),
             otp: otpCode,
             beneficiary_id: String(beneficiary.id),
-          };
+        };
         dispatch(walletsWithdrawCcyFetch(withdrawRequest));
         toggleConfirmModal();
     };
@@ -291,22 +305,24 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                                                 ) : renderWithdrawContent()}
 
                                             </TabPane>
-                                            <TabPane tab="TRON20" key="2">
-                                                <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                                                    <BlurDisable>
-                                                    <LockIcon className="pg-blur__content__icon" />
-                                                        TRON20 hasn't been supported.
-                                                </BlurDisable>
-                                                </div>
-                                            </TabPane>
-                                            <TabPane tab="BEP20" key="3">
-                                                <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                                                    <BlurDisable>
-                                                    <LockIcon className="pg-blur__content__icon" />
-                                                        TRON20 hasn't been supported.
-                                        </BlurDisable>
-                                                </div>
-                                            </TabPane>
+                                            {
+                                                child_wallets ?
+                                                    child_wallets.map(child_wallet => (
+
+                                                        <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.key}>
+                                                            {child_wallet && child_wallet.currency.withdrawal_enabled ? renderWithdrawContent() : (
+                                                                <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                                                                    <BlurDisable >
+                                                                        <LockIcon className="pg-blur__content__icon" />
+                                                                        {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+                                                                    </BlurDisable>
+                                                                </div>
+                                                            )}
+                                                        </TabPane>
+                                                    ))
+                                                    : ""
+                                            }
+
                                         </Tabs>
                                     </TabsStyle>
                                     : ''

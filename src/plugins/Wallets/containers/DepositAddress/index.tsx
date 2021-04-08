@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectWallets, walletsAddressFetch, walletsFetch } from '../../../../modules';
+import { ChildCurrency, selectWallets, walletsAddressFetch, walletsFetch } from '../../../../modules';
 import { DepositBody } from '../../components/DepositBody';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
@@ -59,29 +59,40 @@ const BlurDisable = styled.div`
     justify-content: center;
     z-index: 10;
     flex-direction: column;
-`
+`;
+
+interface Network {
+    name: string;
+    key: string;
+    currency: ChildCurrency;
+}
 
 interface DepositAddressProps {
     currency_id: string;
     currency_icon: string;
-    tron20_currency_id: string
+    networks: Network[]
 }
 
 
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-    const { currency_id, currency_icon, tron20_currency_id } = props;
+    const { currency_id, currency_icon, networks } = props;
 
     const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
     const dispatch = useDispatch();
     const wallets = useSelector(selectWallets) || [];
 
-    const wallet = wallets.find(item => item.currency === currency_id) || { name: '', currency: '', balance: '', type: '', address: '' };
-    const tron20_wallet = wallets.find(item => item.currency === tron20_currency_id);
-    const isAccountActivated = wallet.type === 'fiat' || wallet.balance;
+    const main_wallet = wallets.find(item => item.currency === currency_id) || { name: '', currency: '', balance: '', type: '', address: '' };
+    const child_wallets = networks.map(network => {
+        return {
+            ...network,
+            wallet: wallets.find(item => item.currency === network.currency.id) || { name: '', currency: '', balance: '', type: '', address: '' }
+        }
+    })
+    const isAccountActivated = main_wallet.type === 'fiat' || main_wallet.balance;
 
 
     const handleGenerateAddress = () => {
-        if (!wallet.address && wallets.length && wallet.type !== 'fiat') {
+        if (!main_wallet.address && wallets.length && main_wallet.type !== 'fiat') {
             dispatch(walletsAddressFetch({ currency: currency_id }));
             dispatch(walletsFetch());
             setGenerateAddressTriggered(true);
@@ -108,49 +119,39 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                             <Tabs defaultActiveKey="1" >
                                 <TabPane tab="ERC20" key="1">
                                     <DepositBody
-                                        wallet={wallet}
+                                        wallet={main_wallet}
                                         isAccountActivated={isAccountActivated}
                                         handleGenerateAddress={handleGenerateAddress}
                                         generateAddressTriggered={generateAddressTriggered}
                                     />
                                 </TabPane>
-                                <TabPane tab="TRON20" key="2">
-                                    <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                                        {
-                                            tron20_currency_id && tron20_wallet ?
-                                                <DepositBody
-                                                    wallet={tron20_wallet}
-                                                    isAccountActivated={isAccountActivated}
-                                                    handleGenerateAddress={handleGenerateAddress}
-                                                    generateAddressTriggered={generateAddressTriggered}
-                                                />
-                                                :
-                                                <BlurDisable>
-                                                    <LockIcon className="pg-blur__content__icon" />
-                                                TRON20 hasn't been available.
-                                            </BlurDisable>
-                                        }
-                                    </div>
+                                {
+                                    child_wallets ? 
+                                        child_wallets.map(child_wallet => (
+                                            <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.key}>
+                                            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                                                {
+                                                    child_wallet.currency.id && child_wallet.wallet && child_wallet.currency.deposit_enabled ?
+                                                        <DepositBody
+                                                            wallet={child_wallet.wallet}
+                                                            isAccountActivated={isAccountActivated}
+                                                            handleGenerateAddress={handleGenerateAddress}
+                                                            generateAddressTriggered={generateAddressTriggered}
+                                                        />
+                                                        :
+                                                        <BlurDisable>
+                                                            <LockIcon className="pg-blur__content__icon" />
+                                                        {child_wallet.name.toUpperCase()} hasn't been available.
+                                                        </BlurDisable>
+                                                }
+                                            </div>
 
-                                </TabPane>
-                                <TabPane tab="BEP20" key="3">
-                                    <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                                        {
-                                            tron20_currency_id && tron20_wallet ?
-                                                <DepositBody
-                                                    wallet={tron20_wallet}
-                                                    isAccountActivated={isAccountActivated}
-                                                    handleGenerateAddress={handleGenerateAddress}
-                                                    generateAddressTriggered={generateAddressTriggered}
-                                                />
-                                                :
-                                                <BlurDisable>
-                                                    <LockIcon className="pg-blur__content__icon" />
-                                                TRON20 hasn't been available.
-                                            </BlurDisable>
-                                        }
-                                    </div>
-                                </TabPane>
+                                            </TabPane>
+                                        ))
+                                        : 
+                                        ""
+                                }
+                                
                             </Tabs>
                         </TabsStyle>
                     </div>

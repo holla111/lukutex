@@ -9,17 +9,29 @@ import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 export const DepositScreen = () => {
     const { currency_id } = useParams<{ currency_id: string }>();
 
+
     // selectors
     const currencies = useSelector(selectCurrencies);
     const wallets = useSelector(selectWallets) || [];
     const child_currencies = useSelector(selectChildCurrencies);
-    const child_currency_tron20 = child_currencies.payload.find(child_currency => child_currency.blockchain_key === 'tron20') || {id: ''};
-    console.log(child_currency_tron20);
-    
+
+    const networks = [
+        {
+            name: 'TRON20',
+            key: 'tron20',
+            currency: child_currencies.payload.find(child_currency => child_currency.blockchain_key === 'tron20') || { id: '', type: '', blockchain_key: '', name: '', parent_id: '', deposit_enabled: 0, withdrawal_enabled: 0 }
+        },
+        {
+            name: 'BEP20',
+            key: 'bep20',
+            currency: child_currencies.payload.find(child_currency => child_currency.blockchain_key === 'bep20') || { id: '', type: '', blockchain_key: '', name: '', parent_id: '', deposit_enabled: 0, withdrawal_enabled: 0 }
+        }
+    ];
+
     const dispatch = useDispatch();
     const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
     const dispatchFetchWallets = () => dispatch(walletsFetch());
-    const dispatchFetchChildCurrencies= () => dispatch(walletsChildCurrenciesFetch({currency: currency_id}));
+    const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
 
     const history = useHistory();
 
@@ -59,7 +71,7 @@ export const DepositScreen = () => {
                     <DepositAddress
                         currency_id={currency_id.toLowerCase()}
                         currency_icon={findIcon(currency_id.toLowerCase())}
-                        tron20_currency_id={child_currency_tron20.id}
+                        networks={networks}
                     />
                 </div>
             </div>
