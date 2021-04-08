@@ -51,7 +51,7 @@ const TableStyles = styled.div`
                 padding: 0.3rem 0.5rem 0.3rem 0.5rem;
                 color: #fff;
                 font-weight: 500;
-                padding: 1rem;
+                padding: 0.5rem;
                 background-color: #182034;
                 border-radius: 5px;
                 -webkit-transition: width 0.4s ease-in-out;

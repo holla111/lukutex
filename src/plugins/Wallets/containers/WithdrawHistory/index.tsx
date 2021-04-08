@@ -142,30 +142,18 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     const error_history = [...data].filter(d => d.status === 'failed');
 
     return (
-        <div style={{ marginTop: '100px' }}>
+        <div style={{ marginTop: '50px' }}>
             <h2>{intl.formatMessage({ id: `page.body.history.withdraw` })}</h2>
             <TabsStyle>
                 <Tabs defaultActiveKey="recent_history" >
                     <TabPane tab="Recent Withdrawal History" key="recent_history">
-                        {
-                            all_history.length > 0
-                                ? <ReactTable columns={columns} data={all_history} headColor="#182034" />
-                                : intl.formatMessage({ id: 'page.noDataToShow' })
-                        }
+                        <ReactTable columns={columns} data={all_history} headColor="#182034" />
                     </TabPane>
                     <TabPane tab="Success Withdrawal History" key="success_history">
-                        {
-                            success_history.length > 0
-                                ? <ReactTable columns={columns} data={success_history} headColor="#182034" />
-                                : intl.formatMessage({ id: 'page.noDataToShow' })
-                        }
+                        <ReactTable columns={columns} data={success_history} headColor="#182034" />
                     </TabPane>
                     <TabPane tab="Error Withdrawal History" key="error_history">
-                        {
-                            error_history.length > 0
-                                ? <ReactTable columns={columns} data={error_history} headColor="#182034" />
-                                : intl.formatMessage({ id: 'page.noDataToShow' })
-                        }
+                        <ReactTable columns={columns} data={error_history} headColor="#182034" />
                     </TabPane>
                 </Tabs>
             </TabsStyle>

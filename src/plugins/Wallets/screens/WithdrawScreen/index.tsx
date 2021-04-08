@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { currenciesFetch, selectCurrencies, selectUserInfo, selectWallets, walletsFetch } from '../../../../modules';
+import { currenciesFetch, ethFeeFetch, selectCurrencies, selectETHFee, selectUserInfo, selectWallets, walletsFetch } from '../../../../modules';
 import { WithdrawAddress, WithdrawHistory, WithdrawInfo } from '../../containers';
 
 export const WithdrawScreen = () => {
@@ -11,18 +11,18 @@ export const WithdrawScreen = () => {
     const currencies = useSelector(selectCurrencies);
     const wallets = useSelector(selectWallets) || [];
     const user = useSelector(selectUserInfo);
+    const eth_fee = useSelector(selectETHFee);
 
     const dispatch = useDispatch();
     const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
     const dispatchFetchWallets = () => dispatch(walletsFetch());
-
-
-    
+    const dispatchFetchEthFee = () => dispatch(ethFeeFetch());
 
     // side effects
     React.useEffect(() => {
         dispatchFetchCurrencies();
         dispatchFetchWallets();
+        dispatchFetchEthFee();
     }, []);
 
     // method
@@ -48,6 +48,7 @@ export const WithdrawScreen = () => {
                         currency_id={currency_id.toLowerCase()}
                         wallets={wallets}
                         currencies={currencies}
+                        eth_fee={eth_fee}
                     />
                 </div>
             </div>

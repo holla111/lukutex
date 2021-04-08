@@ -7,7 +7,6 @@ import { selectCurrencies, selectUserInfo, selectWalletAddress } from '../../../
 import styled from 'styled-components';
 import { LockIcon } from '../../../../assets/images/LockIcon';
 import { DepositCrypto } from '../DepositCrypto';
-import { CurrencyInfo } from '../CurrencyInfo';
 import { DepositFiat } from '../DepositFiat';
 
 const BlurDisable = styled.div`
@@ -76,7 +75,6 @@ const WalletDepositBodyComponent = props => {
     if (wallet.type === 'coin') {
       return (
         <div style={{position: 'relative'}}>
-          <CurrencyInfo wallet={wallet} />
           {currencyItem && !currencyItem.deposit_enabled ? (
             <BlurDisable >
               <LockIcon className="pg-blur__content__icon" />
@@ -101,7 +99,6 @@ const WalletDepositBodyComponent = props => {
     } else {
       return (
         <React.Fragment>
-          <CurrencyInfo wallet={wallet} />
           {currencyItem && currencyItem.deposit_enabled === false ? (
             <BlurDisable >
               <LockIcon className="pg-blur__content__icon" />
@@ -115,7 +112,7 @@ const WalletDepositBodyComponent = props => {
   };
 
   return (
-    <div className="cr-mobile-wallet-deposit-body">
+    <div className="cr-wallet-deposit-body">
       {renderDeposit(props.isAccountActivated)}
     </div>
   );

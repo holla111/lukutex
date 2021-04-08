@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Currency, Wallet, walletsAddressFetch, /* selectWalletsAddressError, */ Beneficiary, User, selectETHFee, walletsWithdrawCcyFetch } from '../../../../modules';
+import { Currency, Wallet, walletsAddressFetch, /* selectWalletsAddressError, */ Beneficiary, User, selectETHFee, walletsWithdrawCcyFetch, ETHFee } from '../../../../modules';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
@@ -70,6 +70,7 @@ interface WithdrawAddressProps {
     wallets: Wallet[];
     currencies: Currency[];
     user: User;
+    eth_fee: ETHFee[];
 }
 
 const defaultBeneficiary: Beneficiary = {
@@ -234,21 +235,31 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         let { currency, fee } = wallet;
 
         // Withdraw by eth fee
-        const { user } = props;
+        const { user, eth_fee, wallets } = props;
+        const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
+        const ethBallance = ethWallet ? ethWallet.balance : undefined;
+        const fee_currency = eth_fee.find(cur => cur.currency_id === currency);
 
-
-        if (!(fee == 0 && eth_balance && eth_fee[0].fee && Number(eth_balance) >= Number(eth_fee[0].fee))) {
-            message.error('Withdraw failed.');
-            return;
-        }
+        if (fee == 0) {
+            if (!(fee_currency && fee_currency.fee)) {
+              message.error('Something wrong with ETH fee.');
+              return;
+            }
+            if (!(ethBallance && Number(ethBallance) >= Number(fee_currency.fee))) {
+              message.error('ETH balance isn`\t enough to pay.');
+              return;
+            }
+          }
+      
 
         const withdrawRequest = {
             uid: user.uid,
+            fee: fee.toString(),
             amount,
             currency: currency.toLowerCase(),
             otp: otpCode,
             beneficiary_id: String(beneficiary.id),
-        };
+          };
         dispatch(walletsWithdrawCcyFetch(withdrawRequest));
         toggleConfirmModal();
     };

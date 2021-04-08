@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { localeDate } from '../../../../helpers';
-import { fetchHistory, resetHistory, RootState, selectCurrencies, selectHistory, selectNextPageExists } from '../../../../modules';
+import { fetchHistory, resetHistory, selectCurrencies, selectHistory } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 
 interface DepositHistoryProps {
@@ -20,15 +20,6 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     const currencies = useSelector(selectCurrencies);
     const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
     const blockchain_address = currency ? currency.explorer_address : '';
-    console.log(currencies);
-    console.log(list);
-
-
-    const nextPageExists = useSelector((state: RootState) => selectNextPageExists(state, 6));
-    console.log(nextPageExists);
-
-
-
     // dispatch
     const dispatch = useDispatch();
     const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "deposits", page: 1, limit: 6 }));
@@ -99,13 +90,9 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     });
 
     return (
-        <div style={{ marginTop: '100px' }}>
+        <div style={{ marginTop: '10px' }}>
             <h2>{intl.formatMessage({ id: `page.body.history.deposit` })}</h2>
-            {
-                list.length > 0
-                    ? <ReactTable columns={columns} data={data} headColor="#182034" />
-                    : intl.formatMessage({ id: 'page.noDataToShow' })
-            }
+            <ReactTable columns={columns} data={data} headColor="#182034" />
         </div>
     )
 }
