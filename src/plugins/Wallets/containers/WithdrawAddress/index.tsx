@@ -311,7 +311,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 
                                                         <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.key}>
                                                             {child_wallet && child_wallet.currency.withdrawal_enabled ? renderWithdrawContent() : (
-                                                                <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                                                                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                                                     <BlurDisable >
                                                                         <LockIcon className="pg-blur__content__icon" />
                                                                         {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
