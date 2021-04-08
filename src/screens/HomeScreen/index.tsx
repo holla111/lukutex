@@ -104,7 +104,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
               <BannerDisplayStyle className="row">
                 {[...events.payload.slice(events.payload.length - 2, events.payload.length)].map(event => {
                     return (
-                      <SlideStyle className=" col-6 slide" >
+                      <SlideStyle className=" col-6 col-md-6  slide" >
                         <a href={event.ref_link} style={{display: 'block', width: '100%', textAlign: 'center'}} className="slide-link">{event.event_name}</a>
                       </SlideStyle>
                     )
