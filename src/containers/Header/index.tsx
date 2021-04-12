@@ -2,6 +2,8 @@ import { History } from 'history';
 import * as React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect, MapDispatchToPropsFunction } from 'react-redux';
+import { UserOutlined } from '@ant-design/icons';
+
 import { withRouter, Link } from 'react-router-dom';
 import { LogoutIcon } from '../../assets/images/sidebar/LogoutIcon';
 import { IntlProps } from '../../index';
@@ -72,8 +74,10 @@ class Head extends React.Component<Props, State> {
     const Logo = require('../../assets/images/logo.svg');
     return (
       <nav className="navbar navbar-inverse header-color">
-        <div className="navbar__item-left">
+        <div className="navbar__item-logo">
           <a href="/"><img src={Logo} alt="" className="pg-logo__img" /></a>
+        </div>
+        <div className="navbar__item-left">
           <Link className="market" to="/trading">Market</Link>
           <Link className="market" to="/ieo">Launchpad</Link>
           <Link className="market" to="/airdrop">Airdrop Hub</Link>
@@ -160,6 +164,7 @@ class Head extends React.Component<Props, State> {
     return !isLoggedIn && (
       <div>
         <button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingIn()} >
+          <UserOutlined />
           {this.translate('page.body.landing.header.button2')}
         </button>
         <button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingUp()} >
