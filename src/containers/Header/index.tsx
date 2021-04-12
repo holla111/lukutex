@@ -74,10 +74,8 @@ class Head extends React.Component<Props, State> {
     const Logo = require('../../assets/images/logo.svg');
     return (
       <nav className="navbar navbar-inverse header-color">
-        <div className="navbar__item-logo">
-          <a href="/"><img src={Logo} alt="" className="pg-logo__img" /></a>
-        </div>
         <div className="navbar__item-left">
+          <a href="/"><img src={Logo} alt="" className="pg-logo__img" /></a>
           <Link className="market" to="/trading">Market</Link>
           <Link className="market" to="/ieo">Launchpad</Link>
           <Link className="market" to="/airdrop">Airdrop Hub</Link>
