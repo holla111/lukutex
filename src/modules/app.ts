@@ -38,7 +38,7 @@ import { ordersHistoryReducer } from './user/ordersHistory';
 import { passwordReducer } from './user/password';
 import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
-import { childCurrenciesReducer, walletsReducer } from './user/wallets';
+import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
 
 import { airdropReducer } from './airdrops/airdrop';
@@ -115,6 +115,7 @@ export const userReducer = combineReducers({
     profile: profileReducer,
     wallets: walletsReducer,
     child_currencies: childCurrenciesReducer,
+    all_child_currencies: allChildCurrenciesReducer,
     addresses: addressesReducer,
     documents: documentsReducer,
     identity: identityReducer,

@@ -60,34 +60,28 @@ const BlurDisable = styled.div`
     z-index: 10;
     flex-direction: column;
 `;
-
-interface Network {
-    name: string;
-    key: string;
-    currency: ChildCurrency;
-}
-
 interface DepositAddressProps {
     currency_id: string;
     currency_icon: string;
-    networks: Network[]
+    child_currencies: ChildCurrency[];
 }
 
 
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-    const { currency_id, currency_icon, networks } = props;
+    const { currency_id, currency_icon, child_currencies } = props;
 
     const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
     const dispatch = useDispatch();
     const wallets = useSelector(selectWallets) || [];
 
     const main_wallet = wallets.find(item => item.currency === currency_id) || { name: '', currency: '', balance: '', type: '', address: '' };
-    const child_wallets = networks.map(network => {
+    const child_wallets = child_currencies.map(network => {
         return {
             ...network,
-            wallet: wallets.find(item => item.currency === network.currency.id) || { name: '', currency: '', balance: '', type: '', address: '' }
+            wallet: wallets.find(item => item.currency === network.id) || { name: '', currency: '', balance: '', type: '', address: '' }
         }
-    })
+    });
+    
     const isAccountActivated = main_wallet.type === 'fiat' || main_wallet.balance;
 
 
@@ -128,10 +122,10 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                 {
                                     child_wallets ? 
                                         child_wallets.map(child_wallet => (
-                                            <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.key}>
+                                            <TabPane tab={child_wallet.name.toUpperCase() || ''} key={child_wallet.blockchain_key}>
                                             <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                                 {
-                                                    child_wallet.currency.id && child_wallet.wallet && child_wallet.currency.deposit_enabled ?
+                                                    child_wallet.id && child_wallet.wallet && child_wallet.deposit_enabled ?
                                                         <DepositBody
                                                             wallet={child_wallet.wallet}
                                                             isAccountActivated={isAccountActivated}
@@ -141,7 +135,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                                         :
                                                         <BlurDisable>
                                                             <LockIcon className="pg-blur__content__icon" />
-                                                        {child_wallet.name.toUpperCase()} hasn't been available.
+                                                        {child_wallet.name.toUpperCase() || 'Wallet'} hasn't been available.
                                                         </BlurDisable>
                                                 }
                                             </div>

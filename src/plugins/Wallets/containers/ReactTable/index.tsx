@@ -17,10 +17,10 @@ const TableStyles = styled.div`
             padding-right: 10px; 
             padding-left: 10px;
             transition: all 0.2s;
-            background-color: #182034;
+            background-color: #1e2841;
         }
         th {
-            background-color: #111725;
+            background-color: #28334e;
         }
         th:not(:first-child) {
             text-align: center
@@ -46,21 +46,21 @@ const TableStyles = styled.div`
             select, input {
                 width: 200px;
                 font-size: 1.3rem;
-                border: 3px solid #5D76B5;
+                border: 1px solid #5D76B5;
                 outline: none;
                 padding: 0.3rem 0.5rem 0.3rem 0.5rem;
                 color: #fff;
                 font-weight: 500;
                 padding: 0.5rem;
                 background-color: #182034;
-                border-radius: 5px;
+                border-radius: 2px;
                 -webkit-transition: width 0.4s ease-in-out;
                 transition: all 0.2s ease-in-out;
                 font-size: 1rem;
                 /* When the input field gets focus, change its width to 100% */
                 :focus {
                     width: 200px;
-                    border: 3px solid #9AA9D1;
+                    border: 1px solid #9AA9D1;
                 }
             }
         }

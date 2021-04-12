@@ -163,6 +163,7 @@ export interface RootState {
         userActivity: UserActivityState;
         wallets: WalletsState;
         child_currencies: ChildCurrenciesState;
+        all_child_currencies: ChildCurrenciesState;
         withdrawLimit: WithdrawLimitState;
     };
     events : {

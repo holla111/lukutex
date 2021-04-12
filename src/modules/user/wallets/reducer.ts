@@ -1,6 +1,9 @@
 import { CommonError } from '../../types';
 import { WalletsAction } from './actions';
 import {
+    ALL_CHILD_CURRENCIES_DATA,
+    ALL_CHILD_CURRENCIES_ERROR,
+    ALL_CHILD_CURRENCIES_FETCH,
     SET_MOBILE_WALLET_UI,
     WALLETS_ADDRESS_DATA,
     WALLETS_ADDRESS_DATA_WS,
@@ -224,6 +227,34 @@ export const childCurrenciesReducer = (state = initialChildCurrencies, action: W
                 error: undefined,
             };
         case WALLETS_CHILD_CURRENCIES_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
+        default:
+            return state;
+    }
+};
+
+export const allChildCurrenciesReducer = (state = initialChildCurrencies, action: WalletsAction): ChildCurrenciesState => {
+    switch (action.type) {
+        case ALL_CHILD_CURRENCIES_FETCH:
+            return {
+                ...state,
+                loading: true,
+                error: undefined,
+            };
+        case ALL_CHILD_CURRENCIES_DATA:
+            const { payload } = action.payload;
+
+            return {
+                ...state,
+                payload: payload,
+                loading: false,
+                error: undefined,
+            };
+        case ALL_CHILD_CURRENCIES_ERROR:
             return {
                 ...state,
                 loading: false,

@@ -56,7 +56,7 @@ export const WithdrawScreen = () => {
     };
 
     return (
-        <div className="container-fluid" style={{ position: "relative", padding: '20px 10% 20px 10%', marginTop: '-7px', backgroundColor: '#222B42', color: '#fff' }}>
+        <div className="container-fluid" style={{ position: "relative", padding: '20px 10% 20px 10%', marginTop: '-7px', backgroundColor: '#171c29', color: '#fff' }}>
             <div className="row">
                 <div className="col-6">
                     <WithdrawInfo wallets={wallets} currency_id={currency_id.toLowerCase()} currency_icon={findIcon(currency_id)} />

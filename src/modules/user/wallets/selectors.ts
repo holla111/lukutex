@@ -31,3 +31,5 @@ export const selectShouldFetchWallets = (state: RootState): boolean =>
 
 export const selectChildCurrencies = (state: RootState): ChildCurrenciesState => state.user.child_currencies;
 
+export const selectAllChildCurrencies = (state: RootState): ChildCurrenciesState => state.user.all_child_currencies;
+

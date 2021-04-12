@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { EstimatedValue } from '../../../../containers/Wallets/EstimatedValue';
-import { currenciesFetch, selectCurrencies, selectWallets, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, currenciesFetch, selectAllChildCurrencies, selectCurrencies, selectWallets, walletsFetch } from '../../../../modules';
 import { ReactTable } from '../../containers';
 
 export interface WalletItem {
@@ -24,30 +24,30 @@ export interface WalletItem {
 
 const SearchInput = styled.input`
   width: 130px;
-  border: 2px solid #5D76B5;
+  border: 1px solid #5D76B5;
   outline: none;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   color: #fff;
   font-weight: 500;
   background-color: #182034;
-  border-radius: 5px;
+  border-radius: 2px;
   -webkit-transition: width 0.4s ease-in-out;
   transition: all 0.2s ease-in-out;
   font-size: 1rem;
   /* When the input field gets focus, change its width to 100% */
   :focus {
     width: 200px;
-    border: 2px solid #9AA9D1;
+    border: 1px solid #9AA9D1;
   }
 `;
 
 const DepositButton = styled.button`
-  background: #36456A;
+  background: #e76f51;
   border: none;
   outline: none;
   color: white;
   padding: 0.5rem 1.5rem;
-  border-radius: 5px;
+  border-radius: 2px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -56,17 +56,21 @@ const DepositButton = styled.button`
   transition: all 0.2s;
   :focus { outline: none; }
   :hover {
-    background: #222D4A;
+    background: #E9795C;
+  }
+  :disabled {
+    cursor: not-allowed;
+    background: #264653;
   }
 `;
 
 const WithdrawButton = styled.button`
-  background: #36456A;
+  background: #2a9d8f;
   border: none;
   outline: none;
   color: white;
   padding: 0.5rem 1.5rem;
-  border-radius: 5px;
+  border-radius: 2px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -75,11 +79,11 @@ const WithdrawButton = styled.button`
   transition: all 0.2s;
   :focus { outline: none; }
   :hover {
-    background: #222D4A;
+    background: #2EAFA0;
   }
   :disabled {
     cursor: not-allowed;
-    background: #222D4A;
+    background: #264653;
   }
 `;
 
@@ -202,16 +206,19 @@ export const WalletListScreen = () => {
   const dispatch = useDispatch();
   const dispatchFetchWallets = () => dispatch(walletsFetch());
   const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
+  const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
 
   // side effect
   React.useEffect(() => {
     dispatchFetchWallets();
     dispatchcFetchCurrencies();
+    dispatchcFetchAllChildCurrencies();
   }, []);
 
   // selector
   const wallets = useSelector(selectWallets);
   const currencies = useSelector(selectCurrencies);
+  const all_child_currencies = useSelector(selectAllChildCurrencies);
 
   // function
   const findIcon = (code: string): string => {
@@ -229,8 +236,10 @@ export const WalletListScreen = () => {
   );
 
   const [searchInputState, setSearchInputState] = React.useState("");
-
+  console.log(all_child_currencies);
+  
   const data = wallets
+    .filter(wallet => !all_child_currencies.payload.map(cur => cur.id).includes(wallet.currency))
     .map(wallet => {
       return {
         ...wallet,
@@ -259,7 +268,7 @@ export const WalletListScreen = () => {
 
   const renderTable = () => {
     return (
-      <ReactTable columns={columns} data={data} headColor="#222B42" />
+      <ReactTable columns={columns} data={[...data]} headColor="#222B42" />
     );
   };
 
@@ -268,7 +277,7 @@ export const WalletListScreen = () => {
   };
 
   return (
-    <div className="container-fluid" style={{ backgroundColor: '#222B42', borderRadius: '5px', height: '100vh', marginTop: '-10px', padding: '20px 10% 0 10%' }}>
+    <div className="container-fluid" style={{ backgroundColor: '#171c29', borderRadius: '5px', height: '100vh', marginTop: '-10px', padding: '20px 10% 0 10%' }}>
       <div className="row">
         <div className="col-12">
           <EstimatedValue wallets={wallets} />
