@@ -32,7 +32,7 @@ class FooterComponent extends React.Component<RouterProps> {
       <footer className="page-footer font-small unique-color-dark">
         <div className="text-center text-md-left mt-5 hmax">
           <div className="row">
-            <div className="col-md-3 col-lg-3 col-xl-3 mx-auto">
+            <div className="col-md-2 col-lg-2 col-xl-2 mx-auto">
               <div className="pg-logo">
                 <a href="/"><img src={Logo} alt="" className="pg-logo__img" /></a>
               </div >
@@ -85,7 +85,7 @@ class FooterComponent extends React.Component<RouterProps> {
               <div>
                 <h5 className="text-uppercase font-weight-bold">Receive new</h5>
                 <div style={{ marginBottom: 40, marginTop: 26 }}>
-                  <Input addonAfter={<MailOutlined />} defaultValue="Enter Email Address" />
+                  <Input addonAfter={<MailOutlined />} placeholder="Enter Email Address" />
                 </div>
               </div>
               <div>
