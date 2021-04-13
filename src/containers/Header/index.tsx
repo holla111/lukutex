@@ -2,6 +2,8 @@ import { History } from 'history';
 import * as React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect, MapDispatchToPropsFunction } from 'react-redux';
+import { UserOutlined } from '@ant-design/icons';
+
 import { withRouter, Link } from 'react-router-dom';
 import { LogoutIcon } from '../../assets/images/sidebar/LogoutIcon';
 import { IntlProps } from '../../index';
@@ -160,6 +162,7 @@ class Head extends React.Component<Props, State> {
     return !isLoggedIn && (
       <div>
         <button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingIn()} >
+          <UserOutlined />
           {this.translate('page.body.landing.header.button2')}
         </button>
         <button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingUp()} >

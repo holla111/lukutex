@@ -13,7 +13,7 @@ header {
   color: #fff;
   font-weight: bold;
   font-size: 10px;
-  background-color: #2a9d8f;
+  background-color: #3a86ff;
   padding: 0 10px;
   border-radius: 10px;
 }
@@ -150,7 +150,18 @@ header {
 }
 
 .navbar{
-    margin: 0 0.2rem;
+    /* margin: 0 0.2rem;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem 1rem; */
+/* 
+    &__item-logo {
+      display: flex;
+      align-items:center;
+    } */
 
     &__item-left{
       display: flex;
@@ -286,7 +297,7 @@ header {
 
 .market:hover {
   color: rgb(240, 185, 11);
-  border-bottom: #ddd solid 3px;
+  border-bottom: #ddd solid 2px;
   text-decoration: none;
 }
 
@@ -407,8 +418,8 @@ header {
   user-select: none;
   touch-action: manipulation;
   height: 32px;
-  padding: 0 15px;
-  font-size: 18px;
+  padding: 0 20px;
+  font-size: 16px;
   border-radius: 4px;
   color: #fff;
   background-color: var(--bg-head-color);
@@ -448,18 +459,17 @@ header {
 
 .ant-btn-primary {
   color: #fff;
-  background-color: #1d3863;
-  border-color: #1d3863;
+  background-color: var(--bg-head-color);
   text-shadow: 0 -1px 0 rgba(0,0,0,.12);
   box-shadow: 0 2px 0 rgba(0,0,0,.045);
-  border: 1px solid #295e9f;
-  border-radius: 2px;
+  border: 1px solid #fff;
+  border-radius: 20px;
 }
 .ant-btn-primary:focus,
 .ant-btn-primary:hover {
   color: #fff;
-  background-color: #40a9ff;
-  border-color: #40a9ff;
+  background-color: #424d63;
+  border-color: #424d63;
 }
 .ant-btn-primary:active {
   color: #fff;
@@ -469,4 +479,9 @@ header {
 
 .header-color {
   background-color: var(--subheader-background-color);
+}
+.anticon-user {
+  position: relative;
+  top: -4px;
+  right: 6px;
 }

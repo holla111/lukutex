@@ -57,7 +57,7 @@ export const DispChart: React.FC<any> = () => {
   const fetchMarketsKlines = async (marketId: string, from: number, to: number) => {
     try {
         const klines = await axios.get(`${BASE_MARKET_URL}/${marketId.split('/').join('')}/k-line?period=30&time_from=${from}&time_to=${to}`);
-        console.log(klines)
+      
         return klines.data.map((kline, index) => { return { pv: kline[3] } });
     } catch (error) {
         return [];
@@ -102,7 +102,7 @@ export const DispChart: React.FC<any> = () => {
   const MarketChart = (data: any, marketID: string) => {
         
     const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
-    console.log(marketID)
+  
     if (market) {
         const marketID = market.name.toUpperCase();
         const baseCurrency = marketID.split('/')[0];
