@@ -54,3 +54,9 @@
 .btn-trade:focus{
   outline: none;
 }
+
+.home-page__markets-top-block{
+  display: inline-flex;
+  justify-content: flex-end;
+  width: 100%;
+}

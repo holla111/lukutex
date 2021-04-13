@@ -37,7 +37,7 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </li>
       ))}
-      <div className="home-page__markets-top-block" style={{ marginLeft: 650 }}>
+      <div className="home-page__markets-top-block" >
         <input className="form-control" type="text" placeholder="Enter coin to search..." onChange={handldeSearchInputChange}/>
         {/* <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} /> */}
       </div>
