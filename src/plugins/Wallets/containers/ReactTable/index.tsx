@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTable, usePagination } from 'react-table';
 import styled from 'styled-components';
+import EmptySVG from './empty.svg';
 
 const TableStyles = styled.div`
     table {
@@ -126,7 +127,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
     // Render the UI for your table
     return (
         <TableStyles>
-            <table {...getTableProps()}>
+            <table {...getTableProps()} style={{ position: 'relative' }}>
                 <thead style={{ backgroundColor: headColor }}>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
@@ -136,18 +137,28 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
                         </tr>
                     ))}
                 </thead>
-                <tbody {...getTableBodyProps()}>
-                    {page.map((row) => {
-                        prepareRow(row)
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
-                                    return <td width="25%" {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                })}
-                            </tr>
-                        )
-                    })}
-                </tbody>
+                {
+                    [...page].length === 0
+                        ? <div className="text-center" style={{ padding: '50px 0', width: '400%' }}>
+                            <img className="text-center" width="100px" src={EmptySVG} />
+                            <br/>
+                            <p>No Data</p>
+                        </div>
+                        :
+                        <tbody {...getTableBodyProps()}>
+                            {page.map((row) => {
+                                prepareRow(row)
+                                return (
+                                    <tr {...row.getRowProps()}>
+                                        {row.cells.map((cell) => {
+                                            return <td width="25%" {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                        })}
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                }
+
             </table>
             <div className="pagination">
                 <div className="pagination-page_number">
