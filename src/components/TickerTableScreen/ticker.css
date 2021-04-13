@@ -17,3 +17,40 @@
   justify-content: center;
   align-items: center;
 }
+.form-control{
+  border: 1px solid #384065;
+  background-color: var(--body-background-color);
+  height: 36px;
+  width: 200px;
+  border-radius: 6px;
+}
+.form-control::placeholder{
+  color:  #879fc7;
+  font-size: 14px;
+}
+.form-control:focus {
+  color: white;
+  border-color: #80bdff;
+  background-color: transparent;
+  box-shadow: none;
+  outline: 0;
+}
+
+.btn-trade{
+  padding: 0px 22px;
+  margin-right: 0px;
+  font-size: 14px;
+  outline: none;
+  color: #879fc7;
+  border: 1px solid #384065;
+  background-color: transparent;
+  border-radius: 4px;
+}
+.btn-trade:hover{
+  color: #fff;
+  border: 1px solid #2b6dec;
+  background-color: #2b6dec;
+}
+.btn-trade:focus{
+  outline: none;
+}

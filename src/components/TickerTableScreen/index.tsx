@@ -1,4 +1,3 @@
-import { Button, Input } from 'antd';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Pagination } from '../';
@@ -38,8 +37,9 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </li>
       ))}
-      <div className="home-page__markets-top-block" style={{ marginLeft: 764 }}>
-        <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
+      <div className="home-page__markets-top-block" style={{ marginLeft: 698 }}>
+        <input className="form-control" type="text" placeholder="Enter coin to search..." onChange={handldeSearchInputChange}/>
+        {/* <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} /> */}
       </div>
     </ul>
   );
@@ -142,12 +142,12 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </td>
         <td>
-          <Button type="primary" size="small"
+          <button className="btn-trade"
             style={{ marginRight: 0, fontSize: 14 }}
             onClick={() => props.redirectToTrading(market.id)}
           >
             Trade
-          </Button>
+          </button>
         </td>
       </tr>
     );

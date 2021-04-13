@@ -29,7 +29,7 @@ const BannerListStyle = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  background: rgba(0,0,0,.4);
+  background-color: var(--divider-color-level-1);
   width: 100%;
   height: 30px;
 `;
@@ -49,11 +49,11 @@ const SlideStyle = styled.div`
     color: white;
     font-weight: bold;
   }
-  /* :nth-child(2)::after{
+  :nth-child(2)::after{
     content: "/";
     color: white;
     font-weight: bold;
-  }   */
+  }  
 `;
 const settingEvents = {
 
@@ -83,6 +83,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
 
 
   const renderBanner = ()  => {
+    console.log(events.payload.slice(events.payload.length - 3, events.payload.length))
     const speakericon = require('./Home/sound-speaker.svg');
     return (
       <div className="landing-page__banner">
@@ -102,9 +103,9 @@ export const HomeScreen: React.FC<any> = (props: any) => {
             </WrapperComponet>
             <BannerListStyle>
               <BannerDisplayStyle className="row">
-                {[...events.payload.slice(events.payload.length - 2, events.payload.length)].map(event => {
+                {[...events.payload.slice(events.payload.length - 3, events.payload.length)].map(event => {
                     return (
-                      <SlideStyle className=" col-6 col-md-6  slide" >
+                      <SlideStyle className=" col-4 col-md-4  slide" >
                         <a href={event.ref_link} style={{display: 'block', width: '100%', textAlign: 'center'}} className="slide-link">{event.event_name}</a>
                       </SlideStyle>
                     )
