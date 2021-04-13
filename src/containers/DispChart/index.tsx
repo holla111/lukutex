@@ -33,7 +33,7 @@ export const DispChart: React.FC<any> = () => {
   };
 
   const market_ids = [
-    'btc/usdt', 'eth/usdt', 'esc/usdt', 'kobe/usdt'
+    'btc/usdt', 'eth/usdt', 'lkt/usdt', 'uni/usdt'
   ]
 
   const dispatch = useDispatch();
