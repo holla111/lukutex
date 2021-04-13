@@ -85,7 +85,7 @@ class FooterComponent extends React.Component<RouterProps> {
               <div>
                 <h5 className="text-uppercase font-weight-bold">Receive new</h5>
                 <div style={{ marginBottom: 40, marginTop: 26 }}>
-                  <Input addonAfter={<MailOutlined />} placeholder="Enter Email Address" />
+                  <Input addonAfter={<MailOutlined /> } placeholder="Enter Email Address" />
                 </div>
               </div>
               <div>

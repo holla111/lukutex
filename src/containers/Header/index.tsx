@@ -161,11 +161,11 @@ class Head extends React.Component<Props, State> {
 
     return !isLoggedIn && (
       <div>
-        <button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingIn()} >
+        <button className="ant_btn ant_btn_primary" onClick={e => this.redirectSingIn()} >
           <UserOutlined />
           {this.translate('page.body.landing.header.button2')}
         </button>
-        <button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingUp()} >
+        <button className="ant_btn ant_btn_primary" onClick={e => this.redirectSingUp()} >
           {this.translate('page.body.landing.header.button3')}
         </button>
       </div>
