@@ -165,6 +165,16 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
             'cr-email-form__group--optional': optional,
         });
 
+        // const {currency} = this.props;
+        // switch (currency) {
+        //     case 'eth':
+                
+        //         break;
+        
+        //     default:
+        //         break;
+        // }
+
         return (
             <div key={field} className={focusedClass}>
                 <CustomInput
@@ -178,6 +188,7 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
                     classNameLabel="cr-email-form__label"
                     classNameInput="cr-email-form__input"
                     autoFocus={true}
+                    isInvalid={false}
                 />
             </div>
         );
@@ -194,8 +205,12 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
         return (
             <div className="cr-email-form__form-content">
                 {this.renderAddAddressModalBodyItem('coinAddress')}
+               
                 {this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
                 {this.renderAddAddressModalBodyItem('coinDescription', true)}
+                <br/>
+                <span>Please enter Blockchain Address like: 0x....</span>
+
                 <div className="cr-email-form__button-wrapper">
                     <Button
                         disabled={isDisabled}

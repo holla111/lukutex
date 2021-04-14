@@ -31,19 +31,6 @@ export const WithdrawScreen = () => {
         dispatchFetchChildCurrencies();
     }, [currency_id]);
 
-    const networks = [
-        {
-            name: 'TRON20',
-            key: 'tron20',
-            currency: child_currencies.payload.find(child_currency => child_currency.blockchain_key === 'tron20') || { id: '', type: '', blockchain_key: '', name: '', parent_id: '', deposit_enabled: 0, withdrawal_enabled: 0 }
-        },
-        {
-            name: 'BEP20',
-            key: 'bep20',
-            currency: child_currencies.payload.find(child_currency => child_currency.blockchain_key === 'bep20') || { id: '', type: '', blockchain_key: '', name: '', parent_id: '', deposit_enabled: 0, withdrawal_enabled: 0 }
-        }
-    ]
-
     // method
     const findIcon = (currency_id: string): string => {
         const currency = currencies.find((currency: any) => currency.id === currency_id);
@@ -68,7 +55,7 @@ export const WithdrawScreen = () => {
                         wallets={wallets}
                         currencies={currencies}
                         eth_fee={eth_fee}
-                        networks={networks}
+                        child_currencies={child_currencies.payload}
                     />
                 </div>
             </div>

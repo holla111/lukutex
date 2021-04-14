@@ -66,19 +66,13 @@ const BlurDisable = styled.div`
     flex-direction: column;
 `;
 
-interface Network {
-    name: string;
-    key: string;
-    currency: ChildCurrency;
-}
-
 interface WithdrawAddressProps {
     currency_id: string;
     wallets: Wallet[];
     currencies: Currency[];
     user: User;
     eth_fee: ETHFee[];
-    networks: Network[];
+    child_currencies: ChildCurrency[];
 }
 
 const defaultBeneficiary: Beneficiary = {
@@ -107,7 +101,7 @@ interface WalletsState {
 }
 
 export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawAddressProps) => {
-    const { currency_id, wallets, currencies, networks } = props;
+    const { currency_id, wallets, currencies, child_currencies } = props;
 
     useEthFeeFetch();
 
@@ -137,10 +131,10 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         dispatch(walletsAddressFetch({ currency: currency_id }));
     }, [dispatch, currency_id]);
 
-    const child_wallets = networks.map(network => {
+    const child_wallets = child_currencies.map(network => {
         return {
             ...network,
-            wallet: wallets.find(item => item.currency === network.currency.id) || { name: '', currency: '', balance: '', type: '', address: '' }
+            wallet: wallets.find(item => item.currency === network.id) || { name: '', currency: '', balance: '', type: '', address: '' }
         }
     })
 
@@ -309,15 +303,18 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                                                 child_wallets ?
                                                     child_wallets.map(child_wallet => (
 
-                                                        <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.key}>
-                                                            {child_wallet && child_wallet.currency.withdrawal_enabled ? renderWithdrawContent() : (
+                                                        <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.blockchain_key}>
+                                                            {child_wallet && !child_wallet.withdrawal_enabled ? (
                                                                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                                                     <BlurDisable >
                                                                         <LockIcon className="pg-blur__content__icon" />
                                                                         {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
                                                                     </BlurDisable>
                                                                 </div>
-                                                            )}
+
+                                                            )
+                                                                : renderWithdrawContent()
+                                                            }
                                                         </TabPane>
                                                     ))
                                                     : ""

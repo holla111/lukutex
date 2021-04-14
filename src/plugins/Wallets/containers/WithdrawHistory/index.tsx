@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { localeDate } from '../../../../helpers';
-import { fetchHistory, resetHistory, RootState, selectCurrencies, selectHistory, selectNextPageExists } from '../../../../modules';
+import { fetchHistory, resetHistory, selectCurrencies, selectHistory } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
@@ -59,13 +59,6 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     const currencies = useSelector(selectCurrencies);
     const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
     const blockchain_address = currency ? currency.explorer_address : '';
-    console.log(currencies);
-    console.log(list);
-
-
-    const nextPageExists = useSelector((state: RootState) => selectNextPageExists(state, 6));
-    console.log(nextPageExists);
-
 
 
     // dispatch

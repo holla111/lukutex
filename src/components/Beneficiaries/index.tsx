@@ -120,7 +120,7 @@ class BeneficiariesComponent extends React.Component<Props, State> {
             <div className="pg-beneficiaries">
                 <span className="pg-beneficiaries__title">{type === 'coin' ? this.translate('page.body.wallets.beneficiaries.title') : this.translate('page.body.wallets.beneficiaries.fiat.title')}</span>
                 {filtredBeneficiaries.length ? this.renderAddressDropdown(filtredBeneficiaries, currentWithdrawalBeneficiary, type) : this.renderAddAddress()}
-                {isOpenAddressModal && (
+                {isOpenFailModal && (
                     <BeneficiariesAddModal
                         currency={currency}
                         type={type}
@@ -134,7 +134,7 @@ class BeneficiariesComponent extends React.Component<Props, State> {
                         handleToggleConfirmationModal={this.handleToggleConfirmationModal}
                     />
                 )}
-                {isOpenFailModal && (
+                {isOpenAddressModal && (
                     <BeneficiariesFailAddModal isMobileDevice={isMobileDevice} handleToggleFailModal={this.handleToggleFailModal} />
                 )}
             </div>

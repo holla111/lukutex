@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import { CopyableTextField } from '../CopyableTextField';
+import { CopyableTextField } from '../../../../components';
 import { QRCode } from '../QRCode';
 /* import { isMobile } from 'react-device-detect'; */
 
