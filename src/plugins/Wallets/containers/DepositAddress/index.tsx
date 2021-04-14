@@ -110,8 +110,8 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                 <div className="row">
                     <div className="col-12">
                         <TabsStyle>
-                            <Tabs defaultActiveKey="1" >
-                                <TabPane tab="ERC20" key="1">
+                            <Tabs defaultActiveKey={currency_id} >
+                                <TabPane tab="ERC20" key={currency_id}>
                                     <DepositBody
                                         wallet={main_wallet}
                                         isAccountActivated={isAccountActivated}

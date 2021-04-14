@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Currency, Wallet, walletsAddressFetch, /* selectWalletsAddressError, */ Beneficiary, User, selectETHFee, walletsWithdrawCcyFetch, ETHFee, ChildCurrency } from '../../../../modules';
+import { Currency, Wallet, walletsAddressFetch, Beneficiary, User, selectETHFee, ETHFee, ChildCurrency, walletsWithdrawCcyFetch } from '../../../../modules';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
@@ -104,7 +104,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
     const { currency_id, wallets, currencies, child_currencies } = props;
 
     const [currencyState, setCurrencyState] = React.useState(currency_id);
-    
+
     useEthFeeFetch();
 
     const intl = useIntl();
@@ -266,10 +266,11 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
             uid: user.uid,
             fee: fee.toString(),
             amount,
-            currency: currency.toLowerCase(),
+            currency: currencyState,
             otp: otpCode,
             beneficiary_id: String(beneficiary.id),
         };
+
         dispatch(walletsWithdrawCcyFetch(withdrawRequest));
         toggleConfirmModal();
     };
@@ -280,51 +281,54 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                 <div>
                     <div className="row">
                         <div className="col-12">
-                            <h4>Withdrawal Nework</h4><h5>{currencyState}</h5>
+                            <h4>Withdrawal Nework</h4>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-12">
                             {
-                                wallet ?
-                                    <TabsStyle>
-                                        <Tabs defaultActiveKey="1" onTabClick={(key) => setCurrencyState(key)} >
-                                            <TabPane tab="ERC20" key={currency_id}>
-                                                {/* {walletsError && <p className="pg-wallet__error">{walletsError.message}</p>} */}
-                                                {currencyItem && !currencyItem.withdrawal_enabled ? (
-                                                    <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                                                        <BlurDisable >
-                                                            <LockIcon className="pg-blur__content__icon" />
-                                                            {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
-                                                        </BlurDisable>
-                                                    </div>
-                                                ) : renderWithdrawContent()}
+                                <TabsStyle>
+                                    <Tabs defaultActiveKey={currency_id} onTabClick={(key) => setCurrencyState(key)} >
+                                        {
+                                            wallet ?
+                                                <TabPane tab="ERC20" key={currency_id}>
+                                                    {currencyItem && !currencyItem.withdrawal_enabled ? (
+                                                        <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                                                            <BlurDisable >
+                                                                <LockIcon className="pg-blur__content__icon" />
+                                                                {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+                                                            </BlurDisable>
+                                                        </div>
+                                                    ) : renderWithdrawContent()}
 
-                                            </TabPane>
-                                            {
-                                                child_wallets ?
-                                                    child_wallets.map(child_wallet => (
+                                                </TabPane>
+                                                : ''
+                                        }
 
-                                                        <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.id}>
-                                                            {child_wallet && !child_wallet.withdrawal_enabled ? (
-                                                                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                                                                    <BlurDisable >
-                                                                        <LockIcon className="pg-blur__content__icon" />
-                                                                        {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
-                                                                    </BlurDisable>
-                                                                </div>
+                                        {
+                                            child_wallets ?
+                                                child_wallets.map(child_wallet => (
 
-                                                            )
-                                                                : renderWithdrawContent()
-                                                            }
-                                                        </TabPane>
-                                                    ))
-                                                    : ""
-                                            }
+                                                    <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.id}>
+                                                        {child_wallet && !child_wallet.withdrawal_enabled ? (
+                                                            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                                                                <BlurDisable >
+                                                                    <LockIcon className="pg-blur__content__icon" />
+                                                                    {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+                                                                </BlurDisable>
+                                                            </div>
 
-                                        </Tabs>
-                                    </TabsStyle>
-                                    : ''
+                                                        )
+                                                            : renderWithdrawContent()
+                                                        }
+                                                    </TabPane>
+                                                ))
+                                                : ""
+                                        }
+
+                                    </Tabs>
+                                </TabsStyle>
+
                             }
 
                         </div>

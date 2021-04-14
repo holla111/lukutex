@@ -353,7 +353,7 @@ class WalletsComponent extends React.Component<Props, WalletsState> {
       uid: user.uid,
       fee: fee.toString(),
       amount,
-      currency: currency.toLowerCase(),
+      currency: currency,
       otp: otpCode,
       beneficiary_id: String(beneficiary.id),
     };

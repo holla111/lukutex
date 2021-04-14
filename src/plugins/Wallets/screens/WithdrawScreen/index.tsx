@@ -1,10 +1,13 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { setDocumentTitle } from '../../../../helpers';
 import { currenciesFetch, ethFeeFetch, selectChildCurrencies, selectCurrencies, selectETHFee, selectUserInfo, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { WithdrawAddress, WithdrawHistory, WithdrawInfo } from '../../containers';
 
 export const WithdrawScreen = () => {
+    setDocumentTitle('Withdraw');
+
     const { currency_id } = useParams<{ currency_id: string }>();
 
     // selectors

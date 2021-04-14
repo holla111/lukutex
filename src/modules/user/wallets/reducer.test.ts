@@ -45,6 +45,8 @@ describe('walletsList reducer', () => {
     };
 
     const withdrawCcyFetchPayload = {
+        uid: '1',
+        fee: "0",
         amount: '0.1',
         currency: 'btc',
         otp: '123123',

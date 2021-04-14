@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
+import { setDocumentTitle } from '../../../../helpers';
 import { currenciesFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 
 
 
 export const DepositScreen = () => {
+    setDocumentTitle('Deposit');
     const { currency_id } = useParams<{ currency_id: string }>();
-
-
     // selectors
     const currencies = useSelector(selectCurrencies);
     const wallets = useSelector(selectWallets) || [];

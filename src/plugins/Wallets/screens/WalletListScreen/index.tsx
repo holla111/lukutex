@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { EstimatedValue } from '../../../../containers/Wallets/EstimatedValue';
+import { setDocumentTitle } from '../../../../helpers';
 import { allChildCurrenciesFetch, currenciesFetch, selectAllChildCurrencies, selectCurrencies, selectWallets, walletsFetch } from '../../../../modules';
 import { ReactTable } from '../../containers';
 
@@ -185,7 +186,7 @@ const CheckBox = styled.div`
 `;
 
 export const WalletListScreen = () => {
-
+  setDocumentTitle('Wallets');
   const intl = useIntl();
 
   // state

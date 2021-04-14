@@ -109,7 +109,7 @@ const initRanger = (
                                 return;
                             }
                             if (previousSequence + 1 !== event.sequence) {
-                                window.console.log(`Bad sequence detected in incremental orderbook previous: ${previousSequence}, event: ${event.sequence}`);
+                                // window.console.log(`Bad sequence detected in incremental orderbook previous: ${previousSequence}, event: ${event.sequence}`);
                                 emitter(rangerDisconnectFetch());
 
                                 return;
