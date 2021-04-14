@@ -103,8 +103,8 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
                     accessor: 'date'
                 },
                 {
-                    Header: 'Txid Address',
-                    accessor: 'txid'
+                    Header: 'Blockchain Txid',
+                    accessor: 'blockchain_txid'
                 },
                 {
                     Header: intl.formatMessage({ id: `page.body.history.withdraw.header.status` }),
@@ -120,12 +120,12 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     );
 
     const data = list.map((history: any) => {
-        const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
+        const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.blockchain_txid) : '';
         return {
             date: localeDate(history.created_at, 'fullDate'),
             status: history.state,
             amount: history.amount,
-            txid: <a target="_blank" href={blockchainTxidAddress}>{blockchainTxidAddress.slice(0, 60) + '....'}</a>,
+            blockchain_txid: <a target="_blank" href={blockchainTxidAddress}>{history.blockchain_txid}</a>,
             state: formatTxState(history.state)
         }
     });

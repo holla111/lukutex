@@ -10,18 +10,22 @@ const TableStyles = styled.div`
         th,td {
             margin: 0;
             cursor: pointer;
-            font-size: 1.3rem;
-            color: #fff;
+            font-size: 14px;
+            color: #737F92;
             text-align: justify;
-            padding-top: 10px;
-            padding-bottom: 10px;
+            padding-top: 7px;
+            padding-bottom: 7px;
             padding-right: 10px; 
             padding-left: 10px;
             transition: all 0.2s;
             background-color: #1e2841;
         }
+        tr {
+            border-top: 1px solid #384065;
+        }
         th {
-            background-color: #28334e;
+            color: #fff;
+            background-color: #1e2841;
         }
         th:not(:first-child) {
             text-align: center
@@ -51,7 +55,6 @@ const TableStyles = styled.div`
                 outline: none;
                 padding: 0.3rem 0.5rem 0.3rem 0.5rem;
                 color: #fff;
-                font-weight: 500;
                 padding: 0.5rem;
                 background-color: #182034;
                 border-radius: 2px;
@@ -132,7 +135,11 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
-                                <th width="25%" {...column.getHeaderProps()}>{column.render('Header')}</th>
+                                <th width="25%" {...column.getHeaderProps()}>
+                                    <span style={{fontWeight: 'normal'}}>
+                                        {column.render('Header')}
+                                    </span>
+                                </th>
                             ))}
                         </tr>
                     ))}
@@ -141,7 +148,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
                     [...page].length === 0
                         ? <div className="text-center" style={{ padding: '50px 0', width: '400%' }}>
                             <img className="text-center" width="100px" src={EmptySVG} />
-                            <br/>
+                            <br />
                             <p>No Data</p>
                         </div>
                         :

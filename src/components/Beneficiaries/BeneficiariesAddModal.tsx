@@ -9,9 +9,11 @@ import { Modal } from '../../mobile/components/Modal';
 import {
     beneficiariesCreate,
     BeneficiaryBank,
+    ChildCurrency,
+    Currency,
     RootState,
     selectBeneficiariesCreateError,
-    selectBeneficiariesCreateSuccess, selectMobileDeviceState,
+    selectBeneficiariesCreateSuccess, selectChildCurrencies, selectCurrencies, selectMobileDeviceState
 } from '../../modules';
 import { CommonError } from '../../modules/types';
 
@@ -19,6 +21,8 @@ interface ReduxProps {
     beneficiariesAddError?: CommonError;
     beneficiariesAddSuccess: boolean;
     isMobileDevice: boolean;
+    currencies: Currency[];
+    child_currencies: ChildCurrency[];
 }
 
 interface DispatchProps {
@@ -201,16 +205,21 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
         } = this.state;
 
         const isDisabled = !coinAddress || !coinBeneficiaryName;
-
+        const {currency, currencies, child_currencies} = this.props;
+        let blockChainKey;
+        const main = currencies.find(cur => cur.id.toLowerCase() === currency.toLowerCase());
+        if(main) {
+            blockChainKey = 'ERC20';
+        } else {
+            const child = child_currencies.find(child => child.id.toLowerCase() === currency.toLowerCase());
+            blockChainKey = child ? child.blockchain_key : '';
+        }   
         return (
             <div className="cr-email-form__form-content">
+                <span style={{fontSize: '12px', color: 'red'}}>** Please enter <strong>{String(blockChainKey).toUpperCase()}</strong> address</span>
                 {this.renderAddAddressModalBodyItem('coinAddress')}
-               
                 {this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
                 {this.renderAddAddressModalBodyItem('coinDescription', true)}
-                <br/>
-                <span>Please enter Blockchain Address like: 0x....</span>
-
                 <div className="cr-email-form__button-wrapper">
                     <Button
                         disabled={isDisabled}
@@ -368,6 +377,8 @@ const mapStateToProps = (state: RootState): ReduxProps => ({
     beneficiariesAddError: selectBeneficiariesCreateError(state),
     beneficiariesAddSuccess: selectBeneficiariesCreateSuccess(state),
     isMobileDevice: selectMobileDeviceState(state),
+    currencies: selectCurrencies(state),
+    child_currencies: selectChildCurrencies(state).payload
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({

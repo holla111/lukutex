@@ -28,7 +28,6 @@ const SearchInput = styled.input`
   outline: none;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   color: #fff;
-  font-weight: 500;
   background-color: #182034;
   border-radius: 2px;
   -webkit-transition: width 0.4s ease-in-out;
@@ -52,7 +51,6 @@ const DepositButton = styled.button`
   text-decoration: none;
   display: inline-block;
   margin-right: 5px;
-  font-weight: 600;
   transition: all 0.2s;
   :focus { outline: none; }
   :hover {
@@ -75,7 +73,6 @@ const WithdrawButton = styled.button`
   text-decoration: none;
   display: inline-block;
   margin-right: 5px;
-  font-weight: 600;
   transition: all 0.2s;
   :focus { outline: none; }
   :hover {
@@ -236,7 +233,6 @@ export const WalletListScreen = () => {
   );
 
   const [searchInputState, setSearchInputState] = React.useState("");
-  console.log(all_child_currencies);
   
   const data = wallets
     .filter(wallet => !all_child_currencies.payload.map(cur => cur.id).includes(wallet.currency))
@@ -255,7 +251,7 @@ export const WalletListScreen = () => {
       const currency_icon = <img width="30px" height="30px" src={wallet.iconUrl ? wallet.iconUrl : findIcon(wallet.currency)} alt={wallet.currency + '_icon'} />;
       const isWithdrawEnabled = wallet.type === "fiat" || wallet.balance;
       return {
-        coin: <span style={{ fontWeight: 'bold' }}> {currency_icon} {wallet.currency.toUpperCase()} <span className="text-secondary">{wallet.name}</span></span>,
+        coin: <span> {currency_icon} {wallet.currency.toUpperCase()} <span className="text-secondary">{wallet.name}</span></span>,
         total: total > 0 ? String(total) : '0.000000',
         available: <span>{wallet.balance && Number(wallet.balance) > 0 ? wallet.balance : '0.000000'}</span>,
         in_order: <span className="text-secondary">{wallet.locked && Number(wallet.balance) > 0 ? wallet.locked : '0.000000'}</span>,

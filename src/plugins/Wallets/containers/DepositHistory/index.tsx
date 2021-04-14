@@ -16,7 +16,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     const { currency_id } = props;
 
     // selector
-    const list = useSelector(selectHistory);
+    const list = useSelector(selectHistory);    
     const currencies = useSelector(selectCurrencies);
     const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
     const blockchain_address = currency ? currency.explorer_address : '';
@@ -84,7 +84,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
             date: localeDate(history.created_at, 'fullDate'),
             status: 'success',
             amount: history.amount,
-            txid: <a target="_blank" href={blockchainTxidAddress}>{blockchainTxidAddress.slice(0, 60) + '....'}</a>,
+            txid: <a target="_blank" href={blockchainTxidAddress}>{history.txid}</a>,
             state: formatTxState(history.state)
         }
     });

@@ -103,6 +103,8 @@ interface WalletsState {
 export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawAddressProps) => {
     const { currency_id, wallets, currencies, child_currencies } = props;
 
+    const [currencyState, setCurrencyState] = React.useState(currency_id);
+    
     useEthFeeFetch();
 
     const intl = useIntl();
@@ -206,7 +208,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 
         const withdrawProps: WithdrawProps = {
             withdrawDone: withdrawState.withdrawDone,
-            currency,
+            currency: currencyState,
             fee: Number(fee),
             onClick: toggleConfirmModal,
             twoFactorAuthRequired: isTwoFactorAuthRequired(level, otp),
@@ -254,7 +256,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                 return;
             }
             if (!(ethBallance && Number(ethBallance) >= Number(fee_currency.fee))) {
-                message.error('ETH balance isn`\t enough to pay.');
+                message.error('ETH balance isn\'t enough to pay.');
                 return;
             }
         }
@@ -278,7 +280,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                 <div>
                     <div className="row">
                         <div className="col-12">
-                            <h4>Withdrawal Nework</h4>
+                            <h4>Withdrawal Nework</h4><h5>{currencyState}</h5>
                         </div>
                     </div>
                     <div className="row">
@@ -286,8 +288,8 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                             {
                                 wallet ?
                                     <TabsStyle>
-                                        <Tabs defaultActiveKey="1" >
-                                            <TabPane tab="ERC20" key="1">
+                                        <Tabs defaultActiveKey="1" onTabClick={(key) => setCurrencyState(key)} >
+                                            <TabPane tab="ERC20" key={currency_id}>
                                                 {/* {walletsError && <p className="pg-wallet__error">{walletsError.message}</p>} */}
                                                 {currencyItem && !currencyItem.withdrawal_enabled ? (
                                                     <div style={{ position: 'relative', width: '100%', height: '300px' }}>
@@ -303,7 +305,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                                                 child_wallets ?
                                                     child_wallets.map(child_wallet => (
 
-                                                        <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.blockchain_key}>
+                                                        <TabPane tab={child_wallet.name.toUpperCase()} key={child_wallet.id}>
                                                             {child_wallet && !child_wallet.withdrawal_enabled ? (
                                                                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                                                     <BlurDisable >
@@ -326,11 +328,6 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                             }
 
                         </div>
-                    </div>
-                </div>
-                <div className="row mt-3">
-                    <div className="col-12">
-                        <a>Withdrawal hasn’t arrived?</a>
                     </div>
                 </div>
             </div >
