@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
-import { selectCurrencies, Wallet } from '../../../../modules';
+import { selectAllChildCurrencies, selectCurrencies, Wallet } from '../../../../modules';
 // import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { CurrencyInfo } from '../../components/CurrencyInfo';
@@ -106,6 +106,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 
     // selectors
     const currencies = useSelector(selectCurrencies);
+    const all_child_currencies = useSelector(selectAllChildCurrencies);
 
     const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { currency: "", name: "", type: "fiat", fee: 0, fixed: 0 };
 
@@ -146,7 +147,8 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
         }
         history.push(location);
     };
-
+    console.log(all_child_currencies.payload);
+    
     return (
         <div className="container" style={{ padding: '50px 0' }}>
             <div className="row">
@@ -160,7 +162,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                         styles={SelectStyles}
                         value={options.filter(option => option.value == currency_id.toLowerCase())}
                         onChange={handleChange}
-                        options={options}
+                        options={options.filter((option) => !all_child_currencies.payload.map(cur => cur.id).includes(option.value))}
                     />
                 </div>
             </div>

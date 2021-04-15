@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
-import { selectCurrencies, Wallet } from '../../../../modules';
+import { selectAllChildCurrencies, selectCurrencies, Wallet } from '../../../../modules';
 import { CurrencyInfo } from '../../components/CurrencyInfo';
 
 const SelectStyles = {
@@ -52,6 +52,7 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
     // selector
     const currencies = useSelector(selectCurrencies);
     const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { currency: "", name: "", type: "fiat", fee: 0, fixed: 0 };
+    const all_child_currencies = useSelector(selectAllChildCurrencies);
 
     // method
     const findIcon = (code: string): string => {
@@ -93,7 +94,7 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
                         styles={SelectStyles}
                         value={options.filter(option => option.value == currency_id.toLowerCase())}
                         onChange={handleChange}
-                        options={options}
+                        options={options.filter((option) => !all_child_currencies.payload.map(cur => cur.id).includes(option.value))}
                     />
                 </div>
             </div>

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { setDocumentTitle } from '../../../../helpers';
-import { currenciesFetch, ethFeeFetch, selectChildCurrencies, selectCurrencies, selectETHFee, selectUserInfo, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, currenciesFetch, ethFeeFetch, selectChildCurrencies, selectCurrencies, selectETHFee, selectUserInfo, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { WithdrawAddress, WithdrawHistory, WithdrawInfo } from '../../containers';
 
 export const WithdrawScreen = () => {
@@ -22,12 +22,16 @@ export const WithdrawScreen = () => {
     const dispatchFetchWallets = () => dispatch(walletsFetch());
     const dispatchFetchEthFee = () => dispatch(ethFeeFetch());
     const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
+    const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
 
+    const history = useHistory();
+    
     // side effects
     React.useEffect(() => {
         dispatchFetchCurrencies();
         dispatchFetchWallets();
         dispatchFetchEthFee();
+        dispatchcFetchAllChildCurrencies();
     }, []);
 
     React.useEffect(() => {
@@ -66,6 +70,9 @@ export const WithdrawScreen = () => {
                 <div className="col-12">
                     <WithdrawHistory currency_id={currency_id.toLowerCase()} />
                 </div>
+            </div>
+            <div style={{ position: "fixed", top: '10%', left: '2rem' }}>
+                <img style={{ cursor: "pointer" }} src="https://img.icons8.com/fluent/48/000000/circled-left.png" onClick={() => history.push({ pathname: '/new-wallets' })} alt="Back" />
             </div>
         </div>
     )

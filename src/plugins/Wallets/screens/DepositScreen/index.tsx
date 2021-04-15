@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { setDocumentTitle } from '../../../../helpers';
-import { currenciesFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, currenciesFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 
 
@@ -19,6 +19,7 @@ export const DepositScreen = () => {
     const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
     const dispatchFetchWallets = () => dispatch(walletsFetch());
     const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
+    const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
 
     const history = useHistory();
 
@@ -38,6 +39,7 @@ export const DepositScreen = () => {
         dispatchFetchCurrencies();
         dispatchFetchWallets();
         dispatchFetchChildCurrencies();
+        dispatchcFetchAllChildCurrencies();
     }, []);
 
     React.useEffect(() => {
