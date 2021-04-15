@@ -146,7 +146,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
                 </thead>
                 {
                     [...page].length === 0
-                        ? <div className="text-center" style={{ padding: '50px 0', width: '400%' }}>
+                        ? <div className="text-center" style={{ padding: '50px 0', width: '400%', backgroundColor: '#28344Eff' }}>
                             <img className="text-center" width="100px" src={EmptySVG} />
                             <br />
                             <p>No Data</p>

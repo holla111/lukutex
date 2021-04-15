@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { setDocumentTitle } from '../../../../helpers';
-import { allChildCurrenciesFetch, currenciesFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, currenciesFetch, marketsFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 
 
@@ -20,7 +20,7 @@ export const DepositScreen = () => {
     const dispatchFetchWallets = () => dispatch(walletsFetch());
     const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
     const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
-
+    const dispatchFetchMarkets = () => dispatch(marketsFetch());
     const history = useHistory();
 
     // method
@@ -44,19 +44,20 @@ export const DepositScreen = () => {
 
     React.useEffect(() => {
         dispatchFetchChildCurrencies();
+        dispatchFetchMarkets();
     }, [currency_id]);
 
     return (
         <div className="container-fluid" style={{ position: "relative", padding: '20px 10% 20px 10%', marginTop: '-7px', backgroundColor: '#171c29', color: '#fff' }}>
-            <div className="row">
-                <div className="col-6">
+            <div className="row" style={{padding: '0 1rem'}}>
+                <div className="col-6" style={{backgroundColor: '#1E2841ff'}}>
                     <DepositInfo
                         currency_id={currency_id.toLowerCase()}
                         currency_icon={findIcon(currency_id.toLowerCase())}
                         wallets={wallets}
                     />
                 </div>
-                <div className="col-6">
+                <div className="col-6" style={{ backgroundColor: '#182034'}}>
                     <DepositAddress
                         currency_id={currency_id.toLowerCase()}
                         currency_icon={findIcon(currency_id.toLowerCase())}
@@ -64,7 +65,7 @@ export const DepositScreen = () => {
                     />
                 </div>
             </div>
-            <div className="row">
+            <div className="row mt-5">
                 <div className="col-12">
                     <DepositHistory currency_id={currency_id} />
                 </div>

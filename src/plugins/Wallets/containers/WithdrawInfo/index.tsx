@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import Select from 'react-select';
-import { selectAllChildCurrencies, selectCurrencies, Wallet } from '../../../../modules';
+import { selectAllChildCurrencies, selectCurrencies, selectMarkets, Wallet } from '../../../../modules';
 import { CurrencyInfo } from '../../components/CurrencyInfo';
 
 const SelectStyles = {
@@ -53,7 +54,8 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
     const currencies = useSelector(selectCurrencies);
     const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { currency: "", name: "", type: "fiat", fee: 0, fixed: 0 };
     const all_child_currencies = useSelector(selectAllChildCurrencies);
-
+    const markets = useSelector(selectMarkets);
+    
     // method
     const findIcon = (code: string): string => {
         const currency = currencies.find((currency: any) => currency.id === code);
@@ -117,6 +119,20 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
                         <p>3. Do not withdraw directly to a crowdfund or ICO address, as your account will not be credited with tokens from such sales.</p>
                     </div>
                 </div>
+            </div>
+            <div className="row mt-5">
+                <div className="col-12">
+                    <h5>Go To Trade:</h5>
+                </div>
+               <div className="col-12">
+               {
+                    markets
+                    .filter(market => market.base_unit.toLowerCase() === currency_id.toLowerCase())
+                    .map(market => (
+                        <Link style={{color: '#fff', marginRight: '1rem', borderBottom: '1px solid #fff'}} to={'/trading/' + market.id}>{market.name}</Link>
+                    ))
+                }
+               </div>
             </div>
         </div>
     )

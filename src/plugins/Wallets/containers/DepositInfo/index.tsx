@@ -2,10 +2,11 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
-import { selectAllChildCurrencies, selectCurrencies, Wallet } from '../../../../modules';
+import { selectAllChildCurrencies, selectCurrencies, selectMarkets, Wallet } from '../../../../modules';
 // import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { CurrencyInfo } from '../../components/CurrencyInfo';
+import { Link } from 'react-router-dom';
 
 const SelectStyles = {
     option: (provided, state) => ({
@@ -107,6 +108,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
     // selectors
     const currencies = useSelector(selectCurrencies);
     const all_child_currencies = useSelector(selectAllChildCurrencies);
+    const markets = useSelector(selectMarkets);
 
     const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { currency: "", name: "", type: "fiat", fee: 0, fixed: 0 };
 
@@ -147,8 +149,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
         }
         history.push(location);
     };
-    console.log(all_child_currencies.payload);
-    
+
     return (
         <div className="container" style={{ padding: '50px 0' }}>
             <div className="row">
@@ -201,6 +202,20 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                         </p>
                     </div>
                 </div>
+            </div>
+            <div className="row mt-5">
+                <div className="col-12">
+                    <h5>Go To Trade:</h5>
+                </div>
+               <div className="col-12">
+               {
+                    markets
+                    .filter(market => market.base_unit.toLowerCase() === currency_id.toLowerCase())
+                    .map(market => (
+                        <Link style={{color: '#fff', marginRight: '1rem', borderBottom: '1px solid #fff'}} to={'/trading/' + market.id}>{market.name}</Link>
+                    ))
+                }
+               </div>
             </div>
         </div>
     )
