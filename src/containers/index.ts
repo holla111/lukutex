@@ -32,5 +32,5 @@ export * from './WalletsFetch';
 export * from './Withdraw';
 export * from './MarketTrading';
 export * from './FeeTable';
-export * from './AnnouncementLeft';
-export * from './AnnouncementRight';
+export * from './Announcement';
+export * from './AdminAnnouncement';

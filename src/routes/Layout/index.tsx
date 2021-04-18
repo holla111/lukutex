@@ -77,7 +77,7 @@ import {
     VerificationScreen,
     WalletsScreen,
     FeeScreen,
-    Announcement,
+    AnnouncementScreen,
 } from '../../screens';
 import { HomeScreen } from '../../screens/HomeScreen';
 import { AirdropList, AirdropDetail } from '../../plugins/Airdrop';
@@ -290,7 +290,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route exact={true} path="/" component={HomeScreen} />
                     <Route exact={false} path="/fee" component={FeeScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
-                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement" component={Announcement} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement" component={AnnouncementScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileScreen} />
@@ -301,7 +301,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route path="/ieo" exact component={SaleListScreen} />
                     <Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
-                    {/* <Route path="/announcement" component={Announcement} /> */}
                 </Switch>
                 {isLoggedIn && <WalletsFetch />}
                 {isShownExpSessionModal && this.handleRenderExpiredSessionModal()}

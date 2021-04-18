@@ -1,7 +1,7 @@
 import * as React  from "react";
 import { Link } from "react-router-dom";
 
-export const AnnouncementRight: React.FC = () => {
+export const HotAnnouncement: React.FC = () => {
 
   const renderAnnouncementright = () => {
     return(

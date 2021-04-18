@@ -1,12 +1,14 @@
 import * as React  from "react";
 import { Row, Col } from 'antd';
-import { AnnouncementLeft, AnnouncementRight } from '../../containers';
+import {Announcement, HotAnnouncement} from '../../components'
+
+// import Announcement from '../../components/Announcement]'
 
 // import { useDispatch, useSelector } from "react-redux";
 // import { announFetch, selectPost } from '../../modules';
 
 
-export const Announcement: React.FC = () => {
+export const AnnouncementContainer: React.FC = () => {
 
   // const dispatch = useDispatch();
   // const dispatchFetch = () => dispatch(announFetch());
@@ -24,12 +26,12 @@ export const Announcement: React.FC = () => {
         <Row  gutter={[12, 0]}> 
           <Col className="left_article" span={16}>
             <div className="article-Box">
-              <AnnouncementLeft />
+              <Announcement />
             </div>
           </Col>
           <Col className="right_article" span={8}>
             <div className="article-Box">
-              <AnnouncementRight />
+              <HotAnnouncement />
             </div>
           </Col>
         </Row>

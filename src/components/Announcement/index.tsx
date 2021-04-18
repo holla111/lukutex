@@ -1,9 +1,9 @@
 import * as React  from "react";
 import { Link } from "react-router-dom";
-import {Pagination} from '../../components/Pagination';
+import {Pagination} from '../Pagination';
 
 
-export const AnnouncementLeft: React.FC = () => {
+export const Announcement: React.FC = () => {
 
   const [paginationState, setPaginationState] = React.useState({
     current: 1,

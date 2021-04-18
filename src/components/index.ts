@@ -40,4 +40,6 @@ export * from './QRCode';
 export * from './FeeList';
 export * from './TickerTableScreen';
 export * from './Pagination';
+export * from './Announcement';
+export * from './HotAnnouncement';
 
