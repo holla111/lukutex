@@ -9,6 +9,6 @@ export interface Announcement {
 
 
 export interface AnnouncementState extends CommonState {
-    payload: Announcement[];
+    data: Announcement[];
     loading: boolean;
 }

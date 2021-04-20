@@ -8,7 +8,6 @@ export const AnnouncementScreen: React.FC = () => {
 
   const user = useSelector(selectUserInfo);
   const role = user.role;
-  console.log(role)
 
   const renderAnnouncementScreen = () => {
     return(

@@ -1,9 +1,10 @@
 import { takeLatest } from 'redux-saga/effects';
 import {
-    ANNOUNCMENT_CREATE
+    ANNOUNCMENT_CREATE, ANNOUNCMENT_FETCH
 } from '../constants';
-import { announcementCreate } from './announcementsSaga';
+import { announcementCreateSaga, announcementFetchSaga} from './announcementsSaga';
 
-export function* rootEventSaga() {
-    yield takeLatest(ANNOUNCMENT_CREATE, announcementCreate);
+export function* rootAnnouncementSaga() {
+    yield takeLatest(ANNOUNCMENT_CREATE, announcementCreateSaga);
+    yield takeLatest(ANNOUNCMENT_FETCH, announcementFetchSaga);
 }

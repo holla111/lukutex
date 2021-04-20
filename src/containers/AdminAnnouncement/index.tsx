@@ -4,7 +4,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
 
-import { announcementData } from "../../modules/info/announcement/actions";
+import { announcementCreate } from "../../modules/info/announcement/actions";
 
 
 const InpuStyle = styled.input`
@@ -34,29 +34,31 @@ const ButtonStyle = styled.button`
     outline: none;
   }
 `;
+interface AnnouncementType {
+  title: string;
+  content: string;
+}
 
 export const AdminAnnouncement: React.FC = () => {
+  const dispatch = useDispatch();
 
   //state
-  const [heading, setHeading] = React.useState("");
-  const [postAnnouncement, setPostAnnouncement] = React.useState({});
+  const [postAnnouncement, setPostAnnouncement] = React.useState<AnnouncementType>({
+    title: '',
+    content: '',
+  });
 
-  const handleHeading = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-    const {value} = e.target;
-    console.log(value)
-    setHeading(e.target.value);
-
-    setPostAnnouncement( prev => {
-      return({
-
-      })
-    })
+  const handleHeading = (e : any) => {
+    e.persist();
+    setPostAnnouncement((prev) => ({
+      ...prev,
+      title : e.target.value
+    }))
   }
 
-  const handleSubmitAnnouncement = () =>{
-
-    const dispatch = useDispatch();
-    dispatch(announcementData());
+  const handleSubmitAnnouncement:React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) =>{
+    e.preventDefault();
+    dispatch(announcementCreate(postAnnouncement));
   }
 
   const renderAdminAnnouncement = () => {
@@ -66,20 +68,21 @@ export const AdminAnnouncement: React.FC = () => {
         <AdminAnnounStyle>
           <form onSubmit={handleSubmitAnnouncement}>
 
-            <InpuStyle type="text" value={heading} placeholder="Enter heading..." onChange={handleHeading} />
+            <InpuStyle type="text" value={postAnnouncement.title} placeholder="Enter heading..." onChange={handleHeading} />
             <CKEditor
               editor={ ClassicEditor }
-              onChange={ ( event, editor ) => {
-                  const data = editor.getData();
-                  console.log( { data } );
-                  // setA(data);
+              onChange={ ( _event, editor : any ) => {
+
+                setPostAnnouncement( (prev) => ({
+                  ...prev,
+                  content : editor.getData()
+                }))
               }}
             />
             <ButtonStyle type="submit">submit</ButtonStyle>
 
           </form>
         </AdminAnnounStyle>
-          {/* <div dangerouslySetInnerHTML={{__html : A}}></div> */}
       </div>
     )
   }

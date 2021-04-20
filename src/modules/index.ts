@@ -51,6 +51,7 @@ import { SaleItemState, rootSaleItemSaga } from './sale/sale-item';
 import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
 import { PriceState, rootPriceSaga } from './sale/price';
 import { EventsState, rootEventSaga } from './info/events';
+import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -89,7 +90,7 @@ export * from './sale/sale-item';
 export * from './sale/buy';
 export * from './sale/price';
 export * from './info/events';
-// export * from './info/announcement';
+export * from './info/announcement';
 
 export interface RootState {
     airdrops: {
@@ -108,12 +109,9 @@ export interface RootState {
         withdraw: ETHFeeWithdrawState;
     };
     info: {
-        events: EventsState
+        events: EventsState;
+        announcement: AnnouncementState;
     };
-
-    // announcement: {
-    //     post: AnnounState
-    // };
 
     public: {
         alerts: AlertState;
@@ -210,7 +208,7 @@ export function* rootSaga() {
         call(rootBuySaga),
         call(rootPriceSaga),
         call(rootEventSaga),
-        // call(rootAnnounSaga),
+        call(rootAnnouncementSaga),
         
     ]);
 }

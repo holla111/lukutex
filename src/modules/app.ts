@@ -50,7 +50,7 @@ import { saleItemReducer } from './sale/sale-item';
 import { buyReducer, totalBuyersReducer } from './sale/buy';
 import { priceReducer } from './sale/price';
 import { eventReducer } from './info/events';
-// import {announcementReducer} from './info/announcement';
+import {announcementReducer} from './info/announcement';
 
 export const airdropsReducer = combineReducers({
     airdrops: airdropReducer,
@@ -71,13 +71,10 @@ export const saleReducer = combineReducers({
 });
 
 export const infoReducer = combineReducers({
-    events: eventReducer
+    events: eventReducer,
+    announcement: announcementReducer,
+
 })
-
-//export const announcemmentReducer = combineReducers({
-  //  post: announcementReducer
-//})
-
 
 export const publicReducer = combineReducers({
     blocklistAccess: blocklistAccessReducer,

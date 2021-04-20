@@ -1,26 +1,30 @@
 import * as React  from "react";
 import { Link } from "react-router-dom";
+import { selectAnnouncement} from '../../modules';
+import { useSelector } from "react-redux";
 
 export const HotAnnouncement: React.FC = () => {
+  
+  const announcements = useSelector(selectAnnouncement);
 
   const renderAnnouncementright = () => {
     return(
       <div className="article">
         <div className="hot-article-header">Hot List</div>
-        <div className="hot-article-item">
-          <div className="hot-article-item__title">
-            <Link className="hot-article-item__title-link" 
-              to="#">
-              Catex registration is opened
-            </Link>
-          </div>
-          <div className="hot-article-item__title">
-            <Link className="hot-article-item__title-link" 
-              to="#">
-              BTC,ETH,USDT,LTC,BCH, ETC,DASH,QTUM deposit are opened
-            </Link>
-          </div>
-        </div>
+        {
+          announcements.data.slice(0, 5).map((value, index) => {
+            return (
+              <div className="hot-article-item">
+                <div className="hot-article-item__title">
+                  <Link className="hot-article-item__title-link" 
+                    to="#">
+                   {value.title}
+                  </Link>
+                </div>
+              </div>
+            );
+          })
+        }
       </div>
     );
   }
