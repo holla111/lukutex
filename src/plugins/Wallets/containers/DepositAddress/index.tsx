@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { ChildCurrency, selectWallets, walletsAddressFetch, walletsFetch } from '../../../../modules';
+import { ChildCurrency, selectCurrencies, selectWallets, walletsAddressFetch, walletsFetch } from '../../../../modules';
 import { DepositBody } from '../../components/DepositBody';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
@@ -67,13 +67,15 @@ interface DepositAddressProps {
 }
 
 
+
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-    const { currency_id, currency_icon, child_currencies } = props;
+    const { currency_id, child_currencies } = props;
 
     const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
     const dispatch = useDispatch();
     const wallets = useSelector(selectWallets) || [];
-
+    const currencies = useSelector(selectCurrencies) || [];
+    const currency = currencies.find(cur => cur.id.toLowerCase() === currency_id.toLowerCase()) || { blockchain_key: '' };
     const main_wallet = wallets.find(item => item.currency === currency_id) || { name: '', currency: '', balance: '', type: '', address: '' };
     const child_wallets = child_currencies.map(network => {
         return {
@@ -81,7 +83,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
             wallet: wallets.find(item => item.currency === network.id) || { name: '', currency: '', balance: '', type: '', address: '' }
         }
     });
-    
+
     const isAccountActivated = main_wallet.type === 'fiat' || main_wallet.balance;
 
 
@@ -98,6 +100,26 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
         dispatch(walletsAddressFetch({ currency: currency_id }));
     }, [dispatch, currency_id]);
 
+    const getTabName = (blockchain_key: string) => {
+        const tab_names = [
+            {
+                name: 'Bitcoin',
+                blockchain_key: 'bitcoin'
+            },
+            {
+                name: 'ERC20',
+                blockchain_key: 'ethereum-main'
+            },
+            {
+                name: 'TRON20',
+                blockchain_key: 'tron-test'
+            }
+        ];
+        const foundTab = tab_names.find(tab_name => tab_name.blockchain_key.toLowerCase() === blockchain_key.toLowerCase());
+        return foundTab ? foundTab.name : '';
+    }
+
+
     return (
         <div className="container d-flex flex-column justify-content-between" style={{ padding: '30px', borderRadius: '5px', height: '100%', fontSize: '1.3rem' }}>
             <div>
@@ -111,7 +133,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                     <div className="col-12">
                         <TabsStyle>
                             <Tabs defaultActiveKey={currency_id} >
-                                <TabPane tab="ERC20" key={currency_id}>
+                                <TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
                                     <DepositBody
                                         wallet={main_wallet}
                                         isAccountActivated={isAccountActivated}
@@ -120,32 +142,32 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                     />
                                 </TabPane>
                                 {
-                                    child_wallets ? 
+                                    child_wallets ?
                                         child_wallets.map(child_wallet => (
-                                            <TabPane tab={child_wallet.name.toUpperCase() || ''} key={child_wallet.blockchain_key}>
-                                            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                                                {
-                                                    child_wallet.id && child_wallet.wallet && child_wallet.deposit_enabled ?
-                                                        <DepositBody
-                                                            wallet={child_wallet.wallet}
-                                                            isAccountActivated={isAccountActivated}
-                                                            handleGenerateAddress={handleGenerateAddress}
-                                                            generateAddressTriggered={generateAddressTriggered}
-                                                        />
-                                                        :
-                                                        <BlurDisable>
-                                                            <LockIcon className="pg-blur__content__icon" />
-                                                        {child_wallet.name.toUpperCase() || 'Wallet'} hasn't been available.
+                                            <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.blockchain_key}>
+                                                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                                                    {
+                                                        child_wallet.id && child_wallet.wallet && child_wallet.deposit_enabled ?
+                                                            <DepositBody
+                                                                wallet={child_wallet.wallet}
+                                                                isAccountActivated={isAccountActivated}
+                                                                handleGenerateAddress={handleGenerateAddress}
+                                                                generateAddressTriggered={generateAddressTriggered}
+                                                            />
+                                                            :
+                                                            <BlurDisable>
+                                                                <LockIcon className="pg-blur__content__icon" />
+                                                                {child_wallet.name.toUpperCase() || 'Wallet'} hasn't been available.
                                                         </BlurDisable>
-                                                }
-                                            </div>
+                                                    }
+                                                </div>
 
                                             </TabPane>
                                         ))
-                                        : 
+                                        :
                                         ""
                                 }
-                                
+
                             </Tabs>
                         </TabsStyle>
                     </div>
@@ -158,7 +180,6 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                         <br />
                     Sending coin or token other than {currency_id.toUpperCase()} to this address may result in the loss of your deposit.
                    </p>
-                    <img height="50px" width="50px" src={currency_icon} alt={currency_id} />
                 </div>
             </div>
         </div >

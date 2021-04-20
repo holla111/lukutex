@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+// import classnames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -65,11 +65,9 @@ const WalletDepositBodyComponent = props => {
 
     const description = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.fiat.message2' });
 
-    const blurCryptoClassName = classnames('pg-blur-deposit-crypto', {
-      'pg-blur-deposit-crypto--active': isAccountActivated,
-    });
-
-    console.log(blurCryptoClassName);
+    // const blurCryptoClassName = classnames('pg-blur-deposit-crypto', {
+    //   'pg-blur-deposit-crypto--active': isAccountActivated,
+    // });
 
 
     if (wallet.type === 'coin') {
