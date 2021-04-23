@@ -6,7 +6,8 @@ import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { EstimatedValue } from '../../../../containers/Wallets/EstimatedValue';
 import { setDocumentTitle } from '../../../../helpers';
-import { allChildCurrenciesFetch, currenciesFetch, selectAllChildCurrencies, selectCurrencies, selectWallets, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, beneficiariesFetch, currenciesFetch, selectAllChildCurrencies, selectCurrencies, selectWallets, walletsFetch } from '../../../../modules';
+import { Decimal } from '../../components/Decimal';
 import { ReactTable } from '../../containers';
 
 export interface WalletItem {
@@ -205,12 +206,14 @@ export const WalletListScreen = () => {
   const dispatchFetchWallets = () => dispatch(walletsFetch());
   const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
   const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
+  const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
 
   // side effect
   React.useEffect(() => {
     dispatchFetchWallets();
     dispatchcFetchCurrencies();
     dispatchcFetchAllChildCurrencies();
+    dispatchFetchBeneficiaries();
   }, []);
 
   // selector
@@ -234,7 +237,7 @@ export const WalletListScreen = () => {
   );
 
   const [searchInputState, setSearchInputState] = React.useState("");
-  
+
   const data = wallets
     .filter(wallet => !all_child_currencies.payload.map(cur => cur.id).includes(wallet.currency))
     .map(wallet => {
@@ -247,15 +250,17 @@ export const WalletListScreen = () => {
     .filter(wallet => hideSmallBalanceState ? wallet.total > 0 : wallet.total >= 0)
     .sort((prev_wallet, next_wallet) => { //sort desc
       return next_wallet.total - prev_wallet.total;
-    }).map(wallet => {
+    }).map((wallet, index) => {
       const total = NP.plus(wallet.balance || 0, wallet.locked || 0);
       const currency_icon = <img width="30px" height="30px" src={wallet.iconUrl ? wallet.iconUrl : findIcon(wallet.currency)} alt={wallet.currency + '_icon'} />;
       const isWithdrawEnabled = wallet.type === "fiat" || wallet.balance;
+      const { fixed } = wallets.find(w => w.currency === wallet.currency) || { fixed: 8 };
+
       return {
         coin: <span> {currency_icon} {wallet.currency.toUpperCase()} <span className="text-secondary">{wallet.name}</span></span>,
-        total: total > 0 ? String(total) : '0.000000',
-        available: <span>{wallet.balance && Number(wallet.balance) > 0 ? wallet.balance : '0.000000'}</span>,
-        in_order: <span className="text-secondary">{wallet.locked && Number(wallet.balance) > 0 ? wallet.locked : '0.000000'}</span>,
+        total: total > 0 ? <Decimal key={index} fixed={fixed}>{total}</Decimal> : '0.000000',
+        available: <span>{wallet.balance && Number(wallet.balance) > 0 ? <Decimal key={index} fixed={fixed}>{wallet.balance}</Decimal> : '0.000000'}</span>,
+        in_order: <span className="text-secondary">{wallet.locked && Number(wallet.balance) > 0 ? <Decimal key={index} fixed={fixed}>{wallet.locked}</Decimal> : '0.000000'}</span>,
         action: <div className="d-flex justify-content-between">
           <DepositButton onClick={() => history.push({ pathname: '/new-wallets/deposit/' + String(wallet.currency).toUpperCase() })}>{depositButtonLabel}</DepositButton>
           <WithdrawButton disabled={!isWithdrawEnabled} onClick={() => history.push({ pathname: '/new-wallets/withdraw/' + String(wallet.currency).toUpperCase() })}>{withdrawButtonLabel}</WithdrawButton>

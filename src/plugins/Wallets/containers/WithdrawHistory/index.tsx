@@ -69,7 +69,7 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     React.useEffect(() => {
         dispatchResetHistory();
         dispatchFetchHistories();
-    }, []);
+    }, [currency_id]);
 
     const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
         const process = require('../../../../assets/status/wait.svg')

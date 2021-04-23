@@ -2,11 +2,11 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
-import { selectAllChildCurrencies, selectCurrencies, selectMarkets, Wallet } from '../../../../modules';
+import { selectAllChildCurrencies, selectCurrencies, Wallet } from '../../../../modules';
 // import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { CurrencyInfo } from '../../components/CurrencyInfo';
-import { Link } from 'react-router-dom';
+import { TradeList } from '../../components/TradeList';
 
 const SelectStyles = {
     option: (provided, state) => ({
@@ -40,59 +40,6 @@ const SelectStyles = {
         color: '#fff',
     }),
 }
-
-// const WalletCardStyles = styled.div`
-//     width: 300px;
-//     height: 200px;
-//     background: linear-gradient(135deg, #13f1fc 0%,#0470dc 100%);
-//     border-radius: 30px;
-//     backdrop-filter: blur(20px);
-//     display: flex;
-//     -webkit-box-pack: justify;
-//     justify-content: space-between;
-//     padding: 20px;
-//     .left {
-//         width: 85%;
-//         padding-left: 1rem;
-//     }
-//     .right {
-//         width: 15%;
-//     }
-//     h4 {
-//         font-weight: bold;
-//         font-size: 2rem;
-//         color: #fff;
-//         span {
-//             font-size: 1.3rem;
-//             color: #5F5F5F;
-//         }
-//     }
-//     .wallet-balance {
-//         position: absolute;
-//         width: 100%;
-//         height: 30%;
-//         bottom: 0;
-//         left: 0;
-//         background-color: #036ED9;
-//         border-bottom-left-radius: 30px;
-//         border-bottom-right-radius: 30px;
-//         padding: 1rem 2rem 0 2rem;
-//         display: flex;
-//         justify-content: space-between;
-//         flex-direction: row;
-
-//         .wallet-balance__available {
-//             text-align: left;
-//         }
-
-//         .wallet-balance__locked {
-//             align-self: flex-end;
-//             text-align: right;
-//             margin-bottom: 1rem;
-//         }
-//     }
-// `;
-
 interface DepositInfoProps {
     currency_id: string;
     currency_icon: string;
@@ -108,7 +55,6 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
     // selectors
     const currencies = useSelector(selectCurrencies);
     const all_child_currencies = useSelector(selectAllChildCurrencies);
-    const markets = useSelector(selectMarkets);
 
     const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { currency: "", name: "", type: "fiat", fee: 0, fixed: 0 };
 
@@ -149,6 +95,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
         }
         history.push(location);
     };
+
 
     return (
         <div className="container" style={{ padding: '50px 0' }}>
@@ -207,15 +154,9 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
                 <div className="col-12">
                     <h5>Go To Trade:</h5>
                 </div>
-               <div className="col-12">
-               {
-                    markets
-                    .filter(market => market.base_unit.toLowerCase() === currency_id.toLowerCase())
-                    .map(market => (
-                        <Link style={{color: '#fff', marginRight: '1rem', borderBottom: '1px solid #fff'}} to={'/trading/' + market.id}>{market.name}</Link>
-                    ))
-                }
-               </div>
+                <div className="col-12">
+                    <TradeList currency_id={currency_id} />
+                </div>
             </div>
         </div>
     )

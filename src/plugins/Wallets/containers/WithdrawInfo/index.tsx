@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 import Select from 'react-select';
-import { selectAllChildCurrencies, selectCurrencies, selectMarkets, Wallet } from '../../../../modules';
+import { selectAllChildCurrencies, selectCurrencies, Wallet } from '../../../../modules';
 import { CurrencyInfo } from '../../components/CurrencyInfo';
+import { TradeList } from '../../components/TradeList';
 
 const SelectStyles = {
     option: (provided, state) => ({
@@ -54,8 +54,7 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
     const currencies = useSelector(selectCurrencies);
     const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { currency: "", name: "", type: "fiat", fee: 0, fixed: 0 };
     const all_child_currencies = useSelector(selectAllChildCurrencies);
-    const markets = useSelector(selectMarkets);
-    
+
     // method
     const findIcon = (code: string): string => {
         const currency = currencies.find((currency: any) => currency.id === code);
@@ -124,15 +123,9 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
                 <div className="col-12">
                     <h5>Go To Trade:</h5>
                 </div>
-               <div className="col-12">
-               {
-                    markets
-                    .filter(market => market.base_unit.toLowerCase() === currency_id.toLowerCase())
-                    .map(market => (
-                        <Link style={{color: '#fff', marginRight: '1rem', borderBottom: '1px solid #fff'}} to={'/trading/' + market.id}>{market.name}</Link>
-                    ))
-                }
-               </div>
+                <div className="col-12">
+                    <TradeList currency_id={currency_id} />
+                </div>
             </div>
         </div>
     )
