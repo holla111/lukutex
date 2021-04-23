@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { setDocumentTitle } from '../../../../helpers';
-import { allChildCurrenciesFetch, beneficiariesFetch, currenciesFetch, marketsFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, currenciesFetch, marketsFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 
 
@@ -21,7 +21,6 @@ export const DepositScreen = () => {
     const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
     const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
     const dispatchFetchMarkets = () => dispatch(marketsFetch());
-    const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
     const history = useHistory();
 
     // method
@@ -39,7 +38,6 @@ export const DepositScreen = () => {
     React.useEffect(() => {
         dispatchFetchChildCurrencies();
         dispatchFetchMarkets();
-        dispatchFetchBeneficiaries();
         dispatchFetchCurrencies();
         dispatchFetchWallets();
         dispatchFetchChildCurrencies();

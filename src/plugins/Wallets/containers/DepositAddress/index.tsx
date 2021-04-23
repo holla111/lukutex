@@ -113,6 +113,10 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
             {
                 name: 'TRON20',
                 blockchain_key: 'tron-test'
+            },
+            {
+                name: 'BEP20',
+                blockchain_key: 'binance-main'
             }
         ];
         const foundTab = tab_names.find(tab_name => tab_name.blockchain_key.toLowerCase() === blockchain_key.toLowerCase());
@@ -144,7 +148,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                 {
                                     child_wallets ?
                                         child_wallets.map(child_wallet => (
-                                            <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.blockchain_key}>
+                                            <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.blockchain_key || ''}>
                                                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                                     {
                                                         child_wallet.id && child_wallet.wallet && child_wallet.deposit_enabled ?

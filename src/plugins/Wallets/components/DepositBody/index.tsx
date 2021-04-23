@@ -1,9 +1,9 @@
 // import classnames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { formatCCYAddress } from '../../../../helpers';
-import { selectCurrencies, selectUserInfo, selectWalletAddress } from '../../../../modules';
+import { alertPush, selectCurrencies, selectUserInfo, selectWalletAddress } from '../../../../modules';
 import styled from 'styled-components';
 import { LockIcon } from '../../../../assets/images/LockIcon';
 import { DepositCrypto } from '../DepositCrypto';
@@ -32,8 +32,12 @@ const WalletDepositBodyComponent = props => {
   const currencies = useSelector(selectCurrencies);
   const user = useSelector(selectUserInfo);
   const selectedWalletAddress = useSelector(selectWalletAddress);
+  const dispatch = useDispatch();
+
   const label = React.useMemo(() => intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.address' }), [intl]);
-  const handleOnCopy = () => ({});
+  const handleOnCopy = () => {
+    dispatch(alertPush({ message: ['page.body.wallets.tabs.deposit.ccy.message.success'], type: 'success' }));
+  };
   const renderDeposit = (isAccountActivated: boolean) => {
     const {
       addressDepositError,
@@ -72,7 +76,7 @@ const WalletDepositBodyComponent = props => {
 
     if (wallet.type === 'coin') {
       return (
-        <div style={{position: 'relative'}}>
+        <div style={{ position: 'relative' }}>
           {currencyItem && !currencyItem.deposit_enabled ? (
             <BlurDisable >
               <LockIcon className="pg-blur__content__icon" />

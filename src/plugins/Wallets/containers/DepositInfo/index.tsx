@@ -98,7 +98,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 
 
     return (
-        <div className="container" style={{ padding: '50px 0' }}>
+        <div className="container" style={{ padding: '20px 0' }}>
             <div className="row">
                 <div className="col-8 d-inline">
                     <span style={{ fontSize: '3rem', color: '#3c78e0' }}>Deposit/ </span>

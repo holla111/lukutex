@@ -32,7 +32,7 @@ export const TradeList: React.FC<TradeListProps> = (props: TradeListProps) => {
         <div>
             {
                 markets
-                    .filter(market => market.base_unit.toLowerCase() === currency_id.toLowerCase() || market.quote_unit.toLowerCase() === currency_id.toLowerCase())
+                    .filter(market => market.base_unit.toLowerCase() === currency_id.toLowerCase())
                     .map(market => (
                         <a style={{ color: '#fff', marginRight: '1rem', borderBottom: '1px solid #fff' }} onClick={() => handleRedirectToTrading(market.id)}>{market.name}</a>
                     ))

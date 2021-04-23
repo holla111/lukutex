@@ -104,7 +104,7 @@ const WalletDeposit: React.FC = () => {
                     {
                         child_wallets ?
                             child_wallets.map(child_wallet => (
-                                <TabPane tab={child_wallet.name.toUpperCase() || ''} key={child_wallet.blockchain_key}>
+                                <TabPane tab={child_wallet.name.toUpperCase() || ''} key={child_wallet.blockchain_key || ''}>
                                     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                         {
                                             <WalletDepositBody

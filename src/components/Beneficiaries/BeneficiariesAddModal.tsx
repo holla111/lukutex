@@ -212,7 +212,7 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
             blockChainKey = 'ERC20';
         } else {
             const child = child_currencies.find(child => child.id.toLowerCase() === currency.toLowerCase());
-            blockChainKey = child ? child.blockchain_key : '';
+            blockChainKey = child && child.blockchain_key ? child.blockchain_key : '';
         }   
         return (
             <div className="cr-email-form__form-content">
