@@ -48,7 +48,6 @@ describe('Saga: currenciesFetchSaga', () => {
             base_factor: 100000000,
             precision: 8,
             icon_url: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg',
-            blockchain_key: 'bitcoin'
         },
 
         {
@@ -90,7 +89,6 @@ describe('Saga: currenciesFetchSaga', () => {
             base_factor: 100000000,
             precision: 8,
             icon_url: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg',
-            blockchain_key: 'ethereum-main'
         },
     ];
 
