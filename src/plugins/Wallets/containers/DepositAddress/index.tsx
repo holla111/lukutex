@@ -6,6 +6,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
 
 import { LockIcon } from '../../../../assets/images/LockIcon';
+import { useIntl } from 'react-intl';
 
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
@@ -70,8 +71,9 @@ interface DepositAddressProps {
 
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
     const { currency_id, child_currencies } = props;
-
+    const intl = useIntl();
     const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
+    const [selectedCurrencyID, setSelectedCurrencyID] = React.useState(currency_id);
     const dispatch = useDispatch();
     const wallets = useSelector(selectWallets) || [];
     const currencies = useSelector(selectCurrencies) || [];
@@ -83,7 +85,6 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
             wallet: wallets.find(item => item.currency === network.id) || { name: '', currency: '', balance: '', type: '', address: '' }
         }
     });
-
     const isAccountActivated = main_wallet.type === 'fiat' || main_wallet.balance;
 
 
@@ -136,7 +137,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                 <div className="row">
                     <div className="col-12">
                         <TabsStyle>
-                            <Tabs defaultActiveKey={currency_id} >
+                            <Tabs defaultActiveKey={currency_id} onChange={(key) => setSelectedCurrencyID(key)}>
                                 <TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
                                     <DepositBody
                                         wallet={main_wallet}
@@ -148,10 +149,10 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                 {
                                     child_wallets ?
                                         child_wallets.map(child_wallet => (
-                                            <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.blockchain_key || ''}>
+                                            <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.id || ''}>
                                                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                                     {
-                                                        child_wallet.id && child_wallet.wallet && child_wallet.deposit_enabled ?
+                                                        child_wallet.wallet && child_wallet.deposit_enabled  ?
                                                             <DepositBody
                                                                 wallet={child_wallet.wallet}
                                                                 isAccountActivated={isAccountActivated}
@@ -161,7 +162,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                                             :
                                                             <BlurDisable>
                                                                 <LockIcon className="pg-blur__content__icon" />
-                                                                {child_wallet.name.toUpperCase() || 'Wallet'} hasn't been available.
+                                                                {intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.disabled.message' })}
                                                         </BlurDisable>
                                                     }
                                                 </div>
@@ -180,12 +181,12 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
             <div className="row mt-5">
                 <div className="col-12 d-flex justify-content-between">
                     <p className="pr-5">
-                        <strong>Send only {currency_id.toUpperCase()}  to this deposit address.</strong>
+                        <strong>Send only {selectedCurrencyID.toUpperCase()}  to this deposit address.</strong>
                         <br />
-                    Sending coin or token other than {currency_id.toUpperCase()} to this address may result in the loss of your deposit.
+                    Sending coin or token other than {selectedCurrencyID.toUpperCase()} to this address may result in the loss of your deposit.
                    </p>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }

@@ -220,7 +220,7 @@ export const WalletListScreen = () => {
   const wallets = useSelector(selectWallets);
   const currencies = useSelector(selectCurrencies);
   const all_child_currencies = useSelector(selectAllChildCurrencies);
-
+  
   // function
   const findIcon = (code: string): string => {
     const currency = currencies.find((currency: any) => currency.id === code);

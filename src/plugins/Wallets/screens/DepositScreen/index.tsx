@@ -14,7 +14,6 @@ export const DepositScreen = () => {
     const currencies = useSelector(selectCurrencies);
     const wallets = useSelector(selectWallets) || [];
     const child_currencies = useSelector(selectChildCurrencies);
-
     const dispatch = useDispatch();
     const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
     const dispatchFetchWallets = () => dispatch(walletsFetch());

@@ -136,13 +136,13 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
     const child_wallets = child_currencies.map(network => {
         return {
             ...network,
-            wallet: wallets.find(item => item.currency === network.id) || { name: '', currency: '', balance: '', type: '', address: '' }
+            wallet: wallets.find(item => item.currency === network.id) || { name: '', currency: '', balance: '', type: 'coin', address: '', fee: 0, explorerTransaction: '', explorerAddress: '', fixed: 0 }
         }
     })
 
     // const walletsError = useSelector(selectWalletsAddressError);
 
-    const wallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || { name: '', currency: '', balance: '', type: "fiat", address: '', fee: '', fixed: 6 };
+    const wallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || { name: '', currency: '', balance: '', type: 'coin', address: '', fee: 0, explorerTransaction: '', explorerAddress: '', fixed: 0 };
     const currencyItem = currencies.find(currency => currency.id.toLowerCase() === currency_id.toLowerCase());
     const fee_currency = eth_fee.find(cur => cur.currency_id === currency_id);
     const ethFee = fee_currency ? fee_currency.fee : undefined;
@@ -194,7 +194,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         return level > 1 || (level === 1 && is2faEnabled);
     }
 
-    const renderWithdrawContent = () => {
+    const renderWithdrawContent = (wallet: Wallet) => {
 
         const { user: { level, otp }, currencies } = props;
 
@@ -319,7 +319,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                                                                 {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
                                                             </BlurDisable>
                                                         </div>
-                                                    ) : renderWithdrawContent()}
+                                                    ) : renderWithdrawContent(wallet)}
 
                                                 </TabPane>
                                                 : ''
@@ -330,16 +330,18 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                                                 child_wallets.map(child_wallet => (
 
                                                     <TabPane tab={getTabName(child_wallet.blockchain_key)} key={child_wallet.id}>
-                                                        {child_wallet && !child_wallet.withdrawal_enabled ? (
-                                                            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                                                                <BlurDisable >
-                                                                    <LockIcon className="pg-blur__content__icon" />
-                                                                    {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
-                                                                </BlurDisable>
-                                                            </div>
+                                                        {child_wallet.wallet && child_wallet.withdrawal_enabled ?
+                                                            renderWithdrawContent(child_wallet.wallet)
 
-                                                        )
-                                                            : renderWithdrawContent()
+                                                            : (
+                                                                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                                                                    <BlurDisable >
+                                                                        <LockIcon className="pg-blur__content__icon" />
+                                                                        {intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+                                                                    </BlurDisable>
+                                                                </div>
+
+                                                            )
                                                         }
                                                     </TabPane>
                                                 ))
