@@ -88,9 +88,9 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
     const isAccountActivated = main_wallet.type === 'fiat' || main_wallet.balance;
 
 
-    const handleGenerateAddress = () => {
-        if (!main_wallet.address && wallets.length && main_wallet.type !== 'fiat') {
-            dispatch(walletsAddressFetch({ currency: currency_id }));
+    const handleGenerateAddress = (wallet: { address: string, type: string, currency: string }) => {
+        if (!wallet.address && wallets.length && wallet.type !== 'fiat') {
+            dispatch(walletsAddressFetch({ currency: wallet.currency }));
             dispatch(walletsFetch());
             setGenerateAddressTriggered(true);
         }
@@ -100,7 +100,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
     React.useEffect(() => {
         dispatch(walletsAddressFetch({ currency: currency_id }));
     }, [dispatch, currency_id]);
-
+    
     const getTabName = (blockchain_key: string) => {
         const tab_names = [
             {
@@ -138,32 +138,44 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                     <div className="col-12">
                         <TabsStyle>
                             <Tabs defaultActiveKey={currency_id} onChange={(key) => setSelectedCurrencyID(key)}>
-                                <TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
-                                    <DepositBody
-                                        wallet={main_wallet}
-                                        isAccountActivated={isAccountActivated}
-                                        handleGenerateAddress={handleGenerateAddress}
-                                        generateAddressTriggered={generateAddressTriggered}
-                                    />
-                                </TabPane>
+                                {
+                                    main_wallet
+                                        ? <TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
+                                            <DepositBody
+                                                wallet={main_wallet}
+                                                isAccountActivated={isAccountActivated}
+                                                handleGenerateAddress={() => handleGenerateAddress({
+                                                    address: main_wallet.address || '',
+                                                    type: main_wallet.type || '',
+                                                    currency: main_wallet.currency || ''
+                                                })}
+                                                generateAddressTriggered={generateAddressTriggered}
+                                            />
+                                        </TabPane>
+                                        : ""
+                                }
                                 {
                                     child_wallets ?
                                         child_wallets.map(child_wallet => (
                                             <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.id || ''}>
                                                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                                     {
-                                                        child_wallet.wallet && child_wallet.deposit_enabled  ?
+                                                        child_wallet.wallet && child_wallet.deposit_enabled ?
                                                             <DepositBody
                                                                 wallet={child_wallet.wallet}
                                                                 isAccountActivated={isAccountActivated}
-                                                                handleGenerateAddress={handleGenerateAddress}
+                                                                handleGenerateAddress={() => handleGenerateAddress({
+                                                                    address: child_wallet.wallet.address || '',
+                                                                    type: child_wallet.wallet.type || '',
+                                                                    currency: child_wallet.wallet.currency || ''
+                                                                })}
                                                                 generateAddressTriggered={generateAddressTriggered}
                                                             />
                                                             :
                                                             <BlurDisable>
                                                                 <LockIcon className="pg-blur__content__icon" />
                                                                 {intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.disabled.message' })}
-                                                        </BlurDisable>
+                                                            </BlurDisable>
                                                     }
                                                 </div>
 

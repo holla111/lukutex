@@ -247,7 +247,7 @@ export const WalletListScreen = () => {
       };
     })
     .filter(wallet => wallet.currency.toLowerCase().includes(searchInputState.toLowerCase()))
-    .filter(wallet => hideSmallBalanceState ? wallet.total > 0 : wallet.total >= 0)
+    .filter(wallet => hideSmallBalanceState ? wallet.total > 0 : true)
     .sort((prev_wallet, next_wallet) => { //sort desc
       return next_wallet.total - prev_wallet.total;
     }).map((wallet, index) => {
