@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { localeDate } from '../../../../helpers';
-import { fetchHistory, resetHistory, selectCurrencies, selectHistory } from '../../../../modules';
+import {  selectCurrencies, selectHistory } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 
 interface DepositHistoryProps {
@@ -20,15 +20,6 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     const currencies = useSelector(selectCurrencies);
     const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
     const blockchain_address = currency ? currency.explorer_address : '';
-    // dispatch
-    const dispatch = useDispatch();
-    const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "deposits", page: 1, limit: 6 }));
-    
-    React.useEffect(() => {
-        console.log("fetch history");
-        dispatch(resetHistory());
-        dispatchFetchHistories();
-    }, [currency_id]);
 
     const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
         const process = require('../../../../assets/status/wait.svg')

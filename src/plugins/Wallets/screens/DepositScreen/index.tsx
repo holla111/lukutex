@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { setDocumentTitle } from '../../../../helpers';
-import { allChildCurrenciesFetch, currenciesFetch, marketsFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, currenciesFetch, fetchHistory, marketsFetch, resetHistory, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 
 
@@ -20,6 +20,9 @@ export const DepositScreen = () => {
     const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
     const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
     const dispatchFetchMarkets = () => dispatch(marketsFetch());
+    const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "deposits", page: 1, limit: 6 }));
+    const dispatchResetHistories = () => dispatch(resetHistory());
+  
     const history = useHistory();
 
     // method
@@ -41,19 +44,21 @@ export const DepositScreen = () => {
         dispatchFetchWallets();
         dispatchFetchChildCurrencies();
         dispatchcFetchAllChildCurrencies();
+        dispatchResetHistories();
+        dispatchFetchHistories();
     }, [currency_id]);
 
     return (
         <div className="container-fluid" style={{ position: "relative", padding: '20px 10% 20px 10%', marginTop: '-7px', backgroundColor: '#171c29', color: '#fff' }}>
-            <div className="row" style={{padding: '0 1rem'}}>
-                <div className="col-6" style={{backgroundColor: '#1E2841ff'}}>
+            <div className="row" style={{ padding: '0 1rem' }}>
+                <div className="col-6" style={{ backgroundColor: '#1E2841ff' }}>
                     <DepositInfo
                         currency_id={currency_id.toLowerCase()}
                         currency_icon={findIcon(currency_id.toLowerCase())}
                         wallets={wallets}
                     />
                 </div>
-                <div className="col-6" style={{ backgroundColor: '#182034'}}>
+                <div className="col-6" style={{ backgroundColor: '#182034' }}>
                     <DepositAddress
                         currency_id={currency_id.toLowerCase()}
                         currency_icon={findIcon(currency_id.toLowerCase())}

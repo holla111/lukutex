@@ -60,15 +60,6 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
     const blockchain_address = currency ? currency.explorer_address : '';
 
-
-    // dispatch
-    const dispatch = useDispatch();
-    const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "withdraws", page: 1, limit: 6 }));
-
-    React.useEffect(() => {
-        dispatchFetchHistories();
-    }, [currency_id]);
-
     const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
         const process = require('../../../../assets/status/wait.svg')
         const fail = require('../../../../assets/status/fail.svg')
@@ -117,7 +108,9 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
         []
     );
 
-    const data = list.map((history: any) => {
+    const data = list
+    .filter((history: any) => history.currency === currency_id.toLowerCase())
+    .map((history: any) => {
         const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.blockchain_txid) : '';
         return {
             date: localeDate(history.created_at, 'fullDate'),
