@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { localeDate } from '../../../../helpers';
-import { fetchHistory, selectCurrencies, selectHistory } from '../../../../modules';
+import { selectCurrencies, selectHistory } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
@@ -109,17 +109,17 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     );
 
     const data = list
-    .filter((history: any) => history.currency === currency_id.toLowerCase())
-    .map((history: any) => {
-        const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.blockchain_txid) : '';
-        return {
-            date: localeDate(history.created_at, 'fullDate'),
-            status: history.state,
-            amount: history.amount,
-            blockchain_txid: <a target="_blank" href={blockchainTxidAddress}>{history.blockchain_txid}</a>,
-            state: formatTxState(history.state)
-        }
-    });
+        .filter((history: any) => history.currency === currency_id.toLowerCase())
+        .map((history: any) => {
+            const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.blockchain_txid) : '';
+            return {
+                date: localeDate(history.created_at, 'fullDate'),
+                status: history.state,
+                amount: history.amount,
+                blockchain_txid: <a target="_blank" href={blockchainTxidAddress}>{history.blockchain_txid}</a>,
+                state: formatTxState(history.state)
+            }
+        });
 
     const all_history = [...data];
     const success_history = [...data].filter(d => d.status === 'succeed');
