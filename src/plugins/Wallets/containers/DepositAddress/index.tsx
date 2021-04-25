@@ -96,11 +96,14 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
         }
     };
 
+    React.useEffect(() => {
+        dispatch(walletsAddressFetch({ currency: selectedCurrencyID }));
+    }, [dispatch, selectedCurrencyID]);
 
     React.useEffect(() => {
         dispatch(walletsAddressFetch({ currency: currency_id }));
     }, [dispatch, currency_id]);
-    
+
     const getTabName = (blockchain_key: string) => {
         const tab_names = [
             {
