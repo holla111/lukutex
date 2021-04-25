@@ -98,7 +98,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 
     React.useEffect(() => {
         dispatch(walletsAddressFetch({ currency: selectedCurrencyID }));
-    }, [dispatch, selectedCurrencyID]);
+    }, [selectedCurrencyID]);
 
     React.useEffect(() => {
         dispatch(walletsAddressFetch({ currency: currency_id }));
