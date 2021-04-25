@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { localeDate } from '../../../../helpers';
-import { fetchHistory, resetHistory, selectCurrencies, selectHistory } from '../../../../modules';
+import { fetchHistory, selectCurrencies, selectHistory } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
@@ -64,10 +64,8 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     // dispatch
     const dispatch = useDispatch();
     const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "withdraws", page: 1, limit: 6 }));
-    const dispatchResetHistory = () => dispatch(resetHistory());
 
     React.useEffect(() => {
-        dispatchResetHistory();
         dispatchFetchHistories();
     }, [currency_id]);
 
