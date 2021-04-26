@@ -85,6 +85,7 @@ const WalletDepositBodyComponent = props => {
           ) : null}
 
           <DepositCrypto
+            wallet_index={props.wallet_index}
             data={walletAddress}
             handleOnCopy={handleOnCopy}
             error={error}

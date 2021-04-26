@@ -145,6 +145,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                     main_wallet
                                         ? <TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
                                             <DepositBody
+                                                wallet_index={0}
                                                 wallet={main_wallet}
                                                 isAccountActivated={isAccountActivated}
                                                 handleGenerateAddress={() => handleGenerateAddress({
@@ -159,12 +160,13 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                 }
                                 {
                                     child_wallets ?
-                                        child_wallets.map(child_wallet => (
+                                        child_wallets.map((child_wallet, index) => (
                                             <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.id || ''}>
                                                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                                     {
                                                         child_wallet.wallet && child_wallet.deposit_enabled ?
                                                             <DepositBody
+                                                                wallet_index={index + 1}
                                                                 wallet={child_wallet.wallet}
                                                                 isAccountActivated={isAccountActivated}
                                                                 handleGenerateAddress={() => handleGenerateAddress({
