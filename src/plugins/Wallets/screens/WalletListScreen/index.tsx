@@ -239,7 +239,7 @@ export const WalletListScreen = () => {
   const [searchInputState, setSearchInputState] = React.useState("");
 
   const data = wallets
-    .filter(wallet => !all_child_currencies.payload.map(cur => cur.id).includes(wallet.currency))
+    .filter(wallet => !all_child_currencies.map(cur => cur.id).includes(wallet.currency))
     .map(wallet => {
       return {
         ...wallet,

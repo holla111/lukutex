@@ -62,7 +62,7 @@ export const DepositScreen = () => {
                     <DepositAddress
                         currency_id={currency_id.toLowerCase()}
                         currency_icon={findIcon(currency_id.toLowerCase())}
-                        child_currencies={child_currencies.payload}
+                        child_currencies={child_currencies}
                     />
                 </div>
             </div>

@@ -68,7 +68,7 @@ const WalletWithdraw: React.FC = () => {
   }, [currency]);
   useWalletsFetch();
 
-  const child_wallets = child_currencies.payload.map(network => {
+  const child_wallets = child_currencies.map(network => {
     return {
       ...network,
       wallet: wallets.find(item => item.currency === network.id) || { name: '', currency: '', balance: '', type: '', address: '' }

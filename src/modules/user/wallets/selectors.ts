@@ -29,7 +29,7 @@ export const selectWalletAddress = (state: RootState): string =>
 export const selectShouldFetchWallets = (state: RootState): boolean =>
     !selectWalletsTimestamp(state) && !selectWalletsLoading(state);
 
-export const selectChildCurrencies = (state: RootState): ChildCurrenciesState => state.user.child_currencies;
+export const selectChildCurrencies = (state: RootState): ChildCurrenciesState['payload'] => state.user.child_currencies.payload;
 
-export const selectAllChildCurrencies = (state: RootState): ChildCurrenciesState => state.user.all_child_currencies;
+export const selectAllChildCurrencies = (state: RootState): ChildCurrenciesState['payload'] => state.user.all_child_currencies.payload;
 

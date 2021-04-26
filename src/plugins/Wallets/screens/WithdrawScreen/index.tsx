@@ -65,7 +65,7 @@ export const WithdrawScreen = () => {
                         wallets={wallets}
                         currencies={currencies}
                         eth_fee={eth_fee}
-                        child_currencies={child_currencies.payload}
+                        child_currencies={child_currencies}
                     />
                 </div>
             </div>

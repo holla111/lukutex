@@ -4,16 +4,15 @@ import { Button } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
 import { connect, MapDispatchToProps } from 'react-redux';
 import { CustomInput } from '../../components';
+import { checkValidBitcoinAddress, checkValidErc20Address } from '../../helpers';
 import { IntlProps } from '../../index';
 import { Modal } from '../../mobile/components/Modal';
 import {
     beneficiariesCreate,
     BeneficiaryBank,
-    ChildCurrency,
-    Currency,
     RootState,
     selectBeneficiariesCreateError,
-    selectBeneficiariesCreateSuccess, selectChildCurrencies, selectCurrencies, selectMobileDeviceState
+    selectBeneficiariesCreateSuccess, selectMobileDeviceState
 } from '../../modules';
 import { CommonError } from '../../modules/types';
 
@@ -21,8 +20,6 @@ interface ReduxProps {
     beneficiariesAddError?: CommonError;
     beneficiariesAddSuccess: boolean;
     isMobileDevice: boolean;
-    currencies: Currency[];
-    child_currencies: ChildCurrency[];
 }
 
 interface DispatchProps {
@@ -34,6 +31,7 @@ interface OwnProps {
     type: 'fiat' | 'coin';
     handleToggleAddAddressModal: () => void;
     handleToggleConfirmationModal: () => void;
+    blockchainType: string;
 }
 
 interface CoinState {
@@ -44,6 +42,8 @@ interface CoinState {
     coinAddressFocused: boolean;
     coinBeneficiaryNameFocused: boolean;
     coinDescriptionFocused: boolean;
+
+    isInvalidAddress: boolean;
 }
 
 interface FiatState {
@@ -74,6 +74,8 @@ const defaultState = {
     coinAddressFocused: false,
     coinBeneficiaryNameFocused: false,
     coinDescriptionFocused: false,
+
+    isInvalidAddress: false,
 
     fiatName: '',
     fiatFullName: '',
@@ -123,8 +125,8 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
                     title={this.props.intl.formatMessage({ id: 'page.body.wallets.beneficiaries.addAddressModal.header' })}
                     onClose={this.props.handleToggleAddAddressModal}
                     isOpen>
-                {this.renderContent()}
-            </Modal> : this.renderContent()
+                    {this.renderContent()}
+                </Modal> : this.renderContent()
         );
     }
 
@@ -169,15 +171,6 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
             'cr-email-form__group--optional': optional,
         });
 
-        // const {currency} = this.props;
-        // switch (currency) {
-        //     case 'eth':
-                
-        //         break;
-        
-        //     default:
-        //         break;
-        // }
 
         return (
             <div key={field} className={focusedClass}>
@@ -198,26 +191,55 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
         );
     };
 
+
+
+    private renderEnterCoinAddressInput = (field: string, optional?: boolean) => {
+        const focusedClass = classnames('cr-email-form__group', {
+            'cr-email-form__group--focused': this.state[`${field}Focused`],
+            'cr-email-form__group--optional': optional,
+        });
+
+        const { isInvalidAddress } = this.state;
+
+        return (
+            <div key={field} className={focusedClass}>
+                <CustomInput
+                    type="text"
+                    label={this.translate(`page.body.wallets.beneficiaries.addAddressModal.body.${field}`)}
+                    placeholder={this.translate(`page.body.wallets.beneficiaries.addAddressModal.body.${field}`)}
+                    defaultLabel={field}
+                    handleChangeInput={value => this.handleChangeAddAddressFieldValue(field, value)}
+                    inputValue={this.state[field]}
+                    handleFocusInput={() => this.handleChangeFieldFocus(`${field}Focused`)}
+                    classNameLabel="cr-email-form__label"
+                    classNameInput="cr-email-form__input"
+                    autoFocus={true}
+                    isInvalid={isInvalidAddress}
+                />
+            </div>
+        );
+    };
+
     private renderAddAddressModalCryptoBody = () => {
         const {
             coinAddress,
             coinBeneficiaryName,
+            isInvalidAddress
         } = this.state;
 
-        const isDisabled = !coinAddress || !coinBeneficiaryName;
-        const {currency, currencies, child_currencies} = this.props;
-        let blockChainKey;
-        const main = currencies.find(cur => cur.id.toLowerCase() === currency.toLowerCase());
-        if(main) {
-            blockChainKey = 'ERC20';
-        } else {
-            const child = child_currencies.find(child => child.id.toLowerCase() === currency.toLowerCase());
-            blockChainKey = child && child.blockchain_key ? child.blockchain_key : '';
-        }   
+        const isDisabled = !coinAddress || !coinBeneficiaryName || isInvalidAddress;
+
         return (
             <div className="cr-email-form__form-content">
-                <span style={{fontSize: '12px', color: 'red'}}>** Please enter <strong>{String(blockChainKey).toUpperCase()}</strong> address</span>
-                {this.renderAddAddressModalBodyItem('coinAddress')}
+                {
+                    isInvalidAddress
+                        ?
+                        <p style={{ fontSize: '12px', color: 'red' }}>
+                            ** Please enter <strong>{String(this.props.blockchainType).toUpperCase()}</strong> address
+                        </p>
+                        : ""
+                }
+                {this.renderEnterCoinAddressInput('coinAddress')}
                 {this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
                 {this.renderAddAddressModalBodyItem('coinDescription', true)}
                 <div className="cr-email-form__button-wrapper">
@@ -265,6 +287,33 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
                 </div>
             </div>
         );
+    };
+
+    private handleChangeAddAddressFieldValue = (key: string, value: string) => {
+        const { blockchainType } = this.props;
+        let isValid = true;
+
+        switch (blockchainType) {
+            case "ethereum-main":
+                isValid = checkValidErc20Address(value);
+                this.setState({
+                    isInvalidAddress: !isValid
+                });
+                break;
+            case "bitcoin":
+                isValid = checkValidBitcoinAddress(value);
+                this.setState({
+                    isInvalidAddress: !isValid
+                });
+                break;
+            default:
+                break;
+        }
+
+        // @ts-ignore
+        this.setState({
+            [key]: value,
+        });
     };
 
     private handleChangeFieldValue = (key: string, value: string) => {
@@ -376,9 +425,8 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 const mapStateToProps = (state: RootState): ReduxProps => ({
     beneficiariesAddError: selectBeneficiariesCreateError(state),
     beneficiariesAddSuccess: selectBeneficiariesCreateSuccess(state),
-    isMobileDevice: selectMobileDeviceState(state),
-    currencies: selectCurrencies(state),
-    child_currencies: selectChildCurrencies(state).payload
+    isMobileDevice: selectMobileDeviceState(state)
+
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({
