@@ -17,6 +17,7 @@ export const FeeList: React.FC<Props> = (props: Props) => {
   }, []);
   
   const ethFee = useSelector(selectETHFee);
+  
   const renderItem = (currency, index: number) => {
     const open = require('../../assets/images/fee/turnon.png')
     const close = require('../../assets/images/fee/turnoff.png')
@@ -24,20 +25,28 @@ export const FeeList: React.FC<Props> = (props: Props) => {
     const imgDeposit = currency.deposit_enabled ? <img src={open} alt="" /> : <img src={close} alt="" />
 
     const imgWithdraw = currency.withdrawal_enabled ? <img src={open} alt="" /> : <img src={close} alt="" />
-    const withdrawFee = currency.withdraw_fee != 0 ? `${currency.withdraw_fee} ${currency.id.toUpperCase()}` : `${ethFee.fee} ETH`;
+    const limited = currency.withdraw_limit_24h;
+    const currency_id = currency.id;
+    const find_currency = ethFee.find(cur => cur.currency_id === currency_id);
+    
+    const fee = find_currency ? find_currency.fee + ' ETH' : 'Unavailable';
+    const withdrawFee = currency.withdraw_fee != 0 ? `${currency.withdraw_fee} ${currency.id.toUpperCase()}` : `${fee}`;
     return (
       <tr key={index}>
         <td style={{ textAlign: "left", paddingLeft: "1%", color: "white" }}>
           <span>{currency.name} ({currency.id.toUpperCase()})</span>
         </td>
-        <td>
-          <span>{currency.min_deposit_amount} {currency.id.toUpperCase()}</span>
+        <td style={{ textAlign: "left", paddingLeft: "1%"}}>
+          <span>{Number(currency.min_deposit_amount) + Number(currency.deposit_fee)} {currency.id.toUpperCase()}</span>
         </td>
-        <td>
+        <td style={{ textAlign: "left", paddingLeft: "1%"}}>
           <span>{currency.min_withdraw_amount} {currency.id.toUpperCase()}</span>
         </td>
-        <td>
+        <td style={{ textAlign: "left", paddingLeft: "1%"}}>
           <span>{withdrawFee}</span>
+        </td>
+        <td style={{ textAlign: "left", paddingLeft: "1%"}}>
+          <span>{limited} {currency.id.toUpperCase()}</span>
         </td>
         <td>
           {imgDeposit}
@@ -57,6 +66,7 @@ export const FeeList: React.FC<Props> = (props: Props) => {
           <th>Min Deposit</th>
           <th>Min Withdraw</th>
           <th>Withdraw Fee</th>
+          <th>Withdraw Daily Limit</th>
           <th>Deposit Status</th>
           <th>Withdraw Status</th>
         </tr>

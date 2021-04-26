@@ -9,12 +9,13 @@ import {
 } from './types';
 
 export interface ETHFeeFetch {
-    type: typeof ETH_FEE_FETCH;
+    type: typeof ETH_FEE_FETCH
+   
 }
 
 export interface ETHFeeData {
     type: typeof ETH_FEE_DATA;
-    payload: ETHFee;
+    payload: ETHFee[];
 }
 
 export interface ETHFeeError {

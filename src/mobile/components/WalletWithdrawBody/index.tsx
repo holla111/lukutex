@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Blur } from '../../../components/Blur';
 import { ModalWithdrawConfirmation, ModalWithdrawSubmit, Withdraw } from '../../../containers';
 import { useBeneficiariesFetch, useCurrenciesFetch, useWalletsAddressFetch } from '../../../hooks';
-import { selectETHFee, ethFeeWithdraw, ethFeeFetch } from '../../../modules';
+import { selectETHFee, ethFeeFetch } from '../../../modules';
 import { selectCurrencies } from '../../../modules/public/currencies';
 import { Beneficiary } from '../../../modules/user/beneficiaries';
 import { selectUserInfo } from '../../../modules/user/profile';
@@ -38,6 +38,7 @@ const WalletWithdrawBodyComponent = props => {
     const user = useSelector(selectUserInfo);
     const wallets = useSelector(selectWallets);
     const currencies = useSelector(selectCurrencies);
+
     const withdrawSuccess = useSelector(selectWithdrawSuccess);
     const { currency, fee, type } = props.wallet;
     const fixed = (props.wallet || { fixed: 0 }).fixed;
@@ -89,20 +90,21 @@ const WalletWithdrawBodyComponent = props => {
             return;
         }
 
-        if(fee == 0) {
-            if(ethBallance && ethFee.fee && Number(ethBallance) >= Number(ethFee.fee)) {
-                const withdrawByEthFeeData = {
-                    uid: user.uid,
-                    currency: currency.toLowerCase(),
-                    amount: amount
-                }
-                dispatch(ethFeeWithdraw({payload: withdrawByEthFeeData, error: undefined, loading: false}));
-            } else {
-              message.error('Withdraw failed.');
-              return;
+        const fee_currency = ethFee.find(cur => cur.currency_id === currency);
+
+        if (fee == 0) {
+            if (!(fee_currency && fee_currency.fee)) {
+                message.error('Something wrong with ETH fee.');
+                return;
+            }
+            if (!(ethBallance && Number(ethBallance) >= Number(fee_currency.fee))) {
+                message.error('ETH balance isn`\t enough to pay.');
+                return;
             }
         }
         const withdrawRequest = {
+            uid: user.uid,
+            fee: fee,
             amount,
             currency: currency.toLowerCase(),
             otp: otpCode,
@@ -131,18 +133,21 @@ const WalletWithdrawBodyComponent = props => {
     const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
     const selectedWallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency.toLowerCase());
-    const selectedWalletFee =  selectedWallet ? selectedWallet.fee : undefined;
+    const selectedWalletFee = selectedWallet ? selectedWallet.fee : undefined;
+
+    const fee_currency = ethFee.find(cur => cur.currency_id === currency);
+
     return (
         <div className={className}>
             {currencyItem && !currencyItem.withdrawal_enabled ? (
-                    <Blur
-                        className="pg-blur-withdraw"
-                        text={intl.formatMessage({id: 'page.body.wallets.tabs.withdraw.disabled.message'})}
-                    />
-                ) :
+                <Blur
+                    className="pg-blur-withdraw"
+                    text={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+                />
+            ) :
                 <Withdraw
                     isMobileDevice
-                    ethFee={ethFee ? ethFee.fee : undefined }
+                    ethFee={fee_currency ? fee_currency.fee : undefined}
                     fee={fee}
                     ethBallance={ethBallance}
                     minWithdrawAmount={minWithdrawAmount}
@@ -171,7 +176,7 @@ const WalletWithdrawBodyComponent = props => {
                 <ModalWithdrawConfirmation
                     ethBallance={ethBallance}
                     selectedWalletFee={selectedWalletFee}
-                    ethFee={ethFee ? ethFee.fee : undefined}
+                    ethFee={fee_currency ? fee_currency.fee : undefined}
                     isMobileDevice
                     show={withdrawData.withdrawConfirmModal}
                     amount={withdrawData.total}

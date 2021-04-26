@@ -1,10 +1,9 @@
-import { Button, Input } from 'antd';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Pagination } from '../';
 import { Decimal } from '../../components';
 import { Market } from '../../modules';
-import './ticker.css';
+import styled from 'styled-components';
 
 interface Props {
   currentBidUnit: string;
@@ -13,6 +12,27 @@ interface Props {
   redirectToTrading: (key: string) => void;
   setCurrentBidUnit: (key: string) => void;
 }
+
+const InputsearchStyle = styled.input`
+  outline: none;
+  max-width: 200px;
+  width: 100%;
+  height: 35px;
+  color: white;
+  background: var(--table-background-color);
+  border: none;
+  border: 1px solid #384065;
+  border-radius: 6px;
+  text-align: center;
+  :focus{
+    box-shadow: none;
+    border-color: #879fc7;
+  }
+  ::placeholder{
+    color: #879fc7;
+    font-size: 13px;
+  }
+`;   
 
 export const TickerTableScreen = (props: Props) => {
   const { currentBidUnit, markets } = props;
@@ -38,8 +58,8 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </li>
       ))}
-      <div className="home-page__markets-top-block" style={{ marginLeft: 764 }}>
-        <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
+      <div className="home-page__markets-top-block">
+        <InputsearchStyle type="text" placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
       </div>
     </ul>
   );
@@ -50,7 +70,7 @@ export const TickerTableScreen = (props: Props) => {
 
   React.useEffect(() => {
     if (markets) {
-      setPaginationState(prev => ({
+      setPaginationState((prev) => ({
         ...prev,
         total: markets.length,
       }));
@@ -62,7 +82,7 @@ export const TickerTableScreen = (props: Props) => {
   }, [paginationState]);
 
   const handleGetStartPointPagination = (): number => {
-    const start = (paginationState.pageSize * paginationState.current) - paginationState.pageSize;
+    const start = paginationState.pageSize * paginationState.current - paginationState.pageSize;
     return start;
   };
 
@@ -70,7 +90,8 @@ export const TickerTableScreen = (props: Props) => {
     const { current, pageSize, total } = paginationState;
 
     return (
-      <Pagination onClickToPage={onClickToPage}
+      <Pagination
+        onClickToPage={onClickToPage}
         page={current}
         onClickNextPage={onClickNextPage}
         onClickPrevPage={onClickPrevPage}
@@ -78,22 +99,21 @@ export const TickerTableScreen = (props: Props) => {
         lastElemIndex={Math.ceil(total / pageSize)}
       />
     );
-
   };
   const onClickPrevPage = () => {
-    setPaginationState(prev => ({
+    setPaginationState((prev) => ({
       ...prev,
       current: prev.current - 1,
     }));
   };
   const onClickNextPage = () => {
-    setPaginationState(prev => ({
+    setPaginationState((prev) => ({
       ...prev,
       current: prev.current + 1,
     }));
   };
   const onClickToPage = (value: number) => {
-    setPaginationState(prev => ({
+    setPaginationState((prev) => ({
       ...prev,
       current: value,
     }));
@@ -106,13 +126,11 @@ export const TickerTableScreen = (props: Props) => {
     return (
       <tr key={index} onClick={() => props.redirectToTrading(market.id)}>
         <td>
-          <div>
-            {market && market.name}
-          </div>
+          <div>{market && market.name}</div>
         </td>
         <td>
           <span className={marketChangeColor}>
-          <Decimal fixed={market.price_precision} thousSep=",">
+            <Decimal fixed={market.price_precision} thousSep=",">
               {market.last}
             </Decimal>
           </span>
@@ -122,14 +140,14 @@ export const TickerTableScreen = (props: Props) => {
         </td>
         <td>
           <span>
-          <Decimal fixed={market.price_precision} thousSep=",">
+            <Decimal fixed={market.price_precision} thousSep=",">
               {market.high}
             </Decimal>
           </span>
         </td>
         <td>
           <span>
-          <Decimal fixed={market.price_precision} thousSep=",">
+            <Decimal fixed={market.price_precision} thousSep=",">
               {market.low}
             </Decimal>
           </span>
@@ -142,12 +160,13 @@ export const TickerTableScreen = (props: Props) => {
           </span>
         </td>
         <td>
-          <Button type="primary" size="small"
+          <button
+            className="btn-trade"
             style={{ marginRight: 0, fontSize: 14 }}
             onClick={() => props.redirectToTrading(market.id)}
           >
             Trade
-          </Button>
+          </button>
         </td>
       </tr>
     );
@@ -155,9 +174,7 @@ export const TickerTableScreen = (props: Props) => {
 
   return (
     <div className="pg-ticker-table">
-      <div className="pg-ticker-table__filter">
-        {renderHeader()}
-      </div>
+      <div className="pg-ticker-table__filter">{renderHeader()}</div>
       <div className="pg-ticker-table__table-wrap">
         <table className="pg-ticker-table__table">
           <thead>
@@ -175,16 +192,21 @@ export const TickerTableScreen = (props: Props) => {
             {markets ? (
               markets
                 .slice(handleGetStartPointPagination(), handleGetStartPointPagination() + paginationState.pageSize)
-                .filter(market => market.base_unit.includes(searchMarketInputState) || market.quote_unit.includes(searchMarketInputState))
+                .filter(
+                  (market) =>
+                    market.base_unit.includes(searchMarketInputState) || market.quote_unit.includes(searchMarketInputState),
+                )
                 .map(renderItem)
             ) : (
-                <tr><td><span className="no-data">{intl.formatMessage({ id: 'page.noDataToShow' })}</span></td></tr>
-              )}
+              <tr>
+                <td>
+                  <span className="no-data">{intl.formatMessage({ id: 'page.noDataToShow' })}</span>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
-        <div className="pg-ticker-table__pagination">
-          {renderPagination()}
-        </div>
+        <div className="pg-ticker-table__pagination">{renderPagination()}</div>
       </div>
     </div>
   );

@@ -34,3 +34,4 @@ export * from './MarketTrading';
 export * from './FeeTable';
 export * from './Announcement';
 export * from './AdminAnnouncement';
+export * from './DispChart';

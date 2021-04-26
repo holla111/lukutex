@@ -13,7 +13,7 @@ header {
   color: #fff;
   font-weight: bold;
   font-size: 10px;
-  background-color: #2a9d8f;
+  background-color: #3a86ff;
   padding: 0 10px;
   border-radius: 10px;
 }
@@ -150,7 +150,18 @@ header {
 }
 
 .navbar{
-    margin: 0 0.2rem;
+    /* margin: 0 0.2rem;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem 1rem; */
+/* 
+    &__item-logo {
+      display: flex;
+      align-items:center;
+    } */
 
     &__item-left{
       display: flex;
@@ -286,7 +297,7 @@ header {
 
 .market:hover {
   color: rgb(240, 185, 11);
-  border-bottom: #ddd solid 3px;
+  border-bottom: #ddd solid 2px;
   text-decoration: none;
 }
 
@@ -389,7 +400,7 @@ header {
 }
 
 /* Login and Singup Button */
-.ant-btn {
+.ant_btn {
   line-height: 1.499;
   position: relative;
   display: inline-block;
@@ -407,8 +418,8 @@ header {
   user-select: none;
   touch-action: manipulation;
   height: 32px;
-  padding: 0 15px;
-  font-size: 18px;
+  padding: 0 20px;
+  font-size: 16px;
   border-radius: 4px;
   color: #fff;
   background-color: var(--bg-head-color);
@@ -416,52 +427,52 @@ header {
   margin-right: 20px;
 }
 
-.ant-btn,
-.ant-btn:active,
-.ant-btn:focus {
+.ant_btn,
+.ant_btn:active,
+.ant_btn:focus {
   outline: 1;
 }
-.ant-btn:not([disabled]):hover {
+.ant_btn:not([disabled]):hover {
   text-decoration: none;
 }
-.ant-btn:not([disabled]):active {
+.ant_btn:not([disabled]):active {
   outline: 0;
   box-shadow: none;
 }
-.ant-btn:focus,
-.ant-btn:hover {
+.ant_btn:focus,
+.ant_btn:hover {
   color: #40a9ff;
   background-color: var(--bg-head-color);
   border-color: #40a9ff;
 }
-.ant-btn:active {
+.ant_btn:active {
   color: #096dd9;
   background-color: var(--bg-head-color);
   border-color: #096dd9;
 }
-.ant-btn:active,
-.ant-btn:focus,
-.ant-btn:hover {
+.ant_btn:active,
+.ant_btn:focus,
+.ant_btn:hover {
+  outline: none;
   text-decoration: none;
   background: var(--bg-head-color);
 }
 
-.ant-btn-primary {
+.ant_btn_primary {
   color: #fff;
-  background-color: #1d3863;
-  border-color: #1d3863;
+  background-color: var(--bg-head-color);
   text-shadow: 0 -1px 0 rgba(0,0,0,.12);
   box-shadow: 0 2px 0 rgba(0,0,0,.045);
-  border: 1px solid #295e9f;
-  border-radius: 2px;
+  border: 1px solid #fff;
+  border-radius: 20px;
 }
-.ant-btn-primary:focus,
-.ant-btn-primary:hover {
+.ant_btn_primary:focus,
+.ant_btn_primary:hover {
   color: #fff;
-  background-color: #40a9ff;
-  border-color: #40a9ff;
+  background-color: #2b6dec;
+  border-color: #2b6dec;
 }
-.ant-btn-primary:active {
+.ant_btn_primary:active {
   color: #fff;
   background-color: #096dd9;
   border-color: #096dd9;
@@ -469,4 +480,9 @@ header {
 
 .header-color {
   background-color: var(--subheader-background-color);
+}
+.anticon-user {
+  position: relative;
+  top: -4px;
+  right: 6px;
 }

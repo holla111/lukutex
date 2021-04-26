@@ -68,12 +68,12 @@ const MarketsTableComponent = props => {
     const formattedMarkets = currentBidUnitMarkets.length ? currentBidUnitMarkets.map(market =>
         ({
             ...market,
-            last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), 6),
-            open: Decimal.format(Number((marketTickers[market.id] || defaultTicker).open), 6),
+            last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision),
+            open: Decimal.format(Number((marketTickers[market.id] || defaultTicker).open), market.price_precision),
             price_change_percent: String((marketTickers[market.id] || defaultTicker).price_change_percent),
-            high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), 6),
-            low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), 6),
-            volume: Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision),
+            high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), market.price_precision),
+            low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), market.price_precision),
+            volume: Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), 4),
         }),
     ).map(market =>
         ({

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './TwitterTab.css'
 import { Table, Input, Button, Result, message } from 'antd/lib';
-import api from '../../api';
+import api from '../../../api';
 import { TwitterTabConfig } from '../../screens';
 
 const { Search } = Input;

@@ -2,6 +2,8 @@ import { History } from 'history';
 import * as React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect, MapDispatchToPropsFunction } from 'react-redux';
+import { UserOutlined } from '@ant-design/icons';
+
 import { withRouter, Link } from 'react-router-dom';
 import { LogoutIcon } from '../../assets/images/sidebar/LogoutIcon';
 import { IntlProps } from '../../index';
@@ -75,9 +77,11 @@ class Head extends React.Component<Props, State> {
         <div className="navbar__item-left">
           <a href="/"><img src={Logo} alt="" className="pg-logo__img" /></a>
           <Link className="market" to="/trading">Market</Link>
+          <Link className="market" to="/ieo">Launchpad</Link>
           <Link className="market" to="/airdrop">Airdrop Hub</Link>
           <Link className="market" to="/announcement">Announcement</Link>
           <Link className="market new" to="/ieo">Launchpad</Link>
+          <Link className="market new" to="/trading-competition">Trade Competition</Link>
         </div>
         <div className="navbar__item-right">
           {this.renderWalletLink()}
@@ -159,10 +163,11 @@ class Head extends React.Component<Props, State> {
 
     return !isLoggedIn && (
       <div>
-        <button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingIn()} >
+        <button className="ant_btn ant_btn_primary" onClick={e => this.redirectSingIn()} >
+          <UserOutlined />
           {this.translate('page.body.landing.header.button2')}
         </button>
-        <button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingUp()} >
+        <button className="ant_btn ant_btn_primary" onClick={e => this.redirectSingUp()} >
           {this.translate('page.body.landing.header.button3')}
         </button>
       </div>
@@ -170,11 +175,11 @@ class Head extends React.Component<Props, State> {
   };
 
   public redirectSingIn = () => {
-    this.props.history.push('/signin');
+    this.props.history.push('/login');
   };
 
   public redirectSingUp = () => {
-    this.props.history.push('/signup');
+    this.props.history.push('/register');
   };
 
   private translate = (key: string) => this.props.intl.formatMessage({ id: key });

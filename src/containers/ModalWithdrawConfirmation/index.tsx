@@ -18,6 +18,7 @@ interface ModalWithdrawConfirmationProps {
     ethBallance?: string;
     selectedWalletFee?: string;
     ethFee: number;
+    /* isLimitWithdraw24H: boolean; */
 }
 
 type Props = ModalWithdrawConfirmationProps & IntlProps;
@@ -67,8 +68,8 @@ class ModalWithdraw extends React.Component<Props> {
                     {amount} {formattedCurrency}
                     {this.translate('page.body.wallets.tabs.withdraw.modal.message2')} {rid}
                     <br/>
-                    {Number(selectedWalletFee) == 0 
-                        ? `Your ETH remain ${ethBallance} - ${ethFee} = ${Number(Number(ethBallance) - ethFee).toFixed(5)} ETH` 
+                    {Number(selectedWalletFee) == 0
+                        ? `Your ETH remain ${ethBallance} - ${ethFee} = ${Number(Number(ethBallance) - ethFee).toFixed(5)} ETH`
                         : ''}
                 </p>
             </div>
@@ -91,6 +92,7 @@ class ModalWithdraw extends React.Component<Props> {
                     block={true}
                     className="btn-block mr-1 mt-1 btn-lg"
                     onClick={this.props.onSubmit}
+                   /*  disabled={this.props.isLimitWithdraw24H} */
                     size="lg"
                     variant="primary"
                 >

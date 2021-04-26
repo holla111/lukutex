@@ -4,7 +4,7 @@ import CoinWallet from './coin-wallet.png';
 import { Button, Menu, message, Progress, Table } from 'antd';
 import { useHistory } from 'react-router';
 import Countdown from 'react-countdown';
-import axios from '../../api/index';
+import axios from '../../../api/index';
 
 import './AirdropTable.css';
 import { Airdrop } from '../../../../modules';
