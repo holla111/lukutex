@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { localeDate } from '../../../../helpers';
-import {  selectCurrencies, selectHistory } from '../../../../modules';
+import { selectChildCurrencies, selectCurrencies, selectHistory } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 
 interface DepositHistoryProps {
@@ -18,9 +18,11 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     // selector
     const list = useSelector(selectHistory);
     const currencies = useSelector(selectCurrencies);
+    const child_currencies = useSelector(selectChildCurrencies);
+    const child_currencies_ids = child_currencies.map(child => child.id);
+
     const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
     const blockchain_address = currency ? currency.explorer_address : '';
-
     const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
         const process = require('../../../../assets/status/wait.svg')
         const fail = require('../../../../assets/status/fail.svg')
@@ -53,7 +55,11 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
                     accessor: 'date'
                 },
                 {
-                    Header: 'Txid Address',
+                    Header: intl.formatMessage({ id: `page.body.history.deposit.header.type` }),
+                    accessor: 'type'
+                },
+                {
+                    Header: intl.formatMessage({ id: `page.body.history.deposit.header.txid` }),
                     accessor: 'txid'
                 },
                 {
@@ -68,19 +74,41 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
         },
         []
     );
-        
-    const data = list
+
+    const main_list = list
         .filter((history: any) => history.currency === currency_id.toLowerCase())
         .map((history: any) => {
-        const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
-        return {
-            date: localeDate(history.created_at, 'fullDate'),
-            status: 'success',
-            amount: history.amount,
-            txid: <a target="_blank" href={blockchainTxidAddress}>{history.txid}</a>,
-            state: formatTxState(history.state)
-        }
-    });
+            const currency_index = currencies.findIndex(currency => currency.id === history.currency);
+            const blockchain_key = currency_index ? currencies[currency_index].blockchain_key : "";
+            return {
+                ...history,
+                type: blockchain_key ? blockchain_key.toUpperCase() : ""
+            }
+        });
+    const child_list = list
+        .filter((history: any) => child_currencies_ids.includes(history.currency))
+        .map((history: any) => {
+            const currency_index = child_currencies_ids.findIndex(child_id => child_id === history.currency);
+            const blockchain_key = currency_index ? child_currencies[currency_index].blockchain_key : "";
+            return {
+                ...history,
+                type: blockchain_key.toUpperCase()
+            }
+        });
+    const new_list = [...main_list, ...child_list];
+
+    const data = new_list
+        .map((history: any) => {
+            const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
+            return {
+                ...history,
+                date: localeDate(history.created_at, 'fullDate'),
+                status: 'success',
+                amount: history.amount,
+                txid: <a target="_blank" href={blockchainTxidAddress}>{history.txid}</a>,
+                state: formatTxState(history.state)
+            }
+        });
 
     return (
         <div style={{ marginTop: '10px' }}>

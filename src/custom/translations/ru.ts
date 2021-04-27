@@ -280,6 +280,7 @@ export const ru: LangType = {
 
     'page.body.history.deposit': 'История депозитов',
     'page.body.history.deposit.header.txid': 'txID',
+    'page.body.history.deposit.header.type': 'Type',
     'page.body.history.deposit.header.date': 'Дата',
     'page.body.history.deposit.header.currency': 'Валюта',
     'page.body.history.deposit.header.amount': 'Количество',
