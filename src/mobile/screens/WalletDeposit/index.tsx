@@ -6,6 +6,8 @@ import { selectChildCurrencies, selectWallets, walletsAddressFetch, walletsChild
 import { Subheader, WalletDepositBody, WalletHeader, WalletBanner } from '../../components';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
+import { getTabName } from '../../../helpers';
+import { selectCurrencies } from '../../../modules';
 
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
@@ -48,15 +50,13 @@ const WalletDeposit: React.FC = () => {
     const dispatch = useDispatch();
     const intl = useIntl();
     const history = useHistory();
-    const { currency = '' } = useParams();
+    const { currency = '' } = useParams<{ currency: string }>();
     const wallets = useSelector(selectWallets) || [];
-
+    const currencies = useSelector(selectCurrencies);
+    const currencyItem = currencies.find(cur => cur.id === currency.toLowerCase()) || { blockchain_key: '' };
     const wallet = wallets.find(item => item.currency === currency) || { name: '', currency: '', balance: '', type: '', address: '' };
     const isAccountActivated = wallet.type === 'fiat' || wallet.balance;
-
     const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency }));
-
-
     const child_currencies = useSelector(selectChildCurrencies);
     React.useEffect(() => {
         dispatchFetchChildCurrencies();
@@ -69,14 +69,13 @@ const WalletDeposit: React.FC = () => {
         }
     });
 
-    const handleGenerateAddress = () => {
+    const handleGenerateAddress = (wallet: { address: string, type: string, currency: string }) => {
         if (!wallet.address && wallets.length && wallet.type !== 'fiat') {
-            dispatch(walletsAddressFetch({ currency }));
+            dispatch(walletsAddressFetch({ currency: wallet.currency }));
             dispatch(walletsFetch());
             setGenerateAddressTriggered(true);
         }
     };
-
 
     React.useEffect(() => {
         dispatch(walletsAddressFetch({ currency }));
@@ -93,29 +92,44 @@ const WalletDeposit: React.FC = () => {
             <WalletBanner wallet={wallet} />
             <TabsStyle>
                 <Tabs defaultActiveKey={currency} >
-                    <TabPane tab="ERC20" key={currency}>
-                        <WalletDepositBody
-                            wallet={wallet}
-                            isAccountActivated={isAccountActivated}
-                            handleGenerateAddress={handleGenerateAddress}
-                            generateAddressTriggered={generateAddressTriggered}
-                        />
-                    </TabPane>
+                    {
+                        wallet
+                            ? <TabPane tab={getTabName(currencyItem.blockchain_key || '')} key={currency}>
+                                <WalletDepositBody
+                                    wallet_index={0}
+                                    wallet={wallet}
+                                    isAccountActivated={isAccountActivated}
+                                    handleGenerateAddress={() => handleGenerateAddress({
+                                        address: wallet.address || '',
+                                        type: wallet.type || '',
+                                        currency: wallet.currency || ''
+                                    })}
+                                    generateAddressTriggered={generateAddressTriggered}
+                                />
+                            </TabPane>
+                            : ""
+                    }
                     {
                         child_wallets ?
-                            child_wallets.map(child_wallet => (
-                                <TabPane tab={child_wallet.name.toUpperCase() || ''} key={child_wallet.blockchain_key || ''}>
+                            child_wallets.map((child_wallet, index) => (
+                                <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.id || ''}>
                                     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                                         {
-                                            <WalletDepositBody
-                                                wallet={child_wallet.wallet}
-                                                isAccountActivated={isAccountActivated}
-                                                handleGenerateAddress={handleGenerateAddress}
-                                                generateAddressTriggered={generateAddressTriggered}
-                                            />
+                                            child_wallet.wallet && child_wallet.deposit_enabled ?
+                                                <WalletDepositBody
+                                                    wallet_index={index + 1}
+                                                    wallet={child_wallet.wallet}
+                                                    isAccountActivated={isAccountActivated}
+                                                    handleGenerateAddress={() => handleGenerateAddress({
+                                                        address: child_wallet.wallet.address || '',
+                                                        type: child_wallet.wallet.type || '',
+                                                        currency: child_wallet.wallet.currency || ''
+                                                    })}
+                                                    generateAddressTriggered={generateAddressTriggered}
+                                                />
+                                                : ""
                                         }
                                     </div>
-
                                 </TabPane>
                             ))
                             :

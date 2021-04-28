@@ -25,7 +25,7 @@ const BlurDisable = styled.div`
     justify-content: center;
     z-index: 10;
     flex-direction: column;
-`
+`;
 
 const WalletDepositBodyComponent = props => {
   const intl = useIntl();

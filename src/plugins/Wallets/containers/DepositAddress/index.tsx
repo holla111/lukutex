@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { LockIcon } from '../../../../assets/images/LockIcon';
 import { useIntl } from 'react-intl';
+import { getTabName } from '../../../../helpers';
 
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
@@ -104,30 +105,6 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
         dispatch(walletsAddressFetch({ currency: currency_id }));
     }, [dispatch, currency_id]);
 
-    const getTabName = (blockchain_key: string) => {
-        const tab_names = [
-            {
-                name: 'Bitcoin',
-                blockchain_key: 'bitcoin'
-            },
-            {
-                name: 'ERC20',
-                blockchain_key: 'ethereum-main'
-            },
-            {
-                name: 'TRON20',
-                blockchain_key: 'tron-test'
-            },
-            {
-                name: 'BEP20',
-                blockchain_key: 'binance-main'
-            }
-        ];
-        const foundTab = tab_names.find(tab_name => tab_name.blockchain_key.toLowerCase() === blockchain_key.toLowerCase());
-        return foundTab ? foundTab.name : '';
-    }
-
-
     return (
         <div className="container d-flex flex-column justify-content-between" style={{ padding: '30px', borderRadius: '5px', height: '100%', fontSize: '1.3rem' }}>
             <div>
@@ -183,7 +160,6 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
                                                             </BlurDisable>
                                                     }
                                                 </div>
-
                                             </TabPane>
                                         ))
                                         :

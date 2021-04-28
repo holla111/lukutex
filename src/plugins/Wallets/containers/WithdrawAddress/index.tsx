@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { message } from 'antd';
 import { LockIcon } from '../../../../assets/images/LockIcon';
 import { useEthFeeFetch } from '../../../../hooks';
+import { getTabName } from '../../../../helpers';
 
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
@@ -275,26 +276,6 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         toggleConfirmModal();
     };
 
-    const getTabName = (blockchain_key: string) => {
-        const tab_names = [
-            {
-                name: 'Bitcoin',
-                blockchain_key: 'bitcoin'
-            },
-            {
-                name: 'ERC20',
-                blockchain_key: 'ethereum-main'
-            },
-            {
-                name: 'TRON20',
-                blockchain_key: 'tron-test'
-            }
-        ];
-        const foundTab = tab_names.find(tab_name => tab_name.blockchain_key.toLowerCase() === blockchain_key.toLowerCase());
-        return foundTab ? foundTab.name : '';
-    }
-
-
     return (
         <React.Fragment>
             <div className="container d-flex flex-column justify-content-between" style={{ backgroundColor: '#182034', padding: '30px', borderRadius: '5px', height: '100%', fontSize: '1.3rem' }}>
@@ -328,7 +309,6 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
                                         {
                                             child_wallets ?
                                                 child_wallets.map(child_wallet => (
-
                                                     <TabPane tab={getTabName(child_wallet.blockchain_key)} key={child_wallet.id}>
                                                         {child_wallet.wallet && child_wallet.withdrawal_enabled ?
                                                             renderWithdrawContent(child_wallet.wallet)
