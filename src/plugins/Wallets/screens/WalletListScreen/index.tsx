@@ -289,7 +289,7 @@ export const WalletListScreen = () => {
         <div className="col-12 d-flex justify-content-between align-items-center flex-row">
           <SearchInput autoFocus type="text" value={searchInputState} placeholder="Search coin ..." onChange={e => onChange(e)} />
           <CheckBox>
-            <span className="mr-2">Hide Small Balances</span>
+            <span className="mr-2">{intl.formatMessage({id: 'page.body.plugins.wallet.list.button.hideSmallBalance'})}</span>
             <label className="checkbox bounce">
               <input type="checkbox" defaultChecked checked={hideSmallBalanceState} onChange={e => setHideSmallBalanceState(e.target.checked)} />
               <svg viewBox="0 0 21 21">

@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import EmptySVG from './empty.svg';
 
 const TableStyles = styled.div`
+    padding-bottom: 200px;
     table {
+        position: relative;
         width: 100%;
+        height: 30px;
         border-spacing: 0;
         th,td {
             margin: 0;
@@ -90,6 +93,16 @@ const TableStyles = styled.div`
         }
         }
     }
+
+    .empty {
+        position: absolute;
+        top: 35px;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        background-color: #28344E;
+        padding: 50px 0;
+    }
 `;
 
 interface ReacTableProps {
@@ -136,7 +149,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
                                 <th width="25%" {...column.getHeaderProps()}>
-                                    <span style={{fontWeight: 'normal'}}>
+                                    <span style={{ fontWeight: 'normal' }}>
                                         {column.render('Header')}
                                     </span>
                                 </th>
@@ -146,7 +159,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
                 </thead>
                 {
                     [...page].length === 0
-                        ? <div className="text-center" style={{ padding: '50px 0', width: '400%', backgroundColor: '#28344Eff' }}>
+                        ? <div className="text-center empty">
                             <img className="text-center" width="100px" src={EmptySVG} />
                             <br />
                             <p>No Data</p>
