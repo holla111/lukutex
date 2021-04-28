@@ -112,7 +112,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
             },
             {
                 name: 'ERC20',
-                blockchain_key: 'ethereum-main'
+                blockchain_key: 'ethereum-testnet'
             },
             {
                 name: 'TRON20',
@@ -120,7 +120,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
             },
             {
                 name: 'BEP20',
-                blockchain_key: 'binance-main'
+                blockchain_key: 'bsc-testnet'
             }
         ];
         const foundTab = tab_names.find(tab_name => tab_name.blockchain_key.toLowerCase() === blockchain_key.toLowerCase());
