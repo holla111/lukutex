@@ -12,6 +12,7 @@ interface Props {
   redirectToTrading: (key: string) => void;
   setCurrentBidUnit: (key: string) => void;
 }
+
 const InputsearchStyle = styled.input`
   outline: none;
   max-width: 200px;
@@ -58,7 +59,6 @@ export const TickerTableScreen = (props: Props) => {
       ))}
       <div className="home-page__markets-top-block">
         <InputsearchStyle type="text" placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
-
       </div>
     </ul>
   );
