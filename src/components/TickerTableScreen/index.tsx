@@ -32,8 +32,7 @@ const InputsearchStyle = styled.input`
     color: #879fc7;
     font-size: 13px;
   }
-`;   
-
+`;
 export const TickerTableScreen = (props: Props) => {
   const { currentBidUnit, markets } = props;
   const intl = useIntl();
