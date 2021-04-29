@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { setDocumentTitle } from '../../../../helpers';
-import { allChildCurrenciesFetch, currenciesFetch, ethFeeFetch, fetchHistory, marketsFetch, selectChildCurrencies, selectCurrencies, selectETHFee, selectUserInfo, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, beneficiariesFetch, currenciesFetch, ethFeeFetch, fetchHistory, marketsFetch, selectChildCurrencies, selectCurrencies, selectETHFee, selectUserInfo, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { WithdrawAddress, WithdrawHistory, WithdrawInfo } from '../../containers';
 
 export const WithdrawScreen = () => {
@@ -25,6 +25,7 @@ export const WithdrawScreen = () => {
     const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
     const dispatchFetchMarkets = () => dispatch(marketsFetch());
     const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "withdraws", page: 0, limit: 6 }));
+    const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
 
     const history = useHistory();
 
@@ -37,6 +38,7 @@ export const WithdrawScreen = () => {
         dispatchFetchEthFee();
         dispatchcFetchAllChildCurrencies();
         dispatchFetchHistories();
+        dispatchFetchBeneficiaries();
     }, [currency_id]);
 
     // method

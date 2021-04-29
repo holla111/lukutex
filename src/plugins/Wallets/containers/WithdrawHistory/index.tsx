@@ -65,20 +65,21 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
         const fail = require('../../../../assets/status/fail.svg')
         const success = require('../../../..//assets/status/success.svg')
         const statusMapping = {
-            succeed: <img src={success} alt="" />,
-            failed: <img src={fail} alt="" />,
-            accepted: <img src={process} alt="" />,
-            collected: <img src={success} alt="" />,
-            canceled: <img src={fail} alt="" />,
-            rejected: <img src={fail} alt="" />,
-            processing: <img src={process} alt="" />,
-            prepared: <img src={process} alt="" />,
-            fee_processing: <img src={process} alt="" />,
-            skipped: <img src={success} alt="" />,
+            confirming: <img src={process} alt="confirming" />,
+            succeed: <img src={success} alt="succeed" />,
+            failed: <img src={fail} alt="failed" />,
+            accepted: <img src={process} alt="accepted" />,
+            collected: <img src={success} alt="collected" />,
+            canceled: <img src={fail} alt="canceled" />,
+            rejected: <img src={fail} alt="rejected" />,
+            processing: <img src={process} alt="processing" />,
+            prepared: <img src={process} alt="prepared" />,
+            fee_processing: <img src={process} alt="fee_processing" />,
+            skipped: <img src={success} alt="skipped" />,
             submitted: (confirmations !== undefined && minConfirmations !== undefined) ? (
                 `${confirmations}/${minConfirmations}`
             ) : (
-                <img src={process} alt="" />),
+                <img src={process} alt="process" />),
         };
 
         return statusMapping[tx];
@@ -136,24 +137,27 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
         });
     const new_list = [...main_list, ...child_list];
     const data = new_list
-    .sort((a, b) => {
-        return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
-    })
-    .map((history: any) => {
-        const currency = currencies.find(cur => cur.id === history.currency);
-        const blockchain_address = currency ? currency.explorer_address : '';
-        const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
-        return {
-            ...history,
-            date: localeDate(history.created_at, 'fullDate'),
-            status: 'success',
-            amount: history.amount,
-            txid: <a target="_blank" href={blockchainTxidAddress}>{history.txid}</a>,
-            state: formatTxState(history.state)
-        }
-    });
+        .sort((a, b) => {
+            return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
+        })
+        .map((history: any) => {
+            const currency = currencies.find(cur => cur.id === history.currency);
+            const blockchain_address = currency ? currency.explorer_address : '';
+            const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
+            return {
+                ...history,
+                date: localeDate(history.created_at, 'fullDate'),
+                status: history.state,
+                amount: history.amount,
+                txid: <a target="_blank" href={blockchainTxidAddress}>{history.txid}</a>,
+                state: formatTxState(history.state)
+            }
+        });
+
+
 
     const all_history = [...data];
+    const confirming_history = [...data].filter(d => d.status === 'confirming');
     const success_history = [...data].filter(d => d.status === 'succeed');
     const error_history = [...data].filter(d => d.status === 'failed');
 
@@ -162,13 +166,16 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
             <h2>{intl.formatMessage({ id: `page.body.history.withdraw` })}</h2>
             <TabsStyle>
                 <Tabs defaultActiveKey="recent_history" >
-                    <TabPane tab="Recent Withdrawal History" key="recent_history">
+                    <TabPane tab="Recent" key="recent_history">
                         <ReactTable columns={columns} data={all_history} headColor="#182034" />
                     </TabPane>
-                    <TabPane tab="Success Withdrawal History" key="success_history">
+                    <TabPane tab="Confirming" key="confirming_history">
+                        <ReactTable columns={columns} data={confirming_history} headColor="#182034" />
+                    </TabPane>
+                    <TabPane tab="Success" key="success_history">
                         <ReactTable columns={columns} data={success_history} headColor="#182034" />
                     </TabPane>
-                    <TabPane tab="Error Withdrawal History" key="error_history">
+                    <TabPane tab="Error" key="error_history">
                         <ReactTable columns={columns} data={error_history} headColor="#182034" />
                     </TabPane>
                 </Tabs>

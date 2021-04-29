@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { setDocumentTitle } from '../../../../helpers';
-import { allChildCurrenciesFetch, currenciesFetch, fetchHistory, marketsFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
+import { allChildCurrenciesFetch, beneficiariesFetch, currenciesFetch, fetchHistory, marketsFetch, selectChildCurrencies, selectCurrencies, selectWallets, walletsChildCurrenciesFetch, walletsFetch } from '../../../../modules';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 
 
@@ -21,7 +21,8 @@ export const DepositScreen = () => {
     const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
     const dispatchFetchMarkets = () => dispatch(marketsFetch());
     const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: "deposits", page: 0, limit: 6 }));
-  
+    const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
+
     const history = useHistory();
 
     // method
@@ -44,6 +45,7 @@ export const DepositScreen = () => {
         dispatchFetchChildCurrencies();
         dispatchcFetchAllChildCurrencies();
         dispatchFetchHistories();
+        dispatchFetchBeneficiaries();
     }, [currency_id]);
 
     return (
