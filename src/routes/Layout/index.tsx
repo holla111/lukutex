@@ -81,6 +81,7 @@ import {
     VerificationScreen,
     WalletsScreen,
     FeeScreen,
+    AnnouncementScreen,
     // SignUpScreen,
     LogInScreen,
     RegisterScreen,
@@ -299,9 +300,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route path="/500" component={MaintenanceScreen} />
                     <Route exact={false} path="/trading/:market?" component={TradingScreen} />
                     <Route exact={true} path="/" component={HomeScreen} />
-                    {/* <Route exact={true} path="/home" component={HomeScreen} /> */}
                     <Route exact={false} path="/fee" component={FeeScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement" component={AnnouncementScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileScreen} />

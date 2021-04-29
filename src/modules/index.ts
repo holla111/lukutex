@@ -54,6 +54,7 @@ import { TradingRankingsState, rootRankingsSaga } from './trading_competitions/r
 import { CompetionListState, rootCompetionsListSaga } from './trading_competitions/competitions';
 import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
 import { EventsState, rootEventSaga } from './info/events';
+import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
 import {LunarsState,rootLunarSaga} from './events/lunar';
 
 export * from './public/markets';
@@ -96,6 +97,7 @@ export * from './trading_competitions/competitions';
 export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
 export * from './info/events';
+export * from './info/announcement';
 export * from './events/lunar';
 
 export interface RootState {
@@ -120,7 +122,8 @@ export interface RootState {
         withdraw: ETHFeeWithdrawState;
     };
     info: {
-        events: EventsState
+        events: EventsState;
+        announcement: AnnouncementState;
     };
 
     public: {
@@ -221,6 +224,9 @@ export function* rootSaga() {
         call(rootSaleItemSaga),
         call(rootBuySaga),
         call(rootPriceSaga),
+        call(rootEventSaga),
+        call(rootAnnouncementSaga),
+        
         call(rootCompetionsListSaga),
         call(rootcompetitionItemSaga),
         call(rootRankingsSaga),

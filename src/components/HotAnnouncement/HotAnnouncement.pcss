@@ -1,0 +1,32 @@
+.hot-article-header {
+  border-bottom: 1px dotted #666;
+  display: flex;
+  justify-content: flex-start;
+  padding: 12px 0;
+  padding-left: 16px;
+  font-size: 15px;
+  color: white;
+  font-family: 'MuseoSans', 'Open Sans', sans-serif;
+}
+
+.hot-article-item {
+  padding: 10px 12px;
+
+  &__title {
+    margin-top: 12px;
+    
+    &-link {
+      font-size: 14px;
+      color: white;
+      font-family: 'MuseoSans', 'Open Sans', sans-serif;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+    }
+    &-link:hover {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+  
+}
