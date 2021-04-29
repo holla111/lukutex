@@ -21,8 +21,6 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
     const child_currencies = useSelector(selectChildCurrencies);
     const child_currencies_ids = child_currencies.map(child => child.id);
 
-    const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
-    const blockchain_address = currency ? currency.explorer_address : '';
     const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
         const process = require('../../../../assets/status/wait.svg')
         const fail = require('../../../../assets/status/fail.svg')
@@ -98,14 +96,13 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
         });
     const new_list = [...main_list, ...child_list];
 
-    console.log(child_currencies,list, main_list, child_list);
-    
-
     const data = new_list
         .sort((a, b) => {
             return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
         })
         .map((history: any) => {
+            const currency = currencies.find(cur => cur.id === history.currency);
+            const blockchain_address = currency ? currency.explorer_address : '';
             const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
             return {
                 ...history,

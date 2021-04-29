@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { localeDate } from '../../../../helpers';
-import { selectCurrencies, selectHistory } from '../../../../modules';
+import { getTabName, localeDate } from '../../../../helpers';
+import { selectChildCurrencies, selectCurrencies, selectHistory } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
@@ -57,8 +57,8 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     // selector
     const list = useSelector(selectHistory);
     const currencies = useSelector(selectCurrencies);
-    const currency = currencies.find(currency => currency.id.toLowerCase() == currency_id.toLowerCase());
-    const blockchain_address = currency ? currency.explorer_address : '';
+    const child_currencies = useSelector(selectChildCurrencies);
+    const child_currencies_ids = child_currencies.map(child => child.id);
 
     const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
         const process = require('../../../../assets/status/wait.svg')
@@ -92,7 +92,11 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
                     accessor: 'date'
                 },
                 {
-                    Header: 'Blockchain Txid',
+                    Header: 'Type Coin',
+                    accessor: 'type'
+                },
+                {
+                    Header: 'txID',
                     accessor: 'blockchain_txid'
                 },
                 {
@@ -108,21 +112,46 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
         []
     );
 
-    const data = list
-        .sort((a, b) => {
-            return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
-        })
+
+    const main_list = list
         .filter((history: any) => history.currency === currency_id.toLowerCase())
         .map((history: any) => {
-            const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.blockchain_txid) : '';
+            const currency_index = currencies.findIndex(currency => currency.id === history.currency);
+            const blockchain = getTabName(currencies[currency_index].blockchain_key || '');
             return {
-                date: localeDate(history.created_at, 'fullDate'),
-                status: history.state,
-                amount: history.amount,
-                blockchain_txid: <a target="_blank" href={blockchainTxidAddress}>{history.blockchain_txid}</a>,
-                state: formatTxState(history.state)
+                ...history,
+                type: blockchain
             }
         });
+
+    const child_list = list
+        .filter((history: any) => child_currencies_ids.includes(history.currency))
+        .map((history: any) => {
+            const currency_index = child_currencies_ids.findIndex(child_id => child_id === history.currency);
+            const blockchain = getTabName(child_currencies[currency_index].blockchain_key);
+            return {
+                ...history,
+                type: blockchain
+            }
+        });
+    const new_list = [...main_list, ...child_list];
+    const data = new_list
+    .sort((a, b) => {
+        return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
+    })
+    .map((history: any) => {
+        const currency = currencies.find(cur => cur.id === history.currency);
+        const blockchain_address = currency ? currency.explorer_address : '';
+        const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
+        return {
+            ...history,
+            date: localeDate(history.created_at, 'fullDate'),
+            status: 'success',
+            amount: history.amount,
+            txid: <a target="_blank" href={blockchainTxidAddress}>{history.txid}</a>,
+            state: formatTxState(history.state)
+        }
+    });
 
     const all_history = [...data];
     const success_history = [...data].filter(d => d.status === 'succeed');
