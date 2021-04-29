@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { Pagination } from '../';
 import { Decimal } from '../../components';
 import { Market } from '../../modules';
+import styled from 'styled-components';
 
 interface Props {
   currentBidUnit: string;
@@ -11,7 +12,26 @@ interface Props {
   redirectToTrading: (key: string) => void;
   setCurrentBidUnit: (key: string) => void;
 }
-
+const InputsearchStyle = styled.input`
+  outline: none;
+  max-width: 200px;
+  width: 100%;
+  height: 35px;
+  color: white;
+  background: var(--table-background-color);
+  border: none;
+  border: 1px solid #384065;
+  border-radius: 6px;
+  text-align: center;
+  :focus{
+    box-shadow: none;
+    border-color: #879fc7;
+  }
+  ::placeholder{
+    color: #879fc7;
+    font-size: 13px;
+  }
+`;
 export const TickerTableScreen = (props: Props) => {
   const { currentBidUnit, markets } = props;
   const intl = useIntl();
@@ -37,8 +57,8 @@ export const TickerTableScreen = (props: Props) => {
         </li>
       ))}
       <div className="home-page__markets-top-block">
-        <input className="form-control" type="text" placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
-        {/* <Input placeholder="Enter coin to search..." onChange={handldeSearchInputChange} /> */}
+        <InputsearchStyle type="text" placeholder="Enter coin to search..." onChange={handldeSearchInputChange} />
+
       </div>
     </ul>
   );
