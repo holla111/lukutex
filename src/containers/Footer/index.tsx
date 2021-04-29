@@ -49,7 +49,7 @@ class FooterComponent extends React.Component<RouterProps> {
                 <a href="https://form.jotform.com/203166968415058" className="footer-lable" target="blank">Listing Token</a>
               </p>
               <p>
-                <a href="https://api.lukutex.com" className="footer-lable" target="blank">API Documentation</a>
+              <Link className="footer-lable" to="/announcement">Announcement</Link>
               </p>
             </div>
 
