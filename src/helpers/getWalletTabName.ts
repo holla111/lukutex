@@ -18,5 +18,5 @@ export const getTabName = (blockchain_key: string) => {
         }
     ];
     const foundTab = tab_names.find(tab_name => tab_name.blockchain_key.toLowerCase() === blockchain_key.toLowerCase());
-    return foundTab ? foundTab.name : 'Error Blockchain';
+    return foundTab ? foundTab.name : 'not found';
 }

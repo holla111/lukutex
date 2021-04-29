@@ -109,6 +109,9 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     );
 
     const data = list
+        .sort((a, b) => {
+            return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
+        })
         .filter((history: any) => history.currency === currency_id.toLowerCase())
         .map((history: any) => {
             const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.blockchain_txid) : '';

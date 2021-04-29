@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { localeDate } from '../../../../helpers';
+import { getTabName, localeDate } from '../../../../helpers';
 import { selectChildCurrencies, selectCurrencies, selectHistory } from '../../../../modules';
 import { ReactTable } from '../ReactTable';
 
@@ -79,25 +79,32 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
         .filter((history: any) => history.currency === currency_id.toLowerCase())
         .map((history: any) => {
             const currency_index = currencies.findIndex(currency => currency.id === history.currency);
-            const blockchain_key = currency_index ? currencies[currency_index].blockchain_key : "";
+            const blockchain = getTabName(currencies[currency_index].blockchain_key || '');
             return {
                 ...history,
-                type: blockchain_key ? blockchain_key.toUpperCase() : ""
+                type: blockchain
             }
         });
+
     const child_list = list
         .filter((history: any) => child_currencies_ids.includes(history.currency))
         .map((history: any) => {
             const currency_index = child_currencies_ids.findIndex(child_id => child_id === history.currency);
-            const blockchain_key = currency_index ? child_currencies[currency_index].blockchain_key : "";
+            const blockchain = getTabName(child_currencies[currency_index].blockchain_key);
             return {
                 ...history,
-                type: blockchain_key.toUpperCase()
+                type: blockchain
             }
         });
     const new_list = [...main_list, ...child_list];
 
+    console.log(child_currencies,list, main_list, child_list);
+    
+
     const data = new_list
+        .sort((a, b) => {
+            return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
+        })
         .map((history: any) => {
             const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
             return {
