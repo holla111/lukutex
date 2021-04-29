@@ -302,7 +302,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route exact={true} path="/" component={HomeScreen} />
                     <Route exact={false} path="/fee" component={FeeScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
-                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement" component={AnnouncementScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileScreen} />
@@ -310,6 +309,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/security/2fa" component={ProfileTwoFactorAuthScreen} />
                     <Route path="/airdrop" exact component={AirdropList} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/airdrop/detail/:airdropID" component={AirdropDetail} />
+                    <Route path="/announcement" exact component={AnnouncementScreen} />
                     <Route path="/ieo" exact component={SaleListScreen} />
                     <Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
                     <Route path="/trading-competition" exact component={TradingCompetionListScreen} />
