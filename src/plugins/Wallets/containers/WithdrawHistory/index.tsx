@@ -98,7 +98,7 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
                 },
                 {
                     Header: 'txID',
-                    accessor: 'blockchain_txid'
+                    accessor: 'txid'
                 },
                 {
                     Header: intl.formatMessage({ id: `page.body.history.withdraw.header.status` }),
