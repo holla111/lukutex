@@ -106,6 +106,10 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 
     const [currencyState, setCurrencyState] = React.useState(currency_id);
 
+    React.useEffect(() => {
+        setCurrencyState(currency_id);
+    }, [currency_id])
+
     useEthFeeFetch();
 
     const intl = useIntl();
@@ -237,7 +241,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         
         const withdrawProps: WithdrawProps = {
             withdrawDone: withdrawState.withdrawDone,
-            currency: fee_data.label,
+            currency: currencyState,
             fee: Number(fee_data.fee),
             onClick: toggleConfirmModal,
             twoFactorAuthRequired: isTwoFactorAuthRequired(level, otp),

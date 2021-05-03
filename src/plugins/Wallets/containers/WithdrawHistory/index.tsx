@@ -138,7 +138,7 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
     const new_list = [...main_list, ...child_list];
     const data = new_list
         .sort((a, b) => {
-            return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
+            return new Date(a.created_at) > new Date(b.created_at) ? -1 : 1;
         })
         .map((history: any) => {
             const currency = currencies.find(cur => cur.id === history.currency);
