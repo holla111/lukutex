@@ -199,37 +199,11 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         return level > 1 || (level === 1 && is2faEnabled);
     }
 
-    const getFee = (currency: string) => {
-        const { fee } = wallet;
-        const founded_child = child_currencies.find(child => child.id.toLowerCase() === currency.toLowerCase());
-        
-        if (!founded_child) {
-            return {
-                label: currency,
-                fee: fee,
-            }
-        }
-        const parent_wallet = wallets.find(wallet => wallet.currency.toLowerCase() === founded_child.parent_id);
-        if (!parent_wallet) {
-            return {
-                label: currency,
-                fee: fee,
-            }
-        }
-        console.log(currency, parent_wallet);
-
-        return {
-            label: parent_wallet.currency,
-            fee: parent_wallet.fee,
-        }
-
-    }
-
     const renderWithdrawContent = (wallet: Wallet) => {
 
         const { user: { level, otp }, currencies } = props;
 
-        const { currency, type } = wallet;
+        const { currency, type, fee } = wallet;
         const fixed = (wallet || { fixed: 0 }).fixed;
 
 
@@ -237,12 +211,11 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
         const minWithdrawAmount = (selectedCurrency && selectedCurrency.min_withdraw_amount) ? selectedCurrency.min_withdraw_amount : undefined;
         const limitWitdraw24h = (selectedCurrency && selectedCurrency.withdraw_limit_24h) ? selectedCurrency.withdraw_limit_24h : undefined;
         
-        const fee_data = getFee(currencyState);
         
         const withdrawProps: WithdrawProps = {
             withdrawDone: withdrawState.withdrawDone,
             currency: currencyState,
-            fee: Number(fee_data.fee),
+            fee: fee,
             onClick: toggleConfirmModal,
             twoFactorAuthRequired: isTwoFactorAuthRequired(level, otp),
             fixed,
@@ -275,8 +248,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
             return;
         }
 
-        let { currency } = wallet;
-        const fee = Number(getFee(currencyState).fee);
+        let { currency, fee } = wallet;
 
         // Withdraw by eth fee
         const { user, eth_fee, wallets } = props;
