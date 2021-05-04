@@ -114,7 +114,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						/>
 					</div>
 					<div className="cr-withdraw__divider cr-withdraw__divider-one" />
-					<div className={withdrawAmountClass} style={{position:'relative', marginTop: '2rem'}}>
+					<div className={withdrawAmountClass} style={{ position: 'relative', marginTop: '2rem' }}>
 						<CustomInput
 							type="number"
 							label={withdrawAmountLabel || 'Withdrawal Amount'}
@@ -178,11 +178,11 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleCheckButtonDisabled = (total: string, beneficiary: Beneficiary, otpCode: string) => {
 		const { amount } = this.state;
-		const { minWithdrawAmount, ethFee, limitWitdraw24h } = this.props;
-
+		const { minWithdrawAmount, ethFee, limitWitdraw24h, fee } = this.props;
+		const isDisableEthFee = (fee === 0) && (ethFee === 0 || ethFee === undefined);
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
-		return Number(total) <= 0 || !Boolean(beneficiary.id) || isPending || ethFee === 0 || ethFee === undefined ||
-		!Boolean(otpCode) || minWithdrawAmount === undefined || amount < minWithdrawAmount || Number(amount) > Number(limitWitdraw24h);
+		return Number(total) <= 0 || !Boolean(beneficiary.id) || isPending || isDisableEthFee ||
+			!Boolean(otpCode) || minWithdrawAmount === undefined || amount < minWithdrawAmount || Number(amount) > Number(limitWitdraw24h);
 	};
 
 	private renderFee = () => {
@@ -214,7 +214,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		return (
 			<React.Fragment>
-				<div className={withdrawCodeClass} style={{position:'relative', marginTop: '2rem'}}>
+				<div className={withdrawCodeClass} style={{ position: 'relative', marginTop: '2rem' }}>
 					<CustomInput
 						type="number"
 						label={withdraw2faLabel || '2FA code'}
@@ -233,36 +233,37 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 		);
 	};
 
-	private handleClick = () => {const { ethBallance, ethFee, fee } = this.props;
-	if (ethBallance === undefined && fee == 0) {
-		Modal.error({
-			centered: true,
-			icon: <FrownOutlined />,
-			title: 'Can\'t withdraw',
-			content: `You need to generate ETH Wallets Address before withdraw!`,
-		});
-	} else if (ethFee === undefined && Number(fee) === 0) {
-		Modal.warning({
-			centered: true,
-			icon: <FrownOutlined />,
-			title: 'Can\'t withdraw',
-			content: `ETH Fee is unavailable now!`,
-		});
-	} else if (Number(fee) === 0 && Number(ethBallance) < Number(ethFee)) {
-		Modal.warning({
-			centered: true,
-			icon: <FrownOutlined />,
-			title: 'Can\'t withdraw',
-			content: `You don\'t have enough ETH tokens to pay fee. Need more ${(Number(ethFee) - Number(ethBallance)).toFixed(5)} ETH Tokens`,
-		});
-	} else {
-		this.props.onClick(
-			this.state.amount,
-			this.state.total,
-			this.state.beneficiary,
-			this.state.otpCode,
-		);
-	}
+	private handleClick = () => {
+		const { ethBallance, ethFee, fee } = this.props;
+		if (ethBallance === undefined && fee == 0) {
+			Modal.error({
+				centered: true,
+				icon: <FrownOutlined />,
+				title: 'Can\'t withdraw',
+				content: `You need to generate ETH Wallets Address before withdraw!`,
+			});
+		} else if (ethFee === undefined && Number(fee) === 0) {
+			Modal.warning({
+				centered: true,
+				icon: <FrownOutlined />,
+				title: 'Can\'t withdraw',
+				content: `ETH Fee is unavailable now!`,
+			});
+		} else if (Number(fee) === 0 && Number(ethBallance) < Number(ethFee)) {
+			Modal.warning({
+				centered: true,
+				icon: <FrownOutlined />,
+				title: 'Can\'t withdraw',
+				content: `You don\'t have enough ETH tokens to pay fee. Need more ${(Number(ethFee) - Number(ethBallance)).toFixed(5)} ETH Tokens`,
+			});
+		} else {
+			this.props.onClick(
+				this.state.amount,
+				this.state.total,
+				this.state.beneficiary,
+				this.state.otpCode,
+			);
+		}
 	}
 
 	private handleFieldFocus = (field: string) => {
