@@ -279,7 +279,7 @@ export const WalletListScreen = () => {
   };
 
   return (
-    <div className="container-fluid" style={{ backgroundColor: '#171c29', borderRadius: '5px', height: '100vh', marginTop: '-10px', padding: '20px 10% 0 10%' }}>
+    <div className="container-fluid" style={{ backgroundColor: '#171c29', borderRadius: '5px', minHeight: '100vh', marginTop: '-10px', padding: '20px 10% 0 10%' }}>
       <div className="row">
         <div className="col-12">
           <EstimatedValue wallets={wallets} />
