@@ -300,6 +300,12 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
                     isInvalidAddress: !isValid
                 });
                 break;
+            case "bsc-main":
+                isValid = checkValidErc20Address(value);
+                this.setState({
+                    isInvalidAddress: !isValid
+                });
+                break;
             case "bitcoin":
                 isValid = checkValidBitcoinAddress(value);
                 this.setState({
