@@ -40,7 +40,8 @@ const WalletWithdrawBodyComponent = props => {
     const currencies = useSelector(selectCurrencies);
 
     const withdrawSuccess = useSelector(selectWithdrawSuccess);
-    const { currency, fee, type } = props.wallet;
+    const { fee, type } = props.wallet;
+    const { currency } = props;
     const fixed = (props.wallet || { fixed: 0 }).fixed;
     const withdrawAmountLabel = React.useMemo(() => intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.amount' }), [intl]);
     const withdraw2faLabel = React.useMemo(() => intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.code2fa' }), [intl]);
@@ -86,11 +87,12 @@ const WalletWithdrawBodyComponent = props => {
     };
     const handleWithdraw = () => {
         const { otpCode, amount, beneficiary } = withdrawData;
+        const { parent_currency } = props;
         if (!props.wallet) {
             return;
         }
 
-        const fee_currency = ethFee.find(cur => cur.currency_id === currency);
+        const fee_currency = ethFee.find(cur => cur.currency_id === parent_currency);
 
         if (fee == 0) {
             if (!(fee_currency && fee_currency.fee)) {
@@ -106,7 +108,7 @@ const WalletWithdrawBodyComponent = props => {
             uid: user.uid,
             fee: fee,
             amount,
-            currency: currency.toLowerCase(),
+            currency: currency,
             otp: otpCode,
             beneficiary_id: String(beneficiary.id),
         };
@@ -134,8 +136,8 @@ const WalletWithdrawBodyComponent = props => {
     const ethBallance = ethWallet ? ethWallet.balance : undefined;
     const selectedWallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency.toLowerCase());
     const selectedWalletFee = selectedWallet ? selectedWallet.fee : undefined;
-
-    const fee_currency = ethFee.find(cur => cur.currency_id === currency);
+    const { parent_currency } = props;
+    const fee_currency = ethFee.find(cur => cur.currency_id === parent_currency);
 
     return (
         <div className={className}>

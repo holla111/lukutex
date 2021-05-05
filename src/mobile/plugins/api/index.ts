@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://api-lukutex.herokuapp.com/',
     // baseURL: 'https://api-lukutex.herokuapp.com/',
+    baseURL: 'https://api-lukutex-test.herokuapp.com/',
     // baseURL: 'http://localhost:4000/',
     headers: {
         'Access-Control-Allow-Origin': '*',

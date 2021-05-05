@@ -79,7 +79,6 @@ import {
     RestrictedScreen,
     TradingScreen,
     VerificationScreen,
-    WalletsScreen,
     FeeScreen,
     AnnouncementScreen,
     // SignUpScreen,
@@ -92,6 +91,8 @@ import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
+import { DepositScreen, WalletListScreen } from '../../plugins/Wallets';
+import { WithdrawScreen } from '../../plugins/Wallets/screens/WithdrawScreen';
 
 interface ReduxProps {
     colorTheme: string;
@@ -305,8 +306,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileScreen} />
-                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/wallets" component={WalletsScreen} />
-                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/security/2fa" component={ProfileTwoFactorAuthScreen} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/wallets" exact component={WalletListScreen} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/wallets/deposit/:currency_id" exact component={DepositScreen} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/wallets/withdraw/:currency_id" exact component={WithdrawScreen} />                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/security/2fa" component={ProfileTwoFactorAuthScreen} />
                     <Route path="/airdrop" exact component={AirdropList} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/airdrop/detail/:airdropID" component={AirdropDetail} />
                     <Route path="/announcement" exact component={AnnouncementScreen} />
@@ -315,6 +317,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route path="/trading-competition" exact component={TradingCompetionListScreen} />
                     <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
                     <Route path="**"><Redirect to="/trading/" /></Route>
+
                 </Switch>
                 {isLoggedIn && <WalletsFetch />}
                 {isShownExpSessionModal && this.handleRenderExpiredSessionModal()}

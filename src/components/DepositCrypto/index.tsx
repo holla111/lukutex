@@ -85,7 +85,7 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
   const size = dimensions || QR_SIZE;
   const onCopy = !disabled ? handleOnCopy : undefined;
   const className = classnames({ 'cr-copyable-text-field__disabled': data === '' });
-
+  
   const getContent = () => {
     if (isAccountActivated) {
       return (
