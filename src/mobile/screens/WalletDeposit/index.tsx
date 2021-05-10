@@ -8,7 +8,6 @@ import { Subheader, WalletDepositBody, WalletHeader, WalletBanner } from '../../
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
 import { getTabName } from '../../../helpers';
-import { selectCurrencies } from '../../../modules';
 
 const TabsStyle = styled.div`
     .rc-tabs-nav-list {
@@ -62,8 +61,6 @@ const WalletDeposit: React.FC = () => {
     React.useEffect(() => {
         dispatchFetchChildCurrencies();
     }, [currency]);
-
-    const currencies = useSelector(selectCurrencies);
     const founded_currency = currencies.find(c => c.id.toLowerCase() === currency.toLowerCase()) || { icon_url: '' };
     const child_wallets = child_currencies.map(network => {
         return {
