@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
+import { selectCurrencies } from '../../../modules';
 import { selectChildCurrencies, selectWallets, walletsAddressFetch, walletsChildCurrenciesFetch, walletsFetch } from '../../../modules/user/wallets';
 import { Subheader, WalletDepositBody, WalletHeader, WalletBanner } from '../../components';
 import Tabs, { TabPane } from 'rc-tabs';
@@ -62,6 +63,8 @@ const WalletDeposit: React.FC = () => {
         dispatchFetchChildCurrencies();
     }, [currency]);
 
+    const currencies = useSelector(selectCurrencies);
+    const founded_currency = currencies.find(c => c.id.toLowerCase() === currency.toLowerCase()) || { icon_url: '' };
     const child_wallets = child_currencies.map(network => {
         return {
             ...network,
@@ -88,7 +91,7 @@ const WalletDeposit: React.FC = () => {
                 backTitle={intl.formatMessage({ id: 'page.body.wallets.balance' })}
                 onGoBack={() => history.push(`/wallets/${currency}/history`)}
             />
-            <WalletHeader currency={wallet.currency} name={wallet.name} />
+            <WalletHeader currency={wallet.currency} name={wallet.name} iconUrl={founded_currency.icon_url} />
             <WalletBanner wallet={wallet} />
             <TabsStyle>
                 <Tabs defaultActiveKey={currency} >
@@ -138,7 +141,6 @@ const WalletDeposit: React.FC = () => {
 
                 </Tabs>
             </TabsStyle>
-
         </React.Fragment>
     );
 };

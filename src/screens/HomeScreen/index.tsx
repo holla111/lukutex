@@ -10,51 +10,7 @@ import {
   AndroidFilled
 } from '@ant-design/icons';
 import './style.css';
-import styled from 'styled-components';
 
-const WrapperComponet = styled.div`
-  position: absolute;
-  left: 170px;
-  bottom: 0;
-  z-index: 1;
-  img {
-    width: 30px;
-  }
-`;
-
-const BannerListStyle = styled.div`
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: var(--divider-color-level-1);
-  width: 100%;
-  height: 30px;
-`;
-
-const BannerDisplayStyle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 1140px;
-`;
-
-const SlideStyle = styled.div`
-  display: flex;
-  text-decoration: row;
-  padding: 0 30px;
-  :nth-child(1)::after{
-    content: "/";
-    color: white;
-    font-weight: bold;
-  }
-  /* :nth-child(2)::after{
-    content: "/";
-    color: white;
-    font-weight: bold;
-  }   */
-`;
 const settingEvents = {
 
   dots: true,
@@ -84,7 +40,6 @@ export const HomeScreen: React.FC<any> = (props: any) => {
 
   const renderBanner = ()  => {
     console.log(events.payload.slice(events.payload.length - 2, events.payload.length))
-    const speakericon = require('./Home/sound-speaker.svg');
     return (
       <div className="landing-page__banner">
             <div className="landing-page__banner-list">
@@ -98,20 +53,6 @@ export const HomeScreen: React.FC<any> = (props: any) => {
                 })}
               </Slider>
             </div>
-            <WrapperComponet>
-              <img src={speakericon} alt="speaker" />
-            </WrapperComponet>
-            <BannerListStyle>
-              <BannerDisplayStyle className="row">
-                {[...events.payload.slice(events.payload.length - 2, events.payload.length)].map(event => {
-                    return (
-                      <SlideStyle className=" col-6 col-md-6  slide" >
-                        <a href={event.ref_link} style={{display: 'block', width: '100%', textAlign: 'center'}} className="slide-link">{event.event_name}</a>
-                      </SlideStyle>
-                    )
-                })}
-              </BannerDisplayStyle>
-            </BannerListStyle>
       </div>
     );
   }
@@ -121,9 +62,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
       <div className="home-page__chart">
         <div className="container">
           <div className="row">
-            
               <DispChart/>
-          
           </div>
         </div>
       </div>
