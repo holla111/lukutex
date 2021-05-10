@@ -21,15 +21,11 @@ export function* getPrice(action: GetPrice) {
             price.data[key] = Number(price.data[key]);
         });
         let newPrice = {...price.data};
-        const kobePrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/kobeusdt/tickers');
-        const escPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/escusdt/tickers');
-        const swpPrice = yield axios.get('https://www.lukutex.com/api/v2/peatio/public/markets/swpusdt/tickers');
+
       
         newPrice = {
             ...newPrice,
-            'KOBE': Number(kobePrice.data.ticker.last),
-            'ESC': Number(escPrice.data.ticker.last),
-            'SWP': Number(swpPrice.data.ticker.last)
+
         }
         
         yield put(priceData({
