@@ -124,12 +124,12 @@ class Head extends React.Component<Props, State> {
         </div>
         <div className="dropdown-content">
           <Link to="/orders" className="dropdown-content-show">
-            <img src={order} alt="" className="iconHeader"/>
+            <img src={order} alt="" className="iconHeader" />
             {this.translate('page.body.landing.header.order')}
           </Link>
           <Link className="dropdown-content-show" to="/history">
-          <img src={history} alt="" className="iconHeader"/>
-          {this.translate('page.body.landing.header.history')}
+            <img src={history} alt="" className="iconHeader" />
+            {this.translate('page.body.landing.header.history')}
           </Link>
         </div>
       </div>
@@ -185,7 +185,7 @@ class Head extends React.Component<Props, State> {
 
   public renderLogout = () => {
     const { isLoggedIn } = this.props;
-    
+
     if (!isLoggedIn) {
       return null;
     }
@@ -203,7 +203,7 @@ class Head extends React.Component<Props, State> {
     const profile = require('../../assets/images/user.svg');
     return isLoggedIn && (
       <Link to="/profile" className="dropdown-content-show">
-        <img src={profile} alt="" className="iconHeader"/>
+        <img src={profile} alt="" className="iconHeader" />
         <FormattedMessage id={'page.header.navbar.profile'} />
       </Link>
     );

@@ -33,7 +33,7 @@ export const historyReducer = (state = initialState, action: HistoryActions) => 
         case HISTORY_DATA:
             return {
                 ...state,
-                list: sliceArray(action.payload.list, defaultStorageLimit()),
+                list: action.payload.list,
                 fetching: false,
                 page: action.payload.page,
                 nextPageExists: action.payload.nextPageExists,

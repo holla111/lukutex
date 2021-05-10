@@ -2,13 +2,13 @@ import { createBrowserHistory } from 'history';
 import * as React from 'react';
 import * as ReactGA from 'react-ga';
 import { IntlProvider } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Router } from 'react-router';
 import { gaTrackerKey } from './api';
 import { ErrorWrapper } from './containers';
 import { useSetMobileDevice } from './hooks';
 import * as mobileTranslations from './mobile/translations';
-import { selectCurrentLanguage, selectMobileDeviceState } from './modules';
+import { allChildCurrenciesFetch, marketsFetch, selectCurrentLanguage, selectMobileDeviceState, walletsFetch } from './modules';
 import { languageMap } from './translations';
 
 const gaKey = gaTrackerKey();
@@ -75,6 +75,17 @@ export const App = () => {
     useSetMobileDevice();
     const lang = useSelector(selectCurrentLanguage);
     const isMobileDevice = useSelector(selectMobileDeviceState);
+
+    const dispatch = useDispatch();
+    const dispatchFetchWallets = () => dispatch(walletsFetch());
+    const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
+    const dispatchFetchMarkets = () => dispatch(marketsFetch());
+
+    React.useEffect(() => {
+        dispatchFetchWallets();
+        dispatchcFetchAllChildCurrencies();
+        dispatchFetchMarkets();
+    }, []);
 
     return (
         <IntlProvider locale={lang} messages={getTranslations(lang, isMobileDevice)} key={lang}>
