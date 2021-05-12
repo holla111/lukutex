@@ -3,12 +3,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styled from 'styled-components';
 
-import { useDispatch, useSelector } from "react-redux";
-import { selectAnnouncement } from "../../modules";
-
+import { useDispatch } from "react-redux";
 import { announcementCreate } from "../../modules/info/announcement/actions";
-import { AnnouncementTable } from '../../components';
-
 
 const InpuStyle = styled.input`
 width: 100%;
@@ -33,7 +29,7 @@ const ButtonStyle = styled.button`
   background-color: #2a9d8f;
   margin-top: 40px;
   padding: 8px 20px;
-  :focus {
+  :focus{
     outline: none;
   }
   :hover {
@@ -46,11 +42,10 @@ interface AnnouncementType {
   content: string;
 }
 
-export const AdminAnnouncement: React.FC = (props) => {
+export const AnnouncementEdit: React.FC = (props) => {
 
   
 
-  const announcements = useSelector(selectAnnouncement);
   const dispatch = useDispatch();
 
   //state
@@ -90,10 +85,9 @@ export const AdminAnnouncement: React.FC = (props) => {
                 }))
               }}
             />
-            <ButtonStyle type="submit">submit</ButtonStyle>
+            <ButtonStyle type="submit">Edit</ButtonStyle>
 
           </form>
-          <AnnouncementTable announcements={announcements} />
         </AdminAnnounStyle>
       </div>
     )

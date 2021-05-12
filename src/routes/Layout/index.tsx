@@ -7,7 +7,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval, /* showLanding */ } from '../../api';
 import { ExpiredSessionModal } from '../../components';
-import { WalletsFetch } from '../../containers';
+import { WalletsFetch, AdminAnnouncement, AnnouncementEdit } from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
 /* import { isMobile } from "react-device-detect"; */
@@ -302,6 +302,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route exact={false} path="/trading/:market?" component={TradingScreen} />
                     <Route exact={true} path="/" component={HomeScreen} />
                     <Route exact={false} path="/fee" component={FeeScreen} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/create" component={AdminAnnouncement} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/edit" component={AnnouncementEdit} />
+
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
