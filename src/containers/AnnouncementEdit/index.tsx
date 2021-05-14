@@ -2,9 +2,13 @@ import * as React from "react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styled from 'styled-components';
+// import { selectAnnouncement } from "../../modules";
 
-import { useDispatch } from "react-redux";
-import { announcementCreate } from "../../modules/info/announcement/actions";
+import { useDispatch, } from "react-redux";
+import { announcementUpdate } from "../../modules/info/announcement/actions";
+
+import { useParams } from "react-router-dom";
+
 
 const InpuStyle = styled.input`
 width: 100%;
@@ -40,31 +44,38 @@ const ButtonStyle = styled.button`
 interface AnnouncementType {
   title: string;
   content: string;
+  id: any;
 }
 
 export const AnnouncementEdit: React.FC = (props) => {
 
-  
-
   const dispatch = useDispatch();
+  const { id }  = useParams<any>(); // id announcement
+  
+  // const announcements = useSelector(selectAnnouncement);
+  // console.log(announcements)
+
+  // const announcementData = announcements.data.filter(item => item.id === Number(id));
+  // console.log(announcementData)
 
   //state
-  const [postAnnouncement, setPostAnnouncement] = React.useState<AnnouncementType>({
+  const [postAnnouncementUpdate, setPostAnnouncementUpdate] = React.useState<AnnouncementType>({
     title: '',
     content: '',
+    id: id,
   });
 
   const handleHeading = (e: any) => {
     e.persist();
-    setPostAnnouncement((prev) => ({
+    setPostAnnouncementUpdate((prev) => ({
       ...prev,
       title: e.target.value
     }))
   }
 
-  const handleSubmitAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) => {
+  const handleEditAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) => {
     e.preventDefault();
-    dispatch(announcementCreate(postAnnouncement));
+    dispatch(announcementUpdate(postAnnouncementUpdate));
   }
 
   const renderAdminAnnouncement = () => {
@@ -72,14 +83,14 @@ export const AnnouncementEdit: React.FC = (props) => {
     return (
       <div className="container">
         <AdminAnnounStyle>
-          <form onSubmit={handleSubmitAnnouncement}>
+          <form onSubmit={handleEditAnnouncement}>
 
-            <InpuStyle type="text" value={postAnnouncement.title} placeholder="Enter heading..." onChange={handleHeading} />
+            <InpuStyle type="text" placeholder="Enter heading..." onChange={handleHeading}/>
             <CKEditor
               editor={ClassicEditor}
               onChange={(_event, editor: any) => {
 
-                setPostAnnouncement((prev) => ({
+                setPostAnnouncementUpdate((prev) => ({
                   ...prev,
                   content: editor.getData()
                 }))

@@ -3,6 +3,10 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+import { announcementDelete } from "../../modules/info/announcement/actions";
+import { AnnouncementState } from "../../modules";
+
 const AnnouncementTableStyle = styled.div`
 margin-top: 5rem;
   table {
@@ -75,16 +79,18 @@ const TableDeletestyle = styled.div`
   }
 `;
 interface AnnouncementList {
-  announcements: any;
+  announcements: AnnouncementState;
 }
 export const AnnouncementTable: React.FC<AnnouncementList> = (props: AnnouncementList) => {
 
   const { announcements } = props;
-  console.log(announcements)
 
-  const handleEditAnnouncement = (id: Number) => {
-    console.log(id)
+  const dispatch = useDispatch();
 
+  const handleDeleteAnnouncement = (id : number) => {
+    dispatch(announcementDelete({
+      id
+    }));
   }
 
   return (
@@ -101,8 +107,8 @@ export const AnnouncementTable: React.FC<AnnouncementList> = (props: Announcemen
             <tr>
               <td>{announcement.title}</td>
               <td>
-                <TableDeletestyle><DeleteOutlined /></TableDeletestyle>
-                <TableEditstyle onClick={() => handleEditAnnouncement(announcement.id)} id={announcement.id}><Link to="/announcement/edit"><EditOutlined /></Link></TableEditstyle>
+                <TableDeletestyle onClick={() => handleDeleteAnnouncement(announcement.id)}><DeleteOutlined /></TableDeletestyle>
+                <TableEditstyle id={announcement.id.toString()}><Link to={"/announcement/edit/" + announcement.id}><EditOutlined /></Link></TableEditstyle>
               </td>
             </tr>
           ))}

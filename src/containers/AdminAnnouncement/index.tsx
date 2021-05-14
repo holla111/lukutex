@@ -69,6 +69,7 @@ export const AdminAnnouncement: React.FC = (props) => {
 
   const handleSubmitAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) => {
     e.preventDefault();
+    console.log("step 1 : ", postAnnouncement)
     dispatch(announcementCreate(postAnnouncement));
   }
 

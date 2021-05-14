@@ -303,7 +303,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route exact={true} path="/" component={HomeScreen} />
                     <Route exact={false} path="/fee" component={FeeScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/create" component={AdminAnnouncement} />
-                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/edit" component={AnnouncementEdit} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/edit/:id" component={AnnouncementEdit} />
 
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />

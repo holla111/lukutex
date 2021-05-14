@@ -86,7 +86,6 @@ export const tradingCompetitionsReducer = combineReducers({
 export const infoReducer = combineReducers({
     events: eventReducer,
     announcement: announcementReducer,
-
 })
 
 export const publicReducer = combineReducers({

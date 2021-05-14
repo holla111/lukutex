@@ -34,8 +34,8 @@ export const Announcement: React.FC = (props) => {
   }
 
   return (
-    <>
+    <React.Fragment>
       {renderAnouncementLeft()}
-    </>
+    </React.Fragment>
   );
 }
