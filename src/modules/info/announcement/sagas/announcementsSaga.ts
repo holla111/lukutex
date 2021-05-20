@@ -18,9 +18,9 @@ import { Announcement } from '../types';
 
 export function* announcementCreateSaga(action: AnnouncementCreate) {
     try {
-        console.log("step 3: ", action);
+        // console.log("step 3: ", action);
         const announcement = yield pluginsAPI.post<Announcement>('announcement/create', action.payload);
-        console.log("step 4 : ",announcement.data);
+        // console.log("step 4 : ",announcement.data);
         yield put(announcementCreateData(announcement.data.announcement as Announcement));
     } catch (error) {
         yield put(announcementError(error));
@@ -39,7 +39,7 @@ export function* announcementFetchSaga(action: AnnouncementFetch) {
 export function* announcementUpdateSaga(action: AnnouncementUpdate) {
     try {
         const announcements = yield pluginsAPI.put<Announcement>('announcement/update');
-        console.log(announcements)
+        // console.log(announcements)
         yield put(announcementUpdateData(announcements.data.announcement as Announcement));
     } catch (error) {
         yield put(announcementError(error));

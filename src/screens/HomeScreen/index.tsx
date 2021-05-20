@@ -39,7 +39,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
 
 
   const renderBanner = ()  => {
-    console.log(events.payload.slice(events.payload.length - 2, events.payload.length))
+    // console.log(events.payload.slice(events.payload.length - 2, events.payload.length))
     return (
       <div className="landing-page__banner">
             <div className="landing-page__banner-list">

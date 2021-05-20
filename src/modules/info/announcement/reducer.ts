@@ -22,7 +22,7 @@ export const initialAnnouncement: AnnouncementState = {
 export const announcementReducer = (state = initialAnnouncement, action: AnnouncementActions): AnnouncementState => {
     switch (action.type) {
         case ANNOUNCMENT_CREATE:
-            console.log("step 2 : ", action);
+            // console.log("step 2 : ", action);
             return {
                 ...state,
                 loading: true,
@@ -30,7 +30,7 @@ export const announcementReducer = (state = initialAnnouncement, action: Announc
             };
 
         case ANNOUNCMENT_CREATE_DATA:
-            console.log("step 5 : ",action);
+            // console.log("step 5 : ",action);
             state.data.unshift(action.payload);
 
             return {
