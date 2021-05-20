@@ -5,6 +5,8 @@ export interface Announcement {
     title: string;
     content: string;
     created_at: string;
+    announcement_img_pc: string;
+    announcement_img_mobile?:string
 }
 
 

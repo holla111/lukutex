@@ -12,19 +12,18 @@ export const HotAnnouncement: React.FC = () => {
       <div className="article">
         <div className="hot-article-header">Hot List</div>
         {
-          announcements.data.slice(0, 5).map((value, index) => {
+          announcements.data.slice(0, 5).map((announcement, index) => {
             return (
-              <div className="hot-article-item">
+              <div className="hot-article-item" key={index}>
                 <div className="hot-article-item__title">
                   <Link className="hot-article-item__title-link" 
-                    to="#">
-                   {value.title}
+                    to={"/announcement/detail/"+announcement.id}>
+                    {announcement.title}
                   </Link>
                 </div>
               </div>
             );
-          })
-        }
+        })}
       </div>
     );
   }
