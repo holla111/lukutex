@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Decimal } from '../../components';
-import { ReactTable } from '../../containers';
+import { ReactTable } from '../../components';
 import { EstimatedValue } from '../../containers/Wallets/EstimatedValue';
 import { setDocumentTitle } from '../../helpers';
 import {
@@ -197,7 +197,6 @@ export const WalletListScreen = () => {
 			<div
 				className="container-fluid"
 				style={{
-					backgroundColor: '#2D2E3D',
 					borderRadius: '5px',
 					minHeight: '100vh',
 					marginTop: '-10px',

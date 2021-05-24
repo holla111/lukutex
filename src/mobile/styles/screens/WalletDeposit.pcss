@@ -1,36 +1,26 @@
-/* stylelint-disable */
-.cr-mobile-wallet-withdraw {
-  &__beneficiaries {
-    background: var(--body-background-color);
-    padding: 16px;
-
-    .pg-beneficiaries__title {
-      display: none;
-    }
-  }
-}
-
-#wallet-withdraw {
+#wallet-deposit {
   .react-tabs {
     .rc-tabs-nav-list {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+
       .rc-tabs-tab {
-        width: 100%;
+        border-bottom: 4px solid var(--header-background-color);
         padding: 5px 0;
         transition: ease-in-out 0.2s;
-        border-bottom: 4px solid transparent;
+        width: 100%;
+
         .rc-tabs-tab-btn {
-          text-align: center;
-          outline: none;
           border: none;
           cursor: pointer;
+          outline: none;
+          text-align: center;
         }
 
         :hover {
-          font-weight: bold;
           color: #fff;
+          font-weight: bold;
         }
       }
 
@@ -48,20 +38,19 @@
   }
 
   .blur-disabled {
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
     align-items: center;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     background: var(--body-background-color-level-6);
+    content: '';
     display: flex;
+    flex-direction: column;
     height: 100%;
     justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
     z-index: 10;
-    flex-direction: column;
   }
 }

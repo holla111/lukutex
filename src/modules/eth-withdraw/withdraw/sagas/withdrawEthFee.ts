@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
 // import { API, RequestOptions } from '../../../../../api';
-import api from '../../../../plugins/api/index';
+import api from '../../../../plugins/api';
 
 import {
     ETHFeeWithdraw,

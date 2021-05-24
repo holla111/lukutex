@@ -56,10 +56,7 @@ export interface DepositCryptoProps {
    * Generate address button label
    */
   buttonLabel?: string;
-
-  wallet_index: number;
 }
-
 
 /**
  *  Component that displays wallet details that can be used to deposit cryptocurrency.
@@ -82,7 +79,6 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
     handleGenerateAddress,
     buttonLabel,
     isAccountActivated,
-    wallet_index
   } = props;
   const size = dimensions || QR_SIZE;
   const onCopy = !disabled ? handleOnCopy : undefined;
@@ -102,7 +98,11 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
                 <span> {textNote}</span>
               </p>
             </div>
-            {data ? <div className="note__mobile-left"><QRCode dimensions={size} data={data} /></div> : null}
+            {data ? (
+              <div className="note__mobile-left">
+                <QRCode dimensions={size} data={data} />
+              </div>
+            ) : null}
           </div>
           <div>
             <form className={'cr-deposit-crypto__copyable'}>
@@ -110,7 +110,7 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
                 <CopyableTextField
                   className={'cr-deposit-crypto__copyable-area'}
                   value={data ? data : error}
-                  fieldId={data ? 'copy_deposit_' + wallet_index : 'copy_deposit_2'}
+                  fieldId={data ? 'copy_deposit_1' : 'copy_deposit_2'}
                   copyButtonText={copyButtonText}
                   disabled={disabled}
                   label={copiableTextFieldText ? copiableTextFieldText : 'Deposit by Wallet Address'}
@@ -125,13 +125,7 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
     return (
       <div className="cr-deposit-crypto__create">
         <div className="cr-deposit-crypto__create-btn">
-          <Button
-            block={true}
-            type="button"
-            onClick={handleGenerateAddress}
-            size="lg"
-            variant="primary"
-          >
+          <Button block={true} type="button" onClick={handleGenerateAddress} size="lg" variant="primary">
             {buttonLabel ? buttonLabel : 'Generate deposit address'}
           </Button>
         </div>
@@ -141,13 +135,9 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
 
   return (
     <div className={className}>
-      <div className={'cr-deposit-crypto'}>
-        {getContent()}
-      </div>
+      <div className={'cr-deposit-crypto'}>{getContent()}</div>
     </div>
   );
 };
 
-export {
-  DepositCrypto,
-};
+export { DepositCrypto };

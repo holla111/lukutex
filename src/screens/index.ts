@@ -15,7 +15,6 @@ export * from './LogInScreen';
 export * from './RegisterScreen';
 export * from './TradingScreen';
 export * from './VerificationScreen';
-export * from './WalletsScreen';
 export * from './RestrictedScreen';
 export * from './MaintenanceScreen';
 export * from './Feepage';

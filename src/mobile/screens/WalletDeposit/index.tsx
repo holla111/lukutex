@@ -1,147 +1,190 @@
+import Tabs, { TabPane } from 'rc-tabs';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { selectCurrencies } from '../../../modules';
-import { selectChildCurrencies, selectWallets, walletsAddressFetch, walletsChildCurrenciesFetch, walletsFetch } from '../../../modules/user/wallets';
-import { Subheader, WalletDepositBody, WalletHeader, WalletBanner } from '../../components';
-import Tabs, { TabPane } from 'rc-tabs';
-import styled from 'styled-components';
 import { getTabName } from '../../../helpers';
-
-const TabsStyle = styled.div`
-    .rc-tabs-nav-list {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        .rc-tabs-tab {
-            width: 100%;
-            padding: 5px 0;
-            transition: ease-in-out 0.3s;
-            border-bottom: 4px solid transparent;
-            .rc-tabs-tab-btn {
-                text-align: center;
-                outline: none;
-                border: none;
-                cursor: pointer;
-            }
-
-            :hover {
-                font-weight: bold;
-                color: #3c78e0;
-            }
-        }
-        
-        .rc-tabs-tab-active {
-            font-weight: bold;
-            color: #3c78e0;
-            background-color: #1e2841;
-            border-bottom: 4px solid #3c78e0;
-        }
-
-        .rc-tabs-ink-bar {
-            display: none;
-        }
-    }
-`;
+import { selectCurrencies } from '../../../modules';
+import {
+  selectChildCurrencies,
+  selectWallets,
+  walletsAddressFetch,
+  walletsChildCurrenciesFetch,
+  walletsFetch,
+} from '../../../modules/user/wallets';
+import { Subheader, WalletBanner, WalletDepositBody, WalletHeader } from '../../components';
+interface EmptyWallet {
+  name: string;
+  currency: string;
+  balance?: string;
+  type: string;
+  address?: string;
+}
 
 const WalletDeposit: React.FC = () => {
-    const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
-    const dispatch = useDispatch();
-    const intl = useIntl();
-    const history = useHistory();
-    const { currency = '' } = useParams<{ currency: string }>();
-    const wallets = useSelector(selectWallets) || [];
-    const currencies = useSelector(selectCurrencies);
-    const currencyItem = currencies.find(cur => cur.id === currency.toLowerCase()) || { blockchain_key: '' };
-    const wallet = wallets.find(item => item.currency === currency) || { name: '', currency: '', balance: '', type: '', address: '' };
-    const isAccountActivated = wallet.type === 'fiat' || wallet.balance;
-    const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency }));
-    const child_currencies = useSelector(selectChildCurrencies);
-    React.useEffect(() => {
-        dispatchFetchChildCurrencies();
-    }, [currency]);
-    const founded_currency = currencies.find(c => c.id.toLowerCase() === currency.toLowerCase()) || { icon_url: '' };
-    const child_wallets = child_currencies.map(network => {
-        return {
-            ...network,
-            wallet: wallets.find(item => item.currency === network.id) || { name: '', currency: '', balance: '', type: '', address: '' }
-        }
-    });
+  const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
+  const [selectedWallet, setSelectedWallet] = React.useState<EmptyWallet>({
+    currency: '',
+    name: '',
+    type: '',
+    address: '',
+    balance: '',
+  });
+  const dispatch = useDispatch();
+  const intl = useIntl();
+  const history = useHistory();
+  const { currency = '' } = useParams<{ currency: string }>();
+  const wallets = useSelector(selectWallets) || [];
+  const currencies = useSelector(selectCurrencies);
+  const currencyItem = currencies.find((cur) => cur.id === currency.toLowerCase()) || { blockchain_key: '', name: '' };
+  const wallet = wallets.find((item) => item.currency === currency) || {
+    currency: '',
+    address: '',
+    balance: '',
+    type: 'fiat',
+  };
+  const parentWallet = {
+    ...wallet,
+    name: currencyItem.name,
+  };
+  const isParentAccountActivated = parentWallet.type === 'fiat' || parentWallet.balance;
+  const isChildAccountActivated = selectedWallet.type === 'fiat' || selectedWallet.balance;
+  const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency }));
+  const childCurrencies = useSelector(selectChildCurrencies);
+  React.useEffect(() => {
+    dispatchFetchChildCurrencies();
+  }, [currency]);
 
-    const handleGenerateAddress = (wallet: { address: string, type: string, currency: string }) => {
-        if (!wallet.address && wallets.length && wallet.type !== 'fiat') {
-            dispatch(walletsAddressFetch({ currency: wallet.currency }));
-            dispatch(walletsFetch());
-            setGenerateAddressTriggered(true);
-        }
+  const childWallets = childCurrencies.map((childCurrency) => {
+    // tslint:disable-next-line:no-shadowed-variable
+    const wallet = wallets.find((item) => item.currency.toLowerCase() === childCurrency.id.toLowerCase()) || {
+      currency: '',
+      address: '',
+      balance: '',
+      type: 'fiat',
     };
 
-    React.useEffect(() => {
-        dispatch(walletsAddressFetch({ currency }));
-    }, [dispatch, currency]);
+    return {
+      ...wallet,
+      name: childCurrency.name,
+      currency: wallet.currency,
+      blockchain_key: childCurrency.blockchain_key,
+      address: wallet.address,
+      balance: wallet.balance,
+      type: wallet.type,
+    };
+  });
+
+  // tslint:disable-next-line:no-shadowed-variable
+  const handleGenerateAddress = (wallet: { address: string; type: string; currency: string }) => {
+    if (!wallet.address && wallets.length && wallet.type !== 'fiat') {
+      dispatch(walletsAddressFetch({ currency: wallet.currency }));
+      dispatch(walletsFetch());
+      setGenerateAddressTriggered(true);
+    }
+  };
+
+  React.useEffect(() => {
+    dispatch(walletsAddressFetch({ currency }));
+  }, []);
+
+  // tslint:disable-next-line:no-shadowed-variable
+  const changeSelectTab = (currency: string) => {
+    dispatch(walletsAddressFetch({ currency }));
+    // tslint:disable-next-line:no-shadowed-variable
+    const parentWallet = wallets.find((item) => item.currency.toLowerCase() === currency.toLowerCase());
+    if (parentWallet) {
+      setSelectedWallet({
+        name: parentWallet.name,
+        address: parentWallet.address,
+        balance: parentWallet.balance,
+        currency: parentWallet.currency,
+        type: parentWallet.type,
+      });
+    }
+    // tslint:disable-next-line:no-shadowed-variable
+    const childWallet = childWallets.find((childWallet) => childWallet.currency.toLowerCase() === currency.toLowerCase());
+    if (childWallet) {
+      setSelectedWallet({
+        name: childWallet.name,
+        address: childWallet.address,
+        balance: childWallet.balance,
+        currency: childWallet.currency,
+        type: childWallet.type,
+      });
+    }
+  };
+
+  const renderParentCurrencyTab = () => {
+    if (!parentWallet.currency) {
+      return '';
+    }
 
     return (
-        <React.Fragment>
-            <Subheader
-                title={intl.formatMessage({ id: 'page.body.wallets.tabs.deposit' })}
-                backTitle={intl.formatMessage({ id: 'page.body.wallets.balance' })}
-                onGoBack={() => history.push(`/wallets/${currency}/history`)}
-            />
-            <WalletHeader currency={wallet.currency} name={wallet.name} iconUrl={founded_currency.icon_url} />
-            <WalletBanner wallet={wallet} />
-            <TabsStyle>
-                <Tabs defaultActiveKey={currency} >
-                    {
-                        wallet
-                            ? <TabPane tab={getTabName(currencyItem.blockchain_key || '')} key={currency}>
-                                <WalletDepositBody
-                                    wallet_index={0}
-                                    wallet={wallet}
-                                    isAccountActivated={isAccountActivated}
-                                    handleGenerateAddress={() => handleGenerateAddress({
-                                        address: wallet.address || '',
-                                        type: wallet.type || '',
-                                        currency: wallet.currency || ''
-                                    })}
-                                    generateAddressTriggered={generateAddressTriggered}
-                                />
-                            </TabPane>
-                            : ""
-                    }
-                    {
-                        child_wallets ?
-                            child_wallets.map((child_wallet, index) => (
-                                <TabPane tab={getTabName(child_wallet.blockchain_key || '')} key={child_wallet.id || ''}>
-                                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                                        {
-                                            child_wallet.wallet && child_wallet.deposit_enabled ?
-                                                <WalletDepositBody
-                                                    wallet_index={index + 1}
-                                                    wallet={child_wallet.wallet}
-                                                    isAccountActivated={isAccountActivated}
-                                                    handleGenerateAddress={() => handleGenerateAddress({
-                                                        address: child_wallet.wallet.address || '',
-                                                        type: child_wallet.wallet.type || '',
-                                                        currency: child_wallet.wallet.currency || ''
-                                                    })}
-                                                    generateAddressTriggered={generateAddressTriggered}
-                                                />
-                                                : ""
-                                        }
-                                    </div>
-                                </TabPane>
-                            ))
-                            :
-                            ""
-                    }
-
-                </Tabs>
-            </TabsStyle>
-        </React.Fragment>
+      <TabPane tab={getTabName(currencyItem.blockchain_key || '')} key={currency}>
+        <WalletDepositBody
+          wallet_index={0}
+          wallet={parentWallet}
+          isAccountActivated={isParentAccountActivated}
+          handleGenerateAddress={() =>
+            handleGenerateAddress({
+              address: parentWallet.address || '',
+              type: parentWallet.type || '',
+              currency: parentWallet.currency || '',
+            })
+          }
+          generateAddressTriggered={generateAddressTriggered}
+        />
+      </TabPane>
     );
+  };
+
+  const renderChildCurrencyTabs = () => {
+    if (childWallets.length <= 0) {
+      return '';
+    }
+
+    return childWallets.map((childWallet, index) => (
+      <TabPane tab={getTabName(childWallet.blockchain_key || '')} key={childWallet.currency || ''}>
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+          <WalletDepositBody
+            wallet_index={index + 1}
+            wallet={childWallet}
+            isAccountActivated={isChildAccountActivated}
+            handleGenerateAddress={() =>
+              handleGenerateAddress({
+                address: childWallet.address || '',
+                type: childWallet.type || '',
+                currency: childWallet.currency || '',
+              })
+            }
+            generateAddressTriggered={generateAddressTriggered}
+          />
+        </div>
+      </TabPane>
+    ));
+  };
+
+  return (
+    <div id="wallet-deposit">
+      <Subheader
+        title={intl.formatMessage({ id: 'page.body.wallets.tabs.deposit' })}
+        backTitle={intl.formatMessage({ id: 'page.body.wallets.balance' })}
+        onGoBack={() => history.push(`/wallets/${currency}/history`)}
+      />
+      <WalletHeader
+        currency={selectedWallet.currency !== '' ? selectedWallet.currency : parentWallet.currency}
+        name={selectedWallet.name !== '' ? selectedWallet.name : parentWallet.name}
+      />
+      <WalletBanner wallet={selectedWallet.currency !== '' ? selectedWallet : parentWallet} />
+      <div className="react-tabs">
+        <Tabs defaultActiveKey={currency} onChange={changeSelectTab}>
+          {renderParentCurrencyTab()}
+          {renderChildCurrencyTabs()}
+        </Tabs>
+      </div>
+    </div>
+  );
 };
 
-export {
-    WalletDeposit,
-};
+export { WalletDeposit };
