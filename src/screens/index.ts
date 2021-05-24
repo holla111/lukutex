@@ -20,3 +20,6 @@ export * from './RestrictedScreen';
 export * from './MaintenanceScreen';
 export * from './Feepage';
 export * from './AnnouncementScreen';
+export * from './WalletListScreen';
+export * from './DepositScreen';
+export * from './WithdrawScreen';
