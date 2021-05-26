@@ -45,4 +45,6 @@ export * from './TickerTableScreen';
 export * from './Pagination';
 export * from './Announcement';
 export * from './HotAnnouncement';
-
+export * from './TradeList';
+export * from './DepositBody';
+export * from './ReactTable';

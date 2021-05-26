@@ -8,7 +8,7 @@ import { useParams } from 'react-router';
 import { findCompetitionbyId, selectCompetitionItem, selectUserInfo } from '../../../../../modules';
 
 // axios
-import pluginAPI from '../../../api/index';
+import pluginAPI from '../../../../../plugins/api';
 
 export interface Prize {
     rank: string;
